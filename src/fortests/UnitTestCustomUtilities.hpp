@@ -1,5 +1,5 @@
-#ifndef UNFIT_UNITTESTS_UNITTESTCUSTOMUTILITIES_HPP_
-#define UNFIT_UNITTESTS_UNITTESTCUSTOMUTILITIES_HPP_
+#ifndef SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
+#define SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
 
 #include <algorithm>
 #include <string>
@@ -174,4 +174,4 @@ inline int RunMultipleSuites(std::vector<std::string> suite_names)
 
 }  // namespace iblbm
 
-#endif
+#endif  // SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_

@@ -46,4 +46,21 @@ double AbstractLatticeModel::GetPropagationSpeed() const
 {
   return c_;
 }
+
+const std::vector<double>& AbstractLatticeModel::rGetWeight() const
+{
+  return weight_;
+}
+
+const std::vector<std::vector<double>>& AbstractLatticeModel::
+    rGetDiscreteVelocity() const
+{
+  return e_;
+}
+
+const std::vector<std::vector<double>>& AbstractLatticeModel::
+    rGetVelocity() const
+{
+  return u_;
+}
 }  // namespace iblbm

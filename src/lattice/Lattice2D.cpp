@@ -13,6 +13,9 @@ Lattice2D::Lattice2D(
   e_ = {{0.0, 0.0},
         {1.0, 0.0}, {0.0, 1.0}, {-1.0, 0.0}, {0.0, -1.0},
         {1.0, 1.0}, {-1.0, 1.0}, {-1.0, -1.0}, {1.0, -1.0}};
+  for (auto& direction : e_) {
+    for (auto& elem : direction) elem *= c_;
+  }
 }
 
 void Lattice2D::InitializeVelocity(

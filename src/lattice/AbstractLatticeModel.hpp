@@ -29,6 +29,12 @@ class AbstractLatticeModel
 
   double GetPropagationSpeed() const;
 
+  const std::vector<double>& rGetWeight() const;
+
+  const std::vector<std::vector<double>>& rGetDiscreteVelocity() const;
+
+  const std::vector<std::vector<double>>& rGetVelocity() const;
+
  protected:
   /** Number of dimensions */
   std::size_t num_dim_;
