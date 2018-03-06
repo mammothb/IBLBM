@@ -1,11 +1,16 @@
 #include "AbstractCollisionModel.hpp"
 
+#include <iostream>
+
 #include "IblbmUtilities.hpp"
 
 namespace iblbm
 {
-AbstractCollisionModel::AbstractCollisionModel(AbstractLatticeModel& r_lm)
+AbstractCollisionModel::AbstractCollisionModel(
+    AbstractLatticeModel& r_lm
+  , double initial_density)
   : r_lm_(r_lm),
+    tau_(1.0),
     weight_(r_lm_.rGetWeight()),
     e_(r_lm_.rGetDiscreteVelocity())
 {
@@ -15,12 +20,7 @@ AbstractCollisionModel::AbstractCollisionModel(AbstractLatticeModel& r_lm)
   auto num_directions = r_lm_.GetNumberOfDirections();
   // Initialize all equilibrium distribution functions with zero
   edf_.assign(num_nodes, std::vector<double>(num_directions, 0.0));
-}
-
-void AbstractCollisionModel::InitializeDensity(double initial_density)
-{
-  auto num_nodes = r_lm_.GetNumberOfNodes();
-  rho_.assign(num_nodes, initial_density);
+  AbstractCollisionModel::SetDensity(initial_density);
 }
 
 void AbstractCollisionModel::ComputeEquilibriumDistribution()
@@ -47,5 +47,17 @@ const std::vector<std::vector<double>>& AbstractCollisionModel::
     rGetEquilibriumDistribution() const
 {
   return edf_;
+}
+
+void AbstractCollisionModel::SetRelaxationTime(double tau)
+{
+  tau_ = tau;
+}
+
+void AbstractCollisionModel::SetDensity(double initial_density)
+{
+  auto num_nodes = r_lm_.GetNumberOfNodes();
+  rho_.assign(num_nodes, initial_density);
+  AbstractCollisionModel::ComputeEquilibriumDistribution();
 }
 }

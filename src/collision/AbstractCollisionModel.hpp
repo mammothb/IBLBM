@@ -8,24 +8,55 @@ namespace iblbm
 class AbstractCollisionModel
 {
  public:
-  AbstractCollisionModel(AbstractLatticeModel& r_lm);
+  /**
+   * Constructor
+   */
+  AbstractCollisionModel(
+      AbstractLatticeModel& r_lm
+    , double initial_density);
 
+  /**
+   * Destructor
+   */
   virtual ~AbstractCollisionModel() = default;
 
-  void InitializeDensity(double initial_density);
-
+  /**
+   * Updates f_eq
+   */
   void ComputeEquilibriumDistribution();
 
+  /**
+   * Pure virtual function to be implemented by various child classes
+   *
+   * \param r_df Reference to the distribution function to be updated
+   */
+  virtual void Collide(std::vector<std::vector<double>>& r_df) = 0;
+
+  /** \return Const reference to density lattice */
   const std::vector<double>& rGetDensity() const;
 
+  /** \return Const reference to equilibrium distribution function */
   const std::vector<std::vector<double>>&
       rGetEquilibriumDistribution() const;
+
+  /** Set the relaxation time */
+  void SetRelaxationTime(double tau);
+
+  /**
+   * Set density lattice with the same density value, force updates
+   * equilibrium distribution function
+   *
+   * \param initial_density The initial value for density
+   */
+  void SetDensity(double density);
 
  protected:
   /** Reference to the lattice model */
   AbstractLatticeModel& r_lm_;
   /** Convenience variable: cs_sqr_ = c * c / 3.0 */
   double cs_sqr_;
+  /** Relaxation time */
+  double tau_;
   /** Discrete velocity */
   std::vector<double> weight_;
   /** Discrete velocity */

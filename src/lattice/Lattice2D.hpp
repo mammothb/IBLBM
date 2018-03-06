@@ -13,11 +13,12 @@ class Lattice2D : public AbstractLatticeModel
  public:
   Lattice2D(
       std::size_t nx
-    , std::size_t ny);
+    , std::size_t ny
+    , const std::vector<double>& r_initial_velocity);
 
   ~Lattice2D() = default;
 
-  void InitializeVelocity(const std::vector<double>& r_initial_velocity);
+  void SetVelocity(const std::vector<double>& r_initial_velocity);
 };
 }
 #endif  // SRC_LATTICE_LATTICE2D_HPP_

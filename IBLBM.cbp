@@ -101,6 +101,8 @@
 		</Linker>
 		<Unit filename="src/collision/AbstractCollisionModel.cpp" />
 		<Unit filename="src/collision/AbstractCollisionModel.hpp" />
+		<Unit filename="src/collision/CollisionNsf.cpp" />
+		<Unit filename="src/collision/CollisionNsf.hpp" />
 		<Unit filename="src/fortests/UnitTestCustomUtilities.hpp" />
 		<Unit filename="src/lattice/AbstractLatticeModel.cpp" />
 		<Unit filename="src/lattice/AbstractLatticeModel.hpp" />
@@ -109,6 +111,7 @@
 		<Unit filename="src/main-devel.cpp" />
 		<Unit filename="src/utility/IblbmUtilities.hpp" />
 		<Unit filename="unittests/TestAbstractLatticeModel.cpp" />
+		<Unit filename="unittests/TestCollisionNsf.cpp" />
 		<Unit filename="unittests/TestLatticeBoltzmann.cpp" />
 		<Extensions>
 			<code_completion />
