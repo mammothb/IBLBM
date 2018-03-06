@@ -93,6 +93,7 @@
 			<Add directory="src/lattice" />
 			<Add directory="src/fortests" />
 			<Add directory="src/utility" />
+			<Add directory="src/collision" />
 		</Compiler>
 		<Linker>
 			<Add library="lib/libUnitTest++.a" />

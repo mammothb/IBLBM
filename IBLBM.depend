@@ -161,7 +161,7 @@
 1519520826 d:\code blocks workspace\iblbm\thirdparty\unittest++\testreporterstdout.h
 	"TestReporter.h"
 
-1520147520 source:d:\git repos\iblbm\src\lattice\abstractlatticemodel.cpp
+1520338224 source:d:\git repos\iblbm\src\lattice\abstractlatticemodel.cpp
 	"AbstractLatticeModel.hpp"
 	<cstddef>
 
@@ -309,7 +309,7 @@
 1519520826 d:\git repos\iblbm\thirdparty\unittest++\reportassert.h
 	"HelperMacros.h"
 
-1519524238 d:\git repos\iblbm\src\fortests\unittestcustomutilities.hpp
+1520338224 d:\git repos\iblbm\src\fortests\unittestcustomutilities.hpp
 	<algorithm>
 	<string>
 	<vector>
@@ -329,11 +329,11 @@
 	"AbstractLatticeModel.hpp"
 	"UnitTest++.h"
 
-1520147452 d:\git repos\iblbm\src\lattice\abstractlatticemodel.hpp
+1520338224 d:\git repos\iblbm\src\lattice\abstractlatticemodel.hpp
 	<cstddef>
 	<vector>
 
-1520147537 source:d:\git repos\iblbm\src\lattice\lattice2d.cpp
+1520338224 source:d:\git repos\iblbm\src\lattice\lattice2d.cpp
 	"Lattice2D.hpp"
 
 1520146457 d:\git repos\iblbm\src\lattice\lattice2d.hpp
@@ -341,10 +341,11 @@
 	<vector>
 	"AbstractLatticeModel.hpp"
 
-1520147734 source:d:\git repos\iblbm\src\collision\abstractcollisionmodel.cpp
+1520338224 source:d:\git repos\iblbm\src\collision\abstractcollisionmodel.cpp
 	"AbstractCollisionModel.hpp"
+	"IblbmUtilities.hpp"
 
-1520147644 d:\git repos\iblbm\src\collision\abstractcollisionmodel.hpp
+1520338224 d:\git repos\iblbm\src\collision\abstractcollisionmodel.hpp
 	"AbstractLatticeModel.hpp"
 
 1520247011 source:/home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.cpp
@@ -546,4 +547,7 @@
 1520245417 /home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.cpp
 	"AbstractCollisionModel.hpp"
 	"IblbmUtilities.hpp"
+
+1520149408 d:\git repos\iblbm\src\utility\iblbmutilities.hpp
+	<stdexcept>
 
