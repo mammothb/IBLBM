@@ -171,7 +171,6 @@ inline int RunMultipleSuites(std::vector<std::string> suite_names)
   return runner.RunTestsIf(selectedTests, nullptr, UnitTest::True(), 0);
 }
 #undef COVERAGE_IGNORE
-
 }  // namespace iblbm
 
 #endif  // SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_

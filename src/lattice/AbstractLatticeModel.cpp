@@ -52,6 +52,11 @@ const std::vector<double>& AbstractLatticeModel::rGetWeight() const
   return weight_;
 }
 
+const std::vector<int>& AbstractLatticeModel::rGetDistance() const
+{
+  return distance_;
+}
+
 const std::vector<std::vector<double>>& AbstractLatticeModel::
     rGetDiscreteVelocity() const
 {

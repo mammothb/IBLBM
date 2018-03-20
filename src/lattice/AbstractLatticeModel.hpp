@@ -31,6 +31,8 @@ class AbstractLatticeModel
 
   const std::vector<double>& rGetWeight() const;
 
+  const std::vector<int>& rGetDistance() const;
+
   const std::vector<std::vector<double>>& rGetDiscreteVelocity() const;
 
   const std::vector<std::vector<double>>& rGetVelocity() const;
@@ -50,6 +52,8 @@ class AbstractLatticeModel
   double c_;
   /** Weighting factor */
   std::vector<double> weight_;
+  /** Distance (number of node) away from neighboring nodes */
+  std::vector<int> distance_;
   /** Discrete velocity */
   std::vector<std::vector<double>> e_;
   /** Velocity */

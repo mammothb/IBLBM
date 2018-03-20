@@ -19,7 +19,6 @@
 					<Add option="-Wcast-align" />
 					<Add option="-Wundef" />
 					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
 					<Add option="-Wunreachable-code" />
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
@@ -48,7 +47,6 @@
 					<Add option="-Wcast-align" />
 					<Add option="-Wundef" />
 					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
 					<Add option="-Wunreachable-code" />
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
@@ -76,7 +74,6 @@
 			<Add option="-Wcast-align" />
 			<Add option="-Wundef" />
 			<Add option="-Wfloat-equal" />
-			<Add option="-Winline" />
 			<Add option="-Wunreachable-code" />
 			<Add option="-Wmissing-declarations" />
 			<Add option="-Wmissing-include-dirs" />
@@ -94,6 +91,7 @@
 			<Add directory="src/fortests" />
 			<Add directory="src/utility" />
 			<Add directory="src/collision" />
+			<Add directory="src/stream" />
 		</Compiler>
 		<Linker>
 			<Add library="lib/libUnitTest++.a" />
@@ -109,10 +107,16 @@
 		<Unit filename="src/lattice/Lattice2D.cpp" />
 		<Unit filename="src/lattice/Lattice2D.hpp" />
 		<Unit filename="src/main-devel.cpp" />
+		<Unit filename="src/stream/AbstractStreamModel.cpp" />
+		<Unit filename="src/stream/AbstractStreamModel.hpp" />
+		<Unit filename="src/stream/Stream2D.cpp" />
+		<Unit filename="src/stream/Stream2D.hpp" />
+		<Unit filename="src/utility/IblbmEnum.hpp" />
 		<Unit filename="src/utility/IblbmUtilities.hpp" />
 		<Unit filename="unittests/TestAbstractLatticeModel.cpp" />
 		<Unit filename="unittests/TestCollisionNsf.cpp" />
 		<Unit filename="unittests/TestLatticeBoltzmann.cpp" />
+		<Unit filename="unittests/TestStream2D.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
