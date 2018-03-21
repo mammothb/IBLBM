@@ -32,8 +32,18 @@ class AbstractCollisionModel
    */
   virtual void Collide(std::vector<std::vector<double>>& r_df) = 0;
 
+  /**
+   * Adds a node to exclude it from the collision step
+   *
+   * \param n index of the node in the lattice
+   */
+  void AddNodeToSkip(std::size_t n);
+
   /** \return Const reference to density lattice */
   const std::vector<double>& rGetDensity() const;
+
+  /** \return Const reference to is_skip lattice */
+  const std::vector<bool>& rGetIsSkip() const;
 
   /** \return Const reference to equilibrium distribution function */
   const std::vector<std::vector<double>>&
@@ -63,6 +73,8 @@ class AbstractCollisionModel
   std::vector<std::vector<double>> e_;
   /** Density */
   std::vector<double> rho_;
+  /** Nodes to skip collision calculation */
+  std::vector<bool> is_skip_;
   /** Equilibrium distribution function */
   std::vector<std::vector<double>> edf_;
 };

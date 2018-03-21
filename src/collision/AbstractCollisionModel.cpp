@@ -18,6 +18,7 @@ AbstractCollisionModel::AbstractCollisionModel(
   cs_sqr_ = c * c / 3.0;
   auto num_nodes = r_lm_.GetNumberOfNodes();
   auto num_directions = r_lm_.GetNumberOfDirections();
+  is_skip_.assign(num_nodes, false);
   // Initialize all equilibrium distribution functions with zero
   edf_.assign(num_nodes, std::vector<double>(num_directions, 0.0));
   AbstractCollisionModel::SetDensity(initial_density);
@@ -38,9 +39,19 @@ void AbstractCollisionModel::ComputeEquilibriumDistribution()
   }
 }
 
+void AbstractCollisionModel::AddNodeToSkip(std::size_t n)
+{
+  is_skip_[n] = true;
+}
+
 const std::vector<double>& AbstractCollisionModel::rGetDensity() const
 {
   return rho_;
+}
+
+const std::vector<bool>& AbstractCollisionModel::rGetIsSkip() const
+{
+  return is_skip_;
 }
 
 const std::vector<std::vector<double>>& AbstractCollisionModel::

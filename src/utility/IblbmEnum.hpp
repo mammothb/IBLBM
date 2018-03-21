@@ -1,6 +1,8 @@
 #ifndef SRC_UTILITY_IBLBMENUM_HPP_
 #define SRC_UTILITY_IBLBMENUM_HPP_
 
+#include <iostream>
+
 namespace iblbm
 {
 /**
@@ -21,5 +23,19 @@ enum Directions {
     SW,
     SE
 };
+
+enum class Edge : int {
+    NOT_EDGE = -1,
+    RIGHT,
+    UPPER,
+    LEFT,
+    LOWER,
+    UPPER_RIGHT,
+    UPPER_LEFT,
+    LOWER_LEFT,
+    LOWER_RIGHT
+};
+
+std::ostream& operator<<(std::ostream& r_os, const Edge edge);
 }  // namespace iblbm
 #endif  // SRC_UTILITY_IBLBMENUM_HPP_

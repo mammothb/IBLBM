@@ -1,4 +1,7 @@
 #include "CollisionNsf.hpp"
+
+#include <memory>
+
 #include "IblbmUtilities.hpp"
 
 namespace iblbm

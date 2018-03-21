@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <vector>
 
+#include "IblbmEnum.hpp"
+
 namespace iblbm
 {
 class AbstractLatticeModel
@@ -15,7 +17,9 @@ class AbstractLatticeModel
     , std::size_t nx
     , std::size_t ny);
 
-  ~AbstractLatticeModel() = default;
+  virtual ~AbstractLatticeModel() = default;
+
+  virtual Edge DetermineOrientation(std::size_t n) = 0;
 
   std::size_t GetNumberOfDimensions() const;
 

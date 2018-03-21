@@ -92,11 +92,19 @@
 			<Add directory="src/utility" />
 			<Add directory="src/collision" />
 			<Add directory="src/stream" />
+			<Add directory="src/boundary" />
 		</Compiler>
 		<Linker>
 			<Add library="lib/libUnitTest++.a" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="src/boundary/AbstractBoundaryCondition.cpp" />
+		<Unit filename="src/boundary/AbstractBoundaryCondition.hpp" />
+		<Unit filename="src/boundary/BounceBackBoundary.cpp" />
+		<Unit filename="src/boundary/BounceBackBoundary.hpp" />
+		<Unit filename="src/boundary/Node.hpp" />
+		<Unit filename="src/boundary/PeriodicBoundary.cpp" />
+		<Unit filename="src/boundary/PeriodicBoundary.hpp" />
 		<Unit filename="src/collision/AbstractCollisionModel.cpp" />
 		<Unit filename="src/collision/AbstractCollisionModel.hpp" />
 		<Unit filename="src/collision/CollisionNsf.cpp" />
@@ -106,16 +114,21 @@
 		<Unit filename="src/lattice/AbstractLatticeModel.hpp" />
 		<Unit filename="src/lattice/Lattice2D.cpp" />
 		<Unit filename="src/lattice/Lattice2D.hpp" />
+		<Unit filename="src/lbm/LatticeBoltzmannMethod.cpp" />
+		<Unit filename="src/lbm/LatticeBoltzmannMethod.hpp" />
 		<Unit filename="src/main-devel.cpp" />
 		<Unit filename="src/stream/AbstractStreamModel.cpp" />
 		<Unit filename="src/stream/AbstractStreamModel.hpp" />
 		<Unit filename="src/stream/Stream2D.cpp" />
 		<Unit filename="src/stream/Stream2D.hpp" />
+		<Unit filename="src/utility/IblbmEnum.cpp" />
 		<Unit filename="src/utility/IblbmEnum.hpp" />
 		<Unit filename="src/utility/IblbmUtilities.hpp" />
-		<Unit filename="unittests/TestAbstractLatticeModel.cpp" />
+		<Unit filename="unittests/TestBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestCollisionNsf.cpp" />
+		<Unit filename="unittests/TestLattice2D.cpp" />
 		<Unit filename="unittests/TestLatticeBoltzmann.cpp" />
+		<Unit filename="unittests/TestPeriodicBoundary.cpp" />
 		<Unit filename="unittests/TestStream2D.cpp" />
 		<Extensions>
 			<code_completion />

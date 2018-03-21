@@ -18,17 +18,17 @@ std::vector<std::vector<double>> Stream2D::Stream(
   for (auto n = 0u; n < nx * ny; ++n) {
     const auto is_left = n % nx == 0;
     const auto is_right = n % nx == nx - 1;
-    const auto is_bottom = n / nx == 0;
-    const auto is_top = n / nx == ny - 1;
+    const auto is_lower = n / nx == 0;
+    const auto is_upper = n / nx == ny - 1;
 
     if (!is_left) ret_df[n][E] = r_df[n - r_dist[E]][E];
-    if (!is_bottom) ret_df[n][N] = r_df[n  - r_dist[N]][N];
+    if (!is_lower) ret_df[n][N] = r_df[n  - r_dist[N]][N];
     if (!is_right) ret_df[n][W] = r_df[n - r_dist[W]][W];
-    if (!is_top) ret_df[n][S] = r_df[n - r_dist[S]][S];
-    if (!(is_bottom || is_left)) ret_df[n][NE] = r_df[n - r_dist[NE]][NE];
-    if (!(is_bottom || is_right)) ret_df[n][NW] = r_df[n - r_dist[NW]][NW];
-    if (!(is_top || is_right)) ret_df[n][SW] = r_df[n - r_dist[SW]][SW];
-    if (!(is_top || is_left)) ret_df[n][SE] = r_df[n - r_dist[SE]][SE];
+    if (!is_upper) ret_df[n][S] = r_df[n - r_dist[S]][S];
+    if (!(is_lower || is_left)) ret_df[n][NE] = r_df[n - r_dist[NE]][NE];
+    if (!(is_lower || is_right)) ret_df[n][NW] = r_df[n - r_dist[NW]][NW];
+    if (!(is_upper || is_right)) ret_df[n][SW] = r_df[n - r_dist[SW]][SW];
+    if (!(is_upper || is_left)) ret_df[n][SE] = r_df[n - r_dist[SE]][SE];
   }
   return ret_df;
 }

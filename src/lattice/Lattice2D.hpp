@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "AbstractLatticeModel.hpp"
+#include "IblbmEnum.hpp"
 
 namespace iblbm
 {
@@ -17,6 +18,8 @@ class Lattice2D : public AbstractLatticeModel
     , const std::vector<double>& r_initial_velocity);
 
   ~Lattice2D() = default;
+
+  Edge DetermineOrientation(std::size_t n);
 
   void SetVelocity(const std::vector<double>& r_initial_velocity);
 };
