@@ -5,67 +5,73 @@
 namespace iblbm
 {
 AbstractLatticeModel::AbstractLatticeModel(
-    std::size_t num_dim
-  , std::size_t num_dir
+    std::size_t numDim
+  , std::size_t numDir
   , std::size_t nx
   , std::size_t ny)
-  : num_dim_(num_dim),
-    num_dir_(num_dir),
-    nx_(nx),
-    ny_(ny),
-    num_nodes_(nx * ny),
-    c_(1.0)
+  : mNumDim(numDim),
+    mNumDir(numDir),
+    mNx(nx),
+    mNy(ny),
+    mNumNodes(nx * ny),
+    mC(1.0)
 {}
 
 std::size_t AbstractLatticeModel::GetNumberOfDimensions() const
 {
-  return num_dim_;
+  return mNumDim;
 }
 
 std::size_t AbstractLatticeModel::GetNumberOfDirections() const
 {
-  return num_dir_;
+  return mNumDir;
 }
 
 std::size_t AbstractLatticeModel::GetNx() const
 {
-  return nx_;
+  return mNx;
 }
 
 std::size_t AbstractLatticeModel::GetNy() const
 {
-  return ny_;
+  return mNy;
 }
 
 std::size_t AbstractLatticeModel::GetNumberOfNodes() const
 {
-  return num_nodes_;
+  return mNumNodes;
 }
 
 double AbstractLatticeModel::GetPropagationSpeed() const
 {
-  return c_;
+  return mC;
 }
 
 const std::vector<double>& AbstractLatticeModel::rGetWeight() const
 {
-  return weight_;
+  return mWeight;
 }
 
 const std::vector<int>& AbstractLatticeModel::rGetDistance() const
 {
-  return distance_;
+  return mDistance;
 }
 
 const std::vector<std::vector<double>>& AbstractLatticeModel::
     rGetDiscreteVelocity() const
 {
-  return e_;
+  return mDiscreteVelocity;
 }
 
 const std::vector<std::vector<double>>& AbstractLatticeModel::
     rGetVelocity() const
 {
-  return u_;
+  return mVelocity;
+}
+
+void AbstractLatticeModel::SetVelocity(
+    const std::vector<std::vector<double>>& rVelocity)
+{
+  mVelocity = rVelocity;
 }
 }  // namespace iblbm

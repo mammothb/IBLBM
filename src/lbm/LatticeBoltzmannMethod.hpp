@@ -12,22 +12,24 @@ class LatticeBoltzmannMethod
 {
  public:
   LatticeBoltzmannMethod(
-      AbstractLatticeModel& r_lm
-    , AbstractCollisionModel& r_cm
-    , AbstractStreamModel& r_sm);
+      AbstractLatticeModel& rLatticeModel
+    , AbstractCollisionModel& rCollisionModel
+    , AbstractStreamModel& rStreamModel);
 
   ~LatticeBoltzmannMethod() = default;
 
-  void AddBoundaryCondition(AbstractBoundaryCondition* p_bc);
+  void AddBoundaryCondition(AbstractBoundaryCondition* pBoundaryCondition);
 
   void TakeStep();
 
+  const std::vector<std::vector<double>>& rGetDistribution() const;
+
  private:
-  AbstractLatticeModel& r_lm_;
-  AbstractCollisionModel& r_cm_;
-  AbstractStreamModel& r_sm_;
-  std::vector<std::vector<double>> df_;
-  std::vector<AbstractBoundaryCondition*> bc_;
+  AbstractLatticeModel& mrLatticeModel;
+  AbstractCollisionModel& mrCollisionModel;
+  AbstractStreamModel& mrStreamModel;
+  std::vector<std::vector<double>> mDF;
+  std::vector<AbstractBoundaryCondition*> mpBoundaryConditions;
 
 };
 }  // namespace iblbm

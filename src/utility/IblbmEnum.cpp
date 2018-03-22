@@ -5,35 +5,35 @@
 
 namespace iblbm
 {
-std::ostream& operator<<(std::ostream& r_os, const Edge edge)
+std::ostream& operator<<(std::ostream& rOs, const Edge edge)
 {
   switch(edge) {
   case Edge::NOT_EDGE:
-    r_os << "NOT_EDGE";
+    rOs << "NOT_EDGE";
     break;
   case Edge::RIGHT:
-    r_os << "RIGHT";
+    rOs << "RIGHT";
     break;
   case Edge::UPPER:
-    r_os << "UPPER";
+    rOs << "UPPER";
     break;
   case Edge::LEFT:
-    r_os << "LEFT";
+    rOs << "LEFT";
     break;
   case Edge::LOWER:
-    r_os << "LOWER";
+    rOs << "LOWER";
     break;
   case Edge::UPPER_RIGHT:
-    r_os << "UPPER_RIGHT";
+    rOs << "UPPER_RIGHT";
     break;
   case Edge::UPPER_LEFT:
-    r_os << "UPPER_RIGHT";
+    rOs << "UPPER_RIGHT";
     break;
   case Edge::LOWER_LEFT:
-    r_os << "LOWER_LEFT";
+    rOs << "LOWER_LEFT";
     break;
   case Edge::LOWER_RIGHT:
-    r_os << "LOWER_RIGHT";
+    rOs << "LOWER_RIGHT";
     break;
   default:
     throw std::runtime_error("Invalid Edge value");

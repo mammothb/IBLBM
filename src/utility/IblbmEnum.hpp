@@ -36,6 +36,6 @@ enum class Edge : int {
     LOWER_RIGHT
 };
 
-std::ostream& operator<<(std::ostream& r_os, const Edge edge);
+std::ostream& operator<<(std::ostream& rOs, const Edge edge);
 }  // namespace iblbm
 #endif  // SRC_UTILITY_IBLBMENUM_HPP_

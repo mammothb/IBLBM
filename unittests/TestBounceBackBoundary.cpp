@@ -41,7 +41,7 @@ TEST(TestBounceBackBoundary_Fullway_AddNode_CollisionNsf)
   CHECK_EQUAL(g_nx, nodes.size());
   for (auto x = 0u; x < g_nx; ++x) {
     auto n = x + g_nx;
-    CHECK_EQUAL(n, nodes[x].n);
+    CHECK_EQUAL(n, nodes[x].mIndex);
   }
   // Check that the right nodes have been added to be skipped
   for (auto y = 0u; y < g_ny; ++y) {

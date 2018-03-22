@@ -12,8 +12,8 @@ class AbstractCollisionModel
    * Constructor
    */
   AbstractCollisionModel(
-      AbstractLatticeModel& r_lm
-    , double initial_density);
+      AbstractLatticeModel& rLatticeModel
+    , double initialDensity);
 
   /**
    * Destructor
@@ -26,11 +26,34 @@ class AbstractCollisionModel
   void ComputeEquilibriumDistribution();
 
   /**
+   * Compute density at each node by summing up its distribution functions
+   *
+   * \param r_df 2D vector containing distribution functions
+   *
+   * \return density of lattice stored row-wise in a 1D vector
+   */
+  std::vector<double> ComputeRho(
+      const std::vector<std::vector<double>> &rDF);
+
+  /**
    * Pure virtual function to be implemented by various child classes
    *
    * \param r_df Reference to the distribution function to be updated
    */
-  virtual void Collide(std::vector<std::vector<double>>& r_df) = 0;
+  virtual void Collide(std::vector<std::vector<double>>& rDF) = 0;
+
+  /**
+   * Pure virtual function to compute the macroscopic properties of the
+   * lattice depending on the equation, density and velocity for
+   * Navier-Stokes, only density for Convection-diffusion equation
+   * This is used to unify function calling in LatticeBoltzmann TakeStep()
+   * method
+   *
+   * \param r_df Particle distribution functions of the lattice stored
+   *        row-wise in a 2D vector
+   */
+  virtual void ComputeMacroscopicProperties(
+      const std::vector<std::vector<double>>& rDF) = 0;
 
   /**
    * Adds a node to exclude it from the collision step
@@ -50,7 +73,7 @@ class AbstractCollisionModel
       rGetEquilibriumDistribution() const;
 
   /** Set the relaxation time */
-  void SetRelaxationTime(double tau);
+  void SetRelaxationTime(double relaxationTime);
 
   /**
    * Set density lattice with the same density value, force updates
@@ -62,21 +85,17 @@ class AbstractCollisionModel
 
  protected:
   /** Reference to the lattice model */
-  AbstractLatticeModel& r_lm_;
+  AbstractLatticeModel& mrLatticeModel;
   /** Convenience variable: cs_sqr_ = c * c / 3.0 */
-  double cs_sqr_;
+  double mCsSqr;
   /** Relaxation time */
-  double tau_;
-  /** Discrete velocity */
-  std::vector<double> weight_;
-  /** Discrete velocity */
-  std::vector<std::vector<double>> e_;
+  double mTau;
   /** Density */
-  std::vector<double> rho_;
+  std::vector<double> mRho;
   /** Nodes to skip collision calculation */
-  std::vector<bool> is_skip_;
+  std::vector<bool> mIsSkip;
   /** Equilibrium distribution function */
-  std::vector<std::vector<double>> edf_;
+  std::vector<std::vector<double>> mEDF;
 };
 }  // namespace iblbm
 #endif  // SRC_COLLISION_ABSTRACTCOLLISIONMODEL_HPP_

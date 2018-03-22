@@ -22,14 +22,14 @@ class BounceBackBoundary : public AbstractBoundaryCondition
    *        the collision step
    */
   BounceBackBoundary(
-      AbstractLatticeModel& r_lm
-    , AbstractCollisionModel* p_cm = nullptr);
+      AbstractLatticeModel& rLatticeModel
+    , AbstractCollisionModel* pCollisionModel = nullptr);
 
   ~BounceBackBoundary() = default;
 
   void UpdateNodes(
-      std::vector<std::vector<double>>& r_df
-    , bool is_modify_stream);
+      std::vector<std::vector<double>>& rDF
+    , bool isModifyStream);
 
   void AddNode(
       std::size_t x
@@ -38,8 +38,8 @@ class BounceBackBoundary : public AbstractBoundaryCondition
   const std::vector<Node>& rGetNodes() const;
 
  private:
-  AbstractCollisionModel* p_cm_;
-  std::vector<Node> nodes_;
+  AbstractCollisionModel* mpCollisionModel;
+  std::vector<Node> mNodes;
 };
 }  // namespace iblbm
 #endif  // SRC_BOUNDARY_BOUNCEBACKBOUNDARY_HPP_

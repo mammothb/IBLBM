@@ -4,7 +4,7 @@
 
 namespace iblbm
 {
-AbstractStreamModel::AbstractStreamModel(AbstractLatticeModel& r_lm)
-  : r_lm_(r_lm)
+AbstractStreamModel::AbstractStreamModel(AbstractLatticeModel& rLatticeModel)
+  : mrLatticeModel(rLatticeModel)
 {}
 }  // namespace iblbm

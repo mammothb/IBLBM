@@ -10,16 +10,16 @@ namespace iblbm
 {
 struct PeriodicNode : Node
 {
-  Edge edge;
-  bool is_corner;
+  Edge mEdge;
+  bool mIsCorner;
 
   PeriodicNode(
-      std::size_t n_pos
-    , Edge edge_no
-    , bool corner)
-    : Node(n_pos),
-      edge(edge_no),
-      is_corner(corner)
+      std::size_t index
+    , Edge edge
+    , bool isCorner)
+    : Node(index),
+      mEdge(edge),
+      mIsCorner(isCorner)
   {}
 
   ~PeriodicNode() = default;
@@ -29,24 +29,24 @@ class PeriodicBoundary : public AbstractBoundaryCondition
 {
  public:
   PeriodicBoundary(
-      AbstractLatticeModel& r_lm
-    , AbstractCollisionModel& r_cm);
+      AbstractLatticeModel& rLatticeModel
+    , AbstractCollisionModel& rCollisionModel);
 
   ~PeriodicBoundary() = default;
 
   void UpdateNodes(
-      std::vector<std::vector<double>>& r_df
-    , bool is_modify_stream);
+      std::vector<std::vector<double>>& rDF
+    , bool isModifyStream);
 
   void UpdateCorner(
-      std::vector<std::vector<double>>& r_df
-    , PeriodicNode& r_node
-    , bool is_modify_stream);
+      std::vector<std::vector<double>>& rDF
+    , PeriodicNode& rNode
+    , bool isModifyStream);
 
   void UpdateEdge(
-      std::vector<std::vector<double>>& r_df
-    , PeriodicNode& r_node
-    , bool is_modify_stream);
+      std::vector<std::vector<double>>& rDF
+    , PeriodicNode& rNode
+    , bool isModifyStream);
 
   void AddNode(
       std::size_t x
@@ -55,9 +55,9 @@ class PeriodicBoundary : public AbstractBoundaryCondition
   const std::vector<PeriodicNode>& rGetNodes() const;
 
  private:
-  AbstractCollisionModel& r_cm_;
+  AbstractCollisionModel& mrCollisionModel;
 
-  std::vector<PeriodicNode> nodes_;
+  std::vector<PeriodicNode> mNodes;
 };
 
 }  // namespace iblbm

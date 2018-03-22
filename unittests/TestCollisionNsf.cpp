@@ -41,10 +41,10 @@ TEST(TestCollisionNsf_Constructor)
       2.0 / cs_sqr;
   for (auto n = 0u; n < g_nx * g_ny; ++n) {
     for (auto i = 0u; i < g_weight.size(); ++i) {
-      auto c_dot_u = util::InnerProduct(g_discrete_velocity[i],
+      auto e_dot_u = util::InnerProduct(g_discrete_velocity[i],
           g_initial_velocity) / cs_sqr;
-      auto edf = g_initial_density * g_weight[i] * (1.0 + c_dot_u *
-          (1.0 + c_dot_u) - u_sqr);
+      auto edf = g_initial_density * g_weight[i] * (1.0 + e_dot_u * (1.0 +
+          e_dot_u / 2.0) - u_sqr);
       CHECK_CLOSE(edf, r_edf[n][i], g_loose_tol);
     }
   }
@@ -70,10 +70,10 @@ TEST(TestCollisionNsf_SetDensity)
       2.0 / cs_sqr;
   for (auto n = 0u; n < g_nx * g_ny; ++n) {
     for (auto i = 0u; i < g_weight.size(); ++i) {
-      auto c_dot_u = util::InnerProduct(g_discrete_velocity[i],
+      auto e_dot_u = util::InnerProduct(g_discrete_velocity[i],
           g_initial_velocity) / cs_sqr;
-      auto edf = density * g_weight[i] * (1.0 + c_dot_u * (1.0 + c_dot_u) -
-          u_sqr);
+      auto edf = density * g_weight[i] * (1.0 + e_dot_u * (1.0 + e_dot_u /
+          2.0) - u_sqr);
       CHECK_CLOSE(edf, r_edf[n][i], g_loose_tol);
     }
   }
@@ -96,10 +96,10 @@ TEST(TestCollisionNsf_ComputeEquilibriumDistribution)
   for (auto n = 0u; n < g_nx * g_ny; ++n) {
     auto u_sqr = util::InnerProduct(velocity, velocity) / 2.0 / cs_sqr;
     for (auto i = 0u; i < g_weight.size(); ++i) {
-      auto c_dot_u = util::InnerProduct(g_discrete_velocity[i], velocity) /
+      auto e_dot_u = util::InnerProduct(g_discrete_velocity[i], velocity) /
           cs_sqr;
-      auto edf = g_initial_density * g_weight[i] * (1.0 + c_dot_u *
-          (1.0 + c_dot_u) - u_sqr);
+      auto edf = g_initial_density * g_weight[i] * (1.0 + e_dot_u *
+          (1.0 + e_dot_u / 2.0) - u_sqr);
       CHECK_CLOSE(edf, r_edf[n][i], g_loose_tol);
     }
   }
@@ -131,12 +131,12 @@ TEST(TestCollisionNsf_Collide)
   auto cs_sqr = 1.0 * 1.0 / 3.0;
   for (auto n = 0u; n < g_nx * g_ny; ++n) {
     for (auto i = 0u; i < g_weight.size(); ++i) {
-      const auto c_dot_u = util::InnerProduct(g_discrete_velocity[i],
+      const auto e_dot_u = util::InnerProduct(g_discrete_velocity[i],
           g_initial_velocity) / cs_sqr;
       std::vector<double> src_dot_product = {
-          (g_discrete_velocity[i][0] - g_initial_velocity[0] + c_dot_u *
+          (g_discrete_velocity[i][0] - g_initial_velocity[0] + e_dot_u *
               g_discrete_velocity[i][0]) / cs_sqr,
-          (g_discrete_velocity[i][1] - g_initial_velocity[1] + c_dot_u *
+          (g_discrete_velocity[i][1] - g_initial_velocity[1] + e_dot_u *
               g_discrete_velocity[i][1]) / cs_sqr};
       const auto src_i = (1.0 - 0.5 / g_tau) * g_weight[i] *
           util::InnerProduct(src_dot_product, g_initial_force);

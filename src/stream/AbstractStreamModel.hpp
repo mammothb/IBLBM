@@ -10,15 +10,15 @@ namespace iblbm
 class AbstractStreamModel
 {
  public:
-  explicit AbstractStreamModel(AbstractLatticeModel& r_lm);
+  explicit AbstractStreamModel(AbstractLatticeModel& rLatticeModel);
 
   virtual ~AbstractStreamModel() = default;
 
   virtual std::vector<std::vector<double>> Stream(
-      const std::vector<std::vector<double>>& r_df) = 0;
+      const std::vector<std::vector<double>>& rDF) = 0;
 
  protected:
-  AbstractLatticeModel& r_lm_;
+  AbstractLatticeModel& mrLatticeModel;
 };
 }  // namespace iblbm
 #endif  // SRC_STREAM_ABSTRACTSTREAMMODEL_HPP_

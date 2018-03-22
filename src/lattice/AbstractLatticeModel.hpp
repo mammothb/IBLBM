@@ -12,8 +12,8 @@ class AbstractLatticeModel
 {
  public:
   AbstractLatticeModel(
-      std::size_t num_dim
-    , std::size_t num_dir
+      std::size_t numDim
+    , std::size_t numDir
     , std::size_t nx
     , std::size_t ny);
 
@@ -41,27 +41,29 @@ class AbstractLatticeModel
 
   const std::vector<std::vector<double>>& rGetVelocity() const;
 
+  void SetVelocity(const std::vector<std::vector<double>>& rVelocity);
+
  protected:
   /** Number of dimensions */
-  std::size_t num_dim_;
+  std::size_t mNumDim;
   /** Number of directions */
-  std::size_t num_dir_;
+  std::size_t mNumDir;
   /** Number of columns */
-  std::size_t nx_;
+  std::size_t mNx;
   /** Number of rows */
-  std::size_t ny_;
+  std::size_t mNy;
   /** Number of nodes */
-  std::size_t num_nodes_;
+  std::size_t mNumNodes;
   /** Propagation speed */
-  double c_;
+  double mC;
   /** Weighting factor */
-  std::vector<double> weight_;
+  std::vector<double> mWeight;
   /** Distance (number of node) away from neighboring nodes */
-  std::vector<int> distance_;
+  std::vector<int> mDistance;
   /** Discrete velocity */
-  std::vector<std::vector<double>> e_;
+  std::vector<std::vector<double>> mDiscreteVelocity;
   /** Velocity */
-  std::vector<std::vector<double>> u_;
+  std::vector<std::vector<double>> mVelocity;
 };
 }  // namespace iblbm
 #endif  // SRC_LATTICE_ABSTRACTLATTICEMODEL_HPP_

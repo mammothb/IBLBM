@@ -5,11 +5,11 @@ namespace iblbm
 {
 struct Node
 {
-  std::size_t n;
-  std::vector<double> df;
+  std::size_t mIndex;
+  std::vector<double> mDF;
 
-  Node(std::size_t n_pos)
-    : n(n_pos)
+  Node(std::size_t index)
+    : mIndex(index)
   {}
 
   virtual ~Node() = default;

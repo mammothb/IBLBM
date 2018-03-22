@@ -7,37 +7,43 @@
 namespace iblbm
 {
 LatticeBoltzmannMethod::LatticeBoltzmannMethod(
-    AbstractLatticeModel& r_lm
-  , AbstractCollisionModel& r_cm
-  , AbstractStreamModel& r_sm)
-  : r_lm_(r_lm),
-    r_cm_(r_cm),
-    r_sm_(r_sm),
-    df_(r_cm.rGetEquilibriumDistribution()),
-    bc_()
+    AbstractLatticeModel& rLatticeModel
+  , AbstractCollisionModel& rCollisionModel
+  , AbstractStreamModel& rStreamModel)
+  : mrLatticeModel(rLatticeModel),
+    mrCollisionModel(rCollisionModel),
+    mrStreamModel(rStreamModel),
+    mDF(rCollisionModel.rGetEquilibriumDistribution()),
+    mpBoundaryConditions()
 {}
 
 void LatticeBoltzmannMethod::AddBoundaryCondition(
-    AbstractBoundaryCondition* p_bc)
+    AbstractBoundaryCondition* pBoundaryCondition)
 {
-  bc_.push_back(p_bc);
+  mpBoundaryConditions.push_back(pBoundaryCondition);
 }
 
 void LatticeBoltzmannMethod::TakeStep()
 {
-  r_cm_.ComputeEquilibriumDistribution();
-  r_cm_.Collide(df_);
-  for (auto it : bc_) {
+  mrCollisionModel.ComputeEquilibriumDistribution();
+  mrCollisionModel.Collide(mDF);
+  for (auto it : mpBoundaryConditions) {
     if (it->IsBeforeStream())
-        it->UpdateNodes(df_, /*is_modify_stream=*/false);
+        it->UpdateNodes(mDF, /*is_modify_stream=*/false);
   }
-  df_ = r_sm_.Stream(df_);
-  for (auto it : bc_) {
+  mDF = mrStreamModel.Stream(mDF);
+  for (auto it : mpBoundaryConditions) {
     if (it->IsDuringStream())
-        it->UpdateNodes(df_, /*is_modify_stream=*/true);
+        it->UpdateNodes(mDF, /*is_modify_stream=*/true);
     if (!it->IsBeforeStream())
-        it->UpdateNodes(df_, /*is_modify_stream=*/false);
+        it->UpdateNodes(mDF, /*is_modify_stream=*/false);
   }  // bdr
-//  r_cm_.ComputeMacroscopicProperties(df_);
+  mrCollisionModel.ComputeMacroscopicProperties(mDF);
+}
+
+const std::vector<std::vector<double>>& LatticeBoltzmannMethod::
+    rGetDistribution() const
+{
+  return mDF;
 }
 }  // namespace iblbm

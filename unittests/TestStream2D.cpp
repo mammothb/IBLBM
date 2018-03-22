@@ -8,7 +8,7 @@
 
 namespace iblbm
 {
-SUITE(TestStreamodel)
+SUITE(TestStreamModel)
 {
 // Global variables for testing
 static const auto g_loose_tol = 1e-6;

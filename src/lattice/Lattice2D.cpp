@@ -9,31 +9,31 @@ namespace iblbm
 Lattice2D::Lattice2D(
     std::size_t nx
   , std::size_t ny
-  , const std::vector<double>& r_initial_velocity)
+  , const std::vector<double>& rInitialVelocity)
   : AbstractLatticeModel(2u, 9u, nx, ny)
 {
-  weight_ = {16.0 / 36.0,
+  mWeight = {16.0 / 36.0,
              4.0 / 36.0, 4.0 / 36.0, 4.0 / 36.0, 4.0 / 36.0,
              1.0 / 36.0, 1.0 / 36.0, 1.0 / 36.0, 1.0 / 36.0};
   auto nx_cast = static_cast<int>(nx);
-  distance_ = {0,
+  mDistance = {0,
                1, nx_cast, -1, -nx_cast,
                nx_cast + 1, nx_cast - 1, -nx_cast - 1, -nx_cast + 1};
-  e_ = {{0.0, 0.0},
-        {1.0, 0.0}, {0.0, 1.0}, {-1.0, 0.0}, {0.0, -1.0},
-        {1.0, 1.0}, {-1.0, 1.0}, {-1.0, -1.0}, {1.0, -1.0}};
-  for (auto& direction : e_) {
-    for (auto& elem : direction) elem *= c_;
+  mDiscreteVelocity = {{0.0, 0.0},
+                       {1.0, 0.0}, {0.0, 1.0}, {-1.0, 0.0}, {0.0, -1.0},
+                       {1.0, 1.0}, {-1.0, 1.0}, {-1.0, -1.0}, {1.0, -1.0}};
+  for (auto& r_direction : mDiscreteVelocity) {
+    for (auto& r_elem : r_direction) r_elem *= mC;
   }
-  Lattice2D::SetVelocity(r_initial_velocity);
+  Lattice2D::SetVelocity(rInitialVelocity);
 }
 
 Edge Lattice2D::DetermineOrientation(std::size_t n)
 {
-  const auto is_left = n % nx_ == 0;
-  const auto is_right = n % nx_ == nx_ - 1;
-  const auto is_lower = n / nx_ == 0;
-  const auto is_upper = n / nx_ == ny_ - 1;
+  const auto is_left = n % mNx == 0;
+  const auto is_right = n % mNx == mNx - 1;
+  const auto is_lower = n / mNx == 0;
+  const auto is_upper = n / mNx == mNy - 1;
   auto edge = Edge::NOT_EDGE;
   if (is_right) edge = Edge::RIGHT;
   if (is_upper) edge = Edge::UPPER;
@@ -47,8 +47,8 @@ Edge Lattice2D::DetermineOrientation(std::size_t n)
   return edge;
 }
 
-void Lattice2D::SetVelocity(const std::vector<double>& r_initial_velocity)
+void Lattice2D::SetVelocity(const std::vector<double>& rInitialVelocity)
 {
-  u_.assign(num_nodes_, r_initial_velocity);
+  mVelocity.assign(mNumNodes, rInitialVelocity);
 }
 }  // namespace iblbm

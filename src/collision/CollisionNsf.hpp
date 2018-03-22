@@ -10,17 +10,33 @@ class CollisionNsf : public AbstractCollisionModel
 {
  public:
   CollisionNsf(
-      AbstractLatticeModel& r_lm
-    , double initial_density);
+      AbstractLatticeModel& rLatticeModel
+    , double initialDensity);
 
   ~CollisionNsf() = default;
 
-  void Collide(std::vector<std::vector<double>>& r_df);
+  void Collide(std::vector<std::vector<double>>& rDF);
 
-  void SetForce(const std::vector<double>& r_initial_force);
+  /**
+   * Pure virtual function to compute the macroscopic properties of the
+   * lattice depending on the equation, density and velocity for
+   * Navier-Stokes, only density for Convection-diffusion equation
+   * This is used to unify function calling in LatticeBoltzmann TakeStep()
+   * method
+   *
+   * \param rDF Particle distribution functions of the lattice stored
+   *        row-wise in a 2D vector
+   */
+  void ComputeMacroscopicProperties(
+      const std::vector<std::vector<double>>& rDF);
+
+  std::vector<std::vector<double>> ComputeVelocity(
+      const std::vector<std::vector<double>>& rDF);
+
+  void SetForce(const std::vector<double>& rInitialForce);
 
  private:
-  std::vector<std::vector<double>> force_;
+  std::vector<std::vector<double>> mForce;
 };
 }  // namespace iblbm
 #endif  // SRC_COLLISION_COLLISIONNSF_HPP_

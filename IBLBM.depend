@@ -349,37 +349,38 @@
 1520343661 d:\git repos\iblbm\src\collision\abstractcollisionmodel.hpp
 	"AbstractLatticeModel.hpp"
 
-1521614305 source:/home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.cpp
+1521717224 source:/home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.cpp
 	"AbstractCollisionModel.hpp"
 	<iostream>
 	"IblbmUtilities.hpp"
 
-1521614119 /home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.hpp
+1521717192 /home/mmb/code/IBLBM/src/collision/AbstractCollisionModel.hpp
 	"AbstractLatticeModel.hpp"
 
-1521618571 /home/mmb/code/IBLBM/src/lattice/AbstractLatticeModel.hpp
+1521717381 /home/mmb/code/IBLBM/src/lattice/AbstractLatticeModel.hpp
 	<cstddef>
 	<vector>
 	"IblbmEnum.hpp"
 
-1521540385 /home/mmb/code/IBLBM/src/utility/IblbmUtilities.hpp
+1521718010 /home/mmb/code/IBLBM/src/utility/IblbmUtilities.hpp
 	<iomanip>
 	<iostream>
+	<numeric>
 	<stdexcept>
 	<vector>
 
-1521626583 source:/home/mmb/code/IBLBM/src/lattice/Lattice2D.cpp
+1521717529 source:/home/mmb/code/IBLBM/src/lattice/Lattice2D.cpp
 	"Lattice2D.hpp"
 	<cassert>
 	"IblbmEnum.hpp"
 
-1521618633 /home/mmb/code/IBLBM/src/lattice/Lattice2D.hpp
+1521717476 /home/mmb/code/IBLBM/src/lattice/Lattice2D.hpp
 	<cstddef>
 	<vector>
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1520243691 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1521716435 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++.h"
@@ -543,7 +544,7 @@
 	<vector>
 	"UnitTest++.h"
 
-1521537400 source:/home/mmb/code/IBLBM/src/lattice/AbstractLatticeModel.cpp
+1521717361 source:/home/mmb/code/IBLBM/src/lattice/AbstractLatticeModel.cpp
 	"AbstractLatticeModel.hpp"
 	<cstddef>
 
@@ -583,16 +584,16 @@
 	"CollisionNsf.hpp"
 	"IblbmUtilities.hpp"
 
-1521609554 source:/home/mmb/code/IBLBM/src/collision/CollisionNsf.cpp
+1521717265 source:/home/mmb/code/IBLBM/src/collision/CollisionNsf.cpp
 	"CollisionNsf.hpp"
 	<memory>
 	"IblbmUtilities.hpp"
 
-1521609549 /home/mmb/code/IBLBM/src/collision/CollisionNsf.hpp
+1521716118 /home/mmb/code/IBLBM/src/collision/CollisionNsf.hpp
 	"AbstractCollisionModel.hpp"
 	"AbstractLatticeModel.hpp"
 
-1521534399 source:/home/mmb/code/IBLBM/unittests/TestCollisionNsf.cpp
+1521713005 source:/home/mmb/code/IBLBM/unittests/TestCollisionNsf.cpp
 	<iostream>
 	<vector>
 	"CollisionNsf.hpp"
@@ -600,25 +601,25 @@
 	"Lattice2D.hpp"
 	"UnitTest++.h"
 
-1521597532 source:/home/mmb/code/IBLBM/src/stream/AbstractStreamModel.cpp
+1521717701 source:/home/mmb/code/IBLBM/src/stream/AbstractStreamModel.cpp
 	"AbstractStreamModel.hpp"
 	"AbstractLatticeModel.hpp"
 
-1521597525 /home/mmb/code/IBLBM/src/stream/AbstractStreamModel.hpp
+1521717707 /home/mmb/code/IBLBM/src/stream/AbstractStreamModel.hpp
 	<vector>
 	"AbstractLatticeModel.hpp"
 
-1521621642 source:/home/mmb/code/IBLBM/src/stream/Stream2D.cpp
+1521717744 source:/home/mmb/code/IBLBM/src/stream/Stream2D.cpp
 	"Stream2D.hpp"
 	"IblbmEnum.hpp"
 
-1521544885 /home/mmb/code/IBLBM/src/stream/Stream2D.hpp
+1521717734 /home/mmb/code/IBLBM/src/stream/Stream2D.hpp
 	"AbstractStreamModel.hpp"
 
-1521626036 /home/mmb/code/IBLBM/src/utility/IblbmEnum.hpp
+1521717777 /home/mmb/code/IBLBM/src/utility/IblbmEnum.hpp
 	<iostream>
 
-1521621654 source:/home/mmb/code/IBLBM/unittests/TestStream2D.cpp
+1521699830 source:/home/mmb/code/IBLBM/unittests/TestStream2D.cpp
 	<chrono>
 	"IblbmEnum.hpp"
 	"IblbmUtilities.hpp"
@@ -634,42 +635,42 @@
 	<vector>
 	"AbstractLatticeModel.hpp"
 
-1521615260 source:/home/mmb/code/IBLBM/src/boundary/BounceBackBoundary.cpp
+1521715073 source:/home/mmb/code/IBLBM/src/boundary/BounceBackBoundary.cpp
 	"BounceBackBoundary.hpp"
 	<memory>
 	"AbstractBoundaryCondition.hpp"
 	"IblbmEnum.hpp"
 	"Node.hpp"
 
-1521609580 /home/mmb/code/IBLBM/src/boundary/BounceBackBoundary.hpp
+1521714397 /home/mmb/code/IBLBM/src/boundary/BounceBackBoundary.hpp
 	"AbstractBoundaryCondition.hpp"
 	"AbstractCollisionModel.hpp"
 	"Node.hpp"
 
-1521603420 /home/mmb/code/IBLBM/src/boundary/AbstractBoundaryCondition.hpp
+1521714268 /home/mmb/code/IBLBM/src/boundary/AbstractBoundaryCondition.hpp
 	<cstddef>
 	<vector>
 	"AbstractLatticeModel.hpp"
 
-1521610454 source:/home/mmb/code/IBLBM/src/boundary/AbstractBoundaryCondition.cpp
+1521714342 source:/home/mmb/code/IBLBM/src/boundary/AbstractBoundaryCondition.cpp
 	"AbstractBoundaryCondition.hpp"
 
-1521616780 /home/mmb/code/IBLBM/src/boundary/Node.hpp
+1521714528 /home/mmb/code/IBLBM/src/boundary/Node.hpp
 
-1521614698 source:/home/mmb/code/IBLBM/unittests/TestBounceBackBoundary.cpp
+1521715244 source:/home/mmb/code/IBLBM/unittests/TestBounceBackBoundary.cpp
 	"BounceBackBoundary.hpp"
 	"CollisionNsf.hpp"
 	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
 	"UnitTest++.h"
 
-1521626920 source:/home/mmb/code/IBLBM/src/boundary/PeriodicBoundary.cpp
+1521715231 source:/home/mmb/code/IBLBM/src/boundary/PeriodicBoundary.cpp
 	"PeriodicBoundary.hpp"
 	<cassert>
 	<stdexcept>
 	"IblbmEnum.hpp"
 
-1521622315 /home/mmb/code/IBLBM/src/boundary/PeriodicBoundary.hpp
+1521714636 /home/mmb/code/IBLBM/src/boundary/PeriodicBoundary.hpp
 	"AbstractBoundaryCondition.hpp"
 	"AbstractCollisionModel.hpp"
 	"IblbmEnum.hpp"
@@ -681,15 +682,75 @@
 	"Lattice2D.hpp"
 	"UnitTest++.h"
 
-1521625446 source:/home/mmb/code/IBLBM/unittests/TestPeriodicBoundary.cpp
+1521699883 source:/home/mmb/code/IBLBM/unittests/TestPeriodicBoundary.cpp
 	"CollisionNsf.hpp"
 	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
 	"PeriodicBoundary.hpp"
+	"Stream2D.hpp"
 	"UnitTest++.h"
 
-1521626287 source:/home/mmb/code/IBLBM/src/utility/IblbmEnum.cpp
+1521717787 source:/home/mmb/code/IBLBM/src/utility/IblbmEnum.cpp
 	"IblbmEnum.hpp"
 	<iostream>
 	<stdexcept>
+
+1521717673 source:/home/mmb/code/IBLBM/src/lbm/LatticeBoltzmannMethod.cpp
+	"LatticeBoltzmannMethod.hpp"
+	"AbstractCollisionModel.hpp"
+	"AbstractLatticeModel.hpp"
+	"AbstractStreamModel.hpp"
+
+1521717598 /home/mmb/code/IBLBM/src/lbm/LatticeBoltzmannMethod.hpp
+	"AbstractBoundaryCondition.hpp"
+	"AbstractCollisionModel.hpp"
+	"AbstractLatticeModel.hpp"
+	"AbstractStreamModel.hpp"
+
+1521697488 source:/home/mmb/code/IBLBM/unittests/TestLatticeBoltzmannMethod.cpp
+	<iostream>
+	<vector>
+	"CollisionNsf.hpp"
+	"Lattice2D.hpp"
+	"LatticeBoltzmannMethod.hpp"
+	"Stream2D.hpp"
+	"UnitTest++.h"
+
+1521696913 source:/home/mmb/code/IBLBM/unittests/TestIblbmUtilities.cpp
+	<algorithm>
+	<chrono>
+	<numeric>
+	"IblbmUtilities.hpp"
+	"UnitTest++.h"
+
+1481181937 /usr/include/boost/numeric
+
+1481181937 /usr/include/boost/exception
+
+1481181937 /usr/include/boost/algorithm
+
+1481181937 /usr/include/boost/chrono
+
+1521711537 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
+	<vector>
+	"BounceBackBoundary.hpp"
+	"CollisionNsf.hpp"
+	"DataWriter.hpp"
+	"Lattice2D.hpp"
+	"LatticeBoltzmannMethod.hpp"
+	"PeriodicBoundary.hpp"
+	"Stream2D.hpp"
+	"UnitTest++.h"
+
+1521716969 source:/home/mmb/code/IBLBM/src/io/DataWriter.cpp
+	"DataWriter.hpp"
+	<boost/filesystem.hpp>
+	<boost/filesystem/fstream.hpp>
+	<iostream>
+
+1521716817 /home/mmb/code/IBLBM/src/io/DataWriter.hpp
+	<boost/filesystem.hpp>
+	"AbstractCollisionModel.hpp"
+	"AbstractLatticeModel.hpp"
+	"LatticeBoltzmannMethod.hpp"
 

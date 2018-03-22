@@ -7,68 +7,77 @@
 namespace iblbm
 {
 AbstractCollisionModel::AbstractCollisionModel(
-    AbstractLatticeModel& r_lm
-  , double initial_density)
-  : r_lm_(r_lm),
-    tau_(1.0),
-    weight_(r_lm_.rGetWeight()),
-    e_(r_lm_.rGetDiscreteVelocity())
+    AbstractLatticeModel& rLatticeModel
+  , double initialDensity)
+  : mrLatticeModel(rLatticeModel),
+    mTau(1.0)
 {
-  auto c = r_lm_.GetPropagationSpeed();
-  cs_sqr_ = c * c / 3.0;
-  auto num_nodes = r_lm_.GetNumberOfNodes();
-  auto num_directions = r_lm_.GetNumberOfDirections();
-  is_skip_.assign(num_nodes, false);
+  auto c = mrLatticeModel.GetPropagationSpeed();
+  mCsSqr = c * c / 3.0;
+  auto num_nodes = mrLatticeModel.GetNumberOfNodes();
+  auto num_directions = mrLatticeModel.GetNumberOfDirections();
+  mIsSkip.assign(num_nodes, false);
   // Initialize all equilibrium distribution functions with zero
-  edf_.assign(num_nodes, std::vector<double>(num_directions, 0.0));
-  AbstractCollisionModel::SetDensity(initial_density);
+  mEDF.assign(num_nodes, std::vector<double>(num_directions, 0.0));
+  AbstractCollisionModel::SetDensity(initialDensity);
 }
 
 void AbstractCollisionModel::ComputeEquilibriumDistribution()
 {
-  const auto nc = r_lm_.GetNumberOfDirections();
-  const auto num_nodes = r_lm_.GetNumberOfNodes();
-  const auto r_u = r_lm_.rGetVelocity();
+  const auto nc = mrLatticeModel.GetNumberOfDirections();
+  const auto num_nodes = mrLatticeModel.GetNumberOfNodes();
+  const auto r_e = mrLatticeModel.rGetDiscreteVelocity();
+  const auto r_u = mrLatticeModel.rGetVelocity();
+  const auto r_weight = mrLatticeModel.rGetWeight();
   for (auto n = 0u; n < num_nodes; ++n) {
-    const auto u_sqr = util::InnerProduct(r_u[n], r_u[n]) / 2.0 / cs_sqr_;
+    const auto u_sqr = util::InnerProduct(r_u[n], r_u[n]) / 2.0 / mCsSqr;
     for (auto i = 0u; i < nc; ++i) {
-      auto c_dot_u = util::InnerProduct(e_[i], r_u[n]) / cs_sqr_;
-      edf_[n][i] = rho_[n] * weight_[i] * (1.0 + c_dot_u * (1.0 + c_dot_u) -
-          u_sqr);
+      auto e_dot_u = util::InnerProduct(r_e[i], r_u[n]) / mCsSqr;
+      mEDF[n][i] = mRho[n] * r_weight[i] * (1.0 + e_dot_u * (1.0 + e_dot_u /
+          2.0) - u_sqr);
     }
   }
 }
 
+std::vector<double> AbstractCollisionModel::ComputeRho(
+    const std::vector<std::vector<double>>& rDF)
+{
+  std::vector<double> result;
+  for (auto n = 0u; n < rDF.size(); ++n)
+      result.push_back(util::GetZerothMoment(rDF[n]));
+  return result;
+}
+
 void AbstractCollisionModel::AddNodeToSkip(std::size_t n)
 {
-  is_skip_[n] = true;
+  mIsSkip[n] = true;
 }
 
 const std::vector<double>& AbstractCollisionModel::rGetDensity() const
 {
-  return rho_;
+  return mRho;
 }
 
 const std::vector<bool>& AbstractCollisionModel::rGetIsSkip() const
 {
-  return is_skip_;
+  return mIsSkip;
 }
 
 const std::vector<std::vector<double>>& AbstractCollisionModel::
     rGetEquilibriumDistribution() const
 {
-  return edf_;
+  return mEDF;
 }
 
-void AbstractCollisionModel::SetRelaxationTime(double tau)
+void AbstractCollisionModel::SetRelaxationTime(double relaxationTime)
 {
-  tau_ = tau;
+  mTau = relaxationTime;
 }
 
-void AbstractCollisionModel::SetDensity(double initial_density)
+void AbstractCollisionModel::SetDensity(double initialDensity)
 {
-  auto num_nodes = r_lm_.GetNumberOfNodes();
-  rho_.assign(num_nodes, initial_density);
+  auto num_nodes = mrLatticeModel.GetNumberOfNodes();
+  mRho.assign(num_nodes, initialDensity);
   AbstractCollisionModel::ComputeEquilibriumDistribution();
 }
 }

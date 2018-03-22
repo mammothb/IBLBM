@@ -6,54 +6,25 @@
 int main()
 {
   std::vector<std::string> functionality_suites = {
-      "TestBouncebackNodes"
-    , "TestCollisionCD"
-    , "TestCollisionNS"
-    , "TestCollisionNSF"
-    , "TestConcentrationBoundaryNodes"
-    , "TestConvectiveOutflowNodes"
-    , "TestExceptions"
-    , "TestImmersedBoundary"
-    , "TestLatticeBoltzmann"
-    , "TestLatticeD2Q9"
-    , "TestMatrixOperations"
-    , "TestNonEquilibriumExtrapolationNodes"
-    , "TestNonEquilibriumExtrapolationPressureNodes"
-    , "TestParticleRigid"
-    , "TestPeriodicNodes"
-    , "TestStreamD2Q9"
-    , "TestStreamPeriodic"
-    , "TestZouHeNodes"
-    , "TestZouHePressureNodes"};
+      "TestBoundaryCondition",
+      "TestCollisionModel",
+      "TestLatticeBoltzmannMethod",
+      "TestLatticeModel",
+      "TestStreamModel",
+      "TestUtilities"};
 
-  return iblbm::RunAllTheTests();
+//  return iblbm::RunAllTheTests();
 
   /// Run multiple suites
-//  return iblbm::RunMultipleSuites(functionality_suites);
-//  return iblbm::RunOneTest("ParticleRigid_GrowPlaque_BelowThreshold");
+  return iblbm::RunMultipleSuites(functionality_suites);
 
   /// Run single suite
-//  return iblbm::RunOneSuite("TestAnalyticalSolutions");
-//  return iblbm::RunOneSuite("TestBouncebackNodes");
-//  return iblbm::RunOneSuite("TestCollisionCD");
-//  return iblbm::RunOneSuite("TestCollisionNS");
-//  return iblbm::RunOneSuite("TestCollisionNSF");
-//  return iblbm::RunOneSuite("TestConcentrationBoundaryNodes");
-//  return iblbm::RunOneSuite("TestConvectiveOutflowNodes");
-//  return iblbm::RunOneSuite("TestExceptions");
-//  return iblbm::RunOneSuite("TestImmersedBoundary");
-//  return iblbm::RunOneSuite("TestLatticeBoltzmann");
-//  return iblbm::RunOneSuite("TestLatticeD2Q9");
-//  return iblbm::RunOneSuite("TestMatrixOperations");
-//  return iblbm::RunOneSuite("TestNonEquilibriumExtrapolationNodes");
-//  return iblbm::RunOneSuite("TestNonEquilibriumExtrapolationPressureNodes");
-//  return iblbm::RunOneSuite("TestParticleRigid");
-//  return iblbm::RunOneSuite("TestPeriodicNodes");
-//  return iblbm::RunOneSuite("TestSteadyState");
-//  return iblbm::RunOneSuite("TestStreamD2Q9");
-//  return iblbm::RunOneSuite("TestStreamPeriodic");
-//  return iblbm::RunOneSuite("TestZouHeNodes");
-//  return iblbm::RunOneSuite("TestZouHePressureNodes");
+//  return iblbm::RunOneSuite("TestBoundaryCondition");
+//  return iblbm::RunOneSuite("TestCollisionModel");
+//  return iblbm::RunOneSuite("TestLatticeBoltzmannMethod");
+//  return iblbm::RunOneSuite("TestLatticeModel");
+//  return iblbm::RunOneSuite("TestStreamModel");
+//  return iblbm::RunOneSuite("TestUtilities");
 
   /// Analytical solutions
 //  return iblbm::RunOneTest("AnalyticalDiffusion_PointSource");
@@ -68,7 +39,7 @@ int main()
 //  return iblbm::RunOneTest("AnalyticalWomersleyFlow");
 
   /// Simulations
-//  return iblbm::RunOneTest("SimulatePoiseuilleFlow");
+//  return iblbm::RunOneTest("SimulatePoiseuilleFlow_BodyForce_FullwayBounceBack");
 
   /// Individual tests
 

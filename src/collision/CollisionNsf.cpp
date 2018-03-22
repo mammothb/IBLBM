@@ -7,34 +7,61 @@
 namespace iblbm
 {
 CollisionNsf::CollisionNsf(
-    AbstractLatticeModel& r_lm
-  , double initial_density)
-  : AbstractCollisionModel(r_lm, initial_density)
+    AbstractLatticeModel& rLatticeModel
+  , double initialDensity)
+  : AbstractCollisionModel(rLatticeModel, initialDensity)
 {
-  const auto nd = r_lm_.GetNumberOfDimensions();
+  const auto nd = mrLatticeModel.GetNumberOfDimensions();
   CollisionNsf::SetForce(std::vector<double>(nd, 0.0));
 }
 
-void CollisionNsf::Collide(std::vector<std::vector<double>>& r_df)
+void CollisionNsf::Collide(std::vector<std::vector<double>>& rDF)
 {
-  const auto nc = r_lm_.GetNumberOfDirections();
-  const auto num_nodes = r_lm_.GetNumberOfNodes();
-  const auto r_u = r_lm_.rGetVelocity();
+  const auto nc = mrLatticeModel.GetNumberOfDirections();
+  const auto num_nodes = mrLatticeModel.GetNumberOfNodes();
+  const auto r_e = mrLatticeModel.rGetDiscreteVelocity();
+  const auto r_u = mrLatticeModel.rGetVelocity();
+  const auto r_weight = mrLatticeModel.rGetWeight();
   for (auto n = 0u; n < num_nodes; ++n) {
-    for (auto i = 0u; i < nc; ++i) {
-      const auto c_dot_u = util::InnerProduct(e_[i], r_u[n]) / cs_sqr_;
-      std::vector<double> src_dot_product = {
-          (e_[i][0] - r_u[n][0] + c_dot_u * e_[i][0]) / cs_sqr_,
-          (e_[i][1] - r_u[n][1] + c_dot_u * e_[i][1]) / cs_sqr_};
-      const auto src_i = (1.0 - 0.5 / tau_) * weight_[i] *
-          util::InnerProduct(src_dot_product, force_[n]);
-      r_df[n][i] += (edf_[n][i] - r_df[n][i]) / tau_ + src_i;
+    if (!mIsSkip[n]) {
+      for (auto i = 0u; i < nc; ++i) {
+        const auto e_dot_u = util::InnerProduct(r_e[i], r_u[n]) / mCsSqr;
+        std::vector<double> src_dot_product = {
+            (r_e[i][0] - r_u[n][0] + e_dot_u * r_e[i][0]) / mCsSqr,
+            (r_e[i][1] - r_u[n][1] + e_dot_u * r_e[i][1]) / mCsSqr};
+        const auto src_i = (1.0 - 0.5 / mTau) * r_weight[i] *
+            util::InnerProduct(src_dot_product, mForce[n]);
+        rDF[n][i] += (mEDF[n][i] - rDF[n][i]) / mTau + src_i;
+      }
     }
   }
 }
 
-void CollisionNsf::SetForce(const std::vector<double>& r_initial_force)
+void CollisionNsf::ComputeMacroscopicProperties(
+    const std::vector<std::vector<double>>& rDF)
 {
-  force_.assign(r_lm_.GetNumberOfNodes(), r_initial_force);
+  mRho = CollisionNsf::ComputeRho(rDF);
+  mrLatticeModel.SetVelocity(CollisionNsf::ComputeVelocity(rDF));
+}
+
+std::vector<std::vector<double>> CollisionNsf::ComputeVelocity(
+    const std::vector<std::vector<double>>& rDF)
+{
+  const auto num_nodes = mrLatticeModel.GetNumberOfNodes();
+  const auto r_e = mrLatticeModel.rGetDiscreteVelocity();
+  std::vector<std::vector<double>> velocities;
+  for (auto n = 0u; n < num_nodes; ++n) {
+    velocities.push_back(util::GetFirstMoment(rDF[n], r_e));
+    velocities[n][0] += 0.5 * mForce[n][0];
+    velocities[n][0] /= mRho[n];
+    velocities[n][1] += 0.5 * mForce[n][1];
+    velocities[n][1] /= mRho[n];
+  }  // n
+  return velocities;
+}
+
+void CollisionNsf::SetForce(const std::vector<double>& rInitialForce)
+{
+  mForce.assign(mrLatticeModel.GetNumberOfNodes(), rInitialForce);
 }
 }  // namespace iblbm

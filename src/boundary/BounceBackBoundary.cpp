@@ -9,34 +9,34 @@
 namespace iblbm
 {
 BounceBackBoundary::BounceBackBoundary(
-    AbstractLatticeModel& r_lm
-  , AbstractCollisionModel* p_cm/*=nullptr*/)
+    AbstractLatticeModel& rLatticeModel
+  , AbstractCollisionModel* pCollisionModel/*=nullptr*/)
   : AbstractBoundaryCondition(/*is_before_stream=*/true,
-        /*is_during_stream=*/!p_cm, r_lm),
-    p_cm_(p_cm)
+        /*is_during_stream=*/!pCollisionModel, rLatticeModel),
+    mpCollisionModel(pCollisionModel)
 {}
 
 void BounceBackBoundary::UpdateNodes(
-    std::vector<std::vector<double>>& r_df
-  , bool is_modify_stream)
+    std::vector<std::vector<double>>& rDF
+  , bool isModifyStream)
 {
-  if (is_modify_stream) {
+  if (isModifyStream) {
     ;
   }
   else {
-    if (p_cm_) {
+    if (mpCollisionModel) {
       // Reflect the vectors in node for fullway bounce back node
-      for (auto node : nodes_) {
-        const auto n = node.n;
-        const auto node_df = r_df[n];
-        r_df[n][E] = node_df[W];
-        r_df[n][N] = node_df[S];
-        r_df[n][W] = node_df[E];
-        r_df[n][S] = node_df[N];
-        r_df[n][NE] = node_df[SW];
-        r_df[n][NW] = node_df[SE];
-        r_df[n][SW] = node_df[NE];
-        r_df[n][SE] = node_df[NW];
+      for (auto node : mNodes) {
+        const auto n = node.mIndex;
+        const auto node_df = rDF[n];
+        rDF[n][E] = node_df[W];
+        rDF[n][N] = node_df[S];
+        rDF[n][W] = node_df[E];
+        rDF[n][S] = node_df[N];
+        rDF[n][NE] = node_df[SW];
+        rDF[n][NW] = node_df[SE];
+        rDF[n][SW] = node_df[NE];
+        rDF[n][SE] = node_df[NW];
       }
     }
     else {
@@ -49,14 +49,14 @@ void BounceBackBoundary::AddNode(
     std::size_t x
   , std::size_t y)
 {
-  const auto nx = r_lm_.GetNx();
+  const auto nx = mrLatticeModel.GetNx();
   const auto n = y * nx + x;
-  nodes_.push_back(Node(n));
-  if (p_cm_) p_cm_->AddNodeToSkip(n);
+  mNodes.push_back(Node(n));
+  if (mpCollisionModel) mpCollisionModel->AddNodeToSkip(n);
 }
 
 const std::vector<Node>& BounceBackBoundary::rGetNodes() const
 {
-  return nodes_;
+  return mNodes;
 }
 }  // namespace iblbm
