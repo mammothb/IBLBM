@@ -2,6 +2,8 @@
 #define SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
 
 #include <algorithm>
+#include <gsl/gsl>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -10,6 +12,77 @@
 
 namespace iblbm
 {
+namespace testutil
+{
+/**
+ * Compares two vectors of doubles and ensures that their elementwise values
+ * are within delta-% apart
+ *
+ * @param rActualVector First vector
+ * @param rExpectedVector Second vector
+ * @param delta Maximum percentage by which elements in the vectors can be
+ *        different
+ *
+ * @return TRUE if all elements in the vectors are within delta=% from each
+ *         other
+ *         FALSE if vectors are of different length or if the elements are
+ *         not within delta-% apart
+ */
+template <typename VECTOR>
+bool CheckCloseVector(
+    const VECTOR& rActualVector
+  , const VECTOR& rExpectedVector
+  , double delta)
+{
+  // Check that the two array are of equal length
+  auto ret = rActualVector.size() == rExpectedVector.size();
+  if (ret) {
+    for (gsl::index i = 0; i < rExpectedVector.size(); ++i) {
+      ret = ret && std::abs(rActualVector[i] - rExpectedVector[i]) <=
+          std::abs(rExpectedVector[i]) * delta;
+      if (!ret) break;
+    }
+  }
+  else {
+    std::cout << "Vectors have different size!" << std::endl;
+  }
+  return ret;
+}
+
+/**
+ * Compares two vectors of doubles and ensures that their elementwise values
+ * are within delta-% apart
+ *
+ * @param rActualVector First vector
+ * @param rExpectedVector Second vector
+ * @param delta Maximum percentage by which elements in the vectors can be
+ *        different
+ *
+ * @return TRUE if all elements in the vectors are within delta=% from each
+ *         other
+ *         FALSE if vectors are of different length or if the elements are
+ *         not within delta-% apart
+ */
+template <typename VECTOR>
+bool CheckEqualVector(
+    const VECTOR& rActualVector
+  , const VECTOR& rExpectedVector)
+{
+  // Check that the two array are of equal length
+  auto ret = rActualVector.size() == rExpectedVector.size();
+  if (ret) {
+    for (gsl::index i = 0; i < rExpectedVector.size(); ++i) {
+      ret = ret && rActualVector[i] == rExpectedVector[i];
+      if (!ret) break;
+    }
+  }
+  else {
+    std::cout << "Vectors have different size!" << std::endl;
+  }
+  return ret;
+}
+}  // namespace testutil
+
 /**
  * \brief Runs all the tests it finds in the project.
  *        It calls RunAllTests() within UnitTests++
@@ -38,20 +111,18 @@ inline int RunAllTheTests()
  * Intended use (assuming you have TEST(name_of_my_test) among your tests):
  *   int return_code = RunOneTest("name_of_my_test");
  *
- * \param TestName the name of the test you wish to run
+ * \param rTestName the name of the test you wish to run
  *
  * \return the return code of UnitTest::RunTestsIf()
  */
-inline int RunOneTest(std::string TestName)
+inline int RunOneTest(const std::string& rTestName)
 {
   const UnitTest::TestList& allTests(UnitTest::Test::GetTestList());
   UnitTest::TestList selectedTests;
   UnitTest::Test* p = allTests.GetHead();
 
   while (p) {
-    if (p->m_details.testName == TestName) {
-      selectedTests.Add(p);
-    }
+    if (p->m_details.testName == rTestName) selectedTests.Add(p);
     UnitTest::Test* q = p;
     p = p->m_nextTest;
     q->m_nextTest = nullptr;
@@ -72,20 +143,18 @@ inline int RunOneTest(std::string TestName)
  * Intended use:
  *   int return_code = RunOneSuite("name_of_my_suite");
  *
- * \param SuiteName the name of the suite you wish to run
+ * \param rSuiteName the name of the suite you wish to run
  *
  * \return the return code of UnitTest::RunTestsIf()
  */
-inline int RunOneSuite(std::string SuiteName)
+inline int RunOneSuite(const std::string& rSuiteName)
 {
   const UnitTest::TestList& allTests(UnitTest::Test::GetTestList());
   UnitTest::TestList selectedTests;
   UnitTest::Test* p = allTests.GetHead();
 
   while (p) {
-    if (p->m_details.suiteName == SuiteName) {
-      selectedTests.Add(p);
-    }
+    if (p->m_details.suiteName == rSuiteName) selectedTests.Add(p);
     UnitTest::Test* q = p;
     p = p->m_nextTest;
     q->m_nextTest = nullptr;
@@ -107,22 +176,21 @@ inline int RunOneSuite(std::string SuiteName)
  * Intended use (assuming you have TEST(name_of_my_test) among your tests):
  *   int return_code = RunOneTest(name_of_my_tests);
  *
- * \param TestName A vector containing the names of the tests you wish to run
+ * \param rTestNames A vector containing the names of the tests you wish to
+ *        run
  *
  * \return the return code of UnitTest::RunTestsIf()
  */
-inline int RunMultipleTests(std::vector<std::string> test_names)
+inline int RunMultipleTests(const std::vector<std::string>& rTestNames)
 {
   const UnitTest::TestList& allTests(UnitTest::Test::GetTestList());
   UnitTest::TestList selectedTests;
   UnitTest::Test* p = allTests.GetHead();
 
   while (p) {
-    auto is_desired_test = std::find(begin(test_names), end(test_names),
-        p->m_details.testName) != end(test_names);
-    if (is_desired_test) {
-      selectedTests.Add(p);
-    }
+    auto is_desired_test = std::find(begin(rTestNames), end(rTestNames),
+        p->m_details.testName) != end(rTestNames);
+    if (is_desired_test) selectedTests.Add(p);
     UnitTest::Test* q = p;
     p = p->m_nextTest;
     q->m_nextTest = nullptr;
@@ -144,22 +212,20 @@ inline int RunMultipleTests(std::vector<std::string> test_names)
  * Intended use:
  *   int return_code = RunMultipleSuites(names_of_my_suites);
  *
- * \param suite_names The names of the suites you wish to run
+ * \param rSuiteNames The names of the suites you wish to run
  *
  * \return the return code of UnitTest::RunTestsIf()
  */
-inline int RunMultipleSuites(std::vector<std::string> suite_names)
+inline int RunMultipleSuites(const std::vector<std::string>& rSuiteNames)
 {
   const UnitTest::TestList& allTests(UnitTest::Test::GetTestList());
   UnitTest::TestList selectedTests;
   UnitTest::Test* p = allTests.GetHead();
 
   while (p) {
-    auto is_desired_suite = std::find(begin(suite_names), end(suite_names),
-        p->m_details.suiteName) != end(suite_names);
-    if (is_desired_suite) {
-      selectedTests.Add(p);
-    }
+    auto is_desired_suite = std::find(begin(rSuiteNames), end(rSuiteNames),
+        p->m_details.suiteName) != end(rSuiteNames);
+    if (is_desired_suite) selectedTests.Add(p);
     UnitTest::Test* q = p;
     p = p->m_nextTest;
     q->m_nextTest = nullptr;

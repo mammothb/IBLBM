@@ -1,8 +1,8 @@
 #include "CollisionNsf.hpp"
-#include "IblbmUtilities.hpp"
 #include "Lattice2D.hpp"
 #include "PeriodicBoundary.hpp"
 #include "Stream2D.hpp"
+#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++.h"
 
 namespace iblbm
@@ -61,7 +61,7 @@ TEST(TestPeriodicBoundary_HorizontalStreaming)
   periodic.UpdateNodes(df, g_is_modify_stream);
 
   for (auto n = 0u; n < df.size(); ++n)
-      CHECK(util::CheckCloseVector(df[n], results[n % 2], g_zero_tol));
+      CHECK(testutil::CheckCloseVector(df[n], results[n % 2], g_zero_tol));
 }
 
 TEST(TestPeriodicBoundary_VerticalStreaming)
@@ -94,7 +94,7 @@ TEST(TestPeriodicBoundary_VerticalStreaming)
   periodic.UpdateNodes(df, g_is_modify_stream);
 
   for (auto n = 0u; n < df.size(); ++n) {
-    CHECK(util::CheckCloseVector(df[n], results[(n / g_nx) % 2],
+    CHECK(testutil::CheckCloseVector(df[n], results[(n / g_nx) % 2],
         g_zero_tol));
   }
 }

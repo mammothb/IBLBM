@@ -3,6 +3,7 @@
 #include <numeric>
 
 #include "IblbmUtilities.hpp"
+#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++.h"
 
 namespace iblbm
@@ -46,8 +47,8 @@ TEST(TestIblbmUtilites_GetFirstMoment)
         result[d] += vec_1[i] * vec_2[i][d];
   }
 
-  CHECK(util::CheckCloseVector(util::GetFirstMoment(vec_1, vec_2), result,
-      g_loose_tol));
+  CHECK(testutil::CheckCloseVector(util::GetFirstMoment(vec_1, vec_2),
+      result, g_loose_tol));
 }
 }
 }

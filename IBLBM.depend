@@ -362,7 +362,7 @@
 	<vector>
 	"IblbmEnum.hpp"
 
-1521718010 /home/mmb/code/IBLBM/src/utility/IblbmUtilities.hpp
+1521778116 /home/mmb/code/IBLBM/src/utility/IblbmUtilities.hpp
 	<iomanip>
 	<iostream>
 	<numeric>
@@ -380,7 +380,7 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1521716435 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1521796792 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++.h"
@@ -524,8 +524,10 @@
 1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssert.h
 	"HelperMacros.h"
 
-1521539597 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
+1521778392 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
 	<algorithm>
+	<gsl/gsl>
+	<iostream>
 	<string>
 	<vector>
 	"UnitTest++.h"
@@ -593,7 +595,7 @@
 	"AbstractCollisionModel.hpp"
 	"AbstractLatticeModel.hpp"
 
-1521713005 source:/home/mmb/code/IBLBM/unittests/TestCollisionNsf.cpp
+1521778139 source:/home/mmb/code/IBLBM/unittests/TestCollisionNsf.cpp
 	<iostream>
 	<vector>
 	"CollisionNsf.hpp"
@@ -619,12 +621,12 @@
 1521717777 /home/mmb/code/IBLBM/src/utility/IblbmEnum.hpp
 	<iostream>
 
-1521699830 source:/home/mmb/code/IBLBM/unittests/TestStream2D.cpp
+1521778188 source:/home/mmb/code/IBLBM/unittests/TestStream2D.cpp
 	<chrono>
 	"IblbmEnum.hpp"
-	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
 	"Stream2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
 1521599932 source:/home/mmb/code/IBLBM/src/boundary/AbstractBoundaryNode.cpp
@@ -657,11 +659,11 @@
 
 1521714528 /home/mmb/code/IBLBM/src/boundary/Node.hpp
 
-1521715244 source:/home/mmb/code/IBLBM/unittests/TestBounceBackBoundary.cpp
+1521778108 source:/home/mmb/code/IBLBM/unittests/TestBounceBackBoundary.cpp
 	"BounceBackBoundary.hpp"
 	"CollisionNsf.hpp"
-	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
 1521715231 source:/home/mmb/code/IBLBM/src/boundary/PeriodicBoundary.cpp
@@ -676,21 +678,21 @@
 	"IblbmEnum.hpp"
 	"Node.hpp"
 
-1521626552 source:/home/mmb/code/IBLBM/unittests/TestLattice2D.cpp
+1521778166 source:/home/mmb/code/IBLBM/unittests/TestLattice2D.cpp
 	<iostream>
-	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
-1521699883 source:/home/mmb/code/IBLBM/unittests/TestPeriodicBoundary.cpp
+1521778182 source:/home/mmb/code/IBLBM/unittests/TestPeriodicBoundary.cpp
 	"CollisionNsf.hpp"
-	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
 	"PeriodicBoundary.hpp"
 	"Stream2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
-1521717787 source:/home/mmb/code/IBLBM/src/utility/IblbmEnum.cpp
+1521780315 source:/home/mmb/code/IBLBM/src/utility/IblbmEnum.cpp
 	"IblbmEnum.hpp"
 	<iostream>
 	<stdexcept>
@@ -716,11 +718,12 @@
 	"Stream2D.hpp"
 	"UnitTest++.h"
 
-1521696913 source:/home/mmb/code/IBLBM/unittests/TestIblbmUtilities.cpp
+1521778146 source:/home/mmb/code/IBLBM/unittests/TestIblbmUtilities.cpp
 	<algorithm>
 	<chrono>
 	<numeric>
 	"IblbmUtilities.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
 1481181937 /usr/include/boost/numeric
@@ -753,4 +756,192 @@
 	"AbstractCollisionModel.hpp"
 	"AbstractLatticeModel.hpp"
 	"LatticeBoltzmannMethod.hpp"
+
+1521782070 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
+	"Descriptor.hpp"
+
+1521798477 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
+	<cstddef>
+	<gsl/gsl>
+	<stdexcept>
+	<vector>
+	"Descriptor.ipp"
+
+1521780361 /home/mmb/code/IBLBM/src/dynamics/Descriptor.ipp
+
+1521784174 source:/home/mmb/code/IBLBM/unittests/TestDescriptor.cpp
+	<gsl/gsl>
+	<iostream>
+	"Descriptor.hpp"
+	"IblbmUtilities.hpp"
+	"UnitTestCustomUtilities.hpp"
+	"UnitTest++.h"
+
+1521774544 source:/home/mmb/code/IBLBM/src/dynamics/latticeDescriptors.cpp
+	"latticeDescriptors.h"
+
+1521774538 /home/mmb/code/IBLBM/src/dynamics/latticeDescriptors.h
+	<vector>
+	"latticeDescriptors.hh"
+
+1518784608 /home/mmb/code/IBLBM/src/dynamics/latticeDescriptors.hh
+	"latticeDescriptors.h"
+
+1521776938 /home/mmb/code/IBLBM/thirdparty/gsl/gsl
+	<gsl/gsl_algorithm>
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<gsl/multi_span>
+	<gsl/pointers>
+	<gsl/span>
+	<gsl/string_span>
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_algorithm
+	<gsl/gsl_assert>
+	<gsl/span>
+	<algorithm>
+	<cstddef>
+	<type_traits>
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_assert
+	<exception>
+	<stdexcept>
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/span
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<algorithm>
+	<array>
+	<cstddef>
+	<iterator>
+	<limits>
+	<stdexcept>
+	<type_traits>
+	<utility>
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_byte
+	<type_traits>
+	<cstddef>
+
+1481181937 /usr/include/boost/type_traits
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_util
+	<gsl/gsl_assert>
+	<array>
+	<cstddef>
+	<exception>
+	<initializer_list>
+	<type_traits>
+	<utility>
+
+1481181937 /usr/include/boost/utility
+
+1481181937 /usr/include/boost/iterator
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/multi_span
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<algorithm>
+	<array>
+	<cassert>
+	<cstddef>
+	<cstdint>
+	<functional>
+	<initializer_list>
+	<iterator>
+	<limits>
+	<new>
+	<numeric>
+	<stdexcept>
+	<string>
+	<type_traits>
+	<utility>
+
+1481181937 /usr/include/boost/functional
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/pointers
+	<gsl/gsl_assert>
+	<algorithm>
+	<iosfwd>
+	<memory>
+	<system_error>
+	<type_traits>
+
+1521776565 /home/mmb/code/IBLBM/thirdparty/gsl/string_span
+	<gsl/gsl_assert>
+	<gsl/gsl_util>
+	<gsl/span>
+	<algorithm>
+	<array>
+	<cstddef>
+	<cstdint>
+	<cstring>
+	<string>
+	<type_traits>
+
+1521788480 source:/home/mmb/code/IBLBM/src/core/UnitConverter.cpp
+	"Descriptor.hpp"
+	"UnitConverter.hpp"
+
+1521794035 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
+
+1521789040 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+	"Descriptor.hpp"
+	"UnitConverter.hpp"
+	"UnitTest++.h"
+
+1521796203 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
+	"Cell.hpp"
+
+1521801266 /home/mmb/code/IBLBM/src/core/Cell.hpp
+	<gsl/gsl>
+	<vector>
+	"Descriptor.hpp"
+	"AbstractDynamicsInterface.hpp"
+	"Cell.ipp"
+
+1521801552 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
+	"Cell.hpp"
+	"Descriptor.hpp"
+
+1521799194 /home/mmb/code/IBLBM/src/core/Cell.ipp
+
+1521801365 source:/home/mmb/code/IBLBM/unittests/TestCell.cpp
+	<iostream>
+	"AbstractDynamics.hpp"
+	"Cell.hpp"
+	"UnitTest++.h"
+
+1521801455 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.cpp
+	"AbstractDynamics.hpp"
+
+1521801595 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.hpp
+	"AbstractDynamicsInterface.hpp"
+	"AbstractMomentaInterface.hpp"
+	"AbstractDynamics.ipp"
+
+1521801970 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.hpp
+	"Cell.hpp"
+
+1521801333 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.ipp
+
+1521800847 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.cpp
+	"AbstractDynamicsInterface.hpp"
+
+1521801957 source:/home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.cpp
+	"AbstractMomentaInterface.hpp"
+	"Descriptor.hpp"
+
+1521801946 source:/home/mmb/code/IBLBM/src/dynamics/BulkMomenta.cpp
+	"BulkMomenta.hpp"
+	"Descriptor.hpp"
+
+1521802051 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.hpp
+	"AbstractMomentaInterface.hpp"
+	"BulkMomenta.ipp"
+
+1521801880 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.ipp
 

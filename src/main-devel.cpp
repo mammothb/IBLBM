@@ -8,6 +8,8 @@ int main()
   std::vector<std::string> functionality_suites = {
       "TestBoundaryCondition",
       "TestCollisionModel",
+      "TestCore",
+      "TestDynamics",
       "TestLatticeBoltzmannMethod",
       "TestLatticeModel",
       "TestStreamModel",

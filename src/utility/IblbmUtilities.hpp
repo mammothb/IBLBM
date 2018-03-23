@@ -209,41 +209,6 @@ void Print(
     }
   }
 }
-
-/**
- * Compares two vectors of doubles and ensures that their elementwise values
- * are within delta-% apart
- *
- * @param rActualVector First vector
- * @param rExpectedVector Second vector
- * @param delta Maximum percentage by which elements in the vectors can be
- *        different
- *
- * @return TRUE if all elements in the vectors are within delta=% from each
- *         other
- *         FALSE if vectors are of different length or if the elements are
- *         not within delta-% apart
- */
-template <typename VECTOR>
-bool CheckCloseVector(
-    const VECTOR& rActualVector
-  , const VECTOR& rExpectedVector
-  , double delta)
-{
-  // Check that the two array are of equal length
-  auto ret = rActualVector.size() == rExpectedVector.size();
-  if (ret) {
-    for (auto i = 0u; i < rExpectedVector.size(); ++i) {
-      ret = ret && std::abs(rActualVector[i] - rExpectedVector[i]) <=
-          std::abs(rExpectedVector[i]) * delta;
-      if (!ret) break;
-    }
-  }
-  else {
-    std::cout << "Vectors have different size!" << std::endl;
-  }
-  return ret;
-}
 }  // namespace util
 }  // namespace iblbm
 #endif  // SRC_UTILITY_IBLBMUTILITIES_HPP_

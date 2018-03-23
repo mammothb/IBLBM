@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "IblbmUtilities.hpp"
 #include "Lattice2D.hpp"
+#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++.h"
 
 namespace iblbm
@@ -29,8 +29,9 @@ TEST(TestLattice2D_Constructor)
   CHECK_EQUAL(g_ny, lattice.GetNy());
   CHECK_EQUAL(g_nx * g_ny, lattice.GetNumberOfNodes());
   CHECK_CLOSE(1.0, lattice.GetPropagationSpeed(), 1e-6);
-  for (auto node : velocity)
-      CHECK(util::CheckCloseVector(node, g_initial_velocity, g_zero_tol));
+  for (auto node : velocity) {
+    CHECK(testutil::CheckCloseVector(node, g_initial_velocity, g_zero_tol));
+  }
 }
 
 TEST(TestLattice2D_DetermineOrientation)

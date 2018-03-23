@@ -38,5 +38,6 @@ std::ostream& operator<<(std::ostream& rOs, const Edge edge)
   default:
     throw std::runtime_error("Invalid Edge value");
   }
+  return rOs;
 }
 }  // namespace iblbm

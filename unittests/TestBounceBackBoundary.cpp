@@ -1,7 +1,7 @@
 #include "BounceBackBoundary.hpp"
 #include "CollisionNsf.hpp"
-#include "IblbmUtilities.hpp"
 #include "Lattice2D.hpp"
+#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++.h"
 
 namespace iblbm
@@ -73,10 +73,10 @@ TEST(TestBounceBackBoundary_Fullway_UpdateNodes_CollisionNsf)
     for (auto x = 0u; x < g_nx; ++x) {
       auto n = x + y * g_nx;
       if (y == 1) {
-        CHECK(util::CheckCloseVector(df[n], bounced_node, g_zero_tol));
+        CHECK(testutil::CheckCloseVector(df[n], bounced_node, g_zero_tol));
       }
       else {
-        CHECK(util::CheckCloseVector(df[n], node, g_zero_tol));
+        CHECK(testutil::CheckCloseVector(df[n], node, g_zero_tol));
       }
     }
   }

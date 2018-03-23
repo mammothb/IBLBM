@@ -1,9 +1,9 @@
 #include <chrono>
 
 #include "IblbmEnum.hpp"
-#include "IblbmUtilities.hpp"
 #include "Lattice2D.hpp"
 #include "Stream2D.hpp"
+#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++.h"
 
 namespace iblbm
@@ -40,7 +40,7 @@ TEST(TestStream2D_HorizontalStreaming)
     const auto is_upper = n / g_nx == g_ny - 1;
     // We're only concerned with stream the nodes within the walls
     if (!is_left && !is_right && !is_lower && !is_upper) {
-      CHECK(util::CheckCloseVector(df[n], results[n % 2], g_zero_tol));
+      CHECK(testutil::CheckCloseVector(df[n], results[n % 2], g_zero_tol));
     }
   }
 }
@@ -66,7 +66,7 @@ TEST(TestStream2D_VerticalStreaming)
     const auto is_upper = n / g_nx == g_ny - 1;
     // We're only concerned with stream the nodes within the walls
     if (!is_left && !is_right && !is_lower && !is_upper) {
-      CHECK(util::CheckCloseVector(df[n], results[(n / g_nx) % 2],
+      CHECK(testutil::CheckCloseVector(df[n], results[(n / g_nx) % 2],
           g_zero_tol));
     }
   }
