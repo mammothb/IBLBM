@@ -4,15 +4,16 @@
 #include <gsl/gsl>
 #include <vector>
 
-#include "Descriptor.hpp"
 #include "AbstractDynamicsInterface.hpp"
+#include "Descriptor.hpp"
+#include "IblbmDebug.hpp"
 
 namespace iblbm
 {
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
     class AbstractDynamicsInterface;
 
-template <typename T, class Descriptor>
+template<typename T, class Descriptor>
 class CellBase
 {
  public:
@@ -23,6 +24,7 @@ class CellBase
    */
   T& operator[](const gsl::index& rIndex)
   {
+    IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
   }
 
@@ -33,6 +35,7 @@ class CellBase
    */
   const T& operator[](const gsl::index& rIndex) const
   {
+    IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
   }
 
@@ -41,7 +44,7 @@ class CellBase
   std::vector<T> mDF;
 };
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 {
  public:
@@ -62,12 +65,14 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   /** \return a reference to an external field */
   T& rGetExternal(gsl::index index)
   {
+    IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
   /** \return a const reference to an external field */
   const T& rGetExternal(gsl::index index) const
   {
+    IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 

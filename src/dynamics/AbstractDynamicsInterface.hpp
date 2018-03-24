@@ -7,18 +7,21 @@
 namespace iblbm
 {
 // Forward declaration
-template <typename T, template <typename U> class Lattice> class Cell;
+template<typename T, template<typename U> class Lattice> class Cell;
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class AbstractDynamicsInterface
 {
  public:
   /** Virtual destructor to allow inheritance */
   virtual ~AbstractDynamicsInterface() = default;
 
-//  virtual void Collide(
-//      Cell<T, Lattice>& rCell
-//    , LatticeStatistics<T>& rStatistics) = 0;
+  /**
+   * Collision step
+   *
+   * \param rCell target cell
+   */
+  virtual void Collide(Cell<T, Lattice>& rCell) = 0;
 
   /**
    * Compute particle density on the cell
@@ -27,6 +30,12 @@ class AbstractDynamicsInterface
    * \return particle density
    */
   virtual T ComputeRho(const Cell<T, Lattice>& rCell) const = 0;
+
+  /**
+   * \return local relaxation parameter (inverse relaxation time) of the
+   * dynamics
+   */
+  virtual T GetOmega() const = 0;
 
 };
 }  // namespace iblbm

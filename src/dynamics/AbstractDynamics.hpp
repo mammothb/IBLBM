@@ -6,9 +6,9 @@
 
 namespace iblbm
 {// Forward declaration
-//template <typename T, template <typename U> class Lattice> class Cell;
+//template<typename T, template<typename U> class Lattice> class Cell;
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
 {
  public:

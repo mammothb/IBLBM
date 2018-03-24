@@ -10,7 +10,6 @@ template <typename T, template <typename U> class Lattice>
 T AbstractDynamics<T, Lattice>::ComputeRho(
     const Cell<T, Lattice>& rCell) const
 {
-  return 0.0;
-//  return mrMomenta.ComputeRho(rCell);
+  return mrMomenta.ComputeRho(rCell);
 }
 }  // namespace iblbm

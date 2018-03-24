@@ -89,6 +89,12 @@ class UnitConverter
     return mRelaxationTime;
   }
 
+  /** \return relaxation frequency in lattice units */
+  constexpr T GetRelaxationFrequency() const
+  {
+    return 1.0 / mRelaxationTime;
+  }
+
   /** \return characteristic length in physical units */
   constexpr T GetCharPhysLength() const
   {
