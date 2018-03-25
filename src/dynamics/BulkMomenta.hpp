@@ -2,6 +2,7 @@
 #define SRC_DYNAMICS_BULKMOMENTA_HPP_
 
 #include "AbstractMomentaInterface.hpp"
+#include "Cell.hpp"
 
 namespace iblbm
 {
@@ -28,7 +29,5 @@ class BulkMomenta : public AbstractMomentaInterface<T, Lattice>
     , std::vector<T>& rU) const override;
 };
 }  // namespace iblbm
-
-#include "BulkMomenta.ipp"
 
 #endif  // SRC_DYNAMICS_BULKMOMENTA_HPP_

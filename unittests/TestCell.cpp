@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 #include "BgkDynamics.hpp"
@@ -18,8 +19,8 @@ static const auto g_relaxation_time = 0.8;
 TEST(TestCell_Constructor_Default)
 {
   Cell<double, descriptor::D2Q9Descriptor> cell;
-  for (gsl::index i = 0; i < descriptor::D2Q9Descriptor<double>::sQ; ++i)
-      CHECK_CLOSE(0.0, cell[i], g_zero_tol);
+  for (auto q = 0u; q < descriptor::D2Q9Descriptor<double>::sQ; ++q)
+      CHECK_CLOSE(0.0, cell[q], g_zero_tol);
   CHECK(cell.pGetDynamics() == nullptr);
 }
 
@@ -29,8 +30,8 @@ TEST(TestCell_Constructor_WithDynamics)
   BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
-  for (gsl::index i = 0; i < descriptor::D2Q9Descriptor<double>::sQ; ++i)
-      CHECK_CLOSE(0.0, cell[i], g_zero_tol);
+  for (auto q = 0u; q < descriptor::D2Q9Descriptor<double>::sQ; ++q)
+      CHECK_CLOSE(0.0, cell[q], g_zero_tol);
   CHECK(cell.pGetDynamics() == &dynamics);
 }
 }

@@ -3,13 +3,36 @@
 
 namespace iblbm
 {
-// Forward declarations
-template<typename T, class Descriptor> struct LbmDynamicsHelper;
-
 /** Efficient specialization for D2Q9 lattice model */
 template<typename T>
 struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
 {
+  /**
+   * Compute equilibrium distribution function
+   *
+   * \param q direction
+   * \param rho cell density
+   * \param rU const reference to fluid velocity
+   * \param uSqr velocity dot product (convenience variable)
+   */
+  static T ComputeEquilibrium(
+      std::size_t q
+    , T rho
+    , const std::vector<T>& rU
+    , T uSqr)
+  {
+    typedef descriptor::D2Q9DescriptorBase<T> B;
+    auto e_dot_u = B::sE[q][0] * rU[0] + B::sE[q][1] * rU[1];
+    return rho * B::sWeight[q] * (static_cast<T>(1) + static_cast<T>(3) *
+        e_dot_u + static_cast<T>(4.5) * e_dot_u * e_dot_u -
+        static_cast<T>(1.5) * uSqr) - B::sWeight[q];
+  }
+
+  /**
+   * Compute the sum of distribution function as cell density
+   *
+   * \param rCell target cell
+   */
   static T ComputeRho(
       const CellBase<T, descriptor::D2Q9DescriptorBase<T>>& rCell)
   {
@@ -46,6 +69,14 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
     rYPos = rCell[7] + rCell[8] + rCell[1];
   }
 
+  /**
+   * Compute particle density and fluid velocity in one function since they
+   * both require looking up particle distribution function.
+   *
+   * \param rCell target cell
+   * \param rRho particle density to be computed
+   * \param rU fluid velocity to be computed
+   */
   static void ComputeRhoAndU(
       const CellBase<T, descriptor::D2Q9DescriptorBase<T>>& rCell
     , T& rRho

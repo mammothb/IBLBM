@@ -1,4 +1,3 @@
-#include <gsl/gsl>
 #include <iostream>
 
 #include "Descriptor.hpp"
@@ -70,8 +69,8 @@ TEST(TestDescriptor_D2Q9DescriptorBase)
   CHECK_EQUAL(2u, D2Q9DescriptorBase<double>::sD);
   CHECK_EQUAL(9u, D2Q9DescriptorBase<double>::sQ);
   CHECK_EQUAL(1u, D2Q9DescriptorBase<double>::sVicinity);
-  for (gsl::index i = 0; i < D2Q9DescriptorBase<double>::sQ; ++i) {
-    CHECK(testutil::CheckCloseVector(actual_e[i], expected_e[i],
+  for (auto q = 0u; q < D2Q9DescriptorBase<double>::sQ; ++q) {
+    CHECK(testutil::CheckCloseVector(actual_e[q], expected_e[q],
         g_zero_tol));
   }
   CHECK(testutil::CheckEqualVector(D2Q9DescriptorBase<double>::sOpposite,
@@ -81,16 +80,16 @@ TEST(TestDescriptor_D2Q9DescriptorBase)
   CHECK_CLOSE(3.0, D2Q9DescriptorBase<double>::sInvCsSqr, g_zero_tol);
 
   // Check that lattice directions follows the requirements
-  const auto q = D2Q9DescriptorBase<double>::sQ;
+  const auto nq = D2Q9DescriptorBase<double>::sQ;
   CHECK_CLOSE(0.0, actual_e[0][0], g_zero_tol);
   CHECK_CLOSE(0.0, actual_e[0][1], g_zero_tol);
-  for (gsl::index i = 1; i <= (q - 1) / 2; ++i) {
-    CHECK(std::abs(actual_e[i][0] + actual_e[i + (q - 1) / 2][0]) <
+  for (auto q = 1u; q <= (nq - 1) / 2; ++q) {
+    CHECK(std::abs(actual_e[q][0] + actual_e[q + (nq - 1) / 2][0]) <
         g_zero_tol &&
-        std::abs(actual_e[i][1] + actual_e[i + (q - 1) / 2][1]) <
+        std::abs(actual_e[q][1] + actual_e[q + (nq - 1) / 2][1]) <
         g_zero_tol);
-    CHECK(actual_e[i][0] < 0.0 || (actual_e[i][0] < g_zero_tol &&
-        actual_e[i][1] < 0.0));
+    CHECK(actual_e[q][0] < 0.0 || (actual_e[q][0] < g_zero_tol &&
+        actual_e[q][1] < 0.0));
   }
 }
 
@@ -112,7 +111,7 @@ TEST(TestDescriptor_D2Q9Descriptor)
   CHECK_EQUAL(2u, D2Q9Descriptor<double>::BaseDescriptor::sD);
   CHECK_EQUAL(9u, D2Q9Descriptor<double>::BaseDescriptor::sQ);
   CHECK_EQUAL(1u, D2Q9Descriptor<double>::BaseDescriptor::sVicinity);
-  for (gsl::index i = 0; i < D2Q9Descriptor<double>::BaseDescriptor::sQ;
+  for (std::size_t i = 0; i < D2Q9Descriptor<double>::BaseDescriptor::sQ;
       ++i) {
     CHECK(testutil::CheckCloseVector(actual_e[i], expected_e[i],
         g_zero_tol));
@@ -136,7 +135,7 @@ TEST(TestDescriptor_D2Q9Descriptor)
   const auto q = D2Q9Descriptor<double>::BaseDescriptor::sQ;
   CHECK_CLOSE(0.0, actual_e[0][0], g_zero_tol);
   CHECK_CLOSE(0.0, actual_e[0][1], g_zero_tol);
-  for (gsl::index i = 1; i <= (q - 1) / 2; ++i) {
+  for (std::size_t i = 1; i <= (q - 1) / 2; ++i) {
     CHECK(std::abs(actual_e[i][0] + actual_e[i + (q - 1) / 2][0]) <
         g_zero_tol &&
         std::abs(actual_e[i][1] + actual_e[i + (q - 1) / 2][1]) <

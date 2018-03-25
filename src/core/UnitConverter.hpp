@@ -1,6 +1,8 @@
 #ifndef SRC_CORE_UNITCONVERTER_HPP_
 #define SRC_CORE_UNITCONVERTER_HPP_
 
+#include <cmath>
+
 namespace iblbm
 {
 /**
@@ -112,21 +114,25 @@ class UnitConverter
   {
     return mCharLatticeVelocity;
   }
+
   /** \return viscosity in physical units */
   constexpr T GetPhysViscosity() const
   {
     return mPhysViscosity;
   }
+
   /** \return density in physical units */
   constexpr T GetPhysDensity() const
   {
     return mPhysDensity;
   }
+
   /** \return characteristic pressure in physical units */
   constexpr T GetCharPhysPressure() const
   {
     return mCharPhysPressure;
   }
+
   /** \return Reynolds number */
   constexpr T GetReynoldsNumber() const
   {
@@ -153,7 +159,7 @@ class UnitConverter
     return mConvLength;
   }
 
-  /** \return grid spacing (voxel length) in __m__ */
+  /** \return grid spacing (voxel length), m */
   constexpr T GetPhysDeltaX() const
   {
     return mConvLength;
@@ -177,7 +183,7 @@ class UnitConverter
     return mConvTime;
   }
 
-  /** \return time spacing (timestep length) in __s__ */
+  /** \return time spacing (timestep length), s */
   constexpr T GetPhysDeltaT() const
   {
     return mConvTime;
@@ -329,9 +335,10 @@ class UnitConverterFromResolutionAndRelaxationTime
     , T physDensity
     , T charPhysPressure = 0)
     : UnitConverter<T, Lattice>(
-          /*physDeltaX=*/charPhysLength / resolution,
+          /*physDeltaX=*/charPhysLength / static_cast<T>(resolution),
           /*physDeltaT=*/(relaxationTime - 0.5) / Lattice<T>::sInvCsSqr *
-              pow(charPhysLength / resolution, 2) / physViscosity,
+              pow(charPhysLength / static_cast<T>(resolution), 2) /
+              physViscosity,
           charPhysLength,
           charPhysVelocity,
           physViscosity,
@@ -355,9 +362,9 @@ class UnitConverterFromResolutionAndLatticeVelocity
     , T physDensity
     , T charPhysPressure = 0)
     : UnitConverter<T, Lattice>(
-          /*physDeltaX=*/charPhysLength / resolution,
+          /*physDeltaX=*/charPhysLength / static_cast<double>(resolution),
           /*physDeltaT=*/charLatticeVelocity / charPhysVelocity *
-              charPhysLength / resolution,
+              charPhysLength / static_cast<double>(resolution),
           charPhysLength,
           charPhysVelocity,
           physViscosity,

@@ -42,6 +42,4 @@ class BgkDynamics : public AbstractDynamics<T, Lattice>
 };
 }  // namespace iblbm
 
-#include "BgkDynamics.ipp"
-
 #endif  // SRC_DYNAMICS_BGKDYNAMICS_HPP_

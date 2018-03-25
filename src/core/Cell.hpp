@@ -1,7 +1,6 @@
 #ifndef SRC_CORE_CELL_HPP_
 #define SRC_CORE_CELL_HPP_
 
-#include <gsl/gsl>
 #include <vector>
 
 #include "AbstractDynamicsInterface.hpp"
@@ -10,9 +9,6 @@
 
 namespace iblbm
 {
-template<typename T, template<typename U> class Lattice>
-    class AbstractDynamicsInterface;
-
 template<typename T, class Descriptor>
 class CellBase
 {
@@ -22,7 +18,7 @@ class CellBase
    *
    * \param iPop index of the accessed distribution function
    */
-  T& operator[](const gsl::index& rIndex)
+  T& operator[](const std::size_t& rIndex)
   {
     IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
@@ -33,7 +29,7 @@ class CellBase
    *
    * \param iPop index of the accessed distribution function
    */
-  const T& operator[](const gsl::index& rIndex) const
+  const T& operator[](const std::size_t& rIndex) const
   {
     IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
@@ -63,14 +59,14 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics);
 
   /** \return a reference to an external field */
-  T& rGetExternal(gsl::index index)
+  T& rGetExternal(std::size_t index)
   {
     IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
   /** \return a const reference to an external field */
-  const T& rGetExternal(gsl::index index) const
+  const T& rGetExternal(std::size_t index) const
   {
     IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
@@ -82,7 +78,9 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   AbstractDynamicsInterface<T, Lattice>* pGetDynamics();
 
  private:
+  /** External field */
   External mExternal;
+  /** Pointer to cell dynamics */
   AbstractDynamicsInterface<T, Lattice>* mpDynamics;
 
   /** Initialize the distribution function with default values of T */
@@ -93,6 +91,6 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 
 }  // namespace iblbm
 
-#include "Cell.ipp"
+//#include "Cell.ipp"
 
 #endif  // SRC_CORE_CELL_HPP_

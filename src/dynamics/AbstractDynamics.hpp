@@ -5,7 +5,8 @@
 #include "AbstractMomentaInterface.hpp"
 
 namespace iblbm
-{// Forward declaration
+{
+//// Forward declaration
 //template<typename T, template<typename U> class Lattice> class Cell;
 
 template<typename T, template<typename U> class Lattice>
@@ -39,7 +40,5 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
   AbstractMomentaInterface<T, Lattice>& mrMomenta;
 };
 }  // namespace iblbm
-
-#include "AbstractDynamics.ipp"
 
 #endif // SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_

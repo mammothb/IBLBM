@@ -4,6 +4,9 @@
 #include <cassert>
 #include <iostream>
 
+// Unused parameter macro
+#define IBLBM_UNUSED(x) (void)(x)
+
 // Macros to help with debugging
 #ifdef IBLBM_DEBUG
 

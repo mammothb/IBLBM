@@ -524,9 +524,8 @@
 1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssert.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
+1521943216 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
 	<algorithm>
-	<gsl/gsl>
 	<iostream>
 	<string>
 	<vector>
@@ -757,20 +756,18 @@
 	"AbstractLatticeModel.hpp"
 	"LatticeBoltzmannMethod.hpp"
 
-1521858755 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
+1521941836 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
 	"Descriptor.hpp"
 
-1521858755 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
+1521943498 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
 	<cstddef>
-	<gsl/gsl>
 	<stdexcept>
 	<vector>
-	"Descriptor.ipp"
+	"IblbmDebug.hpp"
 
 1521858755 /home/mmb/code/IBLBM/src/dynamics/Descriptor.ipp
 
-1521858755 source:/home/mmb/code/IBLBM/unittests/TestDescriptor.cpp
-	<gsl/gsl>
+1521943356 source:/home/mmb/code/IBLBM/unittests/TestDescriptor.cpp
 	<iostream>
 	"Descriptor.hpp"
 	"IblbmUtilities.hpp"
@@ -886,67 +883,67 @@
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
 
-1521868167 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
+1521949942 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
+	<cmath>
 
-1521858755 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+1521950067 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+	<cmath>
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
 	"UnitTest++.h"
 
-1521858755 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
+1521941490 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
 	"Cell.hpp"
 
-1521870118 /home/mmb/code/IBLBM/src/core/Cell.hpp
-	<gsl/gsl>
+1521942621 /home/mmb/code/IBLBM/src/core/Cell.hpp
 	<vector>
 	"AbstractDynamicsInterface.hpp"
 	"Descriptor.hpp"
 	"IblbmDebug.hpp"
-	"Cell.ipp"
 
-1521870886 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
-	"Cell.hpp"
+1521942983 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
 	"Descriptor.hpp"
 
 1521858755 /home/mmb/code/IBLBM/src/core/Cell.ipp
 
-1521869006 source:/home/mmb/code/IBLBM/unittests/TestCell.cpp
+1521945670 source:/home/mmb/code/IBLBM/unittests/TestCell.cpp
+	<cassert>
 	<iostream>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"UnitTest++.h"
 
-1521858755 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.cpp
+1521941440 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.cpp
 	"AbstractDynamics.hpp"
 
-1521866266 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.hpp
+1521941426 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.hpp
 	"AbstractDynamicsInterface.hpp"
 	"AbstractMomentaInterface.hpp"
-	"AbstractDynamics.ipp"
 
-1521872451 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.hpp
+1521941549 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.hpp
 	"Cell.hpp"
-	"AbstractMomentaInterface.ipp"
 
-1521866994 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.ipp
+1521941410 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.ipp
 
-1521858755 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.cpp
+1521943014 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.cpp
 	"AbstractDynamicsInterface.hpp"
+	"Helpers.hpp"
 
-1521858755 source:/home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.cpp
+1521941542 source:/home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.cpp
 	"AbstractMomentaInterface.hpp"
 	"Descriptor.hpp"
 
-1521858755 source:/home/mmb/code/IBLBM/src/dynamics/BulkMomenta.cpp
+1521944094 source:/home/mmb/code/IBLBM/src/dynamics/BulkMomenta.cpp
 	"BulkMomenta.hpp"
 	"Descriptor.hpp"
+	"Helpers.hpp"
 
-1521872391 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.hpp
+1521941608 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.hpp
 	"AbstractMomentaInterface.hpp"
-	"BulkMomenta.ipp"
+	"Cell.hpp"
 
-1521872376 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.ipp
+1521940669 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.ipp
 	"Helpers.hpp"
 
 1403323483 /usr/include/boost/filesystem.hpp
@@ -3350,33 +3347,37 @@
 	<boost/config/abi_prefix.hpp>
 	<boost/config/abi_suffix.hpp>
 
-1521870664 source:/home/mmb/code/IBLBM/unittests/TestBulkMomenta.cpp
-	<gsl/gsl>
+1521944742 source:/home/mmb/code/IBLBM/unittests/TestBulkMomenta.cpp
 	<iostream>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"Descriptor.hpp"
+	"UnitTestCustomUtilities.hpp"
 	"UnitTest++.h"
 
-1521872274 /home/mmb/code/IBLBM/src/dynamics/Helpers.hpp
+1521943658 /home/mmb/code/IBLBM/src/dynamics/Helpers.hpp
+	"Cell.hpp"
+	"Descriptor.hpp"
 	"HelpersD2Q9.hpp"
 
-1521873594 /home/mmb/code/IBLBM/src/dynamics/HelpersD2Q9.hpp
+1521943107 /home/mmb/code/IBLBM/src/dynamics/HelpersD2Q9.hpp
 
-1521868903 source:/home/mmb/code/IBLBM/src/dynamics/BgkDynamics.cpp
+1521941649 source:/home/mmb/code/IBLBM/src/dynamics/BgkDynamics.cpp
 	"BgkDynamics.hpp"
 	"Descriptor.hpp"
 
-1521870948 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.hpp
+1521941660 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.hpp
 	"AbstractDynamics.hpp"
-	"BgkDynamics.ipp"
 
 1521871067 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.ipp
 
-1521870461 /home/mmb/code/IBLBM/src/core/IblbmDebug.hpp
+1521943568 /home/mmb/code/IBLBM/src/core/IblbmDebug.hpp
 	<cassert>
 	<iostream>
 
 1521871469 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.ipp
+
+1521941191 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.ipp
+	"Helpers.hpp"
 

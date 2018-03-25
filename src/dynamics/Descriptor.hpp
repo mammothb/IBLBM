@@ -2,9 +2,10 @@
 #define SRC_DYNAMICS_DESCRIPTOR_HPP_
 
 #include <cstddef>
-#include <gsl/gsl>
 #include <stdexcept>
 #include <vector>
+
+#include "IblbmDebug.hpp"
 
 /** \file
  * Descriptor for various lattice arrangement.
@@ -60,7 +61,7 @@ class ExternalFieldVector
    *
    * \param rIndex index of the accessed distribution function
    */
-  T& operator[](const gsl::index& rIndex)
+  T& operator[](const std::size_t& rIndex)
   {
     return mData[rIndex];
   }
@@ -70,7 +71,7 @@ class ExternalFieldVector
    *
    * \param rIndex index of the accessed distribution function
    */
-  const T& operator[](const gsl::index& rIndex) const
+  const T& operator[](const std::size_t& rIndex) const
   {
     return mData[rIndex];
   }
@@ -94,10 +95,10 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  T& operator[](const gsl::index& /*rIndex*/)
+  T& operator[](const std::size_t& /*rIndex*/)
   {
+    IBLBM_PRECONDITION(false);
     static T data = T();
-    assert(false);
     return data;
   }
 
@@ -106,10 +107,10 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  const T& operator[](const gsl::index& /*rIndex*/) const
+  const T& operator[](const std::size_t& /*rIndex*/) const
   {
+    IBLBM_PRECONDITION(false);
     static T data = T();
-    assert(false);
     return data;
   }
 
@@ -162,6 +163,4 @@ struct ForcedD2Q9Descriptor
 }  // namespace descriptor
 }  // namespace iblbm
 
-// Implementation of descriptor
-#include "Descriptor.ipp"
 #endif  // SRC_DYNAMICS_DESCRIPTOR_HPP_

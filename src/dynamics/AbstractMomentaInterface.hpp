@@ -44,6 +44,4 @@ class AbstractMomentaInterface
 };
 }  // namespace iblbm
 
-#include "AbstractMomentaInterface.ipp"
-
 #endif  // SRC_DYNAMICS_ABSTRACTMOMENTAINTERFACE_HPP_

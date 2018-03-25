@@ -2,7 +2,6 @@
 #define SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
 
 #include <algorithm>
-#include <gsl/gsl>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -37,7 +36,7 @@ bool CheckCloseVector(
   // Check that the two array are of equal length
   auto ret = rActualVector.size() == rExpectedVector.size();
   if (ret) {
-    for (gsl::index i = 0; i < rExpectedVector.size(); ++i) {
+    for (auto i = 0u; i < rExpectedVector.size(); ++i) {
       ret = ret && std::abs(rActualVector[i] - rExpectedVector[i]) <=
           std::abs(rExpectedVector[i]) * delta;
       if (!ret) break;
@@ -71,7 +70,7 @@ bool CheckEqualVector(
   // Check that the two array are of equal length
   auto ret = rActualVector.size() == rExpectedVector.size();
   if (ret) {
-    for (gsl::index i = 0; i < rExpectedVector.size(); ++i) {
+    for (auto i = 0u; i < rExpectedVector.size(); ++i) {
       ret = ret && rActualVector[i] == rExpectedVector[i];
       if (!ret) break;
     }
