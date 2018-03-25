@@ -35,8 +35,8 @@
 				</Compiler>
 			</Target>
 			<Target title="OptimizedDebug">
-				<Option output="bin/Debug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option output="bin/OptimizedDebug/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/OptimizedDebug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -114,7 +114,6 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-fexceptions" />
-			<Add option="-Wno-sign-compare" />
 			<Add directory="thirdparty/UnitTest++" />
 			<Add directory="src/lattice" />
 			<Add directory="src/fortests" />
@@ -126,7 +125,6 @@
 			<Add directory="$(#boost.include)" />
 			<Add directory="src/io" />
 			<Add directory="src/dynamics" />
-			<Add directory="thirdparty" />
 			<Add directory="src/core" />
 		</Compiler>
 		<Linker>
@@ -150,28 +148,21 @@
 		<Unit filename="src/collision/CollisionNsf.hpp" />
 		<Unit filename="src/core/Cell.cpp" />
 		<Unit filename="src/core/Cell.hpp" />
-		<Unit filename="src/core/Cell.ipp" />
 		<Unit filename="src/core/IblbmDebug.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
 		<Unit filename="src/core/UnitConverter.hpp" />
 		<Unit filename="src/dynamics/AbstractDynamics.cpp" />
 		<Unit filename="src/dynamics/AbstractDynamics.hpp" />
-		<Unit filename="src/dynamics/AbstractDynamics.ipp" />
 		<Unit filename="src/dynamics/AbstractDynamicsInterface.cpp" />
 		<Unit filename="src/dynamics/AbstractDynamicsInterface.hpp" />
-		<Unit filename="src/dynamics/AbstractDynamicsInterface.ipp" />
 		<Unit filename="src/dynamics/AbstractMomentaInterface.cpp" />
 		<Unit filename="src/dynamics/AbstractMomentaInterface.hpp" />
-		<Unit filename="src/dynamics/AbstractMomentaInterface.ipp" />
 		<Unit filename="src/dynamics/BgkDynamics.cpp" />
 		<Unit filename="src/dynamics/BgkDynamics.hpp" />
-		<Unit filename="src/dynamics/BgkDynamics.ipp" />
 		<Unit filename="src/dynamics/BulkMomenta.cpp" />
 		<Unit filename="src/dynamics/BulkMomenta.hpp" />
-		<Unit filename="src/dynamics/BulkMomenta.ipp" />
 		<Unit filename="src/dynamics/Descriptor.cpp" />
 		<Unit filename="src/dynamics/Descriptor.hpp" />
-		<Unit filename="src/dynamics/Descriptor.ipp" />
 		<Unit filename="src/dynamics/Helpers.hpp" />
 		<Unit filename="src/dynamics/HelpersD2Q9.hpp" />
 		<Unit filename="src/fortests/UnitTestCustomUtilities.hpp" />
@@ -191,15 +182,6 @@
 		<Unit filename="src/utility/IblbmEnum.cpp" />
 		<Unit filename="src/utility/IblbmEnum.hpp" />
 		<Unit filename="src/utility/IblbmUtilities.hpp" />
-		<Unit filename="thirdparty/gsl/gsl" />
-		<Unit filename="thirdparty/gsl/gsl_algorithm" />
-		<Unit filename="thirdparty/gsl/gsl_assert" />
-		<Unit filename="thirdparty/gsl/gsl_byte" />
-		<Unit filename="thirdparty/gsl/gsl_util" />
-		<Unit filename="thirdparty/gsl/multi_span" />
-		<Unit filename="thirdparty/gsl/pointers" />
-		<Unit filename="thirdparty/gsl/span" />
-		<Unit filename="thirdparty/gsl/string_span" />
 		<Unit filename="unittests/TestBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />
