@@ -18,20 +18,22 @@ static const auto g_relaxation_time = 0.8;
 
 TEST(TestCell_Constructor_Default)
 {
+  typedef descriptor::D2Q9DescriptorBase<double> B;
   Cell<double, descriptor::D2Q9Descriptor> cell;
-  for (auto q = 0u; q < descriptor::D2Q9Descriptor<double>::sQ; ++q)
-      CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+  for (auto q = 0u; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+
   CHECK(cell.pGetDynamics() == nullptr);
 }
 
 TEST(TestCell_Constructor_WithDynamics)
 {
+  typedef descriptor::D2Q9DescriptorBase<double> B;
   BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
   BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
-  for (auto q = 0u; q < descriptor::D2Q9Descriptor<double>::sQ; ++q)
-      CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+  for (auto q = 0u; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+
   CHECK(cell.pGetDynamics() == &dynamics);
 }
 }

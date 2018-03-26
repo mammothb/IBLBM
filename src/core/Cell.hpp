@@ -91,6 +91,4 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 
 }  // namespace iblbm
 
-//#include "Cell.ipp"
-
 #endif  // SRC_CORE_CELL_HPP_

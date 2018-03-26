@@ -34,9 +34,9 @@
 					<Add option="-DIBLBM_DEBUG" />
 				</Compiler>
 			</Target>
-			<Target title="OptimizedDebug">
-				<Option output="bin/OptimizedDebug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/OptimizedDebug/" />
+			<Target title="OptDebug">
+				<Option output="bin/OptDebug/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/OptDebug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -60,6 +60,35 @@
 					<Add option="-std=c++14" />
 					<Add option="-g" />
 					<Add option="-DIBLBM_DEBUG" />
+				</Compiler>
+			</Target>
+			<Target title="OptGenericDebug">
+				<Option output="bin/OptGenericDebug/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/OptGenericDebug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wzero-as-null-pointer-constant" />
+					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++14" />
+					<Add option="-g" />
+					<Add option="-DIBLBM_DEBUG" />
+					<Add option="-DIBLBM_USE_GENERIC" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -182,11 +211,13 @@
 		<Unit filename="src/utility/IblbmEnum.cpp" />
 		<Unit filename="src/utility/IblbmEnum.hpp" />
 		<Unit filename="src/utility/IblbmUtilities.hpp" />
+		<Unit filename="unittests/TestBgkDynamics.cpp" />
 		<Unit filename="unittests/TestBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />
 		<Unit filename="unittests/TestCollisionNsf.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
+		<Unit filename="unittests/TestHelpers.cpp" />
 		<Unit filename="unittests/TestIblbmUtilities.cpp" />
 		<Unit filename="unittests/TestLattice2D.cpp" />
 		<Unit filename="unittests/TestLatticeBoltzmannMethod.cpp" />

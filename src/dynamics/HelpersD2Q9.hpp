@@ -29,6 +29,84 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
   }
 
   /**
+   * Perform the collision step using BGK approximation
+   *
+   * \param rCell target cell
+   * \param rRho particle density
+   * \param rU fluid velocity
+   * \param rOmega inverse relaxation time
+   *
+   * \return dot product of fluid velocity (convenience variable)
+   */
+  static T BgkCollide(
+      CellBase<T, descriptor::D2Q9DescriptorBase<T>>& rCell
+    , const T& rRho
+    , const std::vector<T>& rU
+    , const T& rOmega)
+  {
+    auto ux2 = rU[0] * rU[0];
+    auto uy2 = rU[1] * rU[1];
+
+    T ux_cs2 = static_cast<T>(3) * rU[0];
+    T uy_cs2 = static_cast<T>(3) * rU[1];
+
+    T ux2_cs2 = static_cast<T>(3) * ux2;
+    T uy2_cs2 = static_cast<T>(3) * uy2;
+    T ux2_cs2_half = ux2_cs2 / static_cast<T>(2);
+    T uy2_cs2_half = uy2_cs2 / static_cast<T>(2);
+    T u2_cs2_half = ux2_cs2_half + uy2_cs2_half;
+
+    T uxy_cs4_half_pos = static_cast<T>(4.5) * (rU[0] + rU[1]) * (rU[0] +
+        rU[1]);
+    T uxy_cs4_half_neg = static_cast<T>(4.5) * (rU[0] - rU[1]) * (rU[0] -
+        rU[1]);
+
+    T weight_rho = static_cast<T>(4) / static_cast<T>(9) * rRho;
+    T common_factor = static_cast<T>(4) / static_cast<T>(9) * (rRho -
+        static_cast<T>(1));
+
+    rCell[0] *= static_cast<T>(1) - rOmega;
+    rCell[0] += rOmega * (common_factor + weight_rho * (-ux2_cs2_half -
+        uy2_cs2_half));
+
+    weight_rho = static_cast<T>(1) / static_cast<T>(9) * rRho;
+    common_factor = static_cast<T>(1) / static_cast<T>(9) * (rRho -
+        static_cast<T>(1));
+
+    rCell[6] *= static_cast<T>(1) - rOmega;
+    rCell[6] += rOmega * (common_factor + weight_rho * (ux_cs2 + ux2_cs2 -
+        uy2_cs2_half));
+    rCell[8] *= static_cast<T>(1) - rOmega;
+    rCell[8] += rOmega * (common_factor + weight_rho * (uy_cs2 + uy2_cs2 -
+        ux2_cs2_half));
+    rCell[2] *= static_cast<T>(1) - rOmega;
+    rCell[2] += rOmega * (common_factor + weight_rho * (-ux_cs2 + ux2_cs2 -
+        uy2_cs2_half));
+    rCell[4] *= static_cast<T>(1) - rOmega;
+    rCell[4] += rOmega * (common_factor + weight_rho * (-uy_cs2 + uy2_cs2 -
+        ux2_cs2_half));
+
+    weight_rho = static_cast<T>(1) / static_cast<T>(36) * rRho;
+    common_factor  = static_cast<T>(1) / static_cast<T>(36) * (rRho -
+        static_cast<T>(1));
+
+    rCell[7] *= static_cast<T>(1) - rOmega;
+    rCell[7] += rOmega * (common_factor + weight_rho * (ux_cs2 + uy_cs2 +
+        uxy_cs4_half_pos - u2_cs2_half));
+    rCell[1] *= static_cast<T>(1) - rOmega;
+    rCell[1] += rOmega * (common_factor + weight_rho * (-ux_cs2 + uy_cs2 +
+        uxy_cs4_half_neg - u2_cs2_half));
+    rCell[3] *= static_cast<T>(1) - rOmega;
+    rCell[3] += rOmega * (common_factor + weight_rho * (-ux_cs2 - uy_cs2 +
+        uxy_cs4_half_pos - u2_cs2_half));
+    rCell[5] *= static_cast<T>(1) - rOmega;
+    rCell[5] += rOmega * (common_factor + weight_rho * (ux_cs2 - uy_cs2 +
+        uxy_cs4_half_neg - u2_cs2_half));
+
+    return ux2 + uy2;
+  }
+
+  /**
    * Compute the sum of distribution function as cell density
    *
    * \param rCell target cell

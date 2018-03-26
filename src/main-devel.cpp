@@ -18,7 +18,7 @@ int main()
 //  return iblbm::RunAllTheTests();
 
   /// Run multiple suites
-  return iblbm::RunMultipleSuites(functionality_suites);
+//  return iblbm::RunMultipleSuites(functionality_suites);
 
   /// Run single suite
 //  return iblbm::RunOneSuite("TestBoundaryCondition");
@@ -44,6 +44,7 @@ int main()
 //  return iblbm::RunOneTest("SimulatePoiseuilleFlow_BodyForce_FullwayBounceBack");
 
   /// Individual tests
+  return iblbm::RunOneTest("TestLbmHelpers_ComputeEquilibrium");
 
   // to run only one suite, uncomment the following line
   // and specify the name of the suite. Also, comment out the RunAllTheTests()

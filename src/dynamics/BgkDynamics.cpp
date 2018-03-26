@@ -1,5 +1,6 @@
 #include "BgkDynamics.hpp"
 #include "Descriptor.hpp"
+#include "Helpers.hpp"
 
 namespace iblbm
 {
@@ -14,9 +15,10 @@ BgkDynamics<T, Lattice>::BgkDynamics(
 template<typename T, template<typename U> class Lattice>
 void BgkDynamics<T, Lattice>::Collide(Cell<T, Lattice>& rCell)
 {
-  T rho;
+  auto rho = T();
   std::vector<T> u(Lattice<T>::sD, T());
   this->mrMomenta.ComputeRhoAndU(rCell, rho, u);
+  auto u_sqr = LbmHelper<T, Lattice>::BgkCollide(rCell, rho, u, mOmega);
 }
 
 template<typename T, template<typename U> class Lattice>

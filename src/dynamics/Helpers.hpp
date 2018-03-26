@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_HELPERS_HPP_
 #define SRC_DYNAMICS_HELPERS_HPP_
 
+#include <numeric>
+
 #include "Cell.hpp"
 #include "Descriptor.hpp"
 
@@ -28,6 +30,26 @@ struct LbmHelper
   {
     return LbmDynamicsHelper<T, typename Lattice<T>::BaseDescriptor>::
         ComputeEquilibrium(q, rho, rU, uSqr);
+  }
+
+  /**
+   * Perform the collision step using BGK approximation
+   *
+   * \param rCell target cell
+   * \param rRho particle density
+   * \param rU fluid velocity
+   * \param rOmega inverse relaxation time
+   *
+   * \return dot product of fluid velocity (convenience variable)
+   */
+  static T BgkCollide(
+      Cell<T, Lattice>& rCell
+    , const T& rRho
+    , const std::vector<T>& rU
+    , const T& rOmega)
+  {
+    return LbmDynamicsHelper<T, typename Lattice<T>::BaseDescriptor>::
+        BgkCollide(rCell, rRho, rU, rOmega);
   }
 
   /**
@@ -88,6 +110,32 @@ struct LbmDynamicsHelper
   }
 
   /**
+   * Perform the collision step using BGK approximation
+   *
+   * \param rCell target cell
+   * \param rRho particle density
+   * \param rU fluid velocity
+   * \param rOmega inverse relaxation time
+   *
+   * \return dot product of fluid velocity (convenience variable)
+   */
+  static T BgkCollide(
+      CellBase<T, Descriptor>& rCell
+    , const T& rRho
+    , const std::vector<T>& rU
+    , const T& rOmega)
+  {
+    const auto u_sqr = std::inner_product(rU.begin(), rU.end(), rU.begin(),
+        T());
+    for (auto q = 0u; q  < Descriptor::sQ; ++q) {
+      rCell[q] *= static_cast<T>(1) - rOmega;
+      rCell[q] += rOmega * LbmDynamicsHelper<T, Descriptor>::
+          ComputeEquilibrium(q, rRho, rU, u_sqr);
+    }
+    return u_sqr;
+  }
+
+  /**
    * Compute particle density on the cell
    *
    * \param rCell target cell
@@ -114,19 +162,20 @@ struct LbmDynamicsHelper
     , T& rRho
     , std::vector<T>& rU)
   {
-    rRho = T();
+    rRho = static_cast<T>(1);
     for (auto d = 0u; d < Descriptor::sD; ++d) rU[d] = T();
     for (auto q = 0u; q < Descriptor::sQ; ++q) {
       rRho += rCell[q];
       for (auto d = 0u; d < Descriptor::sD; ++d)
           rU[d] += rCell[q] * Descriptor::sE[q][d];
     }
-    rRho += static_cast<T>(1);
     for (auto d = 0u; d < Descriptor::sD; ++d) rU[d] /= rRho;
   }
 };
 }  // namespace iblbm
 
+#ifndef IBLBM_USE_GENERIC
 #include "HelpersD2Q9.hpp"
+#endif  // IBLBM_USE_GENERIC
 
 #endif  // SRC_DYNAMICS_HELPERS_HPP_

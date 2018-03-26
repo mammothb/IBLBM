@@ -52,7 +52,7 @@ struct Force2dDescriptorBase
   typedef Force2dDescriptor ExternalField;
 };
 
-template <typename T, typename ExternalField>
+template<typename T, typename ExternalField>
 class ExternalFieldVector
 {
  public:
@@ -86,7 +86,7 @@ class ExternalFieldVector
   std::vector<T> mData;
 };
 
-template <typename T>
+template<typename T>
 class ExternalFieldVector<T, NoExternalField>
 {
  public:
@@ -128,7 +128,7 @@ class ExternalFieldVector<T, NoExternalField>
  *  / | \
  * 3  4  5
  */
-template <typename T>
+template<typename T>
 struct D2Q9DescriptorBase
 {
   /** Declares BaseDescriptor to be an alias for D2Q9DescriptorBase<T> */
@@ -149,13 +149,13 @@ struct D2Q9DescriptorBase
   static const T sInvCsSqr;
 };
 
-template <typename T>
+template<typename T>
 struct D2Q9Descriptor
   : public D2Q9DescriptorBase<T>
   , public NoExternalFieldBase
 {};
 
-template <typename T>
+template<typename T>
 struct ForcedD2Q9Descriptor
   : public D2Q9DescriptorBase<T>
   , public Force2dDescriptorBase

@@ -23,10 +23,6 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
   /** Virtual destructor to allow inheritance */
   virtual ~AbstractDynamics() = default;
 
-//  virtual void Collide(
-//      Cell<T, Lattice>& rCell
-//    , LatticeStatistics<T>& rStatistics) = 0;
-
   /**
    * Compute particle density on the cell
    *
