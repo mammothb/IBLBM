@@ -1,6 +1,7 @@
 #ifndef SRC_UTILITY_IBLBMUTILITIES_HPP_
 #define SRC_UTILITY_IBLBMUTILITIES_HPP_
 
+#include <gsl/gsl>
 #include <iomanip>  // std::setprecision
 #include <iostream>
 #include <numeric>
@@ -11,23 +12,22 @@ namespace iblbm
 {
 namespace util
 {
-/**
- * Does dot product between 2 vectors of equal length
- * \param rVec1 first vector
- * \param rVec2 second vector
- *
- * \return dot product of rVec1 and rVec2
- */
-template <typename T>
-T InnerProduct(
-    const std::vector<T> &rVec1
-  , const std::vector<T> &rVec2)
-{
-  if (rVec1.size() != rVec2.size())
-      throw std::runtime_error("Size mismatch");
-  return std::inner_product(rVec1.begin(), rVec1.end(), rVec2.begin(),
-      static_cast<T>(0));
-}
+///**
+// * Does dot product between 2 vectors of equal length
+// * \param rVec1 first vector
+// * \param rVec2 second vector
+// *
+// * \return dot product of rVec1 and rVec2
+// */
+//template <typename T>
+//T InnerProduct(
+//    const std::vector<T> &rVec1
+//  , const std::vector<T> &rVec2)
+//{
+//  if (rVec1.size() != rVec2.size())
+//      throw std::runtime_error("Size mismatch");
+//  return std::inner_product(rVec1.begin(), rVec1.end(), rVec2.begin(), T{});
+//}
 
 /**
  * The hydrodynamic (aka macroscopic) variables on each node are defined as
@@ -43,7 +43,7 @@ T InnerProduct(
 template <typename T>
 T GetZerothMoment(const std::vector<T>& rNode)
 {
-  return std::accumulate(rNode.begin(), rNode.end(), static_cast<T>(0));
+  return std::accumulate(rNode.begin(), rNode.end(), T{});
 }
 
 /**
@@ -64,7 +64,7 @@ T GetFirstMoment(
 {
   auto nd = rDiscreteVelocity.front().size();
   T result(nd, 0);
-  for (auto d = 0u; d < nd; ++d) {
+  for (gsl::index d = 0; d < nd; ++d) {
     result[d] = std::inner_product(rNode.begin(), rNode.end(),
         rDiscreteVelocity.begin(), static_cast<VALUE>(0), std::plus<>(),
         [&d] (VALUE lhs, const T& rRhs) {

@@ -2,9 +2,10 @@
 #include <chrono>
 #include <numeric>
 
+#include "CoreUtilities.hpp"
 #include "IblbmUtilities.hpp"
 #include "UnitTestCustomUtilities.hpp"
-#include "UnitTest++.h"
+#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {
@@ -42,7 +43,7 @@ TEST(TestIblbmUtilites_GetFirstMoment)
   for (auto i = 0.0; i < g_num_dirs; ++i) vec_2.push_back({i, i + 1});
 
   std::vector<double> result = {0.0, 0.0};
-  for (auto d = 0u; d < g_num_dims; ++d) {
+  for (gsl::index d = 0; d < g_num_dims; ++d) {
     for (auto i = 0u; i < g_num_dirs; ++i)
         result[d] += vec_1[i] * vec_2[i][d];
   }

@@ -1,6 +1,7 @@
 #ifndef SRC_CORE_CELL_HPP_
 #define SRC_CORE_CELL_HPP_
 
+#include <gsl/gsl>
 #include <vector>
 
 #include "AbstractDynamicsInterface.hpp"
@@ -14,11 +15,21 @@ class CellBase
 {
  public:
   /**
+   * Default constructor. Initializes mDF to all zeros
+   */
+  CellBase();
+
+  /**
+   * Virtual destructor to allow inheritance
+   */
+  virtual ~CellBase() = default;
+
+  /**
    * Read-write access to distribution functions.
    *
    * \param iPop index of the accessed distribution function
    */
-  T& operator[](const std::size_t& rIndex)
+  T& operator[](const gsl::index& rIndex)
   {
     IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
@@ -29,7 +40,7 @@ class CellBase
    *
    * \param iPop index of the accessed distribution function
    */
-  const T& operator[](const std::size_t& rIndex) const
+  const T& operator[](const gsl::index& rIndex) const
   {
     IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
     return mDF[rIndex];
@@ -59,17 +70,37 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics);
 
   /** \return a reference to an external field */
-  T& rGetExternal(std::size_t index)
+  T& rGetExternal(gsl::index index)
   {
     IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
   /** \return a const reference to an external field */
-  const T& rGetExternal(std::size_t index) const
+  const T& rGetExternal(gsl::index index) const
   {
     IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
+  }
+
+  /**
+   * Set the external field data
+   *
+   * \param offset index offset in the data vector
+   * \param rExternalField vector containing data for external field
+   */
+//  void SetExternalField(
+//      std::size_t offset
+//    , std::size_t fieldSize
+//    , const std::vector<T>& rExternalField)
+  void SetExternalField(
+      gsl::index offset
+    , const std::vector<T>& rExternalField)
+  {
+    IBLBM_PRECONDITION(offset + rExternalField.size() <=
+        Lattice<T>::ExternalField::sNumScalars);
+    for (gsl::index i = 0; i < rExternalField.size(); ++i)
+        mExternal[offset + i] = rExternalField[i];
   }
 
   /** \return a non-modifiable pointer to the dynamics */
@@ -83,8 +114,6 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   /** Pointer to cell dynamics */
   AbstractDynamicsInterface<T, Lattice>* mpDynamics;
 
-  /** Initialize the distribution function with default values of T */
-  void InitializeDistributionFunction();
   /** Initialize data members of external field */
   void InitializeExternal();
 };

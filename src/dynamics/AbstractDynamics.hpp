@@ -6,9 +6,6 @@
 
 namespace iblbm
 {
-//// Forward declaration
-//template<typename T, template<typename U> class Lattice> class Cell;
-
 template<typename T, template<typename U> class Lattice>
 class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
 {
@@ -30,6 +27,27 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
    * \return particle density
    */
   T ComputeRho(const Cell<T, Lattice>& rCell) const override;
+
+  /**
+   * Compute fluid velocity on the cell
+   * \param rCell target cell
+   * \param rU fluid velocity
+   */
+  void ComputeU (
+      const Cell<T, Lattice>& rCell
+    , std::vector<T>& rU) const override;
+
+  /**
+   * Compute fluid velocity and particle density on the cell.
+   *
+   * \param rCell target cell
+   * \param rRho particle density
+   * \param rU fluid velocity
+   */
+  void ComputeRhoAndU(
+      const Cell<T, Lattice>& rCell
+    , T& rRho
+    , std::vector<T>& rU) const override;
 
  protected:
   /** Used to compute velocity momenta */

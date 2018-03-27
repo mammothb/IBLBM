@@ -1,15 +1,19 @@
 #ifndef SRC_DYNAMICS_HELPERS_HPP_
 #define SRC_DYNAMICS_HELPERS_HPP_
 
+#include <gsl/gsl>
 #include <numeric>
 
 #include "Cell.hpp"
+#include "CoreUtilities.hpp"
 #include "Descriptor.hpp"
 
 namespace iblbm
 {
 // Forward declarations
 template<typename T, class Descriptor> struct LbmDynamicsHelper;
+template<typename T, template<typename U> class Lattice>
+struct LbmExternalHelper;
 
 template<typename T, template<typename U> class Lattice>
 struct LbmHelper
@@ -23,7 +27,7 @@ struct LbmHelper
    * \param uSqr
    */
   static T ComputeEquilibrium(
-      std::size_t q
+      gsl::index q
     , T rho
     , const std::vector<T>& rU
     , T uSqr)
@@ -80,6 +84,19 @@ struct LbmHelper
     LbmDynamicsHelper<T, typename Lattice<T>::BaseDescriptor>::
         ComputeRhoAndU(rCell, rRho, rU);
   }
+
+  /**
+   *
+   */
+  static void AddExternalForce(
+      Cell<T, Lattice>& rCell
+    , const std::vector<T>& rU
+    , T omega
+    , T amplitude = 1)
+  {
+    LbmExternalHelper<T, Lattice>::AddExternalForce(rCell, rU, omega,
+        amplitude);
+  }
 };
 
 template<typename T, class Descriptor>
@@ -94,19 +111,24 @@ struct LbmDynamicsHelper
    * \param uSqr velocity dot product (convenience variable)
    */
   static T ComputeEquilibrium(
-      std::size_t q
+      gsl::index q
     , T rho
     , const std::vector<T>& rU
     , T uSqr)
   {
-    auto e_dot_u = T();
-    for (auto d = 0u; d < Descriptor::sD; ++d)
-        e_dot_u += Descriptor::sE[q][d] * rU[d];
-    return rho * Descriptor::sWeight[q] * (static_cast<T>(1) +
-        Descriptor::sInvCsSqr * e_dot_u + Descriptor::sInvCsSqr *
-        Descriptor::sInvCsSqr * static_cast<T>(0.5) * e_dot_u * e_dot_u -
-        Descriptor::sInvCsSqr * static_cast<T>(0.5) * uSqr) -
-        Descriptor::sWeight[q];
+//    T e_dot_u {};
+//    for (gsl::index d = 0; d < Descriptor::sD; ++d)
+//        e_dot_u += Descriptor::sE[q][d] * rU[d];
+    auto e_dot_u = util::InnerProduct(Descriptor::sE[q], rU);
+//    // Original code
+//    return rho * Descriptor::sWeight[q] * (T{1} + Descriptor::sInvCsSqr *
+//        e_dot_u + Descriptor::sInvCsSqr * Descriptor::sInvCsSqr * T{0.5} *
+//        e_dot_u * e_dot_u - Descriptor::sInvCsSqr * T{0.5} * uSqr) -
+//        Descriptor::sWeight[q];
+    // Formula according to most papers
+    return rho * Descriptor::sWeight[q] * (T{1} + Descriptor::sInvCsSqr *
+        e_dot_u + Descriptor::sInvCsSqr * Descriptor::sInvCsSqr * T{0.5} *
+        e_dot_u * e_dot_u - Descriptor::sInvCsSqr * T{0.5} * uSqr);
   }
 
   /**
@@ -125,10 +147,9 @@ struct LbmDynamicsHelper
     , const std::vector<T>& rU
     , const T& rOmega)
   {
-    const auto u_sqr = std::inner_product(rU.begin(), rU.end(), rU.begin(),
-        T());
-    for (auto q = 0u; q  < Descriptor::sQ; ++q) {
-      rCell[q] *= static_cast<T>(1) - rOmega;
+    const auto u_sqr = util::InnerProduct(rU, rU);
+    for (gsl::index q = 0; q  < Descriptor::sQ; ++q) {
+      rCell[q] *= T{1} - rOmega;
       rCell[q] += rOmega * LbmDynamicsHelper<T, Descriptor>::
           ComputeEquilibrium(q, rRho, rU, u_sqr);
     }
@@ -144,8 +165,8 @@ struct LbmDynamicsHelper
    */
   static T ComputeRho(const CellBase<T, Descriptor>& rCell)
   {
-    auto rho = static_cast<T>(1);
-    for (auto q = 0u; q < Descriptor::sQ; ++q) rho += rCell[q];
+    T rho {1};
+    for (gsl::index q = 0; q < Descriptor::sQ; ++q) rho += rCell[q];
     return rho;
   }
 
@@ -162,14 +183,45 @@ struct LbmDynamicsHelper
     , T& rRho
     , std::vector<T>& rU)
   {
-    rRho = static_cast<T>(1);
-    for (auto d = 0u; d < Descriptor::sD; ++d) rU[d] = T();
-    for (auto q = 0u; q < Descriptor::sQ; ++q) {
+    rRho = T{1};
+    for (gsl::index d = 0; d < Descriptor::sD; ++d) rU[d] = T{};
+    for (gsl::index q = 0; q < Descriptor::sQ; ++q) {
       rRho += rCell[q];
-      for (auto d = 0u; d < Descriptor::sD; ++d)
+      for (gsl::index d = 0; d < Descriptor::sD; ++d)
           rU[d] += rCell[q] * Descriptor::sE[q][d];
     }
-    for (auto d = 0u; d < Descriptor::sD; ++d) rU[d] /= rRho;
+    for (gsl::index d = 0; d < Descriptor::sD; ++d) rU[d] /= rRho;
+  }
+};
+
+template<typename T, template<typename U> class Lattice>
+struct LbmExternalHelper
+{
+  /**
+   * Add a force term after BGK collision
+   */
+  static void AddExternalForce(
+      Cell<T, Lattice>& rCell
+    , const std::vector<T>& rU
+    , T omega
+    , T amplitude)
+  {
+    static const auto force_offset = Lattice<T>::ExternalField::sForceOffset;
+//    T* force = cell.getExternal(forceBeginsAt);
+    for (gsl::index q = 0; q < Lattice<T>::sQ; ++q) {
+      auto e_dot_u = util::InnerProduct(Lattice<T>::sE[q], rU) *
+          Lattice<T>::sInvCsSqr * Lattice<T>::sInvCsSqr;
+      T force_term {};
+      for (gsl::index d = 0; d < Lattice<T>::sD; ++d) {
+        force_term += ((Lattice<T>::sE[q][d] - rU[d]) *
+            Lattice<T>::sInvCsSqr + e_dot_u * Lattice<T>::sE[q][d]) *
+            rCell.rGetExternal(force_offset + d);
+      }
+      force_term *= Lattice<T>::sWeight[q];
+      force_term *= T{1} - omega / T{2};
+      force_term *= amplitude;
+      rCell[q] += force_term;
+    }
   }
 };
 }  // namespace iblbm

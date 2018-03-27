@@ -7,7 +7,7 @@
 #include "LatticeBoltzmannMethod.hpp"
 #include "PeriodicBoundary.hpp"
 #include "Stream2D.hpp"
-#include "UnitTest++.h"
+#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

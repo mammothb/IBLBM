@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "CoreUtilities.hpp"
 #include "IblbmUtilities.hpp"
 
 namespace iblbm

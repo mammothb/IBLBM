@@ -3381,7 +3381,7 @@
 1521941191 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.ipp
 	"Helpers.hpp"
 
-1522031050 source:c:\lyer\git repos\iblbm\examples\poiseuille.cpp
+1522143544 source:c:\lyer\git repos\iblbm\examples\poiseuille.cpp
 	<vector>
 	"BounceBackBoundary.hpp"
 	"CollisionNsf.hpp"
@@ -3390,7 +3390,7 @@
 	"LatticeBoltzmannMethod.hpp"
 	"PeriodicBoundary.hpp"
 	"Stream2D.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
 1522031050 c:\lyer\git repos\iblbm\src\boundary\bouncebackboundary.hpp
 	"AbstractBoundaryCondition.hpp"
@@ -6868,37 +6868,44 @@
 	<stdexcept>
 	"IblbmEnum.hpp"
 
-1522031050 source:c:\lyer\git repos\iblbm\src\collision\abstractcollisionmodel.cpp
+1522138294 source:c:\lyer\git repos\iblbm\src\collision\abstractcollisionmodel.cpp
 	"AbstractCollisionModel.hpp"
 	<iostream>
+	"CoreUtilities.hpp"
 	"IblbmUtilities.hpp"
 
-1522031050 c:\lyer\git repos\iblbm\src\utility\iblbmutilities.hpp
+1522144732 c:\lyer\git repos\iblbm\src\utility\iblbmutilities.hpp
+	<gsl/gsl>
 	<iomanip>
 	<iostream>
 	<numeric>
 	<stdexcept>
 	<vector>
 
-1522031050 source:c:\lyer\git repos\iblbm\src\collision\collisionnsf.cpp
+1522138321 source:c:\lyer\git repos\iblbm\src\collision\collisionnsf.cpp
 	"CollisionNsf.hpp"
 	<memory>
+	"CoreUtilities.hpp"
 	"IblbmUtilities.hpp"
 
-1522060463 source:c:\lyer\git repos\iblbm\src\core\cell.cpp
+1522137167 source:c:\lyer\git repos\iblbm\src\core\cell.cpp
 	"Cell.hpp"
 
-1522060456 c:\lyer\git repos\iblbm\src\core\cell.hpp
+1522143765 c:\lyer\git repos\iblbm\src\core\cell.hpp
+	<gsl/gsl>
 	<vector>
 	"AbstractDynamicsInterface.hpp"
 	"Descriptor.hpp"
 	"IblbmDebug.hpp"
 
-1522031050 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.hpp
+1522144030 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.hpp
+	<gsl/gsl>
 	"Descriptor.hpp"
+	"LatticeStatistics.hpp"
 
-1522058994 c:\lyer\git repos\iblbm\src\dynamics\descriptor.hpp
+1522145756 c:\lyer\git repos\iblbm\src\dynamics\descriptor.hpp
 	<cstddef>
+	<gsl/gsl>
 	<stdexcept>
 	<vector>
 	"IblbmDebug.hpp"
@@ -6911,44 +6918,47 @@
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
 
-1522031050 c:\lyer\git repos\iblbm\src\core\unitconverter.hpp
+1522140677 c:\lyer\git repos\iblbm\src\core\unitconverter.hpp
 	<cmath>
 
-1522031050 source:c:\lyer\git repos\iblbm\src\dynamics\abstractdynamics.cpp
+1522137216 source:c:\lyer\git repos\iblbm\src\dynamics\abstractdynamics.cpp
 	"AbstractDynamics.hpp"
 
-1522038230 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamics.hpp
+1522128824 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamics.hpp
 	"AbstractDynamicsInterface.hpp"
 	"AbstractMomentaInterface.hpp"
 
 1522031050 c:\lyer\git repos\iblbm\src\dynamics\abstractmomentainterface.hpp
 	"Cell.hpp"
 
-1522031050 source:c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.cpp
+1522144026 source:c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.cpp
 	"AbstractDynamicsInterface.hpp"
+	"CoreUtilities.hpp"
 	"Helpers.hpp"
 
-1522061825 c:\lyer\git repos\iblbm\src\dynamics\helpers.hpp
+1522144713 c:\lyer\git repos\iblbm\src\dynamics\helpers.hpp
+	<gsl/gsl>
 	<numeric>
 	"Cell.hpp"
+	"CoreUtilities.hpp"
 	"Descriptor.hpp"
 	"HelpersD2Q9.hpp"
 
-1522061817 c:\lyer\git repos\iblbm\src\dynamics\helpersd2q9.hpp
+1522147297 c:\lyer\git repos\iblbm\src\dynamics\helpersd2q9.hpp
 
-1522031050 source:c:\lyer\git repos\iblbm\src\dynamics\abstractmomentainterface.cpp
+1522122105 source:c:\lyer\git repos\iblbm\src\dynamics\abstractmomentainterface.cpp
 	"AbstractMomentaInterface.hpp"
 	"Descriptor.hpp"
 
-1522046619 source:c:\lyer\git repos\iblbm\src\dynamics\bgkdynamics.cpp
+1522140375 source:c:\lyer\git repos\iblbm\src\dynamics\bgkdynamics.cpp
 	"BgkDynamics.hpp"
 	"Descriptor.hpp"
 	"Helpers.hpp"
 
-1522031050 c:\lyer\git repos\iblbm\src\dynamics\bgkdynamics.hpp
+1522120370 c:\lyer\git repos\iblbm\src\dynamics\bgkdynamics.hpp
 	"AbstractDynamics.hpp"
 
-1522031050 source:c:\lyer\git repos\iblbm\src\dynamics\bulkmomenta.cpp
+1522137189 source:c:\lyer\git repos\iblbm\src\dynamics\bulkmomenta.cpp
 	"BulkMomenta.hpp"
 	"Descriptor.hpp"
 	"Helpers.hpp"
@@ -6957,7 +6967,7 @@
 	"AbstractMomentaInterface.hpp"
 	"Cell.hpp"
 
-1522059038 source:c:\lyer\git repos\iblbm\src\dynamics\descriptor.cpp
+1522145789 source:c:\lyer\git repos\iblbm\src\dynamics\descriptor.cpp
 	"Descriptor.hpp"
 
 1522031050 source:c:\lyer\git repos\iblbm\src\io\datawriter.cpp
@@ -6989,19 +6999,19 @@
 	"AbstractLatticeModel.hpp"
 	"AbstractStreamModel.hpp"
 
-1522061377 source:c:\lyer\git repos\iblbm\src\main-devel.cpp
+1522143433 source:c:\lyer\git repos\iblbm\src\main-devel.cpp
 	<string>
 	<vector>
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 	"UnitTestCustomUtilities.hpp"
 
-1522031050 c:\lyer\git repos\iblbm\src\fortests\unittestcustomutilities.hpp
+1522143446 c:\lyer\git repos\iblbm\src\fortests\unittestcustomutilities.hpp
 	<algorithm>
 	<iostream>
 	<string>
 	<vector>
-	"UnitTest++.h"
-	"TestReporterStdout.h"
+	"UnitTest++/UnitTest++.h"
+	"UnitTest++/TestReporterStdout.h"
 
 1522031050 c:\lyer\git repos\iblbm\thirdparty\unittest++\testreporterstdout.h
 	"TestReporter.h"
@@ -7019,107 +7029,116 @@
 	<iostream>
 	<stdexcept>
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testbouncebackboundary.cpp
+1522143478 source:c:\lyer\git repos\iblbm\unittests\testbouncebackboundary.cpp
 	"BounceBackBoundary.hpp"
 	"CollisionNsf.hpp"
 	"Lattice2D.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522062781 source:c:\lyer\git repos\iblbm\unittests\testbulkmomenta.cpp
+1522144713 source:c:\lyer\git repos\iblbm\unittests\testbulkmomenta.cpp
 	<iostream>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522062935 source:c:\lyer\git repos\iblbm\unittests\testcell.cpp
+1522144713 source:c:\lyer\git repos\iblbm\unittests\testcell.cpp
 	<cassert>
 	<iostream>
+	<numeric>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
-	"UnitTest++.h"
+	"ForcedBgkDynamics.hpp"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testcollisionnsf.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testcollisionnsf.cpp
 	<iostream>
 	<vector>
 	"CollisionNsf.hpp"
+	"CoreUtilities.hpp"
 	"IblbmUtilities.hpp"
 	"Lattice2D.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testdescriptor.cpp
+1522144713 source:c:\lyer\git repos\iblbm\unittests\testdescriptor.cpp
 	<iostream>
 	"Descriptor.hpp"
 	"IblbmUtilities.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testiblbmutilities.cpp
+1522144690 source:c:\lyer\git repos\iblbm\unittests\testiblbmutilities.cpp
 	<algorithm>
 	<chrono>
 	<numeric>
+	"CoreUtilities.hpp"
 	"IblbmUtilities.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testlattice2d.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testlattice2d.cpp
 	<iostream>
 	"Lattice2D.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testlatticeboltzmannmethod.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testlatticeboltzmannmethod.cpp
 	<iostream>
 	<vector>
 	"CollisionNsf.hpp"
 	"Lattice2D.hpp"
 	"LatticeBoltzmannMethod.hpp"
 	"Stream2D.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testperiodicboundary.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testperiodicboundary.cpp
 	"CollisionNsf.hpp"
 	"Lattice2D.hpp"
 	"PeriodicBoundary.hpp"
 	"Stream2D.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\teststream2d.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\teststream2d.cpp
 	<chrono>
 	"IblbmEnum.hpp"
 	"Lattice2D.hpp"
 	"Stream2D.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522031050 source:c:\lyer\git repos\iblbm\unittests\testunitconverter.cpp
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testunitconverter.cpp
 	<cmath>
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522062875 source:c:\lyer\git repos\iblbm\unittests\testbgkdynamics.cpp
+1522144713 source:c:\lyer\git repos\iblbm\unittests\testbgkdynamics.cpp
+	<gsl/gsl>
 	<iostream>
 	<numeric>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
-1522062701 source:c:\lyer\git repos\iblbm\unittests\testhelpers.cpp
+1522147128 source:c:\lyer\git repos\iblbm\unittests\testhelpers.cpp
+	<chrono>
 	<numeric>
+	<vector>
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
+	"CoreUtilities.hpp"
 	"Descriptor.hpp"
+	"ForcedBgkDynamics.hpp"
 	"Helpers.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++.h"
+	"UnitTest++/UnitTest++.h"
 
 1522049317 c:\lyer\git repos\iblbm\src\fortests\forcegeneralhelpers.hpp
 	<iostream>
@@ -7141,4 +7160,127 @@
 
 1522060858 c:\lyer\git repos\iblbm\src\fortests\helpersgeneric.hpp
 	"Helpers.hpp"
+
+1522137125 source:c:\lyer\git repos\iblbm\src\core\latticestatistics.cpp
+	"LatticeStatistics.hpp"
+
+1522137103 c:\lyer\git repos\iblbm\src\core\latticestatistics.hpp
+	<cstddef>
+	<vector>
+
+1522143544 source:c:\lyer\git repos\iblbm\unittests\testlatticestatistics.cpp
+	<iostream>
+	"LatticeStatistics.hpp"
+	"UnitTest++/UnitTest++.h"
+
+1522144512 source:c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.cpp
+	"ForcedBgkDynamics.hpp"
+	<gsl/gsl>
+	"Helpers.hpp"
+	"IblbmDebug.hpp"
+
+1522147404 c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.hpp
+	<gsl/gsl>
+	"AbstractDynamics.hpp"
+
+1522144713 source:c:\lyer\git repos\iblbm\unittests\testforcedbgkdynamics.cpp
+	<iostream>
+	<numeric>
+	"BulkMomenta.hpp"
+	"Cell.hpp"
+	"ForcedBgkDynamics.hpp"
+	"UnitTestCustomUtilities.hpp"
+	"UnitTest++/UnitTest++.h"
+
+1522138371 c:\lyer\git repos\iblbm\src\core\coreutilities.hpp
+	<numeric>
+	<vector>
+	"IblbmDebug.hpp"
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\gsl
+	<gsl/gsl_algorithm>
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<gsl/multi_span>
+	<gsl/pointers>
+	<gsl/span>
+	<gsl/string_span>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\gsl_algorithm
+	<gsl/gsl_assert>
+	<gsl/span>
+	<algorithm>
+	<cstddef>
+	<type_traits>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\gsl_assert
+	<exception>
+	<stdexcept>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\span
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<algorithm>
+	<array>
+	<cstddef>
+	<iterator>
+	<limits>
+	<stdexcept>
+	<type_traits>
+	<utility>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\gsl_byte
+	<type_traits>
+	<cstddef>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\gsl_util
+	<gsl/gsl_assert>
+	<array>
+	<cstddef>
+	<exception>
+	<initializer_list>
+	<type_traits>
+	<utility>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\multi_span
+	<gsl/gsl_assert>
+	<gsl/gsl_byte>
+	<gsl/gsl_util>
+	<algorithm>
+	<array>
+	<cassert>
+	<cstddef>
+	<cstdint>
+	<functional>
+	<initializer_list>
+	<iterator>
+	<limits>
+	<new>
+	<numeric>
+	<stdexcept>
+	<string>
+	<type_traits>
+	<utility>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\pointers
+	<gsl/gsl_assert>
+	<algorithm>
+	<iosfwd>
+	<memory>
+	<system_error>
+	<type_traits>
+
+1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\string_span
+	<gsl/gsl_assert>
+	<gsl/gsl_util>
+	<gsl/span>
+	<algorithm>
+	<array>
+	<cstddef>
+	<cstdint>
+	<cstring>
+	<string>
+	<type_traits>
 

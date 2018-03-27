@@ -1,10 +1,12 @@
 #include <cassert>
 #include <iostream>
+#include <numeric>
 
 #include "BgkDynamics.hpp"
 #include "BulkMomenta.hpp"
 #include "Cell.hpp"
-#include "UnitTest++.h"
+#include "ForcedBgkDynamics.hpp"
+#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {
@@ -20,7 +22,8 @@ TEST(TestCell_Constructor_Default)
 {
   typedef descriptor::D2Q9DescriptorBase<double> B;
   Cell<double, descriptor::D2Q9Descriptor> cell;
-  for (auto q = 0u; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+
+  for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
 
   CHECK(cell.pGetDynamics() == nullptr);
 }
@@ -32,7 +35,54 @@ TEST(TestCell_Constructor_WithDynamics)
   BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
-  for (auto q = 0u; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+
+  for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+
+  CHECK(cell.pGetDynamics() == &dynamics);
+}
+
+TEST(TestCell_Constructor_WithForcedDynamics)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  typedef descriptor::ForcedD2Q9Descriptor<double> D;
+
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+  const auto const_cell = cell;
+
+  for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+  for (auto i = 0u; i < D::ExternalField::sNumScalars; ++i) {
+    const auto external = const_cell.rGetExternal(
+        D::ExternalField::sForceOffset + i);
+    CHECK_CLOSE(0.0, external, g_zero_tol);
+    CHECK_CLOSE(0.0, cell.rGetExternal(D::ExternalField::sForceOffset + i),
+        g_zero_tol);
+  }
+
+  CHECK(cell.pGetDynamics() == &dynamics);
+}
+
+TEST(TestCell_SetExternalfield)
+{
+  typedef descriptor::ForcedD2Q9Descriptor<double> D;
+
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+
+  auto offset = 0u;
+  std::vector<double> exp_force(D::ExternalField::sNumScalars);
+  std::iota(exp_force.begin(), exp_force.end(), 1.0);
+
+  cell.SetExternalField(offset, exp_force);
+
+  for (auto i = 0u; i < D::ExternalField::sNumScalars; ++i) {
+    CHECK_CLOSE(exp_force[i], cell.rGetExternal(
+        D::ExternalField::sForceOffset + i), g_zero_tol);
+  }
 
   CHECK(cell.pGetDynamics() == &dynamics);
 }

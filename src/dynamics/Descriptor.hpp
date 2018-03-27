@@ -2,6 +2,7 @@
 #define SRC_DYNAMICS_DESCRIPTOR_HPP_
 
 #include <cstddef>
+#include <gsl/gsl>
 #include <stdexcept>
 #include <vector>
 
@@ -24,12 +25,12 @@ namespace descriptor
 {
 struct NoExternalField
 {
-  static const std::size_t sNumScalars = 0;
-  static const std::size_t sNumSpecies = 0;
-  static const int sForceBeginsAt = 0;
-  static const std::size_t sSizeOfForce = 0;
-  static const int sVelocityBeginsAt = 0;
-  static const std::size_t sSizeOfVelocity = 0;
+  static const std::size_t sNumScalars {0};
+  static const std::size_t sNumSpecies {0};
+  static const gsl::index sForceOffset {0};
+  static const std::size_t sSizeOfForce {0};
+  static const gsl::index sVelocityOffset {0};
+  static const std::size_t sSizeOfVelocity {0};
 };
 
 struct NoExternalFieldBase
@@ -40,10 +41,10 @@ struct NoExternalFieldBase
 
 struct Force2dDescriptor
 {
-  static const std::size_t sNumScalars = 2;
-  static const std::size_t sNumSpecies = 1;
-  static const int sForceBeginsAt = 0;
-  static const std::size_t sSizeOfForce = 2;
+  static const std::size_t sNumScalars {2};
+  static const std::size_t sNumSpecies {1};
+  static const gsl::index sForceOffset {0};
+  static const std::size_t sSizeOfForce {2};
 };
 
 struct Force2dDescriptorBase
@@ -61,7 +62,7 @@ class ExternalFieldVector
    *
    * \param rIndex index of the accessed distribution function
    */
-  T& operator[](const std::size_t& rIndex)
+  T& operator[](const gsl::index& rIndex)
   {
     return mData[rIndex];
   }
@@ -71,7 +72,7 @@ class ExternalFieldVector
    *
    * \param rIndex index of the accessed distribution function
    */
-  const T& operator[](const std::size_t& rIndex) const
+  const T& operator[](const gsl::index& rIndex) const
   {
     return mData[rIndex];
   }
@@ -95,10 +96,10 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  T& operator[](const std::size_t& /*rIndex*/)
+  T& operator[](const gsl::index& /*rIndex*/)
   {
     IBLBM_PRECONDITION(false);
-    static T data = T();
+    static T data {};
     return data;
   }
 
@@ -107,10 +108,10 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  const T& operator[](const std::size_t& /*rIndex*/) const
+  const T& operator[](const gsl::index& /*rIndex*/) const
   {
     IBLBM_PRECONDITION(false);
-    static T data = T();
+    static T data {};
     return data;
   }
 
@@ -134,9 +135,9 @@ struct D2Q9DescriptorBase
   /** Declares BaseDescriptor to be an alias for D2Q9DescriptorBase<T> */
   typedef D2Q9DescriptorBase<T> BaseDescriptor;
   /** Number of dimensions */
-  static constexpr std::size_t sD = 2u;
+  static constexpr std::size_t sD {2};
   /** Number of distribution functions */
-  static constexpr std::size_t sQ = 9u;
+  static constexpr std::size_t sQ {9};
   /** Size of neighborhood */
   static const std::size_t sVicinity;
   /** Lattice directions */

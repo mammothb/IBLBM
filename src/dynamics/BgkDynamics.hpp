@@ -25,7 +25,9 @@ class BgkDynamics : public AbstractDynamics<T, Lattice>
    *
    * \param rCell target cell
    */
-  void Collide(Cell<T, Lattice>& rCell) override;
+  void Collide(
+      Cell<T, Lattice>& rCell
+    , LatticeStatistics<T>& rStatistics) override;
 
   /**
    * \return local relaxation parameter (inverse relaxation time) of the

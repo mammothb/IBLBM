@@ -57,24 +57,24 @@ class UnitConverter
     , T physViscosity
     , T physDensity
     , T charPhysPressure = 0)
-    : mConvLength(physDeltaX),
-      mConvTime(physDeltaT),
-      mConvVelocity(mConvLength / mConvTime),
-      mConvDensity(physDensity),
-      mConvMass(mConvDensity * mConvLength * mConvLength * mConvLength),
-      mConvViscosity(mConvLength * mConvLength / mConvTime),
-      mConvForce(mConvMass * mConvLength / mConvTime / mConvTime),
-      mConvPressure(mConvForce / mConvLength / mConvLength),
-      mCharPhysLength(charPhysLength),
-      mCharPhysVelocity(charPhysVelocity),
-      mPhysViscosity(physViscosity),
-      mPhysDensity(physDensity),
-      mCharPhysPressure(charPhysPressure),
-      mResolution(static_cast<unsigned>(mCharPhysLength / mConvLength +
-          0.5)),
-      mRelaxationTime(mPhysViscosity / mConvViscosity *
-          Lattice<T>::sInvCsSqr + 0.5),
-      mCharLatticeVelocity(mCharPhysVelocity / mConvVelocity)
+    : mConvLength{physDeltaX},
+      mConvTime{physDeltaT},
+      mConvVelocity{mConvLength / mConvTime},
+      mConvDensity{physDensity},
+      mConvMass{mConvDensity * mConvLength * mConvLength * mConvLength},
+      mConvViscosity{mConvLength * mConvLength / mConvTime},
+      mConvForce{mConvMass * mConvLength / mConvTime / mConvTime},
+      mConvPressure{mConvForce / mConvLength / mConvLength},
+      mCharPhysLength{charPhysLength},
+      mCharPhysVelocity{charPhysVelocity},
+      mPhysViscosity{physViscosity},
+      mPhysDensity{physDensity},
+      mCharPhysPressure{charPhysPressure},
+      mResolution{static_cast<unsigned>(mCharPhysLength / mConvLength +
+          0.5)},
+      mRelaxationTime{mPhysViscosity / mConvViscosity *
+          Lattice<T>::sInvCsSqr + 0.5},
+      mCharLatticeVelocity{mCharPhysVelocity / mConvVelocity}
   {}
 
   virtual ~UnitConverter() = default;

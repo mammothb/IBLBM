@@ -29,7 +29,6 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++14" />
 					<Add option="-g" />
 					<Add option="-DIBLBM_DEBUG" />
 				</Compiler>
@@ -57,7 +56,6 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++14" />
 					<Add option="-g" />
 					<Add option="-DIBLBM_DEBUG" />
 				</Compiler>
@@ -85,7 +83,6 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++14" />
 					<Add option="-g" />
 					<Add option="-DIBLBM_DEBUG" />
 					<Add option="-DIBLBM_USE_GENERIC" />
@@ -115,7 +112,6 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++14" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -141,9 +137,10 @@
 			<Add option="-pedantic" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-std=c++14" />
 			<Add option="-fexceptions" />
-			<Add directory="thirdparty/UnitTest++" />
+			<Add option="-Wno-sign-compare" />
+			<Add option="-std=c++17" />
+			<Add directory="thirdparty" />
 			<Add directory="src/lattice" />
 			<Add directory="src/fortests" />
 			<Add directory="src/utility" />
@@ -177,7 +174,10 @@
 		<Unit filename="src/collision/CollisionNsf.hpp" />
 		<Unit filename="src/core/Cell.cpp" />
 		<Unit filename="src/core/Cell.hpp" />
+		<Unit filename="src/core/CoreUtilities.hpp" />
 		<Unit filename="src/core/IblbmDebug.hpp" />
+		<Unit filename="src/core/LatticeStatistics.cpp" />
+		<Unit filename="src/core/LatticeStatistics.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
 		<Unit filename="src/core/UnitConverter.hpp" />
 		<Unit filename="src/dynamics/AbstractDynamics.cpp" />
@@ -192,6 +192,8 @@
 		<Unit filename="src/dynamics/BulkMomenta.hpp" />
 		<Unit filename="src/dynamics/Descriptor.cpp" />
 		<Unit filename="src/dynamics/Descriptor.hpp" />
+		<Unit filename="src/dynamics/ForcedBgkDynamics.cpp" />
+		<Unit filename="src/dynamics/ForcedBgkDynamics.hpp" />
 		<Unit filename="src/dynamics/Helpers.hpp" />
 		<Unit filename="src/dynamics/HelpersD2Q9.hpp" />
 		<Unit filename="src/fortests/UnitTestCustomUtilities.hpp" />
@@ -217,10 +219,12 @@
 		<Unit filename="unittests/TestCell.cpp" />
 		<Unit filename="unittests/TestCollisionNsf.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
+		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />
 		<Unit filename="unittests/TestIblbmUtilities.cpp" />
 		<Unit filename="unittests/TestLattice2D.cpp" />
 		<Unit filename="unittests/TestLatticeBoltzmannMethod.cpp" />
+		<Unit filename="unittests/TestLatticeStatistics.cpp" />
 		<Unit filename="unittests/TestPeriodicBoundary.cpp" />
 		<Unit filename="unittests/TestStream2D.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />

@@ -15,5 +15,7 @@ void AbstractMomentaInterface<T, Lattice>::ComputeRhoAndU(
 
 // Explicit instantiation
 template class AbstractMomentaInterface<double, descriptor::D2Q9Descriptor>;
+template class AbstractMomentaInterface<double,
+    descriptor::ForcedD2Q9Descriptor>;
 }  // namespace iblbm
 

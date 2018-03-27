@@ -2,9 +2,10 @@
 #include <vector>
 
 #include "CollisionNsf.hpp"
+#include "CoreUtilities.hpp"
 #include "IblbmUtilities.hpp"
 #include "Lattice2D.hpp"
-#include "UnitTest++.h"
+#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "UnitTest++.h"
-#include "TestReporterStdout.h"
+#include "UnitTest++/UnitTest++.h"
+#include "UnitTest++/TestReporterStdout.h"
 
 namespace iblbm
 {

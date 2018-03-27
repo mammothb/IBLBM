@@ -15,10 +15,11 @@ void BulkMomenta<T, Lattice>::ComputeU(
     const Cell<T, Lattice>& rCell
   , std::vector<T>& rU) const
 {
-  auto dummy_rho = T();
+  T dummy_rho {};
   LbmHelper<T, Lattice>::ComputeRhoAndU(rCell, dummy_rho, rU);
 }
 
 // Explicit instantiation
 template class BulkMomenta<double, descriptor::D2Q9Descriptor>;
+template class BulkMomenta<double, descriptor::ForcedD2Q9Descriptor>;
 }  // namespace iblbm

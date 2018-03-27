@@ -2,7 +2,7 @@
 
 #include "Lattice2D.hpp"
 #include "UnitTestCustomUtilities.hpp"
-#include "UnitTest++.h"
+#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "CoreUtilities.hpp"
 #include "IblbmUtilities.hpp"
 
 namespace iblbm
