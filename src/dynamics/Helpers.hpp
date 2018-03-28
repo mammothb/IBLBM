@@ -1,9 +1,9 @@
 #ifndef SRC_DYNAMICS_HELPERS_HPP_
 #define SRC_DYNAMICS_HELPERS_HPP_
 
-#include <gsl/gsl>
 #include <numeric>
 
+#include "gsl/gsl"
 #include "Cell.hpp"
 #include "CoreUtilities.hpp"
 #include "Descriptor.hpp"

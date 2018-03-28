@@ -1,9 +1,9 @@
 #ifndef SRC_CORE_CELL_HPP_
 #define SRC_CORE_CELL_HPP_
 
-#include <gsl/gsl>
 #include <vector>
 
+#include "gsl/gsl"
 #include "AbstractDynamicsInterface.hpp"
 #include "Descriptor.hpp"
 #include "IblbmDebug.hpp"

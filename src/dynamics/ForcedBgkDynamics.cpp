@@ -1,7 +1,6 @@
 #include "ForcedBgkDynamics.hpp"
 
-#include <gsl/gsl>
-
+#include "gsl/gsl"
 #include "Helpers.hpp"
 #include "IblbmDebug.hpp"
 

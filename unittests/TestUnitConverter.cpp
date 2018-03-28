@@ -1,8 +1,8 @@
 #include <cmath>
 
+#include "UnitTest++/UnitTest++.h"
 #include "Descriptor.hpp"
 #include "UnitConverter.hpp"
-#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

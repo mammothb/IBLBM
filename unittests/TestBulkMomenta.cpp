@@ -1,11 +1,11 @@
 #include <iostream>
 
+#include "UnitTest++/UnitTest++.h"
 #include "BgkDynamics.hpp"
 #include "BulkMomenta.hpp"
 #include "Cell.hpp"
 #include "Descriptor.hpp"
 #include "UnitTestCustomUtilities.hpp"
-#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

@@ -2,11 +2,11 @@
 #include <iostream>
 #include <numeric>
 
+#include "UnitTest++/UnitTest++.h"
 #include "BgkDynamics.hpp"
 #include "BulkMomenta.hpp"
 #include "Cell.hpp"
 #include "ForcedBgkDynamics.hpp"
-#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {
@@ -36,7 +36,8 @@ TEST(TestCell_Constructor_WithDynamics)
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
 
-  for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
+  for (gsl::index q = 0; q < B::sQ; ++q)
+      CHECK_CLOSE(0.0, cell[q], g_zero_tol);
 
   CHECK(cell.pGetDynamics() == &dynamics);
 }

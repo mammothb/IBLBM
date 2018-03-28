@@ -1,12 +1,12 @@
-#include <gsl/gsl>
 #include <iostream>
 #include <numeric>
 
+#include "gsl/gsl"
+#include "UnitTest++/UnitTest++.h"
 #include "BgkDynamics.hpp"
 #include "BulkMomenta.hpp"
 #include "Cell.hpp"
 #include "UnitTestCustomUtilities.hpp"
-#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {

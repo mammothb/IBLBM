@@ -1,63 +1,38 @@
-#include <vector>
-
-#include "BounceBackBoundary.hpp"
-#include "CollisionNsf.hpp"
-#include "DataWriter.hpp"
-#include "Lattice2D.hpp"
-#include "LatticeBoltzmannMethod.hpp"
-#include "PeriodicBoundary.hpp"
-#include "Stream2D.hpp"
+#include <iostream>
 #include "UnitTest++/UnitTest++.h"
+#include "Descriptor.hpp"
+#include "UnitConverter.hpp"
 
 namespace iblbm
 {
-TEST(SimulatePoiseuilleFlow_BodyForce_FullwayBounceBack)
+TEST(Simulation_Poiseuille_BodyForceDriven)
 {
-  auto ny = 18u;
-  auto nx = 34u;
-  auto initial_density = 1.0;
-  std::vector<double> initial_velocity = {0.0, 0.0};
-  std::vector<double> body_force = {0.001, 0.0};
-  auto sim_time = 10001u;
-  auto sampling_interval = sim_time / 100;
-
-  Lattice2D lattice(nx, ny, initial_velocity);
-  CollisionNsf collision(lattice, initial_density);
-  Stream2D stream(lattice);
-  BounceBackBoundary bounce_back(lattice, &collision);
-  PeriodicBoundary periodic(lattice, collision);
-
-  LatticeBoltzmannMethod lbm(lattice, collision, stream);
-  DataWriter writer(lattice);
-
-  for (auto x = 0u; x < nx; ++x) {
-    bounce_back.AddNode(x, 0u);
-    bounce_back.AddNode(x, ny - 1);
-  }
-  for (auto y = 1u; y < ny - 1; ++y) {
-    periodic.AddNode(0u, y);
-    periodic.AddNode(nx - 1, y);
-  }
-
-  collision.SetForce(body_force);
-  collision.SetRelaxationTime(0.8);
-
-  lbm.AddBoundaryCondition(&bounce_back);
-  lbm.AddBoundaryCondition(&periodic);
-
-  writer.RegisterNsEquation(&lbm, &collision);
-
-  for (auto t = 0u; t < sim_time; ++t) {
-    lbm.TakeStep();
-    if (t % sampling_interval == 0) {
-      writer.WriteResult(t);
-      std::cout << t << std::endl;
+  class PoiseuilleBodyForceDriven
+  {
+   public:
+    PoiseuilleBodyForceDriven()
+    {
+      std::cout << "called" << std::endl;
     }
-  }
-  auto velocity = lattice.rGetVelocity();
-  for (auto y = 1u; y < ny - 1; ++y) {
-    auto n = nx / 2 + y * nx;
-    std::cout << velocity[n][0] << std::endl;
-  }
+  };
+  const auto lx = 2.0;  // length of channel
+  const auto ly = 1.0;  // height of channel
+  const auto resolution = 20;
+  const auto Re = 10.0;  // Reynolds number
+  const auto max_phys_time = 20.0;  // Max simulation time, s
+  const auto phys_interval = 0.2;  // Interval for convergence check, s
+  const auto residual = 1e-5;  // residual for convergence check
+
+  const UnitConverterFromResolutionAndRelaxationTime<double,
+      descriptor::ForcedD2Q9Descriptor> converter(
+          unsigned{resolution},
+          /*latticeRelaxationTime=*/0.8,
+          /*charPhysLength=*/1.0,
+          /*charPhysVelocity=*/1.0,
+          /*physViscosity=*/1.0 / Re,
+          /*physDensity=*/1.0
+      );
+
+  PoiseuilleBodyForceDriven simulation;
 }
 }  // namespace iblbm

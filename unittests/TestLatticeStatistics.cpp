@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "LatticeStatistics.hpp"
 #include "UnitTest++/UnitTest++.h"
+#include "LatticeStatistics.hpp"
 
 namespace iblbm
 {

@@ -1,4 +1,5 @@
 #include "AbstractMomentaInterface.hpp"
+
 #include "Descriptor.hpp"
 
 namespace iblbm

@@ -1,8 +1,7 @@
 #ifndef SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
 #define SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
 
-#include <gsl/gsl>
-
+#include "gsl/gsl"
 #include "AbstractDynamics.hpp"
 
 namespace iblbm

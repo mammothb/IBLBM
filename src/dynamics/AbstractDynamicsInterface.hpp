@@ -1,7 +1,7 @@
 #ifndef SRC_DYNAMICS_ABSTRACTDYNAMICSINTERFACE_HPP_
 #define SRC_DYNAMICS_ABSTRACTDYNAMICSINTERFACE_HPP_
 
-#include <gsl/gsl>
+#include "gsl/gsl"
 
 #include "Descriptor.hpp"
 #include "LatticeStatistics.hpp"

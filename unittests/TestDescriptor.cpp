@@ -1,9 +1,8 @@
 #include <iostream>
 
-#include "Descriptor.hpp"
-#include "IblbmUtilities.hpp"
-#include "UnitTestCustomUtilities.hpp"
 #include "UnitTest++/UnitTest++.h"
+#include "Descriptor.hpp"
+#include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
 {
@@ -68,7 +67,7 @@ TEST(TestDescriptor_D2Q9DescriptorBase)
       {0, 0},
       {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
   };
-  std::vector<std::size_t> exp_opposite = {
+  std::vector<gsl::index> exp_opposite = {
       0, 5, 6, 7, 8, 1, 2, 3, 4
   };
   std::vector<double> exp_weight = {
@@ -108,7 +107,7 @@ TEST(TestDescriptor_D2Q9Descriptor)
       {0, 0},
       {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
   };
-  std::vector<std::size_t> exp_opposite = {
+  std::vector<gsl::index> exp_opposite = {
       0, 5, 6, 7, 8, 1, 2, 3, 4
   };
   std::vector<double> exp_weight = {
@@ -155,7 +154,7 @@ TEST(TestDescriptor_ForcedD2Q9Descriptor)
       {0, 0},
       {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
   };
-  std::vector<std::size_t> exp_opposite = {
+  std::vector<gsl::index> exp_opposite = {
       0, 5, 6, 7, 8, 1, 2, 3, 4
   };
   std::vector<double> exp_weight = {

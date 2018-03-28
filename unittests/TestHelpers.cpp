@@ -2,6 +2,7 @@
 #include <numeric>
 #include <vector>
 
+#include "UnitTest++/UnitTest++.h"
 #include "BgkDynamics.hpp"
 #include "BulkMomenta.hpp"
 #include "CoreUtilities.hpp"
@@ -9,7 +10,6 @@
 #include "ForcedBgkDynamics.hpp"
 #include "Helpers.hpp"
 #include "UnitTestCustomUtilities.hpp"
-#include "UnitTest++/UnitTest++.h"
 
 namespace iblbm
 {
@@ -24,6 +24,42 @@ static const auto g_cell_density = 1.2;
 static const std::vector<double> g_cell_velocity = {3.4, 5.6};
 static const auto g_u_sqr = std::inner_product(g_cell_velocity.begin(),
       g_cell_velocity.end(), g_cell_velocity.begin(), 0.0);
+
+//TEST(bench)
+//{
+//  std::vector<double> vec_1(10000, 1.2);
+//  using namespace std::chrono;
+//  auto t1 = high_resolution_clock::now();
+//  for (auto i = 0; i < 10000; ++i)
+//      for (auto it : vec_1) auto tmp = it;
+//  auto t2 = high_resolution_clock::now();
+//  auto duration = duration_cast<microseconds>(t2 - t1).count();
+//  std::cout << duration << std::endl;
+//
+//  std::vector<double> vec_2(10000, 1.2);
+//  t1 = high_resolution_clock::now();
+//  for (auto i = 0; i < 10000; ++i)
+//      for (const auto& rIt : vec_2) auto tmp = rIt;
+//  t2 = high_resolution_clock::now();
+//  duration = duration_cast<microseconds>(t2 - t1).count();
+//  std::cout << duration << std::endl;
+//
+//  std::vector<double> vec_3(10000, 1.2);
+//  t1 = high_resolution_clock::now();
+//  for (auto i = 0; i < 10000; ++i)
+//      for (gsl::index j = 0; j < vec_3.size(); ++j) auto tmp = vec_3[j];
+//  t2 = high_resolution_clock::now();
+//  duration = duration_cast<microseconds>(t2 - t1).count();
+//  std::cout << duration << std::endl;
+//
+//  std::vector<double> vec_4(10000, 1.2);
+//  t1 = high_resolution_clock::now();
+//  for (auto i = 0; i < 10000; ++i)
+//      for (gsl::index j = 0; j < 10000; ++j) auto tmp = vec_4[j];
+//  t2 = high_resolution_clock::now();
+//  duration = duration_cast<microseconds>(t2 - t1).count();
+//  std::cout << duration << std::endl;
+//}
 
 TEST(TestLbmHelpers_ComputeEquilibrium)
 {

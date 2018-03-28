@@ -2,10 +2,10 @@
 #define SRC_DYNAMICS_DESCRIPTOR_HPP_
 
 #include <cstddef>
-#include <gsl/gsl>
 #include <stdexcept>
 #include <vector>
 
+#include "gsl/gsl"
 #include "IblbmDebug.hpp"
 
 /** \file
@@ -143,7 +143,7 @@ struct D2Q9DescriptorBase
   /** Lattice directions */
   static const std::vector<std::vector<T>> sE;
   /** Opposite directions */
-  static const std::vector<std::size_t> sOpposite;
+  static const std::vector<gsl::index> sOpposite;
   /** Lattice weights */
   static const std::vector<T> sWeight;
   /** Inverse of square of speed of sound, convenience variable */

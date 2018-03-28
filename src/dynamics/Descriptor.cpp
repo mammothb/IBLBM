@@ -29,7 +29,7 @@ const std::vector<std::vector<T>> D2Q9DescriptorBase<T>::sE {
 };
 
 template <typename T>
-const std::vector<std::size_t> D2Q9DescriptorBase<T>::sOpposite {
+const std::vector<gsl::index> D2Q9DescriptorBase<T>::sOpposite {
     0, 5, 6, 7, 8, 1, 2, 3, 4
 };
 
