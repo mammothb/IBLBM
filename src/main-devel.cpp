@@ -15,6 +15,7 @@ int main(int argc, char** argv)
       "TestBoundary",
       "TestCore",
       "TestDynamics",
+      "TestFunctor",
       "TestIo"
   };
 

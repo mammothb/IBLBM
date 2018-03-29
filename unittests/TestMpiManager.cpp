@@ -18,10 +18,8 @@ SUITE(TestParallel)
 {
 TEST(TestMpiManager_Initialize)
 {
-  TestMpiManager tester;
-
 #ifdef IBLBM_PARALLEL_MPI
-
+  TestMpiManager tester;
   CHECK_EQUAL(true, tester.GetIsOk());
 
   int my_rank;

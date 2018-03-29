@@ -183,14 +183,16 @@
 			<Add option="-fexceptions" />
 			<Add option="-Wno-sign-compare" />
 			<Add option="-std=c++17" />
-			<Add directory="thirdparty" />
-			<Add directory="src/fortests" />
-			<Add directory="src/boundary" />
 			<Add directory="$(#boost.include)" />
-			<Add directory="src/dynamics" />
+			<Add directory="src/boundary" />
 			<Add directory="src/core" />
+			<Add directory="src/dynamics" />
+			<Add directory="src/fortests" />
+			<Add directory="src/functor" />
+			<Add directory="src/functor/lattice/indicator" />
 			<Add directory="src/io" />
 			<Add directory="src/parallel" />
+			<Add directory="thirdparty" />
 		</Compiler>
 		<Linker>
 			<Add option="-lboost_filesystem" />
@@ -206,6 +208,7 @@
 		<Unit filename="src/core/Cell.hpp" />
 		<Unit filename="src/core/CoreUtilities.hpp" />
 		<Unit filename="src/core/IblbmDebug.hpp" />
+		<Unit filename="src/core/IblbmInitialize.hpp" />
 		<Unit filename="src/core/LatticeStatistics.cpp" />
 		<Unit filename="src/core/LatticeStatistics.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
@@ -227,17 +230,15 @@
 		<Unit filename="src/dynamics/Helpers.hpp" />
 		<Unit filename="src/dynamics/HelpersD2Q9.hpp" />
 		<Unit filename="src/fortests/UnitTestCustomUtilities.hpp" />
+		<Unit filename="src/functor/AbstractFunctor.cpp" />
+		<Unit filename="src/functor/AbstractFunctor.hpp" />
+		<Unit filename="src/functor/lattice/indicator/AbstractIndicatorFunctor2D.cpp" />
+		<Unit filename="src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp" />
+		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.cpp" />
+		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.hpp" />
 		<Unit filename="src/io/OstreamManager.cpp" />
 		<Unit filename="src/io/OstreamManager.hpp" />
-		<Unit filename="src/main-devel-parallel.cpp">
-			<Option target="ParallelOptGenericDebug" />
-		</Unit>
-		<Unit filename="src/main-devel.cpp">
-			<Option target="Debug" />
-			<Option target="OptDebug" />
-			<Option target="OptGenericDebug" />
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="src/main-devel.cpp" />
 		<Unit filename="src/parallel/MpiManager.cpp" />
 		<Unit filename="src/parallel/MpiManager.hpp" />
 		<Unit filename="unittests/TestBgkDynamics.cpp" />
@@ -246,8 +247,10 @@
 		<Unit filename="unittests/TestDescriptor.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />
+		<Unit filename="unittests/TestIndicatorCuboid2D.cpp" />
 		<Unit filename="unittests/TestLatticeStatistics.cpp" />
 		<Unit filename="unittests/TestMomentumExchangeBounceBackBoundary.cpp" />
+		<Unit filename="unittests/TestMpiManager.cpp" />
 		<Unit filename="unittests/TestOstreamManager.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
 		<Extensions>

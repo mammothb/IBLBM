@@ -15,6 +15,8 @@ TEST(Simulation_Poiseuille_BodyForceDriven)
       std::cout << "called" << std::endl;
     }
   };
+
+  // ========== Initialization ==========
   const auto lx = 2.0;  // length of channel
   const auto ly = 1.0;  // height of channel
   const auto resolution = 20;
@@ -32,6 +34,9 @@ TEST(Simulation_Poiseuille_BodyForceDriven)
           /*physViscosity=*/1.0 / Re,
           /*physDensity=*/1.0
       );
+  converter.Print();
+
+  // ========== Prepare geometry ==========
 
   PoiseuilleBodyForceDriven simulation;
 }

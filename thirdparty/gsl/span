@@ -660,6 +660,13 @@ constexpr span<ElementType> make_span(ElementType* ptr, typename span<ElementTyp
     return span<ElementType>(ptr, count);
 }
 
+// Custom overload for when we just want to create a span with size 1
+template <class ElementType>
+constexpr span<ElementType> make_span(ElementType* ptr)
+{
+    return span<ElementType>(ptr, typename span<ElementType>::index_type{1});
+}
+
 template <class ElementType>
 constexpr span<ElementType> make_span(ElementType* firstElem, ElementType* lastElem)
 {
