@@ -380,10 +380,11 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1522226372 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1522303601 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
+	"IblbmInitialize.hpp"
 	"UnitTestCustomUtilities.hpp"
 	<iostream>
 
@@ -875,14 +876,16 @@
 	<string>
 	<type_traits>
 
-1522207868 source:/home/mmb/code/IBLBM/src/core/UnitConverter.cpp
+1522300181 source:/home/mmb/code/IBLBM/src/core/UnitConverter.cpp
 	"UnitConverter.hpp"
 	"Descriptor.hpp"
 
-1522198333 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
+1522292013 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
 	<cmath>
+	<iostream>
+	"OstreamManager.hpp"
 
-1522203030 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+1522302824 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
 	<cmath>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
@@ -7367,22 +7370,24 @@
 	"LatticeStatistics.hpp"
 	"MomentumExchangeBounceBackBoundary.hpp"
 
-1522217907 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
+1522302350 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
 	"OstreamManager.hpp"
 	"IblbmDebug.hpp"
 	"MpiManager.hpp"
 
-1522214538 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
+1522290436 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
 	<sstream>
 
-1522215884 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
+1522303581 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
+	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1522216961 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
+1522302357 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
+	"MpiManager.hpp"
 
-1522226664 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
+1522304540 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
 	"mpi.hpp"
 	<vector>
 	<string>
@@ -7401,4 +7406,20 @@
 	<boost/mpi/operations.hpp>
 	<boost/mpi/skeleton_and_content.hpp>
 	<boost/mpi/timer.hpp>
+
+1522299993 source:/home/mmb/code/IBLBM/src/main-devel-parallel.cpp
+	<string>
+	<vector>
+	"UnitTest++/UnitTest++.h"
+	"IblbmInitialize.hpp"
+	"UnitTestCustomUtilities.hpp"
+	<iostream>
+
+1522302365 /home/mmb/code/IBLBM/src/core/IblbmInitialize.hpp
+	<iostream>
+	"MpiManager.hpp"
+	"OstreamManager.hpp"
+
+1522304254 source:/home/mmb/code/IBLBM/unittests/TestMpiManager.cpp
+	"UnitTest++/UnitTest++.h"
 

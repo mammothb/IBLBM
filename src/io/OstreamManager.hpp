@@ -29,22 +29,16 @@ class OstreamManagerBuffer : public std::stringbuf
       std::ostream& rStream
     , const std::string& rClassName);
 
-  /**
-   * Destructor, do nothing
-   */
+  /** Destructor, do nothing */
   ~OstreamManagerBuffer() override;
 
   /**
    * Copy constructor, copies mpOutput and mText from rRhs. Content from
    * std::stringbuf is discarded
-   *
-   * \param rRhs the OstreamManagerBuffer to be copied from
    */
   OstreamManagerBuffer(const OstreamManagerBuffer& rRhs);
 
-  /**
-   * Copy assignment, copies mpOutput and mText from rRhs
-   */
+  /** Copy assignment, copies mpOutput and mText from rRhs */
   OstreamManagerBuffer& operator=(const OstreamManagerBuffer& rRhs);
 
   /** Set flag for output among multiple processes */
@@ -59,6 +53,48 @@ class OstreamManagerBuffer : public std::stringbuf
   /** Name of the owner class */
   std::string mName;
   static bool msIsMultiOutput;
+};
+
+class OstreamManager : public std::ostream
+{
+ public:
+  /**
+   * Constructor. Uses std::cout by default
+   *
+   * \param rClassName class name for mBuffer
+   */
+  explicit OstreamManager(const std::string& rClassName);
+
+  /**
+   * Constructor. Default usage
+   *
+   * \param rStream output stream
+   * \param rClassName class name for mBuffer
+   */
+  OstreamManager(
+      std::ostream& rStream
+    , const std::string& rClassName);
+
+  /** Destructor */
+  ~OstreamManager() override;
+
+  /** Copy constructor */
+  OstreamManager(const OstreamManager& rRhs);
+
+  /** Copy assignment */
+  OstreamManager& operator=(const OstreamManager& rRhs);
+
+  /**
+   * Set flag to enable message output from all MPI processes
+   *
+   * \param isMultiOutput TRUE: enable messages from all MPI processes
+   *                      FALSE: message output from master process only
+   */
+  void SetIsMultiOutput(bool isMultiOutput = true);
+
+ private:
+  /** OstreamManager has it's own special overloaded buffer */
+  OstreamManagerBuffer mBuffer;
 };
 }
 

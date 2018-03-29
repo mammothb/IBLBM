@@ -1,7 +1,7 @@
-bin/
-obj/
-lib/
-result/
+bin
+obj
+lib
+result
 
 *.layout
 *.o

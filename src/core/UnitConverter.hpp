@@ -2,6 +2,9 @@
 #define SRC_CORE_UNITCONVERTER_HPP_
 
 #include <cmath>
+#include <iostream>
+
+#include "OstreamManager.hpp"
 
 namespace iblbm
 {
@@ -74,7 +77,8 @@ class UnitConverter
           0.5)},
       mRelaxationTime{mPhysViscosity / mConvViscosity *
           Lattice<T>::sInvCsSqr + 0.5},
-      mCharLatticeVelocity{mCharPhysVelocity / mConvVelocity}
+      mCharLatticeVelocity{mCharPhysVelocity / mConvVelocity},
+      mOstream{std::cout, "UnitConverter"}
   {}
 
   virtual ~UnitConverter() = default;
@@ -297,6 +301,11 @@ class UnitConverter
     return mConvPressure;
   }
 
+  /**
+   * Output conversion factors, characteristic and physical data to terminal
+   */
+  virtual void Print() const;
+
  protected:
   /** Conversion factors */
   const T mConvLength;  // m
@@ -319,6 +328,9 @@ class UnitConverter
   const unsigned mResolution;
   const T mRelaxationTime;
   const T mCharLatticeVelocity;
+
+ private:
+  mutable OstreamManager mOstream;
 };
 
 template <typename T, template <typename U> class Lattice>

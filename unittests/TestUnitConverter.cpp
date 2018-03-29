@@ -426,5 +426,28 @@ TEST(TestUnitConverterFromRelaxationTimeAndLatticeVelocity_Constructor)
   CHECK_CLOSE(conv_pressure, converter.GetConversionFactorPressure(),
       g_zero_tol);
 }
+
+TEST(UnitConverter_Print)
+{
+  auto delta_x = 1.2;
+  auto delta_t = 3.4;
+  auto char_phys_length = 5.6;
+  auto char_phys_velocity = 7.8;
+  auto phys_viscosity = 9.0;
+  auto phys_density = 10.11;
+  auto char_phys_pressure = 12.13;
+  // Variable for expected value calculation
+  auto lattice_length = 14u;
+  auto lattice_time = 15u;
+  auto lattice_velocity = 16.17;
+  auto lattice_mass = 18.19;
+  auto lattice_force = 20.21;
+  auto lattice_pressure = 22.23;
+
+  const UnitConverter<double, descriptor::D2Q9Descriptor> converter(delta_x,
+      delta_t, char_phys_length, char_phys_velocity, phys_viscosity,
+      phys_density, char_phys_pressure);
+//  converter.Print();
+}
 }
 }
