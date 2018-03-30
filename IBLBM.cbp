@@ -213,6 +213,7 @@
 		<Unit filename="src/core/LatticeStatistics.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
 		<Unit filename="src/core/UnitConverter.hpp" />
+		<Unit filename="src/core/Vector.hpp" />
 		<Unit filename="src/dynamics/AbstractDynamics.cpp" />
 		<Unit filename="src/dynamics/AbstractDynamics.hpp" />
 		<Unit filename="src/dynamics/AbstractDynamicsInterface.cpp" />
@@ -253,6 +254,7 @@
 		<Unit filename="unittests/TestMpiManager.cpp" />
 		<Unit filename="unittests/TestOstreamManager.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
+		<Unit filename="unittests/TestVector.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

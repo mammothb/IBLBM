@@ -2,7 +2,7 @@
 #define SRC_PARALLEL_MPIMANAGER_HPP_
 
 #ifdef IBLBM_PARALLEL_MPI
-#include "mpi.hpp"
+#include "mpi.h"
 #include <vector>
 #endif  // IBLBM_PARALLEL_MPI
 
