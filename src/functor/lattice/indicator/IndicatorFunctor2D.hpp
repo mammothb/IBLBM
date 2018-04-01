@@ -2,6 +2,7 @@
 #define SRC_FUNCTOR_LATTICE_INDICATOR_INDICATORFUNCTOR2D_HPP_
 
 #include "AbstractIndicatorFunctor2D.hpp"
+#include "Vector.hpp"
 
 namespace iblbm
 {
@@ -19,8 +20,8 @@ class IndicatorCuboid2D : public AbstractIndicatorFunctor2D<S>
    * \param theta rotation of the cuboid above its center (not origin)
    */
   IndicatorCuboid2D(
-      const std::vector<S>& rExtend
-    , const std::vector<S>& rOrigin
+      const Vector2D<S>& rExtend
+    , const Vector2D<S>& rOrigin
     , S theta = 0);
 
   /**
@@ -30,10 +31,11 @@ class IndicatorCuboid2D : public AbstractIndicatorFunctor2D<S>
    * \param rOrigin origin of the cuboid
    * \param theta rotation of the cuboid above its center (not origin)
    */
-//  IndicatorCuboid2D(
-//      S xLength
-//    , S yLength
-//    , Vector)
+  IndicatorCuboid2D(
+      S xLength
+    , S yLength
+    , const Vector2D<S>& rCenter = Vector2D<S>()
+    , S theta = 0);
 
   /**
    * Return true if input is inside, else return false
@@ -44,7 +46,7 @@ class IndicatorCuboid2D : public AbstractIndicatorFunctor2D<S>
 
  private:
   /** Coordinate of the center of the cuboid */
-  std::vector<S> mCenter;
+  Vector2D<S> mCenter;
   /** Maximum value along x-axis */
   S mXLength;
   /** Maximum value along y-axis */

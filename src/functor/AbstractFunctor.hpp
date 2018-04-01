@@ -47,8 +47,6 @@ class AbstractFunctor
    * operator()(std::vector<T>& rOutput, const std::vector<S>& rInput) from
    * above. It is aimed that it even calls the implemented pure virtual
    * operator() of derived classes
-   * Usage: derived class handles the overloaded operators by including:
-   * using AbstractFunctor<T, S>::operator();
    */
   bool operator()(gsl::span<T> output);
   bool operator()(

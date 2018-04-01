@@ -8,23 +8,31 @@ namespace iblbm
 {
 template<typename S>
 IndicatorCuboid2D<S>::IndicatorCuboid2D(
-    const std::vector<S>& rExtend
-  , const std::vector<S>& rOrigin
+    const Vector2D<S>& rExtend
+  , const Vector2D<S>& rOrigin
   , S theta/*=0*/)
   : mXLength{rExtend[0]},
     mYLength{rExtend[1]},
     mTheta{theta}
 {
-  auto my_max = rOrigin;
-  auto my_center = rOrigin;
-  // 2 since it's 2D
-  for (gsl::index d = 0; d < 2; ++d) {
-    my_max[d] += rExtend[d];
-    my_center[d] += S{0.5} * rExtend[d];
-  }
   this->mMin = rOrigin;
-  this->mMax = my_max;
-  mCenter = my_center;
+  this->mMax = rOrigin + rExtend;
+  mCenter = rOrigin + S{0.5} * rExtend;
+}
+
+template<typename S>
+IndicatorCuboid2D<S>::IndicatorCuboid2D(
+    S xLength
+  , S yLength
+  , const Vector2D<S>& rCenter/*=Vector2D<S>()*/
+  , S theta/*=0*/)
+  : mCenter{rCenter},
+    mXLength{xLength},
+    mYLength{yLength},
+    mTheta{-theta}
+{
+  this->mMin = {mCenter[0] - 0.5 * mXLength, mCenter[1] - 0.5 * mYLength};
+  this->mMax = {mCenter[0] + 0.5 * mXLength, mCenter[1] + 0.5 * mYLength};
 }
 
 template<typename S>

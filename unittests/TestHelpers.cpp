@@ -1,3 +1,4 @@
+#include <array>
 #include <chrono>
 #include <numeric>
 #include <vector>
@@ -27,7 +28,7 @@ static const auto g_u_sqr = std::inner_product(g_cell_velocity.begin(),
 
 //TEST(bench)
 //{
-//  std::vector<double> vec_1(10000, 1.2);
+//  std::array<double, 2> vec_1 = {1, 2};
 //  using namespace std::chrono;
 //  auto t1 = high_resolution_clock::now();
 //  for (auto i = 0; i < 10000; ++i)
@@ -36,18 +37,18 @@ static const auto g_u_sqr = std::inner_product(g_cell_velocity.begin(),
 //  auto duration = duration_cast<microseconds>(t2 - t1).count();
 //  std::cout << duration << std::endl;
 //
-//  std::vector<double> vec_2(10000, 1.2);
+//  std::array<double, 2> vec_2 = {1, 2};
 //  t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 10000; ++i)
-//      for (const auto& rIt : vec_2) auto tmp = rIt;
+//  for (auto i = 0; i < 1000000; ++i)
+//      for (auto& rIt : vec_2) rIt += 2.3;
 //  t2 = high_resolution_clock::now();
 //  duration = duration_cast<microseconds>(t2 - t1).count();
 //  std::cout << duration << std::endl;
 //
-//  std::vector<double> vec_3(10000, 1.2);
+//  std::array<double, 2> vec_3 = {1, 2};
 //  t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 10000; ++i)
-//      for (gsl::index j = 0; j < vec_3.size(); ++j) auto tmp = vec_3[j];
+//  for (auto i = 0; i < 1000000; ++i)
+//      for (gsl::index j = 0; j < 2; ++j) vec_3[j] += 2.3;
 //  t2 = high_resolution_clock::now();
 //  duration = duration_cast<microseconds>(t2 - t1).count();
 //  std::cout << duration << std::endl;

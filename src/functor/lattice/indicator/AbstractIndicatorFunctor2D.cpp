@@ -16,6 +16,6 @@ bool AbstractIndicatorFunctor2D<S>::operator()(const std::vector<S>& rInput)
   return output;
 }
 
-
+// Explicit instantiation
 template class AbstractIndicatorFunctor2D<double>;
 }  // namespace iblbm

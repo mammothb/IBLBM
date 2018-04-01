@@ -3,6 +3,7 @@
 
 #include "gsl/gsl"
 #include "AbstractFunctor.hpp"
+#include "Vector.hpp"
 
 namespace iblbm
 {
@@ -16,6 +17,7 @@ template<typename S>
 class AbstractIndicatorFunctor2D : public AbstractFunctor<bool, S>
 {
  public:
+  /** Calls the implemented pure virtual operator() of the parent class */
   using AbstractFunctor<bool, S>::operator();
 
   /**
@@ -29,9 +31,9 @@ class AbstractIndicatorFunctor2D : public AbstractFunctor<bool, S>
   /** Constructor */
   AbstractIndicatorFunctor2D();
   /** Minimum vector of the domain */
-  std::vector<S> mMin;
+  Vector2D<S> mMin;
   /** Maximum vector of the domain */
-  std::vector<S> mMax;
+  Vector2D<S> mMax;
 };
 }  // namespace iblbm
 
