@@ -380,7 +380,7 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1522645194 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -388,10 +388,10 @@
 	"UnitTestCustomUtilities.hpp"
 	<iostream>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/UnitTest++.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/UnitTest++.h
 	"UnitTestPP.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/UnitTestPP.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/UnitTestPP.h
 	"Config.h"
 	"TestMacros.h"
 	"CheckMacros.h"
@@ -400,9 +400,9 @@
 	"TimeConstraint.h"
 	"ReportAssert.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Config.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Config.h
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestMacros.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestMacros.h
 	"Config.h"
 	"TestSuite.h"
 	"ExceptionMacros.h"
@@ -412,12 +412,12 @@
 	"MemoryOutStream.h"
 	"Posix/SignalTranslator.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestSuite.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestSuite.h
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ExceptionMacros.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ExceptionMacros.h
 	"Config.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ExecuteTest.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ExecuteTest.h
 	"Config.h"
 	"ExceptionMacros.h"
 	"TestDetails.h"
@@ -429,44 +429,44 @@
 	"ReportAssertImpl.h"
 	"Posix/SignalTranslator.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestDetails.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestDetails.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/HelperMacros.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/HelperMacros.h
 	"Config.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestResults.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestResults.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/MemoryOutStream.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/MemoryOutStream.h
 	"Config.h"
 	"HelperMacros.h"
 	<sstream>
 	<cstddef>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/AssertException.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/AssertException.h
 	"Config.h"
 	"HelperMacros.h"
 	<exception>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequiredCheckException.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequiredCheckException.h
 	"Config.h"
 	"HelperMacros.h"
 	<exception>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/CurrentTest.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/CurrentTest.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssertImpl.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssertImpl.h
 	"Config.h"
 	"HelperMacros.h"
 	<csetjmp>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Posix/SignalTranslator.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Posix/SignalTranslator.h
 	<setjmp.h>
 	<signal.h>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/CheckMacros.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/CheckMacros.h
 	"HelperMacros.h"
 	"ExceptionMacros.h"
 	"Checks.h"
@@ -477,56 +477,56 @@
 	"CurrentTest.h"
 	"ReportAssertImpl.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Checks.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Checks.h
 	"Config.h"
 	"TestResults.h"
 	"MemoryOutStream.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequireMacros.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequireMacros.h
 	"RequiredCheckTestReporter.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequiredCheckTestReporter.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/RequiredCheckTestReporter.h
 	"HelperMacros.h"
 	"ThrowingTestReporter.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ThrowingTestReporter.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ThrowingTestReporter.h
 	"TestReporter.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestReporter.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestReporter.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestRunner.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestRunner.h
 	"Test.h"
 	"TestList.h"
 	"CurrentTest.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Test.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Test.h
 	"TestDetails.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestList.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestList.h
 	"HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TimeConstraint.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TimeConstraint.h
 	"TimeHelpers.h"
 	"HelperMacros.h"
 	"TestDetails.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TimeHelpers.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TimeHelpers.h
 	"Config.h"
 	"Posix/TimeHelpers.h"
 	"Win32/TimeHelpers.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Posix/TimeHelpers.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Posix/TimeHelpers.h
 	<sys/time.h>
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Win32/TimeHelpers.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/Win32/TimeHelpers.h
 	"../Config.h"
 	"../HelperMacros.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssert.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/ReportAssert.h
 	"HelperMacros.h"
 
-1522391186 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
+1522198333 /home/mmb/code/IBLBM/src/fortests/UnitTestCustomUtilities.hpp
 	<algorithm>
 	<iostream>
 	<string>
@@ -534,7 +534,7 @@
 	"UnitTest++/UnitTest++.h"
 	"UnitTest++/TestReporterStdout.h"
 
-1521858755 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestReporterStdout.h
+1520243691 /home/mmb/code/IBLBM/thirdparty/UnitTest++/TestReporterStdout.h
 	"TestReporter.h"
 
 1521600293 source:/home/mmb/code/IBLBM/unittests/TestAbstractLatticeModel.cpp
@@ -735,11 +735,14 @@
 
 1481181937 /usr/include/boost/chrono
 
-1522391186 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
+1522640867 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
+	"IndicatorFunctor2D.hpp"
+	"MpiManager.hpp"
 	"UnitConverter.hpp"
+	"Vector.hpp"
 
 1521858755 source:/home/mmb/code/IBLBM/src/io/DataWriter.cpp
 	"DataWriter.hpp"
@@ -753,10 +756,10 @@
 	"AbstractLatticeModel.hpp"
 	"LatticeBoltzmannMethod.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
+1522202357 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
 	"Descriptor.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
+1522203079 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
 	<cstddef>
 	<stdexcept>
 	<vector>
@@ -765,7 +768,7 @@
 
 1521858755 /home/mmb/code/IBLBM/src/dynamics/Descriptor.ipp
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestDescriptor.cpp
+1522202996 source:/home/mmb/code/IBLBM/unittests/TestDescriptor.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
@@ -781,7 +784,7 @@
 1518784608 /home/mmb/code/IBLBM/src/dynamics/latticeDescriptors.hh
 	"latticeDescriptors.h"
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/gsl
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/gsl
 	<gsl/gsl_algorithm>
 	<gsl/gsl_assert>
 	<gsl/gsl_byte>
@@ -791,18 +794,18 @@
 	<gsl/span>
 	<gsl/string_span>
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_algorithm
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_algorithm
 	<gsl/gsl_assert>
 	<gsl/span>
 	<algorithm>
 	<cstddef>
 	<type_traits>
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_assert
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_assert
 	<exception>
 	<stdexcept>
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/span
+1522314475 /home/mmb/code/IBLBM/thirdparty/gsl/span
 	<gsl/gsl_assert>
 	<gsl/gsl_byte>
 	<gsl/gsl_util>
@@ -815,13 +818,13 @@
 	<type_traits>
 	<utility>
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_byte
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_byte
 	<type_traits>
 	<cstddef>
 
 1481181937 /usr/include/boost/type_traits
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_util
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/gsl_util
 	<gsl/gsl_assert>
 	<array>
 	<cstddef>
@@ -834,7 +837,7 @@
 
 1481181937 /usr/include/boost/iterator
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/multi_span
+1522198662 /home/mmb/code/IBLBM/thirdparty/gsl/multi_span
 	<gsl/gsl_assert>
 	<gsl/gsl_byte>
 	<gsl/gsl_util>
@@ -856,7 +859,7 @@
 
 1481181937 /usr/include/boost/functional
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/pointers
+1522198663 /home/mmb/code/IBLBM/thirdparty/gsl/pointers
 	<gsl/gsl_assert>
 	<algorithm>
 	<iosfwd>
@@ -864,7 +867,7 @@
 	<system_error>
 	<type_traits>
 
-1522391186 /home/mmb/code/IBLBM/thirdparty/gsl/string_span
+1522198663 /home/mmb/code/IBLBM/thirdparty/gsl/string_span
 	<gsl/gsl_assert>
 	<gsl/gsl_util>
 	<gsl/span>
@@ -876,39 +879,39 @@
 	<string>
 	<type_traits>
 
-1522391186 source:/home/mmb/code/IBLBM/src/core/UnitConverter.cpp
+1522300181 source:/home/mmb/code/IBLBM/src/core/UnitConverter.cpp
 	"UnitConverter.hpp"
 	"Descriptor.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
+1522292013 /home/mmb/code/IBLBM/src/core/UnitConverter.hpp
 	<cmath>
 	<iostream>
 	"OstreamManager.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+1522302824 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
 	<cmath>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
+1522198333 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
 	"Cell.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/core/Cell.hpp
+1522203069 /home/mmb/code/IBLBM/src/core/Cell.hpp
 	<vector>
 	"gsl/gsl"
 	"AbstractDynamicsInterface.hpp"
 	"Descriptor.hpp"
 	"IblbmDebug.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
+1522203079 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
 	"gsl/gsl"
 	"Descriptor.hpp"
 	"LatticeStatistics.hpp"
 
 1521858755 /home/mmb/code/IBLBM/src/core/Cell.ipp
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestCell.cpp
+1522203812 source:/home/mmb/code/IBLBM/unittests/TestCell.cpp
 	<cassert>
 	<iostream>
 	<numeric>
@@ -918,33 +921,33 @@
 	"Cell.hpp"
 	"ForcedBgkDynamics.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.cpp
+1522198333 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.cpp
 	"AbstractDynamics.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.hpp
+1522198333 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.hpp
 	"AbstractDynamicsInterface.hpp"
 	"AbstractMomentaInterface.hpp"
 
-1521941549 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.hpp
+1522031074 /home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.hpp
 	"Cell.hpp"
 
 1521941410 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamics.ipp
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.cpp
+1522198333 source:/home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.cpp
 	"AbstractDynamicsInterface.hpp"
 	"CoreUtilities.hpp"
 	"Helpers.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.cpp
+1522202889 source:/home/mmb/code/IBLBM/src/dynamics/AbstractMomentaInterface.cpp
 	"AbstractMomentaInterface.hpp"
 	"Descriptor.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/BulkMomenta.cpp
+1522202904 source:/home/mmb/code/IBLBM/src/dynamics/BulkMomenta.cpp
 	"BulkMomenta.hpp"
 	"Descriptor.hpp"
 	"Helpers.hpp"
 
-1521941608 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.hpp
+1522031074 /home/mmb/code/IBLBM/src/dynamics/BulkMomenta.hpp
 	"AbstractMomentaInterface.hpp"
 	"Cell.hpp"
 
@@ -3352,7 +3355,7 @@
 	<boost/config/abi_prefix.hpp>
 	<boost/config/abi_suffix.hpp>
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestBulkMomenta.cpp
+1522202982 source:/home/mmb/code/IBLBM/unittests/TestBulkMomenta.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
@@ -3361,7 +3364,7 @@
 	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/Helpers.hpp
+1522203079 /home/mmb/code/IBLBM/src/dynamics/Helpers.hpp
 	<numeric>
 	"gsl/gsl"
 	"Cell.hpp"
@@ -3369,19 +3372,19 @@
 	"Descriptor.hpp"
 	"HelpersD2Q9.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/HelpersD2Q9.hpp
+1522198333 /home/mmb/code/IBLBM/src/dynamics/HelpersD2Q9.hpp
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/BgkDynamics.cpp
+1522198333 source:/home/mmb/code/IBLBM/src/dynamics/BgkDynamics.cpp
 	"BgkDynamics.hpp"
 	"Descriptor.hpp"
 	"Helpers.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.hpp
+1522198333 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.hpp
 	"AbstractDynamics.hpp"
 
 1521871067 /home/mmb/code/IBLBM/src/dynamics/BgkDynamics.ipp
 
-1521943568 /home/mmb/code/IBLBM/src/core/IblbmDebug.hpp
+1522031074 /home/mmb/code/IBLBM/src/core/IblbmDebug.hpp
 	<cassert>
 	<iostream>
 
@@ -7293,30 +7296,30 @@
 	<string>
 	<type_traits>
 
-1522391186 /home/mmb/code/IBLBM/src/core/LatticeStatistics.hpp
+1522198662 /home/mmb/code/IBLBM/src/core/LatticeStatistics.hpp
 	<cstddef>
 	<vector>
 
-1522391186 source:/home/mmb/code/IBLBM/src/core/LatticeStatistics.cpp
+1522198662 source:/home/mmb/code/IBLBM/src/core/LatticeStatistics.cpp
 	"LatticeStatistics.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
+1522317294 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
 	<limits>
 	<numeric>
 	<vector>
 	"IblbmDebug.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
+1522203079 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
 	"ForcedBgkDynamics.hpp"
 	"gsl/gsl"
 	"Helpers.hpp"
 	"IblbmDebug.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.hpp
+1522203079 /home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.hpp
 	"gsl/gsl"
 	"AbstractDynamics.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestBgkDynamics.cpp
+1522203079 source:/home/mmb/code/IBLBM/unittests/TestBgkDynamics.cpp
 	<iostream>
 	<numeric>
 	"gsl/gsl"
@@ -7326,7 +7329,7 @@
 	"Cell.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestForcedBgkDynamics.cpp
+1522203004 source:/home/mmb/code/IBLBM/unittests/TestForcedBgkDynamics.cpp
 	<iostream>
 	<numeric>
 	"UnitTest++/UnitTest++.h"
@@ -7335,7 +7338,7 @@
 	"ForcedBgkDynamics.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522554024 source:/home/mmb/code/IBLBM/unittests/TestHelpers.cpp
+1522631097 source:/home/mmb/code/IBLBM/unittests/TestHelpers.cpp
 	<array>
 	<chrono>
 	<numeric>
@@ -7349,21 +7352,21 @@
 	"Helpers.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestLatticeStatistics.cpp
+1522203021 source:/home/mmb/code/IBLBM/unittests/TestLatticeStatistics.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"LatticeStatistics.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.cpp
+1522205062 source:/home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.cpp
 	"MomentumExchangeBounceBackBoundary.hpp"
 	<utility>
 	"gsl/gsl"
 	"Cell.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.hpp
+1522203660 /home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.hpp
 	"AbstractDynamicsInterface.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestMomentumExchangeBounceBackBoundary.cpp
+1522204242 source:/home/mmb/code/IBLBM/unittests/TestMomentumExchangeBounceBackBoundary.cpp
 	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
@@ -7372,24 +7375,24 @@
 	"LatticeStatistics.hpp"
 	"MomentumExchangeBounceBackBoundary.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
+1522302350 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
 	"OstreamManager.hpp"
 	"IblbmDebug.hpp"
 	"MpiManager.hpp"
 
-1522391186 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
+1522290436 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
 	<sstream>
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
+1522303581 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
+1522302357 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
 	"MpiManager.hpp"
 
-1522391624 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
+1522631097 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
 	"mpi.h"
 	<vector>
 	<string>
@@ -7417,12 +7420,12 @@
 	"UnitTestCustomUtilities.hpp"
 	<iostream>
 
-1522391186 /home/mmb/code/IBLBM/src/core/IblbmInitialize.hpp
+1522302365 /home/mmb/code/IBLBM/src/core/IblbmInitialize.hpp
 	<iostream>
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1522391186 source:/home/mmb/code/IBLBM/unittests/TestMpiManager.cpp
+1522307591 source:/home/mmb/code/IBLBM/unittests/TestMpiManager.cpp
 	"UnitTest++/UnitTest++.h"
 	"MpiManager.hpp"
 
@@ -7433,14 +7436,14 @@
 	"gsl/gsl"
 	"AbstractFunctor.hpp"
 
-1522561163 /home/mmb/code/IBLBM/src/functor/AbstractFunctor.hpp
+1522631097 /home/mmb/code/IBLBM/src/functor/AbstractFunctor.hpp
 	<cstddef>
 	<memory>
 	<string>
 	<vector>
 	"gsl/gsl"
 
-1522391186 source:/home/mmb/code/IBLBM/src/functor/AbstractFunctor.cpp
+1522314595 source:/home/mmb/code/IBLBM/src/functor/AbstractFunctor.cpp
 	"AbstractFunctor.hpp"
 
 1522314444 source:/home/mmb/code/IBLBM/unittests/TestIndicatorBaseFunctor2D.cpp
@@ -7449,15 +7452,16 @@
 	"UnitTest++/UnitTest++.h"
 	"IndicatorBaseFunctor2D.hpp"
 
-1522556707 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.cpp
+1522636434 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.cpp
 	"AbstractIndicatorFunctor2D.hpp"
+	<iostream>
 
-1522561202 /home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp
+1522636430 /home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp
 	"gsl/gsl"
 	"AbstractFunctor.hpp"
 	"Vector.hpp"
 
-1522557843 source:/home/mmb/code/IBLBM/unittests/TestIndicatorCuboid2D.cpp
+1522640649 source:/home/mmb/code/IBLBM/unittests/TestIndicatorCuboid2D.cpp
 	<iostream>
 	"gsl/gsl"
 	"UnitTest++/UnitTest++.h"
@@ -7465,23 +7469,24 @@
 	"UnitTestCustomUtilities.hpp"
 	"Vector.hpp"
 
-1522561611 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.cpp
+1522640400 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.cpp
 	"IndicatorFunctor2D.hpp"
 	<cmath>
 	"CoreUtilities.hpp"
+	"IblbmDebug.hpp"
 
-1522561600 /home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.hpp
+1522632773 /home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.hpp
 	"AbstractIndicatorFunctor2D.hpp"
 	"Vector.hpp"
 
-1522560602 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
+1522631097 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
 	<iostream>
 	<typeinfo>
 	<vector>
 	"UnitTest++/UnitTest++.h"
 	"Vector.hpp"
 
-1522560608 /home/mmb/code/IBLBM/src/core/Vector.hpp
+1522631097 /home/mmb/code/IBLBM/src/core/Vector.hpp
 	<array>
 	<cstring>
 	<cstddef>
@@ -7490,4 +7495,28 @@
 	"gsl/gsl"
 	"IblbmDebug.hpp"
 	"CoreUtilities.hpp"
+
+1522645102 source:/home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.cpp
+	"CuboidGeometry2D.hpp"
+	<iostream>
+
+1522644983 /home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.hpp
+	<vector>
+	"Cuboid2D.hpp"
+	"OstreamManager.hpp"
+
+1522649289 source:/home/mmb/code/IBLBM/src/geometry/Cuboid2D.cpp
+	"Cuboid2D.hpp"
+	<limits>
+
+1522649275 /home/mmb/code/IBLBM/src/geometry/Cuboid2D.hpp
+	<cstddef>
+	"OstreamManager.hpp"
+	"Vector.hpp"
+
+1522648698 source:/home/mmb/code/IBLBM/unittests/TestCuboid2D.cpp
+	<iostream>
+	"UnitTest++/UnitTest++.h"
+	"Cuboid2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 

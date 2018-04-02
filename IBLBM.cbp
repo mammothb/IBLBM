@@ -190,6 +190,7 @@
 			<Add directory="src/fortests" />
 			<Add directory="src/functor" />
 			<Add directory="src/functor/lattice/indicator" />
+			<Add directory="src/geometry" />
 			<Add directory="src/io" />
 			<Add directory="src/parallel" />
 			<Add directory="thirdparty" />
@@ -237,6 +238,10 @@
 		<Unit filename="src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp" />
 		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.cpp" />
 		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.hpp" />
+		<Unit filename="src/geometry/Cuboid2D.cpp" />
+		<Unit filename="src/geometry/Cuboid2D.hpp" />
+		<Unit filename="src/geometry/CuboidGeometry2D.cpp" />
+		<Unit filename="src/geometry/CuboidGeometry2D.hpp" />
 		<Unit filename="src/io/OstreamManager.cpp" />
 		<Unit filename="src/io/OstreamManager.hpp" />
 		<Unit filename="src/main-devel.cpp" />
@@ -245,6 +250,7 @@
 		<Unit filename="unittests/TestBgkDynamics.cpp" />
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />
+		<Unit filename="unittests/TestCuboid2D.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />

@@ -1,7 +1,10 @@
 #include <iostream>
 #include "UnitTest++/UnitTest++.h"
 #include "Descriptor.hpp"
+#include "IndicatorFunctor2D.hpp"
+#include "MpiManager.hpp"
 #include "UnitConverter.hpp"
+#include "Vector.hpp"
 
 namespace iblbm
 {
@@ -37,6 +40,11 @@ TEST(Simulation_Poiseuille_BodyForceDriven)
   converter.Print();
 
   // ========== Prepare geometry ==========
+  Vector2D<double> extent(lx, ly);
+  Vector2D<double> origin;
+  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+
+  const auto num_cuboid = MpiManager::Instance().GetSize();
 
   PoiseuilleBodyForceDriven simulation;
 }

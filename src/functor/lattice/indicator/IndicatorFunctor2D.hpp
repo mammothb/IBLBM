@@ -12,23 +12,25 @@ class IndicatorCuboid2D : public AbstractIndicatorFunctor2D<S>
   friend class TestIndicatorCuboid2D;
  public:
   /**
-   * Constructs a cuboid with x-axis dimension from rOrigin[0] to rExtend[0],
-   * y-axis dimension from rOrigin[1] to rExtend[1],
+   * Constructs a cuboid with x-axis dimension from rOrigin[0] to
+   * rOrigin[0] + rExtent[0], y-axis dimension from rOrigin[1] to
+   * rOrigin[1] + rExtent[1].
    *
-   * \param rExtend extend of the cuboid
-   * \param rOrigin origin of the cuboid
+   * \param rExtent extent of the cuboid
+   * \param rOrigin origin of the cuboid, defaults to (0, 0)
    * \param theta rotation of the cuboid above its center (not origin)
    */
   IndicatorCuboid2D(
-      const Vector2D<S>& rExtend
-    , const Vector2D<S>& rOrigin
+      const Vector2D<S>& rExtent
+    , const Vector2D<S>& rOrigin = Vector2D<S>()
     , S theta = 0);
 
   /**
    * Constructs an cuboid with x axis dimension from -xLength/2 to xLength/2
    *
-   * \param rExtend extend of the cuboid
-   * \param rOrigin origin of the cuboid
+   * \param xLength length of cuboid along x-axis
+   * \param yLength length of cuboid along y-axis
+   * \param rCenter center of cuboid, defaults to (0, 0)
    * \param theta rotation of the cuboid above its center (not origin)
    */
   IndicatorCuboid2D(
