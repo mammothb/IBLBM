@@ -37,21 +37,23 @@ IndicatorCuboid2D<S>::IndicatorCuboid2D(
 }
 
 template<typename S>
-bool IndicatorCuboid2D<S>::operator()(
+void IndicatorCuboid2D<S>::operator()(
     gsl::span<bool> output
   , const std::vector<S>& rInput)
 {
+  // Slightly larger epsilon then numeric_limit epsilon to solve rounding
+  // error
+  auto epsilon {1e-15};
   // Clockwise rotation of input to see if it still fits in the cuboid
   auto x = (rInput[0] - mCenter[0]) * std::cos(-mTheta) -
       (rInput[1] - mCenter[1]) * std::sin(-mTheta);
   auto y = (rInput[0] - mCenter[0]) * std::sin(-mTheta) +
       (rInput[1] - mCenter[1]) * std::cos(-mTheta);
 
-  output[0] = (std::abs(x) < 0.5 * mXLength ||
-      util::IsNearZero(std::abs(x) - 0.5 * mXLength)) &&
-      (std::abs(y) < 0.5 * mYLength ||
-       util::IsNearZero(std::abs(y) - 0.5 * mYLength));
-  return true;
+  output[0] = (std::abs(x) <= 0.5 * mXLength ||
+      util::IsNearZero(std::abs(x) - 0.5 * mXLength, epsilon)) &&
+      (std::abs(y) <= 0.5 * mYLength ||
+       util::IsNearZero(std::abs(y) - 0.5 * mYLength, epsilon));
 }
 
 // Explicit instantiation

@@ -3393,16 +3393,14 @@
 1521941191 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.ipp
 	"Helpers.hpp"
 
-1522143544 source:c:\lyer\git repos\iblbm\examples\poiseuille.cpp
-	<vector>
-	"BounceBackBoundary.hpp"
-	"CollisionNsf.hpp"
-	"DataWriter.hpp"
-	"Lattice2D.hpp"
-	"LatticeBoltzmannMethod.hpp"
-	"PeriodicBoundary.hpp"
-	"Stream2D.hpp"
+1522651198 source:c:\lyer\git repos\iblbm\examples\poiseuille.cpp
+	<iostream>
 	"UnitTest++/UnitTest++.h"
+	"Descriptor.hpp"
+	"IndicatorFunctor2D.hpp"
+	"MpiManager.hpp"
+	"UnitConverter.hpp"
+	"Vector.hpp"
 
 1522031050 c:\lyer\git repos\iblbm\src\boundary\bouncebackboundary.hpp
 	"AbstractBoundaryCondition.hpp"
@@ -6903,35 +6901,37 @@
 1522137167 source:c:\lyer\git repos\iblbm\src\core\cell.cpp
 	"Cell.hpp"
 
-1522143765 c:\lyer\git repos\iblbm\src\core\cell.hpp
-	<gsl/gsl>
+1522319269 c:\lyer\git repos\iblbm\src\core\cell.hpp
 	<vector>
+	"gsl/gsl"
 	"AbstractDynamicsInterface.hpp"
 	"Descriptor.hpp"
 	"IblbmDebug.hpp"
 
-1522144030 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.hpp
-	<gsl/gsl>
+1522319269 c:\lyer\git repos\iblbm\src\dynamics\abstractdynamicsinterface.hpp
+	"gsl/gsl"
 	"Descriptor.hpp"
 	"LatticeStatistics.hpp"
 
-1522145756 c:\lyer\git repos\iblbm\src\dynamics\descriptor.hpp
+1522319269 c:\lyer\git repos\iblbm\src\dynamics\descriptor.hpp
 	<cstddef>
-	<gsl/gsl>
 	<stdexcept>
 	<vector>
+	"gsl/gsl"
 	"IblbmDebug.hpp"
 
 1522031050 c:\lyer\git repos\iblbm\src\core\iblbmdebug.hpp
 	<cassert>
 	<iostream>
 
-1522031050 source:c:\lyer\git repos\iblbm\src\core\unitconverter.cpp
-	"Descriptor.hpp"
+1522319269 source:c:\lyer\git repos\iblbm\src\core\unitconverter.cpp
 	"UnitConverter.hpp"
+	"Descriptor.hpp"
 
-1522140677 c:\lyer\git repos\iblbm\src\core\unitconverter.hpp
+1522319269 c:\lyer\git repos\iblbm\src\core\unitconverter.hpp
 	<cmath>
+	<iostream>
+	"OstreamManager.hpp"
 
 1522137216 source:c:\lyer\git repos\iblbm\src\dynamics\abstractdynamics.cpp
 	"AbstractDynamics.hpp"
@@ -6948,9 +6948,9 @@
 	"CoreUtilities.hpp"
 	"Helpers.hpp"
 
-1522144713 c:\lyer\git repos\iblbm\src\dynamics\helpers.hpp
-	<gsl/gsl>
+1522319269 c:\lyer\git repos\iblbm\src\dynamics\helpers.hpp
 	<numeric>
+	"gsl/gsl"
 	"Cell.hpp"
 	"CoreUtilities.hpp"
 	"Descriptor.hpp"
@@ -6958,7 +6958,7 @@
 
 1522147297 c:\lyer\git repos\iblbm\src\dynamics\helpersd2q9.hpp
 
-1522122105 source:c:\lyer\git repos\iblbm\src\dynamics\abstractmomentainterface.cpp
+1522319269 source:c:\lyer\git repos\iblbm\src\dynamics\abstractmomentainterface.cpp
 	"AbstractMomentaInterface.hpp"
 	"Descriptor.hpp"
 
@@ -6970,7 +6970,7 @@
 1522120370 c:\lyer\git repos\iblbm\src\dynamics\bgkdynamics.hpp
 	"AbstractDynamics.hpp"
 
-1522137189 source:c:\lyer\git repos\iblbm\src\dynamics\bulkmomenta.cpp
+1522319269 source:c:\lyer\git repos\iblbm\src\dynamics\bulkmomenta.cpp
 	"BulkMomenta.hpp"
 	"Descriptor.hpp"
 	"Helpers.hpp"
@@ -6979,7 +6979,7 @@
 	"AbstractMomentaInterface.hpp"
 	"Cell.hpp"
 
-1522145789 source:c:\lyer\git repos\iblbm\src\dynamics\descriptor.cpp
+1522319269 source:c:\lyer\git repos\iblbm\src\dynamics\descriptor.cpp
 	"Descriptor.hpp"
 
 1522031050 source:c:\lyer\git repos\iblbm\src\io\datawriter.cpp
@@ -7011,11 +7011,13 @@
 	"AbstractLatticeModel.hpp"
 	"AbstractStreamModel.hpp"
 
-1522143433 source:c:\lyer\git repos\iblbm\src\main-devel.cpp
+1522753911 source:c:\lyer\git repos\iblbm\src\main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
+	"IblbmInitialize.hpp"
 	"UnitTestCustomUtilities.hpp"
+	<iostream>
 
 1522143446 c:\lyer\git repos\iblbm\src\fortests\unittestcustomutilities.hpp
 	<algorithm>
@@ -7048,24 +7050,24 @@
 	"UnitTestCustomUtilities.hpp"
 	"UnitTest++/UnitTest++.h"
 
-1522144713 source:c:\lyer\git repos\iblbm\unittests\testbulkmomenta.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testbulkmomenta.cpp
 	<iostream>
+	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++/UnitTest++.h"
 
-1522144713 source:c:\lyer\git repos\iblbm\unittests\testcell.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testcell.cpp
 	<cassert>
 	<iostream>
 	<numeric>
+	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"ForcedBgkDynamics.hpp"
-	"UnitTest++/UnitTest++.h"
 
 1522143544 source:c:\lyer\git repos\iblbm\unittests\testcollisionnsf.cpp
 	<iostream>
@@ -7076,12 +7078,11 @@
 	"Lattice2D.hpp"
 	"UnitTest++/UnitTest++.h"
 
-1522144713 source:c:\lyer\git repos\iblbm\unittests\testdescriptor.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testdescriptor.cpp
 	<iostream>
-	"Descriptor.hpp"
-	"IblbmUtilities.hpp"
-	"UnitTestCustomUtilities.hpp"
 	"UnitTest++/UnitTest++.h"
+	"Descriptor.hpp"
+	"UnitTestCustomUtilities.hpp"
 
 1522144690 source:c:\lyer\git repos\iblbm\unittests\testiblbmutilities.cpp
 	<algorithm>
@@ -7123,26 +7124,28 @@
 	"UnitTestCustomUtilities.hpp"
 	"UnitTest++/UnitTest++.h"
 
-1522143544 source:c:\lyer\git repos\iblbm\unittests\testunitconverter.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testunitconverter.cpp
 	<cmath>
+	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
 	"UnitConverter.hpp"
-	"UnitTest++/UnitTest++.h"
 
-1522144713 source:c:\lyer\git repos\iblbm\unittests\testbgkdynamics.cpp
-	<gsl/gsl>
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testbgkdynamics.cpp
 	<iostream>
 	<numeric>
+	"gsl/gsl"
+	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++/UnitTest++.h"
 
-1522147128 source:c:\lyer\git repos\iblbm\unittests\testhelpers.cpp
+1522651198 source:c:\lyer\git repos\iblbm\unittests\testhelpers.cpp
+	<array>
 	<chrono>
 	<numeric>
 	<vector>
+	"UnitTest++/UnitTest++.h"
 	"BgkDynamics.hpp"
 	"BulkMomenta.hpp"
 	"CoreUtilities.hpp"
@@ -7150,7 +7153,6 @@
 	"ForcedBgkDynamics.hpp"
 	"Helpers.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++/UnitTest++.h"
 
 1522049317 c:\lyer\git repos\iblbm\src\fortests\forcegeneralhelpers.hpp
 	<iostream>
@@ -7180,31 +7182,32 @@
 	<cstddef>
 	<vector>
 
-1522143544 source:c:\lyer\git repos\iblbm\unittests\testlatticestatistics.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testlatticestatistics.cpp
 	<iostream>
-	"LatticeStatistics.hpp"
 	"UnitTest++/UnitTest++.h"
+	"LatticeStatistics.hpp"
 
-1522144512 source:c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.cpp
+1522319269 source:c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.cpp
 	"ForcedBgkDynamics.hpp"
-	<gsl/gsl>
+	"gsl/gsl"
 	"Helpers.hpp"
 	"IblbmDebug.hpp"
 
-1522147404 c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.hpp
-	<gsl/gsl>
+1522319269 c:\lyer\git repos\iblbm\src\dynamics\forcedbgkdynamics.hpp
+	"gsl/gsl"
 	"AbstractDynamics.hpp"
 
-1522144713 source:c:\lyer\git repos\iblbm\unittests\testforcedbgkdynamics.cpp
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testforcedbgkdynamics.cpp
 	<iostream>
 	<numeric>
+	"UnitTest++/UnitTest++.h"
 	"BulkMomenta.hpp"
 	"Cell.hpp"
 	"ForcedBgkDynamics.hpp"
 	"UnitTestCustomUtilities.hpp"
-	"UnitTest++/UnitTest++.h"
 
-1522138371 c:\lyer\git repos\iblbm\src\core\coreutilities.hpp
+1522753244 c:\lyer\git repos\iblbm\src\core\coreutilities.hpp
+	<limits>
 	<numeric>
 	<vector>
 	"IblbmDebug.hpp"
@@ -7230,7 +7233,7 @@
 	<exception>
 	<stdexcept>
 
-1521154808 c:\lyer\git repos\iblbm\thirdparty\gsl\span
+1522319269 c:\lyer\git repos\iblbm\thirdparty\gsl\span
 	<gsl/gsl_assert>
 	<gsl/gsl_byte>
 	<gsl/gsl_util>
@@ -7518,5 +7521,148 @@
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"Cuboid2D.hpp"
+	"UnitTestCustomUtilities.hpp"
+
+1522753735 c:\lyer\git repos\iblbm\src\functor\lattice\indicator\indicatorfunctor2d.hpp
+	"AbstractIndicatorFunctor2D.hpp"
+	"Vector.hpp"
+
+1522748439 c:\lyer\git repos\iblbm\src\functor\lattice\indicator\abstractindicatorfunctor2d.hpp
+	"gsl/gsl"
+	"AbstractFunctor.hpp"
+	"Vector.hpp"
+
+1522753691 c:\lyer\git repos\iblbm\src\functor\abstractfunctor.hpp
+	<cstddef>
+	<memory>
+	<string>
+	<vector>
+	"gsl/gsl"
+
+1522740085 c:\lyer\git repos\iblbm\src\core\vector.hpp
+	<array>
+	<cstring>
+	<cstddef>
+	<iostream>
+	<vector>
+	"gsl/gsl"
+	"IblbmDebug.hpp"
+	"CoreUtilities.hpp"
+
+1522651198 c:\lyer\git repos\iblbm\src\parallel\mpimanager.hpp
+	"mpi.h"
+	<vector>
+	<string>
+	"OstreamManager.hpp"
+
+1522319269 c:\lyer\git repos\iblbm\src\io\ostreammanager.hpp
+	<sstream>
+
+1522319269 source:c:\lyer\git repos\iblbm\src\boundary\momentumexchangebouncebackboundary.cpp
+	"MomentumExchangeBounceBackBoundary.hpp"
+	<utility>
+	"gsl/gsl"
+	"Cell.hpp"
+
+1522319269 c:\lyer\git repos\iblbm\src\boundary\momentumexchangebouncebackboundary.hpp
+	"AbstractDynamicsInterface.hpp"
+
+1522748298 source:c:\lyer\git repos\iblbm\src\functor\abstractfunctor.cpp
+	"AbstractFunctor.hpp"
+
+1522748404 source:c:\lyer\git repos\iblbm\src\functor\lattice\indicator\abstractindicatorfunctor2d.cpp
+	"AbstractIndicatorFunctor2D.hpp"
+	<iostream>
+
+1522753904 source:c:\lyer\git repos\iblbm\src\functor\lattice\indicator\indicatorfunctor2d.cpp
+	"IndicatorFunctor2D.hpp"
+	<cmath>
+	"CoreUtilities.hpp"
+	"IblbmDebug.hpp"
+
+1522749365 source:c:\lyer\git repos\iblbm\src\geometry\cuboid2d.cpp
+	"Cuboid2D.hpp"
+	<limits>
+	"IblbmDebug.hpp"
+
+1522749356 c:\lyer\git repos\iblbm\src\geometry\cuboid2d.hpp
+	<cstddef>
+	"OstreamManager.hpp"
+	"Vector.hpp"
+
+1522754119 source:c:\lyer\git repos\iblbm\src\geometry\cuboidgeometry2d.cpp
+	"CuboidGeometry2D.hpp"
+	<cmath>
+	<iostream>
+	"AbstractIndicatorFunctor2D.hpp"
+
+1522752475 c:\lyer\git repos\iblbm\src\geometry\cuboidgeometry2d.hpp
+	<vector>
+	"gsl/gsl"
+	"Cuboid2D.hpp"
+	"OstreamManager.hpp"
+
+1522319269 source:c:\lyer\git repos\iblbm\src\io\ostreammanager.cpp
+	"OstreamManager.hpp"
+	"IblbmDebug.hpp"
+	"MpiManager.hpp"
+
+1522319269 c:\lyer\git repos\iblbm\src\core\iblbminitialize.hpp
+	<iostream>
+	"MpiManager.hpp"
+	"OstreamManager.hpp"
+
+1522319269 source:c:\lyer\git repos\iblbm\src\parallel\mpimanager.cpp
+	"MpiManager.hpp"
+
+1522749593 source:c:\lyer\git repos\iblbm\unittests\testcuboid2d.cpp
+	<iostream>
+	<limits>
+	"UnitTest++/UnitTest++.h"
+	"Cuboid2D.hpp"
+	"UnitTestCustomUtilities.hpp"
+
+1522720090 source:c:\lyer\git repos\iblbm\unittests\testindicatorcuboid2d.cpp
+	<iostream>
+	"gsl/gsl"
+	"UnitTest++/UnitTest++.h"
+	"IndicatorFunctor2D.hpp"
+	"UnitTestCustomUtilities.hpp"
+	"Vector.hpp"
+
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testmomentumexchangebouncebackboundary.cpp
+	"UnitTest++/UnitTest++.h"
+	"BgkDynamics.hpp"
+	"BulkMomenta.hpp"
+	"Cell.hpp"
+	"Descriptor.hpp"
+	"LatticeStatistics.hpp"
+	"MomentumExchangeBounceBackBoundary.hpp"
+
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testmpimanager.cpp
+	"UnitTest++/UnitTest++.h"
+	"MpiManager.hpp"
+
+1522319269 source:c:\lyer\git repos\iblbm\unittests\testostreammanager.cpp
+	<iostream>
+	"UnitTest++/UnitTest++.h"
+	"MpiManager.hpp"
+	"OstreamManager.hpp"
+
+1522740302 source:c:\lyer\git repos\iblbm\unittests\testvector.cpp
+	<iostream>
+	<typeinfo>
+	<vector>
+	"UnitTest++/UnitTest++.h"
+	"Vector.hpp"
+
+1522752709 source:c:\lyer\git repos\iblbm\unittests\testcuboidgeometry2d.cpp
+	<cmath>
+	<iostream>
+	<limits>
+	<vector>
+	"UnitTest++/UnitTest++.h"
+	"CuboidGeometry2D.hpp"
+	"IndicatorFunctor2D.hpp"
 	"UnitTestCustomUtilities.hpp"
 

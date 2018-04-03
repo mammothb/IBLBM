@@ -165,6 +165,18 @@ class Vector
   std::array<T, N> mData;
 };
 
+/** operator<<: output Vector as (x, y, z) */
+template<typename T, std::size_t N>
+inline std::ostream& operator<<(
+    std::ostream& rOs
+  , const Vector<T, N>& rVector)
+{
+  rOs << "(";
+  for (gsl::index d = 0; d < N - 1; ++d) rOs << rVector[d] << ", ";
+  rOs << rVector[N - 1] << ")";
+  return rOs;
+}
+
 /***************************************************************************
  * Overload general arithmetic operator for Vector and its base type
  ***************************************************************************/

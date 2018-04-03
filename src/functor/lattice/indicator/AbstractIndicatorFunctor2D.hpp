@@ -20,12 +20,20 @@ class AbstractIndicatorFunctor2D : public AbstractFunctor<bool, S>
   /** Calls the implemented pure virtual operator() of the parent class */
   using AbstractFunctor<bool, S>::operator();
 
-//  /**
-//   * Indicator specific function operator overload
-//   * \return Domain indicator i.e. TRUE iff the input lies within the
-//   *         described domain.
-//   */
-//  virtual bool operator()(const std::vector<S>& rInput);
+  /** \return Maximum vector of the domain */
+  virtual const Vector2D<S>& rGetMin() const;
+
+  /** \return Minimum vector of the domain */
+  virtual const Vector2D<S>& rGetMax() const;
+
+  /**
+   * Indicator specific function operator overload
+   * \param Domain indicator i.e. TRUE iff the input lies within the
+   *        described domain.
+   */
+  virtual void operator()(
+      gsl::span<bool> output
+    , const Vector2D<S>& rInput);
 
  protected:
   /** Constructor */

@@ -42,7 +42,7 @@ class IndicatorCuboid2D : public AbstractIndicatorFunctor2D<S>
   /**
    * Return true if input is inside, else return false
    */
-  bool operator()(
+  void operator()(
       gsl::span<bool> output
     , const std::vector<S>& rInput) override;
 

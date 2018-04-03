@@ -251,6 +251,7 @@
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />
 		<Unit filename="unittests/TestCuboid2D.cpp" />
+		<Unit filename="unittests/TestCuboidGeometry2D.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />

@@ -38,7 +38,7 @@ class AbstractFunctor
   /** \return target dimension */
   std::size_t GetTargetDimension() const;
 
-  virtual bool operator()(
+  virtual void operator()(
       gsl::span<T> output
     , const std::vector<S>& rInput) = 0;
 
@@ -48,20 +48,20 @@ class AbstractFunctor
    * above. It is aimed that it even calls the implemented pure virtual
    * operator() of derived classes
    */
-  bool operator()(gsl::span<T> output);
-  bool operator()(
+  void operator()(gsl::span<T> output);
+  void operator()(
       gsl::span<T> output
     , S input0);
-  bool operator()(
+  void operator()(
       gsl::span<T> output
     , S input0
     , S input1);
-  bool operator()(
+  void operator()(
       gsl::span<T> output
     , S input0
     , S input1
     , S input2);
-  bool operator()(
+  void operator()(
       gsl::span<T> output
     , S input0
     , S input1

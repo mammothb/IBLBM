@@ -40,44 +40,44 @@ std::size_t AbstractFunctor<T, S>::GetTargetDimension() const
 }
 
 template<typename T, typename S>
-bool AbstractFunctor<T, S>::operator()(gsl::span<T> output)
+void AbstractFunctor<T, S>::operator()(gsl::span<T> output)
 {
   std::vector<S> input;
-  return operator()(output, input);
+  operator()(output, input);
 }
 
 template<typename T, typename S>
-bool AbstractFunctor<T, S>::operator()(
+void AbstractFunctor<T, S>::operator()(
     gsl::span<T> output
   , S input0)
 {
   std::vector<S> input = {input0};
-  return operator()(output, input);
+  operator()(output, input);
 }
 
 template<typename T, typename S>
-bool AbstractFunctor<T, S>::operator()(
+void AbstractFunctor<T, S>::operator()(
     gsl::span<T> output
   , S input0
   , S input1)
 {
   std::vector<S> input = {input0, input1};
-  return operator()(output, input);
+  operator()(output, input);
 }
 
 template<typename T, typename S>
-bool AbstractFunctor<T, S>::operator()(
+void AbstractFunctor<T, S>::operator()(
     gsl::span<T> output
   , S input0
   , S input1
   , S input2)
 {
   std::vector<S> input = {input0, input1, input2};
-  return operator()(output, input);
+  operator()(output, input);
 }
 
 template<typename T, typename S>
-bool AbstractFunctor<T, S>::operator()(
+void AbstractFunctor<T, S>::operator()(
     gsl::span<T> output
   , S input0
   , S input1
@@ -85,7 +85,7 @@ bool AbstractFunctor<T, S>::operator()(
   , S input3)
 {
   std::vector<S> input = {input0, input1, input2, input3};
-  return operator()(output, input);
+  operator()(output, input);
 }
 
 // Explicit instantiation

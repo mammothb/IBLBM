@@ -35,15 +35,55 @@ class Cuboid2D
    *
    * \param rOrigin coordinates of lower left corner
    * \param deltaR node spacing
-   * \param rExtent number of nodes in the x- and y- direction (not to be
-   *        confused with physical extent in IndicatorFunctor)
+   * \param rLatticeExtent number of nodes in the x- and y- direction (not to
+   *        be confused with physical extent in IndicatorFunctor)
    * \param refinementLevel coefficient used to reduce deltaR
    */
   Cuboid2D(
       const Vector2D<T>& rOrigin
     , T deltaR
-    , const Vector2D<std::size_t>& rExtent
+    , const Vector2D<std::size_t>& rLatticeExtent
     , int refinementLevel = 0);
+
+  /**
+   * Divides the cuboid in numCol * numRow cuboids and adds them to the
+   * given vector. The cuboid is inserted in the following order, e.g.
+   * (nx, ny) = (2, 3)
+   * rCuboids <- (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)
+   *
+   * \param nx number of columns
+   * \param ny number of rows
+   * \param rCuboids the vector to insert the split cuboids into
+   */
+  void Divide(
+      std::size_t numCol
+    , std::size_t numRow
+    , std::vector<Cuboid2D<T>>& rCuboids) const;
+
+  /**
+   * Divides the cuboid into p cuboids and adds them to the rCuboids vector.
+   * If the optimal layout for child cuboid is less than q, we 1 extra cuboid
+   * to the last remainder row/col of the layout,
+   * e.g., p = 7, num_col = 2, num_row = 3, we have the following layout
+   * | 4 | 5 | 6 |
+   * |  2  |  3  |
+   * |  0  |  1  |
+   *
+   * \param p the number of cuboids to be split into
+   * \param rCuboids the vector to insert the split cuboids into
+   */
+  void Divide(
+      std::size_t p
+    , std::vector<Cuboid2D<T>>& rCuboids) const;
+
+  /**
+   * Resize the cuboid to the desired size
+   */
+  void Resize(
+      gsl::index xIndex
+    , gsl::index yIndex
+    , std::size_t nx
+    , std::size_t ny);
 
   /** \return Global x-position of lower left corner */
   T GetGlobalXPosition() const;
@@ -80,6 +120,11 @@ class Cuboid2D
 
   /** \return the perimeter of the cuboid */
   std::size_t GetLatticeVolume() const;
+
+  /** \return the physical position of a given node in the cuboid */
+  Vector2D<T> GetPhysR(
+      const gsl::index& rXIndex
+    , const gsl::index& rYIndex) const;
 
   /** set the number of full cells of the cuboid for load balancer */
   void SetWeight(std::size_t weight);

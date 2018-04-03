@@ -38,6 +38,19 @@ inline bool IsNearZero(const T& rNumber)
   auto epsilon {std::numeric_limits<T>::epsilon()};
   return (rNumber > -epsilon && rNumber < epsilon);
 }
+
+/**
+ * return true if number is close to zero
+ *
+ * \param rNumber to be tested
+ */
+template <class T>
+inline bool IsNearZero(
+    const T& rNumber
+  , const T& rEpsilon)
+{
+  return (rNumber > -rEpsilon && rNumber < rEpsilon);
+}
 }  // namespace util
 }  // namespace iblbm
 

@@ -132,6 +132,18 @@ TEST(TestVector_ConvertToStdVector)
   CHECK(typeid(exp_vec) == typeid(vec_2));
 }
 
+TEST(TestVector_Ostream)
+{
+  // output from buffer gets written to this
+  std::ostringstream ostring_stream;
+  Vector<double, 2> vec_1(1, 2);
+  ostring_stream << vec_1;
+
+  auto expected_string = "(1, 2)";
+
+  CHECK_EQUAL(expected_string, ostring_stream.str());
+}
+
 TEST(TestVector_ScalarAddVector)
 {
   auto scalar = 3.4;
