@@ -380,7 +380,7 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1522645194 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1522810931 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -735,9 +735,10 @@
 
 1481181937 /usr/include/boost/chrono
 
-1522640867 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
+1522810154 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
+	"CuboidGeometry2D.hpp"
 	"Descriptor.hpp"
 	"IndicatorFunctor2D.hpp"
 	"MpiManager.hpp"
@@ -759,12 +760,12 @@
 1522202357 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
 	"Descriptor.hpp"
 
-1522203079 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
+1522818426 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
 	<cstddef>
 	<stdexcept>
 	<vector>
 	"gsl/gsl"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 
 1521858755 /home/mmb/code/IBLBM/src/dynamics/Descriptor.ipp
 
@@ -897,12 +898,12 @@
 1522198333 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
 	"Cell.hpp"
 
-1522203069 /home/mmb/code/IBLBM/src/core/Cell.hpp
+1522818426 /home/mmb/code/IBLBM/src/core/Cell.hpp
 	<vector>
 	"gsl/gsl"
 	"AbstractDynamicsInterface.hpp"
 	"Descriptor.hpp"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 
 1522203079 /home/mmb/code/IBLBM/src/dynamics/AbstractDynamicsInterface.hpp
 	"gsl/gsl"
@@ -7306,17 +7307,17 @@
 1522198662 source:/home/mmb/code/IBLBM/src/core/LatticeStatistics.cpp
 	"LatticeStatistics.hpp"
 
-1522317294 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
+1522818426 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
 	<limits>
 	<numeric>
 	<vector>
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 
-1522203079 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
+1522818426 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
 	"ForcedBgkDynamics.hpp"
 	"gsl/gsl"
 	"Helpers.hpp"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 
 1522203079 /home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.hpp
 	"gsl/gsl"
@@ -7378,9 +7379,9 @@
 	"LatticeStatistics.hpp"
 	"MomentumExchangeBounceBackBoundary.hpp"
 
-1522302350 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
+1522818426 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
 	"OstreamManager.hpp"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 	"MpiManager.hpp"
 
 1522290436 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
@@ -7392,13 +7393,14 @@
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1522302357 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
+1522839879 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
 	"MpiManager.hpp"
 
-1522631097 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
+1522838912 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
 	"mpi.h"
 	<vector>
 	<string>
+	"Exception.hpp"
 	"OstreamManager.hpp"
 
 1403323483 /usr/include/boost/mpi.hpp
@@ -7439,14 +7441,14 @@
 	"gsl/gsl"
 	"AbstractFunctor.hpp"
 
-1522631097 /home/mmb/code/IBLBM/src/functor/AbstractFunctor.hpp
+1522804875 /home/mmb/code/IBLBM/src/functor/AbstractFunctor.hpp
 	<cstddef>
 	<memory>
 	<string>
 	<vector>
 	"gsl/gsl"
 
-1522314595 source:/home/mmb/code/IBLBM/src/functor/AbstractFunctor.cpp
+1522804875 source:/home/mmb/code/IBLBM/src/functor/AbstractFunctor.cpp
 	"AbstractFunctor.hpp"
 
 1522314444 source:/home/mmb/code/IBLBM/unittests/TestIndicatorBaseFunctor2D.cpp
@@ -7455,16 +7457,16 @@
 	"UnitTest++/UnitTest++.h"
 	"IndicatorBaseFunctor2D.hpp"
 
-1522636434 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.cpp
+1522808642 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.cpp
 	"AbstractIndicatorFunctor2D.hpp"
 	<iostream>
 
-1522636430 /home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp
+1522808645 /home/mmb/code/IBLBM/src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp
 	"gsl/gsl"
 	"AbstractFunctor.hpp"
 	"Vector.hpp"
 
-1522640649 source:/home/mmb/code/IBLBM/unittests/TestIndicatorCuboid2D.cpp
+1522808738 source:/home/mmb/code/IBLBM/unittests/TestIndicatorCuboid2D.cpp
 	<iostream>
 	"gsl/gsl"
 	"UnitTest++/UnitTest++.h"
@@ -7472,53 +7474,58 @@
 	"UnitTestCustomUtilities.hpp"
 	"Vector.hpp"
 
-1522640400 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.cpp
+1522818426 source:/home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.cpp
 	"IndicatorFunctor2D.hpp"
 	<cmath>
 	"CoreUtilities.hpp"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 
-1522632773 /home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.hpp
+1522804875 /home/mmb/code/IBLBM/src/functor/lattice/indicator/IndicatorFunctor2D.hpp
 	"AbstractIndicatorFunctor2D.hpp"
 	"Vector.hpp"
 
-1522631097 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
+1522808201 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
 	<iostream>
 	<typeinfo>
 	<vector>
 	"UnitTest++/UnitTest++.h"
 	"Vector.hpp"
 
-1522631097 /home/mmb/code/IBLBM/src/core/Vector.hpp
+1522818426 /home/mmb/code/IBLBM/src/core/Vector.hpp
 	<array>
 	<cstring>
 	<cstddef>
 	<iostream>
 	<vector>
 	"gsl/gsl"
-	"IblbmDebug.hpp"
+	"Exception.hpp"
 	"CoreUtilities.hpp"
 
-1522645102 source:/home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.cpp
+1522809699 source:/home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.cpp
 	"CuboidGeometry2D.hpp"
+	<cmath>
 	<iostream>
+	"AbstractIndicatorFunctor2D.hpp"
 
-1522644983 /home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.hpp
+1522804875 /home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.hpp
 	<vector>
+	"gsl/gsl"
 	"Cuboid2D.hpp"
 	"OstreamManager.hpp"
 
-1522649289 source:/home/mmb/code/IBLBM/src/geometry/Cuboid2D.cpp
+1522818426 source:/home/mmb/code/IBLBM/src/geometry/Cuboid2D.cpp
 	"Cuboid2D.hpp"
 	<limits>
+	"Exception.hpp"
 
-1522649275 /home/mmb/code/IBLBM/src/geometry/Cuboid2D.hpp
+1522804875 /home/mmb/code/IBLBM/src/geometry/Cuboid2D.hpp
 	<cstddef>
 	"OstreamManager.hpp"
 	"Vector.hpp"
 
-1522648698 source:/home/mmb/code/IBLBM/unittests/TestCuboid2D.cpp
+1522804875 source:/home/mmb/code/IBLBM/unittests/TestCuboid2D.cpp
 	<iostream>
+	<limits>
 	"UnitTest++/UnitTest++.h"
 	"Cuboid2D.hpp"
 	"UnitTestCustomUtilities.hpp"
@@ -7665,4 +7672,115 @@
 	"CuboidGeometry2D.hpp"
 	"IndicatorFunctor2D.hpp"
 	"UnitTestCustomUtilities.hpp"
+
+1522809878 source:/home/mmb/code/IBLBM/unittests/TestCuboidGeometry2D.cpp
+	<cmath>
+	<iostream>
+	<limits>
+	<vector>
+	"UnitTest++/UnitTest++.h"
+	"CuboidGeometry2D.hpp"
+	"IndicatorFunctor2D.hpp"
+	"UnitTestCustomUtilities.hpp"
+
+1522814811 source:/home/mmb/code/IBLBM/src/core/Serializer.cpp
+	"Serializer.hpp"
+	<fstream>
+
+1522810255 source:/home/mmb/code/IBLBM/src/parallel/HeuristicLoadBalancer.cpp
+
+1522810494 source:/home/mmb/code/IBLBM/src/parallel/LoadBalancer.cpp
+
+1522814801 /home/mmb/code/IBLBM/src/core/Serializer.hpp
+	<string>
+
+1522839273 source:/home/mmb/code/IBLBM/src/io/OutputFileHandler.cpp
+	"OutputFileHandler.hpp"
+	<cstdlib>
+	"Exception.hpp"
+	"FileFinder.hpp"
+	"MpiManager.hpp"
+
+1522834095 /home/mmb/code/IBLBM/src/io/OutputFileHandler.hpp
+	<fstream>
+	<ios>
+	<memory>
+	<string>
+
+1522840287 source:/home/mmb/code/IBLBM/src/io/FileFinder.cpp
+	"FileFinder.hpp"
+	"Exception.hpp"
+	"GetCurrentWorkingDirectory.hpp"
+	"IblbmBuildRoot.hpp"
+	"OutputFileHandler.hpp"
+	"PosixPathFixer.hpp"
+
+1522840196 /home/mmb/code/IBLBM/src/io/FileFinder.hpp
+	<string>
+	"BoostFilesystem.hpp"
+
+1522830580 source:/home/mmb/code/IBLBM/unittests/TestFileFinder.cpp
+	"UnitTest++/UnitTest++.h"
+	"FileFinder.hpp"
+	"IblbmBuildRoot.hpp"
+	"OutputFileHandler.hpp"
+
+1522816487 /home/mmb/code/IBLBM/src/io/BoostFilesystem.hpp
+	<boost/version.hpp>
+	<boost/filesystem.hpp>
+	<boost/filesystem.hpp>
+	<boost/filesystem/fstream.hpp>
+
+1522839614 source:/home/mmb/code/IBLBM/unittests/TestOutputFileHandler.cpp
+	<string>
+	"UnitTest++/UnitTest++.h"
+	"Exception.hpp"
+	"FileFinder.hpp"
+	"IblbmSyscall.hpp"
+	"MpiManager.hpp"
+	"OutputFileHandler.hpp"
+
+1522824500 /home/mmb/code/IBLBM/src/core/Exception.hpp
+	<cassert>
+	<cstdlib>
+	<iostream>
+	<sstream>
+	<string>
+	<boost/preprocessor/stringize.hpp>
+
+1522828585 source:/home/mmb/code/IBLBM/src/core/Exception.cpp
+	"Exception.hpp"
+	"IblbmBuildRoot.hpp"
+	"MpiManager.hpp"
+	"PosixPathFixer.hpp"
+
+1522820524 /home/mmb/code/IBLBM/src/io/GetCurrentWorkingDirectory.hpp
+	<string>
+
+1522820588 source:/home/mmb/code/IBLBM/src/io/GetCurrentWorkingDirectory.cpp
+	"GetCurrentWorkingDirectory.hpp"
+	"BoostFilesystem.hpp"
+	"Exception.hpp"
+
+1522824844 source:/home/mmb/code/IBLBM/src/io/IblbmBuildRoot.cpp
+	"IblbmBuildRoot.hpp"
+
+1522824822 /home/mmb/code/IBLBM/src/io/IblbmBuildRoot.hpp
+	<string>
+
+1522822050 /home/mmb/code/IBLBM/src/io/PosixPathFixer.hpp
+	"BoostFilesystem.hpp"
+
+1522828800 source:/home/mmb/code/IBLBM/unittests/TestException.cpp
+	<string>
+	"UnitTest++/UnitTest++.h"
+	"Exception.hpp"
+
+1522837613 /home/mmb/code/IBLBM/src/core/IblbmSyscall.hpp
+	<direct.h>
+	<process.h>
+	<io.h>
+	<sys/stat.h>
+	<unistd.h>
+	<sys/stat.h>
 

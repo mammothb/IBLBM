@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "gsl/gsl"
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 /** \file
  * Descriptor for various lattice arrangement.

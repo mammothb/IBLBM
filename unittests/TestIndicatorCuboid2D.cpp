@@ -57,6 +57,9 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCorner_Default)
       g_loose_tol));
   CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), exp_origin + extent,
       g_loose_tol));
+  CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), exp_origin + extent,
+      g_loose_tol));
+  CHECK(testutil::CheckCloseVector(cuboid.GetRange(), extent, g_loose_tol));
 }
 
 TEST(TestIndicatorCuboid2D_Constructor_OriginCorner_UserDefined)
@@ -77,6 +80,7 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCorner_UserDefined)
   CHECK(testutil::CheckCloseVector(cuboid.rGetMin(), origin, g_loose_tol));
   CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), origin + extent,
       g_loose_tol));
+  CHECK(testutil::CheckCloseVector(cuboid.GetRange(), extent, g_loose_tol));
 }
 
 TEST(TestIndicatorCuboid2D_Constructor_OriginCenter_Default)
@@ -99,6 +103,8 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCenter_Default)
       g_loose_tol));
   CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), exp_upper_right,
       g_loose_tol));
+  CHECK_CLOSE(x_length, cuboid.GetRange()[0], g_loose_tol);
+  CHECK_CLOSE(y_length, cuboid.GetRange()[1], g_loose_tol);
 }
 
 TEST(TestIndicatorCuboid2D_Constructor_OriginCenter_UserDefined)
@@ -124,6 +130,8 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCenter_UserDefined)
       g_loose_tol));
   CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), exp_upper_right,
       g_loose_tol));
+  CHECK_CLOSE(x_length, cuboid.GetRange()[0], g_loose_tol);
+  CHECK_CLOSE(y_length, cuboid.GetRange()[1], g_loose_tol);
 }
 
 TEST(TestIndicatorCuboid2D_CheckBounds_ZeroOrigin)

@@ -3,6 +3,15 @@
 
 namespace iblbm
 {
+#ifndef NDEBUG
+// Uncomment this to trace calls to MpiManager::Instance().Barrier
+//#define DEBUG_BARRIERS
+#endif
+
+#ifdef DEBUG_BARRIERS
+static unsigned mNumBarriers = 0u;
+#endif
+
 MpiManager& MpiManager::Instance()
 {
   static MpiManager instance;
@@ -51,6 +60,11 @@ std::size_t MpiManager::GetSize() const
   return mNumProcessors;
 }
 
+bool MpiManager::IsOk() const
+{
+  return mIsOk;
+}
+
 bool MpiManager::AmMaster() const
 {
   return mRank == MASTER_RANK;
@@ -61,10 +75,25 @@ double MpiManager::GetTime() const
   return mIsOk ? MPI_Wtime() : 0;
 }
 
-void MpiManager::Barrier(MPI_Comm comm/*=MPI_COMM_WORLD*/)
+void MpiManager::Barrier(
+    const std::string callerId/*=""*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
 {
-  if (!mIsOk) return;
-  MPI_Barrier(comm);
+  if (mIsOk) {
+#ifdef DEBUG_BARRIERS
+    // "Before" is alphabetically before "Post" so that one can sort the
+    // output on process/event/barrier
+    std::cout << "DEBUG: proc " << mRank << ": Before " << "Barrier " <<
+        mNumBarriers << " \""<< callerId <<  "\"." << std::endl <<
+        std::flush;
+#endif
+    MPI_Barrier(comm);
+#ifdef DEBUG_BARRIERS
+    std::cout << "DEBUG: proc " << mRank << ": Post " << "Barrier " <<
+        mNumBarriers++ << " \""<< callerId <<  "\"." << std::endl <<
+        std::flush;
+#endif
+  }
 }
 }  // namespace iblbm
 

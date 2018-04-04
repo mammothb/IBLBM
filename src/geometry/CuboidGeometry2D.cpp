@@ -42,10 +42,10 @@ CuboidGeometry2D<T>::CuboidGeometry2D(
         rIndicatorFunctor.rGetMin()[0],
         rIndicatorFunctor.rGetMin()[1],
         deltaR,
-        static_cast<std::size_t>((rIndicatorFunctor.rGetMax()[0] -
-            rIndicatorFunctor.rGetMin()[0]) / deltaR + 1.5),
-        static_cast<std::size_t>((rIndicatorFunctor.rGetMax()[1] -
-            rIndicatorFunctor.rGetMin()[1]) / deltaR + 1.5)},
+        static_cast<std::size_t>(rIndicatorFunctor.GetRange()[0] / deltaR +
+            1.5),
+        static_cast<std::size_t>(rIndicatorFunctor.GetRange()[1] / deltaR +
+            1.5)},
     mCuboids{{mMotherCuboid}},
     mIsPeriodic(2, false),
     mOstream{std::cout, "CuboidGeometry2D"}
@@ -71,9 +71,8 @@ void CuboidGeometry2D<T>::Split(
     gsl::index index
   , std::size_t p)
 {
-  Cuboid2D<T> temp(mCuboids[index].GetGlobalXPosition(),
-      mCuboids[index].GetGlobalYPosition(), mCuboids[index].GetDeltaR(),
-      mCuboids[index].GetNx(), mCuboids[index].GetNy());
+  Cuboid2D<T> temp(mCuboids[index].GetOrigin(), mCuboids[index].GetDeltaR(),
+      mCuboids[index].GetLatticeExtent());
   temp.Divide(p, mCuboids);
   Remove(index);
 }
@@ -85,8 +84,8 @@ void CuboidGeometry2D<T>::Shrink(
   auto nc {GetNumberOfCuboids()};
   for (gsl::index idx = nc - 1; idx >= 0; --idx) {
     std::size_t num_full_cell {};
-    auto nx = mCuboids[idx].GetNx();
-    auto ny = mCuboids[idx].GetNy();
+    auto nx {mCuboids[idx].GetNx()};
+    auto ny {mCuboids[idx].GetNy()};
     auto max_x {std::numeric_limits<gsl::index>::min()};
     auto max_y {std::numeric_limits<gsl::index>::min()};
     auto new_x {std::numeric_limits<gsl::index>::max()};
@@ -95,7 +94,7 @@ void CuboidGeometry2D<T>::Shrink(
     // is within the bounds of the indicator functor
     for (gsl::index x = 0; x < nx; ++x) {
       for (gsl::index y = 0; y < ny; ++y) {
-        auto is_inside = false;
+        auto is_inside {false};
         auto phys_R {GetPhysR(idx, x, y)};
         rIndicatorFunctor(gsl::make_span(&is_inside), phys_R);
         // If the physical coordinate is within the bounds of the indicator
@@ -215,6 +214,7 @@ void CuboidGeometry2D<T>::SetIsPeriodic(
   mIsPeriodic[0] = isPeriodicX;
   mIsPeriodic[1] = isPeriodicY;
 }
+
 // Explicit instantiation
 template class CuboidGeometry2D<double>;
 }  // namespace iblbm

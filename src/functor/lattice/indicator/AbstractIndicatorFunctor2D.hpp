@@ -26,6 +26,9 @@ class AbstractIndicatorFunctor2D : public AbstractFunctor<bool, S>
   /** \return Minimum vector of the domain */
   virtual const Vector2D<S>& rGetMax() const;
 
+  /** \return Difference between maximum and minimum vector of the domain */
+  virtual const Vector2D<S> GetRange() const;
+
   /**
    * Indicator specific function operator overload
    * \param Domain indicator i.e. TRUE iff the input lies within the

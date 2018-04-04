@@ -212,6 +212,8 @@
 		<Unit filename="src/core/IblbmInitialize.hpp" />
 		<Unit filename="src/core/LatticeStatistics.cpp" />
 		<Unit filename="src/core/LatticeStatistics.hpp" />
+		<Unit filename="src/core/Serializer.cpp" />
+		<Unit filename="src/core/Serializer.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
 		<Unit filename="src/core/UnitConverter.hpp" />
 		<Unit filename="src/core/Vector.hpp" />
@@ -242,9 +244,18 @@
 		<Unit filename="src/geometry/Cuboid2D.hpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.cpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.hpp" />
+		<Unit filename="src/io/BoostFilesystem.hpp" />
+		<Unit filename="src/io/FileFinder.cpp" />
+		<Unit filename="src/io/FileFinder.hpp" />
 		<Unit filename="src/io/OstreamManager.cpp" />
 		<Unit filename="src/io/OstreamManager.hpp" />
+		<Unit filename="src/io/OutputFileHandler.cpp" />
+		<Unit filename="src/io/OutputFileHandler.hpp" />
 		<Unit filename="src/main-devel.cpp" />
+		<Unit filename="src/parallel/HeuristicLoadBalancer.cpp" />
+		<Unit filename="src/parallel/HeuristicLoadBalancer.hpp" />
+		<Unit filename="src/parallel/LoadBalancer.cpp" />
+		<Unit filename="src/parallel/LoadBalancer.hpp" />
 		<Unit filename="src/parallel/MpiManager.cpp" />
 		<Unit filename="src/parallel/MpiManager.hpp" />
 		<Unit filename="unittests/TestBgkDynamics.cpp" />
@@ -253,6 +264,7 @@
 		<Unit filename="unittests/TestCuboid2D.cpp" />
 		<Unit filename="unittests/TestCuboidGeometry2D.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
+		<Unit filename="unittests/TestFileFinder.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />
 		<Unit filename="unittests/TestIndicatorCuboid2D.cpp" />
@@ -260,6 +272,7 @@
 		<Unit filename="unittests/TestMomentumExchangeBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestMpiManager.cpp" />
 		<Unit filename="unittests/TestOstreamManager.cpp" />
+		<Unit filename="unittests/TestOutputFileHandler.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
 		<Unit filename="unittests/TestVector.cpp" />
 		<Extensions>

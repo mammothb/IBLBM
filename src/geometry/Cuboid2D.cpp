@@ -2,7 +2,7 @@
 
 #include <limits>
 
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 namespace iblbm
 {

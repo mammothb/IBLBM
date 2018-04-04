@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "gsl/gsl"
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 #include "CoreUtilities.hpp"
 
 namespace iblbm
@@ -117,6 +117,17 @@ class Vector
   Vector& operator*=(const T& rScalar)
   {
     for (gsl::index d = 0; d < N; ++d) mData[d] *= rScalar;
+    return *this;
+  }
+
+  /**
+   * Cumulative divide scalar to each entry in the Vector
+   *
+   * \param rScalar scalar value
+   */
+  Vector& operator/=(const T& rScalar)
+  {
+    for (gsl::index d = 0; d < N; ++d) mData[d] /= rScalar;
     return *this;
   }
 
@@ -262,6 +273,15 @@ inline T operator*(
   for (gsl::index d = 0; d < N; ++d)
       scalar_product += rVector1[d] * rVector2[d];
   return scalar_product;
+}
+
+/** Division: rVector * rScalar */
+template<typename T, std::size_t N>
+inline Vector<T, N> operator/(
+    const Vector<T, N>& rVector
+  , const T& rScalar)
+{
+  return Vector<T, N>(rVector) /= rScalar;
 }
 
 /** operator<: returns true if all elements are smaller */

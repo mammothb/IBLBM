@@ -2,6 +2,7 @@ bin
 obj
 lib
 result
+testoutput
 
 *.layout
 *.o

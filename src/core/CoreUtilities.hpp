@@ -5,7 +5,7 @@
 #include <numeric>
 #include <vector>
 
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 namespace iblbm
 {

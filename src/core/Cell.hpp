@@ -6,7 +6,7 @@
 #include "gsl/gsl"
 #include "AbstractDynamicsInterface.hpp"
 #include "Descriptor.hpp"
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 namespace iblbm
 {

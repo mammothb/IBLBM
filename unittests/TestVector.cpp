@@ -100,6 +100,16 @@ TEST(TestVector_CumulativeSubtractScalar)
   CHECK_CLOSE(-1.4, vec_1[1], g_zero_tol);
 }
 
+TEST(TestVector_CumulativeDivideScalar)
+{
+  Vector<double, 2> vec_1(1, 2);
+
+  vec_1 /= 3.4;
+
+  CHECK_CLOSE(1.0 / 3.4, vec_1[0], g_loose_tol);
+  CHECK_CLOSE(2.0 / 3.4, vec_1[1], g_loose_tol);
+}
+
 TEST(TestVector_CheckEqual)
 {
   Vector<double, 2> vec_1(1, 2);
@@ -240,6 +250,18 @@ TEST(TestVector_VectorMultiplyVector)
   auto scalar_product = vec_1 * vec_2;
 
   CHECK_CLOSE(11.0, scalar_product, g_loose_tol);
+}
+
+
+TEST(TestVector_VectorDivideScalar)
+{
+  auto scalar = 3.4;
+  Vector<double, 2> vec_1(1, 2);
+
+  auto vec_2 = vec_1 / scalar;
+
+  CHECK_CLOSE(1.0 / 3.4, vec_2[0], g_loose_tol);
+  CHECK_CLOSE(2.0 / 3.4, vec_2[1], g_loose_tol);
 }
 
 TEST(TestVector_IsLessThan)

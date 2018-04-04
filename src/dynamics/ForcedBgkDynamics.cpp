@@ -2,7 +2,7 @@
 
 #include "gsl/gsl"
 #include "Helpers.hpp"
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 namespace iblbm
 {

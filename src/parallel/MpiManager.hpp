@@ -4,10 +4,21 @@
 #ifdef IBLBM_PARALLEL_MPI
 #include "mpi.h"
 #include <vector>
+
+#else
+
+// Define some macros to replace MPI related function and variable, to
+// prevent compile error in Exception.cpp when we are not using Parallel
+// build
+#define MPI_Comm int
+#define MPI_COMM_WORLD 0
+#define MPI_Abort(comm, errorcode)
+
 #endif  // IBLBM_PARALLEL_MPI
 
 #include <string>
 
+#include "Exception.hpp"
 #include "OstreamManager.hpp"
 
 namespace iblbm
@@ -34,14 +45,27 @@ class MpiManager
   /** \return number of processes */
   std::size_t GetSize() const;
 
+  /** \return flag to indicate if MPI is successfully initialized */
+  bool IsOk() const;
+
   /** \return whether the current process is the master process */
   bool AmMaster() const;
 
   /** \return Universal MPI-time in seconds */
   double GetTime() const;
 
-  /** Synchronize the processes */
-  void Barrier(MPI_Comm comm = MPI_COMM_WORLD);
+  /**
+   * If MPI is set up, perform a barrier synchronisation.
+   * If not, it's a noop.
+   *
+   * \param callerId only used in debug mode; printed before & after the
+   *        barrier call
+   * \param comm object used by MPI to determine which process are involved
+   *        in a communication
+   */
+  void Barrier(
+      const std::string callerId = ""
+    , MPI_Comm comm = MPI_COMM_WORLD);
 
  private:
   /** Constructor */
@@ -77,7 +101,7 @@ class MpiManager
 
   MpiManager()
     : mRank{0},
-      mNumProcessors{0}
+      mNumProcessors{1}
   {}
 
   /** Initialize MpiManager. Does nothing */
@@ -98,10 +122,24 @@ class MpiManager
     return mNumProcessors;
   }
 
+  /** \return flag to indicate if MPI is successfully initialized */
+  bool IsOk() const
+  {
+    return false;
+  }
+
   /** \return whether the current process is the master process */
   bool AmMaster() const
   {
     return mRank == MASTER_RANK;
+  }
+
+  void Barrier(
+      const std::string callerId = ""
+    , MPI_Comm comm = MPI_COMM_WORLD)
+  {
+    IBLBM_UNUSED(callerId);
+    IBLBM_UNUSED(comm);
   }
 
  private:

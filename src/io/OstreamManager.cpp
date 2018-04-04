@@ -1,6 +1,6 @@
 #include "OstreamManager.hpp"
 
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 #include "MpiManager.hpp"
 
 namespace iblbm

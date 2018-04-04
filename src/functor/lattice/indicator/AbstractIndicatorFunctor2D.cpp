@@ -21,6 +21,12 @@ const Vector2D<S>& AbstractIndicatorFunctor2D<S>::rGetMax() const
   return mMax;
 }
 
+template<typename S>
+const Vector2D<S> AbstractIndicatorFunctor2D<S>::GetRange() const
+{
+  return mMax - mMin;
+}
+
 template <typename S>
 void AbstractIndicatorFunctor2D<S>::operator()(
     gsl::span<bool> output

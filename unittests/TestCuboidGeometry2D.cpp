@@ -259,8 +259,7 @@ TEST(TestCuboidGeometry2D_Constructor_Indicator_Default)
     CHECK_EQUAL(ny, cuboid_vec[i].GetNy());
     CHECK_EQUAL(nx, cuboid_vec[i].GetLatticeExtent()[0]);
     CHECK_EQUAL(ny, cuboid_vec[i].GetLatticeExtent()[1]);
-//    CHECK_EQUAL(std::numeric_limits<std::size_t>::max(),
-//        cuboid_vec[i].GetWeight());
+    CHECK_EQUAL(nx * ny, cuboid_vec[i].GetWeight());
     CHECK_CLOSE(exp_phys_perimeter, cuboid_vec[i].GetPhysPerimeter(),
         g_loose_tol);
     CHECK_EQUAL(exp_lattice_perimenter, cuboid_vec[i].GetLatticePerimeter());
@@ -325,7 +324,8 @@ TEST(TestCuboidGeometry2D_Constructor_Indicator_UserDefined)
     CHECK_EQUAL(cuboid_vec[i].GetNy(), cuboid_vec[i].GetNy());
     CHECK(testutil::CheckEqualVector(cuboid_vec[i].GetLatticeExtent(),
         exp_cuboid_vec[i].GetLatticeExtent()));
-//    CHECK_EQUAL(exp_cuboid_vec[i].GetWeight(), cuboid_vec[i].GetWeight());
+    CHECK_EQUAL(cuboid_vec[i].GetNx() * cuboid_vec[i].GetNy(),
+        cuboid_vec[i].GetWeight());
     CHECK_CLOSE(exp_cuboid_vec[i].GetPhysPerimeter(),
         cuboid_vec[i].GetPhysPerimeter(), g_loose_tol);
     CHECK_EQUAL(exp_cuboid_vec[i].GetLatticePerimeter(),
@@ -513,7 +513,6 @@ TEST(TestCuboidGeometry2D_SetPeriodic)
   is_periodic = tester.GetIsPeriodic(cuboid_geometry);
   CHECK(is_periodic[0] == true);
   CHECK(is_periodic[1] == true);
-
 }
 }
 }  // namespace iblbm

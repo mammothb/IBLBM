@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "CoreUtilities.hpp"
-#include "IblbmDebug.hpp"
+#include "Exception.hpp"
 
 namespace iblbm
 {
