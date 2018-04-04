@@ -208,8 +208,10 @@
 		<Unit filename="src/core/Cell.cpp" />
 		<Unit filename="src/core/Cell.hpp" />
 		<Unit filename="src/core/CoreUtilities.hpp" />
-		<Unit filename="src/core/IblbmDebug.hpp" />
+		<Unit filename="src/core/Exception.cpp" />
+		<Unit filename="src/core/Exception.hpp" />
 		<Unit filename="src/core/IblbmInitialize.hpp" />
+		<Unit filename="src/core/IblbmSyscall.hpp" />
 		<Unit filename="src/core/LatticeStatistics.cpp" />
 		<Unit filename="src/core/LatticeStatistics.hpp" />
 		<Unit filename="src/core/Serializer.cpp" />
@@ -247,10 +249,15 @@
 		<Unit filename="src/io/BoostFilesystem.hpp" />
 		<Unit filename="src/io/FileFinder.cpp" />
 		<Unit filename="src/io/FileFinder.hpp" />
+		<Unit filename="src/io/GetCurrentWorkingDirectory.cpp" />
+		<Unit filename="src/io/GetCurrentWorkingDirectory.hpp" />
+		<Unit filename="src/io/IblbmBuildRoot.cpp" />
+		<Unit filename="src/io/IblbmBuildRoot.hpp" />
 		<Unit filename="src/io/OstreamManager.cpp" />
 		<Unit filename="src/io/OstreamManager.hpp" />
 		<Unit filename="src/io/OutputFileHandler.cpp" />
 		<Unit filename="src/io/OutputFileHandler.hpp" />
+		<Unit filename="src/io/PosixPathFixer.hpp" />
 		<Unit filename="src/main-devel.cpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.cpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.hpp" />
@@ -264,6 +271,7 @@
 		<Unit filename="unittests/TestCuboid2D.cpp" />
 		<Unit filename="unittests/TestCuboidGeometry2D.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
+		<Unit filename="unittests/TestException.cpp" />
 		<Unit filename="unittests/TestFileFinder.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />
