@@ -3,6 +3,7 @@
 #include "FileFinder.hpp"
 #include "IblbmBuildRoot.hpp"
 #include "OutputFileHandler.hpp"
+#include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
 {
@@ -10,8 +11,10 @@ SUITE(TestIo)
 {
 TEST(TestFileFinder_Constructor_Default)
 {
-  FileFinder finder;
-  CHECK_EQUAL("UNSET!", finder.GetAbsolutePath());
+  FileFinder unset;
+  CHECK(!unset.IsPathSet());
+  unset.SetPath("", RelativeTo::IBLBM_SOURCE_ROOT);
+  CHECK(unset.IsPathSet());
 }
 
 TEST(TestFileFinder_Constructor_RelativeTo)
@@ -27,7 +30,7 @@ TEST(TestFileFinder_Constructor_RelativeTo)
     CHECK(file_finder.IsPathSet());
 
     // Check the path is as expected
-    std::string abs_path {IblbmBuildRootDir() + filename};
+    std::string abs_path {IblbmSourceRootDir() + filename};
     CHECK_EQUAL(abs_path, file_finder.GetAbsolutePath());
 
     // CWD should be the Chaste source root
@@ -95,28 +98,11 @@ TEST(TestFileFinder_Constructor_RelativeTo)
     CHECK_EQUAL(abs_path, file_finder.GetAbsolutePath());
 
     // Check finding a sibling and testing for emptiness fail
-    std::ostringstream ostring_stream;
-    std::streambuf* p_cerr_streambuf = std::cerr.rdbuf();
-    // set ostring_stream stream buffer as the stream buffer associated with
-    // cerr
-    std::cerr.rdbuf(ostring_stream.rdbuf());
     // This should try to write files to /, which isn't allowed (we hope!)
-    try {
-      file_finder.IsEmpty();
-    }
-    catch (const Exception& exc) {
-      CHECK_EQUAL("", exc.CheckShortMessageContains("The path '" + abs_path +
-          "' does not exist."));
-    }
-    try {
-      FileFinder("sibling", file_finder);
-    }
-    catch (const Exception& exc) {
-      CHECK_EQUAL("", exc.CheckShortMessageContains("Reference path '" +
-          abs_path + "' does not exist."));
-    }
-    // Restore cerr's stream buffer so we can resume normal printing
-    std::cerr.rdbuf(p_cerr_streambuf);
+    CHECK_THROW_CONTAINS(file_finder.IsEmpty(), "The path '" + abs_path +
+        "' does not exist.");
+    CHECK_THROW_CONTAINS(FileFinder("sibling", file_finder),
+        "Reference path '" + abs_path + "' does not exist.");
 
     // Create the file
     auto fp {handler.OpenOutputFile(file_name)};

@@ -3,14 +3,36 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "UnitTest++/UnitTest++.h"
 #include "UnitTest++/TestReporterStdout.h"
+#include "Exception.hpp"
 
 namespace iblbm
 {
+/**
+ * This macro allows us to check exceptions messages contains a certain
+ * message. This macro will assign cerr an temporary string buffer so that
+ * error message from the test will not pollute output. It will restore the
+ * buffer at the end of the macro.
+ */
+#define CHECK_THROW_CONTAINS(block, message)                    \
+  {                                                             \
+    std::ostringstream ostring_stream;                          \
+    std::streambuf* p_cerr_streambuf = std::cerr.rdbuf();       \
+    std::cerr.rdbuf(ostring_stream.rdbuf());                    \
+    try {                                                       \
+      block;                                                    \
+    }                                                           \
+    catch (const Exception& exc) {                              \
+      CHECK_EQUAL("", exc.CheckShortMessageContains(message));  \
+    }                                                           \
+    std::cerr.rdbuf(p_cerr_streambuf);                          \
+  }
+
 namespace testutil
 {
 /**

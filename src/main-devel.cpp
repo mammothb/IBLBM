@@ -17,7 +17,8 @@ int main(int argc, char** argv)
       "TestDynamics",
       "TestFunctor",
       "TestGeometry",
-      "TestIo"
+      "TestIo",
+      "TestParallel"
   };
 
 //  return iblbm::RunAllTheTests();

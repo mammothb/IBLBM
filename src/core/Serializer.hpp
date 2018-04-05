@@ -1,6 +1,8 @@
 #ifndef SRC_CORE_SERIALIZER_HPP_
 #define SRC_CORE_SERIALIZER_HPP_
 
+#include <cstddef>
+
 #include <string>
 
 namespace iblbm
@@ -25,17 +27,17 @@ class Serializer
    * file per rank.
    *
    * \param rFilename filename of file to be saved
-   * \param isEnforceUnsigned flag to determine if we are forcing it to write
+   * \param forceUnsigned flag to determine if we are forcing it to write
    *        to unsigned instead of std::size_t
    */
   bool Save(
       std::string filename = "Serializable"
-    , const bool isEnforceUnsigned = false);
+    , const bool forceUnsigned = false);
 
   /**
    * Compute mSize based on the individual definition of GetBlock()
    */
-  void ComputeSize(const bool isEnforceRecompute = false);
+  void ComputeSize(const bool forceRecompute = false);
 
  private:
   /**
@@ -53,19 +55,6 @@ class Serializer
   std::size_t mSize;
   /** Default filename for I/O */
   std::string mFilename;
-};
-
-class Serializable
-{
- public:
-  /** \return the binary size of the data to be saved */
-  virtual std::size_t GetSerializableSize() const = 0;
-};
-
-class BufferSerializable : public Serializable
-{
- public:
-
 };
 }  // namespace iblbm
 

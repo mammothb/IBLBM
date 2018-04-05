@@ -145,24 +145,34 @@ class Exception
  * code that looks like:
  *
  * \code
- *   RelativeTo::Value relative_to;
- *   switch (rPath.relative_to()) {
- *   case cp::relative_to_type::cwd:
- *     relative_to = RelativeTo::CWD;
- *     break;
- *   case cp::relative_to_type::chaste_test_output:
- *     relative_to = RelativeTo::ChasteTestOutput;
- *     break;
- *   case cp::relative_to_type::chaste_source_root:
- *     relative_to = RelativeTo::ChasteSourceRoot;
- *     break;
- *   case cp::relative_to_type::absolute:
- *     relative_to = RelativeTo::Absolute;
- *     break;
- *   default:
- *     NEVER_REACHED;
- *     break;
+ * switch (relativeTo) {
+ * case RelativeTo::IBLBM_SOURCE_ROOT:
+ *   mAbsPath = IblbmSourceRootDir() + rRelativePath;
+ *   break;
+ * case RelativeTo::IBLBM_BUILD_ROOT:
+ *   mAbsPath = IblbmBuildRootDir() + rRelativePath;
+ *   break;
+ * case RelativeTo::IBLBM_TEST_OUTPUT:
+ *   mAbsPath = OutputFileHandler::GetIblbmTestOutputDirectory() +
+ *       rRelativePath;
+ *   break;
+ * case RelativeTo::CWD:
+ *   mAbsPath = GetCurrentWorkingDirectory() + "/" + rRelativePath;
+ *   break;
+ * case RelativeTo::ABSOLUTE:
+ *   mAbsPath = rRelativePath;
+ *   break;
+ * case RelativeTo::ABSOLUTE_OR_CWD:
+ *   if (FileFinder::IsAbsolutePath(rRelativePath)) {
+ *     mAbsPath = rRelativePath;
  *   }
+ *   else {
+ *     mAbsPath = GetCurrentWorkingDirectory() + "/" + rRelativePath;
+ *   }
+ *   break;
+ * default:
+ *   NEVER_REACHED;
+ * }
  * \endcode
  *
  * relative_to is considered potentially uninitialized in the default branch
@@ -171,6 +181,26 @@ class Exception
 #define NEVER_REACHED                                      \
   TERMINATE("Should have been impossible to reach here");  \
   exit(EXIT_FAILURE)
+
+/**
+ * Convenience function to convert an exception thrown by a single process
+ * into termination of the entire program.
+ *
+ * \param block the block of code to execute
+ */
+#define ABORT_IF_THROWS(block)                  \
+  try {                                         \
+    block;                                      \
+  }                                             \
+  catch (const Exception& exc) {                \
+    TERMINATE(exc.GetMessage());                \
+  }                                             \
+  catch (const std::exception& exc) {           \
+    TERMINATE(exc.what());                      \
+  }                                             \
+  catch (...) {                                 \
+    TERMINATE("Unexpected exception thrown.");  \
+  }
 
 // Unused parameter macro
 #define IBLBM_UNUSED(x) (void)(x)

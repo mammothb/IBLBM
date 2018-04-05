@@ -235,7 +235,7 @@ void RemoveAll(const fs::path& rPath)
   if (fs::is_directory(rPath)) {
     fs::directory_iterator it_end;
     for (fs::directory_iterator it_dir(rPath); it_dir != it_end; ++it_dir)
-      RemoveAll(it_dir->path());
+        RemoveAll(it_dir->path());
   }
   // Now remove the item itself
   fs::remove(rPath);

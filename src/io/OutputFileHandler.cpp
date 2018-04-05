@@ -166,8 +166,6 @@ void OutputFileHandler::CommonConstructor(
   if (rDirectory.find("..") != std::string::npos) {
     EXCEPTION("Will not create directory: " + rDirectory + " due to it " +
         "potentially being above, and cleaning, IBLBM_TEST_OUTPUT.");
-    // Note: in Boost 1.48 and above we could use 'canonical' to check this
-    // better
   }
   // The notion of absolute path on Windows is rather different.
   // For example, / and /foo are not absolute paths.

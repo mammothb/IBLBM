@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "Serializable.hpp"
+
 namespace iblbm
 {
 Serializer::Serializer(
@@ -15,7 +17,7 @@ Serializer::Serializer(
 
 bool Serializer::Save(
     std::string filename/*="Serializable"*/
-  , bool isEnforceUnsigned/*=false*/)
+  , bool forceUnsigned/*=false*/)
 {
   ValidateFilename(filename);
 
@@ -24,7 +26,7 @@ bool Serializer::Save(
 
   std::ofstream ostr(GetFullFilename(filename).c_str());
   if (ostr) {
-//    serializer2ostr(*this, ostr, isEnforceUnsigned);
+//    serializer2ostr(*this, ostr, forceUnsigned);
     ostr.close();
     return true;
   }
@@ -33,9 +35,9 @@ bool Serializer::Save(
   }
 }
 
-void Serializer::ComputeSize(const bool isEnforceRecompute/*=false*/)
+void Serializer::ComputeSize(const bool forceRecompute/*=false*/)
 {
-  if (isEnforceRecompute || mSize == 0)
+  if (forceRecompute || mSize == 0)
       mSize = mrSerializable.GetSerializableSize();
 }
 
@@ -50,4 +52,10 @@ const std::string Serializer::GetFullFilename(const std::string& rFilename)
 //  return singleton::directories().getLogOutDir() +
 //      createParallelFileName(fileName) + ".dat";
 }
+
+/***************************************************************************
+ * Serializable
+ ***************************************************************************/
+Serializable::~Serializable()
+{}
 }  // namespace iblbm

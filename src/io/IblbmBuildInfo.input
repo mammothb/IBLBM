@@ -4,11 +4,11 @@ namespace iblbm
 {
 const char* IblbmBuildRootDir()
 {
-    return "/home/mmb/code/IBLBM/build/";
+    return "${Iblbm_BUILD_DIR}/";
 }
 
 const char* IblbmSourceRootDir()
 {
-    return "/home/mmb/code/IBLBM/";
+    return "${Iblbm_SOURCE_DIR}/";
 }
 }  // namespace iblbm

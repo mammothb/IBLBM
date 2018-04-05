@@ -6,6 +6,7 @@
 #include "IblbmSyscall.hpp"
 #include "MpiManager.hpp"
 #include "OutputFileHandler.hpp"
+#include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
 {
@@ -50,53 +51,35 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
   CHECK_EQUAL(handler3.GetRelativePath(), "testhandler2");
 
   // Check that all three handlers can create files
-  out_stream p_file_stream;
-  p_file_stream = handler.OpenOutputFile("test_file", std::ios::out);
+  out_stream p_fstream;
+  p_fstream = handler.OpenOutputFile("test_file", std::ios::out);
   CHECK(FileFinder(handler_path + "test_file").Exists());
 
-  p_file_stream = handler.OpenOutputFile("test_file2");
+  p_fstream = handler.OpenOutputFile("test_file2");
   CHECK(FileFinder(handler_path + "test_file2").Exists());
 
-  p_file_stream = handler2.OpenOutputFile("test_file");
+  p_fstream = handler2.OpenOutputFile("test_file");
   CHECK(FileFinder(handler2.GetOutputDirectoryFullPath() +
       "test_file").Exists());
 
-  p_file_stream = handler2.OpenOutputFile("test_", 34, ".txt");
+  p_fstream = handler2.OpenOutputFile("test_", 34, ".txt");
   CHECK(FileFinder(handler2.GetOutputDirectoryFullPath() +
       "test_34.txt").Exists());
 
-  p_file_stream = handler3.OpenOutputFile("test_file");
+  p_fstream = handler3.OpenOutputFile("test_file");
   CHECK(FileFinder(handler3.GetOutputDirectoryFullPath() +
       "test_file").Exists());
 
-  std::ostringstream ostring_stream;
-  std::streambuf* p_cerr_streambuf = std::cerr.rdbuf();
-  // set ostring_stream stream buffer as the stream buffer associated with
-  // cerr
-  std::cerr.rdbuf(ostring_stream.rdbuf());
   // This should try to write files to /, which isn't allowed (we hope!)
-  try {
-    OutputFileHandler bad_handler(
-        "../../../../../../../../../../../../../../../", false);
-  }
-  catch (const Exception& exc) {
-    CHECK_EQUAL("", exc.CheckShortMessageContains("due to it potentially "
-        "being above, and cleaning, IBLBM_TEST_OUTPUT."));
-  }
-  try {
-    OutputFileHandler bad_handler( "/", false);
-  }
-  catch (const Exception& exc) {
-    CHECK_EQUAL("", exc.CheckShortMessageContains("The constructor argument "
-        "to OutputFileHandler must be a relative path"));
-  }
-  try {
-    OutputFileHandler bad_handler(FileFinder("/"), false);
-  }
-  catch (const Exception& exc) {
-    CHECK_EQUAL("", exc.CheckShortMessageContains("The location provided to "
-        "OutputFileHandler must be inside IBLBM_TEST_OUTPUT"));
-  }
+  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler(
+      "../../../../../../../../../../../../../../../", false),
+      "due to it potentially being above, and cleaning, IBLBM_TEST_OUTPUT.");
+  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler( "/", false),
+      "The constructor argument to OutputFileHandler must be a relative "
+      "path");
+  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler(FileFinder("/"), false),
+      "The location provided to OutputFileHandler must be inside "
+      "IBLBM_TEST_OUTPUT");
 
   // Check the CopyFileTo method
   FileFinder source_file("unittests/TestOutputFileHandler.cpp",
@@ -106,21 +89,11 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
   FileFinder dest_file = handler2.CopyFileTo(source_file);
   CHECK(dest_file.Exists());
   FileFinder missing_file("unittests/no_file", RelativeTo::IBLBM_SOURCE_ROOT);
-  try {
-    handler2.CopyFileTo(missing_file);
-  }
-  catch (const Exception& exc) {
-    CHECK_EQUAL("", exc.CheckShortMessageContains(
-        "Can only copy single files"));
-  }
+  CHECK_THROW_CONTAINS(handler2.CopyFileTo(missing_file),
+      "Can only copy single files");
   FileFinder global_dir("core", RelativeTo::IBLBM_SOURCE_ROOT);
-  try {
-    handler2.CopyFileTo(global_dir);
-  }
-  catch (const Exception& exc) {
-    CHECK_EQUAL("", exc.CheckShortMessageContains(
-        "Can only copy single files"));
-  }
+  CHECK_THROW_CONTAINS(handler2.CopyFileTo(global_dir),
+      "Can only copy single files");
 
   // We don't want other people using IBLBM_TEST_OUTPUT whilst we are messing
   // with it!
@@ -205,25 +178,102 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
     // See: http://support.microsoft.com/kb/326549
     // You can't change DIRECTORY attributes
     chmod(dir_path.c_str(), IBLBM_READONLY);
-    try {
-      p_file_stream = handler6.OpenOutputFile("test_file");
-    }
-    catch (const Exception& exc) {
-      CHECK_EQUAL("", exc.CheckShortMessageContains(
-          "Could not open file"));
-    }
+    CHECK_THROW_CONTAINS(p_fstream = handler6.OpenOutputFile("test_file"),
+        "Could not open file");
 #endif
     chmod(dir_path.c_str(), IBLBM_READ_WRITE_EXECUTE);
     fs::remove(dir_path + ".iblbm_deletable_folder");
     fs::remove(dir_path);
   }
-  // Restore cerr's stream buffer so we can resume normal printing
-  std::cerr.rdbuf(p_cerr_streambuf);
 
   // Check behaviour of FindFile("")
   auto handler_self {handler.FindFile("")};
   CHECK_EQUAL(handler_self.GetAbsolutePath(),
       handler.GetOutputDirectoryFullPath());
+}
+
+TEST(TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves)
+{
+  std::string test_folder {"cannot_delete_me"};
+  if (MpiManager::Instance().AmMaster()) {
+    ABORT_IF_THROWS(fs::create_directories(
+        OutputFileHandler::GetIblbmTestOutputDirectory() + test_folder));
+  }
+  // Wait until directory has been created, and check it exists
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-1");
+  FileFinder cannot_delete(test_folder, RelativeTo::IBLBM_TEST_OUTPUT);
+  CHECK(cannot_delete.IsDir());
+
+  // Try to use it as an output folder
+  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler(test_folder),
+      "because signature file \".iblbm_deletable_folder\" is not present");
+  // Tidy up
+  if (MpiManager::Instance().AmMaster()) {
+    CHECK(cannot_delete.Exists());
+    cannot_delete.DangerousRemove();
+    CHECK(!cannot_delete.Exists());
+  }
+
+  // Now create a folder the proper way
+  test_folder = "can_delete_me";
+  OutputFileHandler handler(test_folder);
+  out_stream p_fstream = handler.OpenOutputFile("test_file");
+  p_fstream->close();  // Windows does not like deleting open files
+
+  // Test file is present
+  FileFinder test_file = handler.FindFile("test_file");
+  CHECK(test_file.Exists());
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-2");
+
+  OutputFileHandler handler2(test_folder, /*cleanOutputDirectory=*/false);
+
+  // Test file is still present
+  CHECK(test_file.Exists());
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-3");
+
+  OutputFileHandler handler3(test_folder, /*cleanOutputDirectory=*/true);
+
+  // Test file is deleted
+  CHECK(!test_file.Exists());
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-4");
+
+  // Check we can delete the test_folder too
+  if (MpiManager::Instance().AmMaster()) {
+    FileFinder folder = handler.FindFile("");
+    CHECK(folder.Exists());
+    folder.Remove();
+    CHECK(!folder.Exists());
+  }
+
+  // Test we can make a directory of folders and delete them all
+  OutputFileHandler handler4("what_about_me/and_me/and_me/and_da_da_da",
+      true);
+
+  // Check we have made a subdirectory
+  FileFinder sub_folder("what_about_me/and_me",
+      RelativeTo::IBLBM_TEST_OUTPUT);
+  CHECK(sub_folder.IsDir());
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-5");
+
+  OutputFileHandler handler5("what_about_me", true);
+
+  // Check we have wiped the sub-directories
+  CHECK(!sub_folder.Exists());
+  MpiManager::Instance().Barrier(
+      "TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves-6");
+
+  // Check we can delete the main directory too
+  if (MpiManager::Instance().AmMaster()) {
+    FileFinder folder = handler5.FindFile("");
+    CHECK(folder.Exists());
+    folder.Remove();
+    CHECK(!folder.Exists());
+  }
 }
 }
 }  // namespace iblbm

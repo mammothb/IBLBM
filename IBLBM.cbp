@@ -8,8 +8,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option output="build/Debug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/Debug/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,8 +35,8 @@
 				</Compiler>
 			</Target>
 			<Target title="OptDebug">
-				<Option output="bin/OptDebug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/OptDebug/" />
+				<Option output="build/OptDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/OptDebug/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -62,8 +62,8 @@
 				</Compiler>
 			</Target>
 			<Target title="OptGenericDebug">
-				<Option output="bin/OptGenericDebug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/OptGenericDebug/" />
+				<Option output="build/OptGenericDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/OptGenericDebug/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -90,8 +90,8 @@
 				</Compiler>
 			</Target>
 			<Target title="ParallelOptGenericDebug">
-				<Option output="bin/ParallelOptGenericDebug/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/ParallelOptGenericDebug/" />
+				<Option output="build/ParallelOptGenericDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/ParallelOptGenericDebug/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters=" -mpi mpiexec.openmpi -n 4" />
@@ -132,8 +132,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="build/Release/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/Release/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -202,9 +202,14 @@
 			<Add directory="lib" />
 			<Add directory="$(#boost.lib)" />
 		</Linker>
+		<ExtraCommands>
+			<Add before="python scripts/IblbmBuildInfo.py" />
+		</ExtraCommands>
 		<Unit filename="examples/Poiseuille.cpp" />
 		<Unit filename="src/boundary/MomentumExchangeBounceBackBoundary.cpp" />
 		<Unit filename="src/boundary/MomentumExchangeBounceBackBoundary.hpp" />
+		<Unit filename="src/core/BufferSerializable.cpp" />
+		<Unit filename="src/core/BufferSerializable.hpp" />
 		<Unit filename="src/core/Cell.cpp" />
 		<Unit filename="src/core/Cell.hpp" />
 		<Unit filename="src/core/CoreUtilities.hpp" />
@@ -214,6 +219,8 @@
 		<Unit filename="src/core/IblbmSyscall.hpp" />
 		<Unit filename="src/core/LatticeStatistics.cpp" />
 		<Unit filename="src/core/LatticeStatistics.hpp" />
+		<Unit filename="src/core/Serializable.cpp" />
+		<Unit filename="src/core/Serializable.hpp" />
 		<Unit filename="src/core/Serializer.cpp" />
 		<Unit filename="src/core/Serializer.hpp" />
 		<Unit filename="src/core/UnitConverter.cpp" />
@@ -277,10 +284,12 @@
 		<Unit filename="unittests/TestHelpers.cpp" />
 		<Unit filename="unittests/TestIndicatorCuboid2D.cpp" />
 		<Unit filename="unittests/TestLatticeStatistics.cpp" />
+		<Unit filename="unittests/TestLoadBalancer.cpp" />
 		<Unit filename="unittests/TestMomentumExchangeBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestMpiManager.cpp" />
 		<Unit filename="unittests/TestOstreamManager.cpp" />
 		<Unit filename="unittests/TestOutputFileHandler.cpp" />
+		<Unit filename="unittests/TestSerializer.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
 		<Unit filename="unittests/TestVector.cpp" />
 		<Extensions>
