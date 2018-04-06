@@ -30,32 +30,6 @@ class AbstractDynamicsInterface
     , LatticeStatistics<T>& rStatistics) = 0;
 
   /**
-   * Compute equilibrium distribution function
-   *
-   * \param q direction
-   * \param rho particle density
-   * \param rU const reference to fluid velocity
-   * \param uSqr velocity dot product (convenience variable)
-   */
-  virtual T ComputeEquilibrium(
-      gsl::index q
-    , T rho
-    , const std::vector<T>& rU
-    , T uSqr) const;
-
-  /**
-   * Initialize cell at equilibrium distribution
-   *
-   * \param rCell target cell
-   * \param rho particle density
-   * \param rU fluid velocity
-   */
-  void InitializeEquilibrium(
-      Cell<T, Lattice>& rCell
-    , T rho
-    , const std::vector<T>& rU);
-
-  /**
    * Compute particle density on the cell
    *
    * \param rCell target cell
@@ -91,6 +65,31 @@ class AbstractDynamicsInterface
    */
   virtual T GetOmega() const = 0;
 
+  /**
+   * Compute equilibrium distribution function
+   *
+   * \param q direction
+   * \param rho particle density
+   * \param rU const reference to fluid velocity
+   * \param uSqr velocity dot product (convenience variable)
+   */
+  virtual T ComputeEquilibrium(
+      gsl::index q
+    , T rho
+    , const std::vector<T>& rU
+    , T uSqr) const;
+
+  /**
+   * Initialize cell at equilibrium distribution
+   *
+   * \param rCell target cell
+   * \param rho particle density
+   * \param rU fluid velocity
+   */
+  void InitializeEquilibrium(
+      Cell<T, Lattice>& rCell
+    , T rho
+    , const std::vector<T>& rU);
 };
 }  // namespace iblbm
 

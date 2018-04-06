@@ -22,7 +22,7 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
     , T uSqr)
   {
     typedef descriptor::D2Q9DescriptorBase<T> B;
-    auto e_dot_u = B::sE[q][0] * rU[0] + B::sE[q][1] * rU[1];
+    auto e_dot_u {B::sE[q][0] * rU[0] + B::sE[q][1] * rU[1]};
 //    // Original code
 //    return rho * B::sWeight[q] * (T{1} + T{3} * e_dot_u + T{4.5} * e_dot_u *
 //        e_dot_u - T{1.5} * uSqr) - B::sWeight[q];
@@ -46,25 +46,25 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
     , const std::vector<T>& rU
     , const T& rOmega)
   {
-    auto ux2 = rU[0] * rU[0];
-    auto uy2 = rU[1] * rU[1];
+    auto ux2 {rU[0] * rU[0]};
+    auto uy2 {rU[1] * rU[1]};
 
-    auto ux_cs2 = T{3} * rU[0];
-    auto uy_cs2 = T{3} * rU[1];
+    auto ux_cs2 {T{3} * rU[0]};
+    auto uy_cs2 {T{3} * rU[1]};
 
-    auto ux2_cs2 = T{3} * ux2;
-    auto uy2_cs2 = T{3} * uy2;
-    auto ux2_cs2_half = ux2_cs2 / T{2};
-    auto uy2_cs2_half = uy2_cs2 / T{2};
-    auto u2_cs2_half = ux2_cs2_half + uy2_cs2_half;
+    auto ux2_cs2 {T{3} * ux2};
+    auto uy2_cs2 {T{3} * uy2};
+    auto ux2_cs2_half {ux2_cs2 / T{2}};
+    auto uy2_cs2_half {uy2_cs2 / T{2}};
+    auto u2_cs2_half {ux2_cs2_half + uy2_cs2_half};
 
-    auto uxy_cs4_half_pos = T{4.5} * (rU[0] + rU[1]) * (rU[0] + rU[1]);
-    auto uxy_cs4_half_neg = T{4.5} * (rU[0] - rU[1]) * (rU[0] - rU[1]);
+    auto uxy_cs4_half_pos {T{4.5} * (rU[0] + rU[1]) * (rU[0] + rU[1])};
+    auto uxy_cs4_half_neg {T{4.5} * (rU[0] - rU[1]) * (rU[0] - rU[1])};
 
-    auto weight_rho = T{4} / T{9} * rRho;
+    auto weight_rho {T{4} / T{9} * rRho};
 //    // Original code
 //    auto common_factor = T{4} / T{9} * (rRho - T{1});
-    auto common_factor = T{4} / T{9} * rRho;
+    auto common_factor {T{4} / T{9} * rRho};
 
     rCell[0] *= T{1} - rOmega;
     rCell[0] += rOmega * (common_factor + weight_rho * (-ux2_cs2_half -
@@ -117,8 +117,8 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
   static T ComputeRho(
       const CellBase<T, descriptor::D2Q9DescriptorBase<T>>& rCell)
   {
-    auto rho = T{1} + rCell[0] + rCell[1] + rCell[2] + rCell[3] + rCell[4] +
-        rCell[5] + rCell[6] + rCell[7] + rCell[8];
+    auto rho {T{1} + rCell[0] + rCell[1] + rCell[2] + rCell[3] + rCell[4] +
+        rCell[5] + rCell[6] + rCell[7] + rCell[8]};
     return rho;
   }
 
@@ -163,15 +163,15 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
     , T& rRho
     , std::vector<T>& rU)
   {
-    T x_neg;
-    T x_zero;
-    T x_pos;
-    T y_neg;
-    T y_pos;
+    T x_neg {};
+    T x_zero {};
+    T x_pos {};
+    T y_neg {};
+    T y_pos {};
     ComputePartialRho(rCell, x_neg, x_zero, x_pos, y_neg, y_pos);
 
     rRho = x_neg + x_zero + x_pos + T{1};
-    auto inv_rho = T{1} / rRho;
+    auto inv_rho {T{1} / rRho};
     rU[0] = (x_pos - x_neg) * inv_rho;
     rU[1] = (y_pos - y_neg) * inv_rho;
   }
@@ -187,9 +187,9 @@ struct LbmExternalHelper<T, descriptor::ForcedD2Q9Descriptor>
     , T omega
     , T amplitude)
   {
-    static const gsl::index force_offset =
-        descriptor::ForcedD2Q9Descriptor<T>::ExternalField::sForceOffset;
-    auto mu = amplitude * (T{1} - omega / T{2});
+    static const gsl::index force_offset {
+        descriptor::ForcedD2Q9Descriptor<T>::ExternalField::sForceOffset};
+    auto mu {amplitude * (T{1} - omega / T{2})};
 
     rCell[0] += mu * T{4} / T{3} * (rCell.rGetExternal(force_offset) *
         -rU[0] + rCell.rGetExternal(force_offset + 1) * -rU[1]);

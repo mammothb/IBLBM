@@ -65,7 +65,7 @@ class FileFinder
   /**
    * Conversion constructor from a Boost Filesystem path object.
    * Note that since fs::path has a conversion constructor from std::string,
-   * this allows us to be initialised with a string or character constant,
+   * this allows us to be initialized with a string or character constant,
    * too. The path will be interpreted as relative to the current working
    * directory, unless it is an absolute path.
    *

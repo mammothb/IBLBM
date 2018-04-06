@@ -20,8 +20,7 @@ class MomentumExchangeBounceBackBoundary
    *
    * \param rho arbitrary density value
    */
-  MomentumExchangeBounceBackBoundary(
-      T rho);
+  explicit MomentumExchangeBounceBackBoundary(T rho);
 
   /**
    * Collision step. Bounce back with a fixed velocity mU

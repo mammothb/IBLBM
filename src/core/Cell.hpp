@@ -83,6 +83,12 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
     return mExternal[index];
   }
 
+  /** \return a modifiable pointer to the dynamics */
+  AbstractDynamicsInterface<T, Lattice>* pGetDynamics();
+
+  /** \return a non-modifiable pointer to the dynamics */
+  const AbstractDynamicsInterface<T, Lattice>* pGetDynamics() const;
+
   /**
    * Set the external field data
    *
@@ -103,19 +109,14 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
         mExternal[offset + i] = rExternalField[i];
   }
 
-  /** \return a non-modifiable pointer to the dynamics */
-  const AbstractDynamicsInterface<T, Lattice>* pGetDynamics() const;
-  /** \return a modifiable pointer to the dynamics */
-  AbstractDynamicsInterface<T, Lattice>* pGetDynamics();
-
  private:
+  /** Initialize data members of external field */
+  void InitializeExternal();
+
   /** External field */
   External mExternal;
   /** Pointer to cell dynamics */
   AbstractDynamicsInterface<T, Lattice>* mpDynamics;
-
-  /** Initialize data members of external field */
-  void InitializeExternal();
 };
 
 }  // namespace iblbm

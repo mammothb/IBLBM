@@ -45,10 +45,10 @@ void IndicatorCuboid2D<S>::operator()(
   // error
   auto epsilon {1e-15};
   // Clockwise rotation of input to see if it still fits in the cuboid
-  auto x = (rInput[0] - mCenter[0]) * std::cos(-mTheta) -
-      (rInput[1] - mCenter[1]) * std::sin(-mTheta);
-  auto y = (rInput[0] - mCenter[0]) * std::sin(-mTheta) +
-      (rInput[1] - mCenter[1]) * std::cos(-mTheta);
+  auto x {(rInput[0] - mCenter[0]) * std::cos(-mTheta) -
+      (rInput[1] - mCenter[1]) * std::sin(-mTheta)};
+  auto y {(rInput[0] - mCenter[0]) * std::sin(-mTheta) +
+      (rInput[1] - mCenter[1]) * std::cos(-mTheta)};
 
   output[0] = (std::abs(x) <= 0.5 * mXLength ||
       util::IsNearZero(std::abs(x) - 0.5 * mXLength, epsilon)) &&

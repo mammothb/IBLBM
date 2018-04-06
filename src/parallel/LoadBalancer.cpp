@@ -14,14 +14,33 @@ LoadBalancer<T>::LoadBalancer(std::size_t size/*=1*/)
 template<typename T>
 LoadBalancer<T>::LoadBalancer(
     std::size_t size
-  , std::vector<gsl::index>& rGlobalIndex
   , std::map<gsl::index, gsl::index>& rLocalIndex
+  , std::vector<gsl::index>& rGlobalIndex
   , std::map<gsl::index, std::size_t>& rRank)
   : mSize{size},
-    mGlobalIndex{rGlobalIndex},
     mLocalIndex{rLocalIndex},
+    mGlobalIndex{rGlobalIndex},
     mRank{rRank}
 {}
+
+template<typename T>
+LoadBalancer<T>::~LoadBalancer()
+{}
+
+template<typename T>
+void LoadBalancer<T>::swap(LoadBalancer<T>& rLoadBalancer)
+{
+  std::swap(mSize, rLoadBalancer.mSize);
+  mLocalIndex.swap(rLoadBalancer.mLocalIndex);
+  mGlobalIndex.swap(rLoadBalancer.mGlobalIndex);
+  mRank.swap(rLoadBalancer.mRank);
+}
+
+template<typename T>
+std::size_t LoadBalancer<T>::GetSize() const
+{
+  return mSize;
+}
 
 template<typename T>
 bool* LoadBalancer<T>::GetBlock(
@@ -33,13 +52,16 @@ bool* LoadBalancer<T>::GetBlock(
   gsl::index size_buffer_index {};
   bool* p_data {nullptr};
 
+  // Register mSize (number of cuboids) at block 0
   this->RegisterVar<std::size_t>(blockIndex, rBlockSize, current_block_index,
       p_data, mSize);
-  this->RegisterVarVector<gsl::index>(blockIndex, rBlockSize,
-      current_block_index, size_buffer_index, p_data, mGlobalIndex, isLoad);
   this->RegisterMap<gsl::index, gsl::index>(blockIndex, rBlockSize,
       current_block_index, size_buffer_index, p_data, mLocalIndex,
       isLoad);
+  // Register mGlobalIndex (global index of cuboids owned by this
+  // LoadBalancer) at block 1
+  this->RegisterVarVector<gsl::index>(blockIndex, rBlockSize,
+      current_block_index, size_buffer_index, p_data, mGlobalIndex, isLoad);
   this->RegisterMap<gsl::index, std::size_t>(blockIndex, rBlockSize,
       current_block_index, size_buffer_index, p_data, mRank, isLoad);
 
@@ -47,12 +69,21 @@ bool* LoadBalancer<T>::GetBlock(
 }
 
 template<typename T>
+std::size_t LoadBalancer<T>::GetNumBlock() const
+{
+  return 4 +  // _size, plus vector length of _loc, _glob and _rank
+      mGlobalIndex.size() +
+      mLocalIndex.size() +
+      mRank.size();
+}
+
+template<typename T>
 std::size_t LoadBalancer<T>::GetSerializableSize() const
 {
   return 4 * sizeof(std::size_t)  +  // mSize, vector length of mLocalIndex,
                                      // mGlobalIndex, and mRank
-      mGlobalIndex.size() * sizeof(gsl::index) +
       mLocalIndex.size() * sizeof(std::pair<gsl::index, gsl::index>) +
+      mGlobalIndex.size() * sizeof(gsl::index) +
       mRank.size() * sizeof(std::pair<gsl::index, std::size_t>);
 }
 

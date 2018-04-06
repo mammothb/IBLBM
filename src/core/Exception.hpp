@@ -31,15 +31,6 @@ class Exception
     , std::size_t lineNumber);
 
   /**
-   * Get the message associated with the exception with file and line number
-   *
-   * \return The message set when the exception was thrown including file and
-   * line number information
-   */
-  std::string GetMessage() const;
-
-
-  /**
    * Helper method for checking we have the right exception.
    *
    * \param expected  the expected value of mShortMessage
@@ -75,6 +66,14 @@ class Exception
       const std::string& rMessage
     , const std::string& rFilename
     , std::size_t lineNumber);
+
+ /**
+   * Get the message associated with the exception with file and line number
+   *
+   * \return The message set when the exception was thrown including file and
+   * line number information
+   */
+  std::string GetMessage() const;
 
  protected:
   /**

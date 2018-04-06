@@ -14,11 +14,6 @@ Exception::Exception(
   SetMessage(rMessage, rFilename, lineNumber);
 }
 
-std::string Exception::GetMessage() const
-{
-  return mMessage;
-}
-
 std::string Exception::CheckShortMessage(std::string expected) const
 {
   std::string error;
@@ -59,6 +54,11 @@ void Exception::Terminate(
   else {
     exit(EXIT_FAILURE);
   }
+}
+
+std::string Exception::GetMessage() const
+{
+  return mMessage;
 }
 
 void Exception::SetMessage(

@@ -22,14 +22,14 @@ Cell<T, Lattice>::Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics)
 }
 
 template <typename T, template <typename U> class Lattice>
-const AbstractDynamicsInterface<T, Lattice>*
-    Cell<T, Lattice>::pGetDynamics() const
+AbstractDynamicsInterface<T, Lattice>* Cell<T, Lattice>::pGetDynamics()
 {
   return mpDynamics;
 }
 
 template <typename T, template <typename U> class Lattice>
-AbstractDynamicsInterface<T, Lattice>* Cell<T, Lattice>::pGetDynamics()
+const AbstractDynamicsInterface<T, Lattice>*
+    Cell<T, Lattice>::pGetDynamics() const
 {
   return mpDynamics;
 }

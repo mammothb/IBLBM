@@ -52,6 +52,7 @@ class OstreamManagerBuffer : public std::stringbuf
   std::ostream* mpOutput;
   /** Name of the owner class */
   std::string mName;
+  /** flag for output among multiple processes */
   static bool msIsMultiOutput;
 };
 

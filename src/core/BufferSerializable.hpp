@@ -48,7 +48,7 @@ class BufferSerializable : public Serializable
     , const bool isLoad = false)
   {
     if (blockIndex >= rCurrentBlockIndex) {
-      // process length of data vector
+      // process length of data vector, added rData.size() to current block
       std::size_t vector_size {AddSizeToBuffer(blockIndex, rBlockSize,
           rCurrentBlockIndex, rSizeBufferIndex, rpData, rData.size())};
 
@@ -56,10 +56,14 @@ class BufferSerializable : public Serializable
       if (blockIndex == rCurrentBlockIndex && isLoad)
           rData.resize(mSizeBuffer[rSizeBufferIndex - 1]);
 
+      // Check that we are at least at the current block and that we have
+      // data to write, if the vector is size 0, we write nothing
       if (blockIndex >= rCurrentBlockIndex &&
           blockIndex < rCurrentBlockIndex + vector_size) {
         rBlockSize = sizeof(TYPE);
-        rpData = (bool *) (&rData[blockIndex - rCurrentBlockIndex]);
+        // Since we are casting a const of a different type
+        rpData = reinterpret_cast<bool*>(const_cast<TYPE*>(
+            &rData[blockIndex - rCurrentBlockIndex]));
       }
       rCurrentBlockIndex += vector_size;
     }
@@ -117,15 +121,21 @@ class BufferSerializable : public Serializable
       std::size_t map_size {AddSizeToBuffer(blockIndex, rBlockSize,
           rCurrentBlockIndex, rSizeBufferIndex, rpData, rData.size())};
 
+      // Check that we are at least at the current block and that we have
+      // data to write, if the vector is size 0, we write nothing
       if (blockIndex >= rCurrentBlockIndex &&
           blockIndex < rCurrentBlockIndex + map_size + 1) {
         // determine size of pair
         rBlockSize = sizeof(std::pair<KEY_TYPE, VAL_TYPE>);
 
         if (isLoad) {  // LOADING MODE
-          // If pair in dataBuffer => insert into data and delete
+          // If pair in dataBuffer => insert into data and delete, if we just
+          // reached the block to start reading, this will be false so that
+          // we can push_back a new std::pair first. Subsequently, we will
+          // insert the last entry (externally filled) into rData
           if (blockIndex > rCurrentBlockIndex) {
-            std::pair<KEY_TYPE, VAL_TYPE>* p_pair = (std::pair<KEY_TYPE, VAL_TYPE> *) mDataBuffer.back();
+            auto p_pair {reinterpret_cast<std::pair<KEY_TYPE, VAL_TYPE>*>(
+                mDataBuffer.back())};
             // copy pair into map
             rData.insert(*p_pair);
             // delete pair object that was created (with new!) in the buffer
@@ -146,7 +156,7 @@ class BufferSerializable : public Serializable
             // pair
             auto it_map {rData.begin()};
             std::advance(it_map, blockIndex - rCurrentBlockIndex);
-            rpData = (bool *) (&(*it_map));
+            rpData = reinterpret_cast<bool*>(&(*it_map));
           }
         }
       }

@@ -9,7 +9,10 @@ namespace iblbm
 {
 // Forward declaration
 class Serializable;
-
+/**
+ * Class for writing, reading, sending and receiving `Serializable` objects.
+ * Used for checkpointing simulations
+ */
 class Serializer
 {
  public:

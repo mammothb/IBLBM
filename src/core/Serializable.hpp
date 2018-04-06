@@ -11,12 +11,12 @@ namespace iblbm
  * Base class for serializable objects of _constant size_. For
  * _dynamic size_ use 'BufferSerializable'.
  * All serializable classes have to implement their individual 'GetBlock()'
- * method. An individual 'GetNblock()' method must also be provided.
+ * method. An individual 'GetNumBlock()' method must also be provided.
  * An individual 'GetSerializableSize()' method should also be provided for
  * efficiency reasons.
  *
  * The 'SumNblock' and 'SumSerializableSize' operator structs can be used for
- * accumulation of 'GetNblock()' methods and 'GetSerializableSize()'
+ * accumulation of 'GetNumBlock()' methods and 'GetSerializableSize()'
  * respectively, e.g. with an array or a 'std::vector<Serializable>'.
  *
  * All 'Serializable' subclasses with _dynamic size_ (unknown at compile
@@ -33,7 +33,7 @@ namespace iblbm
  *
  * 'GetBlock()' is called by the 'Serializer' repeatedly with an increasing
  * counter 'blockIndex'. 'GetBlock()' returns a '(bool*)' address to the _i-th_
- * data block and fills 'sizeBlock' with the corresponding size. As long as
+ * data block and fills 'rBlockSize' with the corresponding size. As long as
  * 'GetBlock()' does not return a 'nullptr', 'blockIndex' is increased and
  * 'GetBlock()' is called again by 'Serializer'.
  *
@@ -57,9 +57,9 @@ namespace iblbm
  * - 'arrays' are treated as one block of size 'arrayLength *
  *   sizeof(DataType)
  * - In 'RegisterConstSizeSerializable()', 'rCurrentBlockIndex' is increased by
- *   'GetNblock()' of the given 'Serializable'.
+ *   'GetNumBlock()' of the given 'Serializable'.
  * - In 'RegisterConstSizeSerializables()', 'rCurrentBlockIndex' is increased by
- *   'arrayLength * data.GetNblock()' of the given 'Serializable'.
+ *   'arrayLength * data.GetNumBlock()' of the given 'Serializable'.
  *
  *
  * __Note:__ Dynamic-sized objects need to inherit from 'BufferSerializable',
@@ -109,6 +109,12 @@ class Serializable
     , std::size_t& rBlockSize
     , const bool isLoad = false) = 0;
 
+  /**
+   * All `Serializable` classes have to implement this method.
+   * \return the number of blocks.
+   */
+  virtual std::size_t GetNumBlock() const = 0;
+
   /** \return the binary size of the data to be saved */
   virtual std::size_t GetSerializableSize() const = 0;
 
@@ -122,9 +128,9 @@ class Serializable
    *        is the current block.
    * \param rBlockSize 'rBlockSize' from 'GetBlock()' - will be filled if
    *        this is the current block.
-   * \param rCurrentBlockIndex _local_ variable of 'GetBlock()' - will always be
-   *        counted up by the number of blocks this method registers (_always
-   *        1 in this case_).
+   * \param rCurrentBlockIndex _local_ variable of 'GetBlock()' - will always
+   *        be counted up by the number of blocks this method registers
+   *        (_always 1 in this case_).
    * \param rpData Reference to 'p_data' from 'GetBlock()' - will be filled
    *        with pointer to the data at 'blockIndex' if this is the current block.
    * \param rData Reference to the data to be registered by this method.
@@ -142,7 +148,9 @@ class Serializable
     , const TYPE& rData
     , const std::size_t length = 1) const
   {
+//    printf("RegisterVar %d %d\n", blockIndex, rCurrentBlockIndex);
     if (blockIndex == rCurrentBlockIndex) {
+      printf("RegisterVar %d %d\n", blockIndex, rCurrentBlockIndex);
       rBlockSize = sizeof(TYPE) * length;
       // Since we are casting a const of a different type
       rpData = reinterpret_cast<bool*>(const_cast<TYPE*>(&rData));

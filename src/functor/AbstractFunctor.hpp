@@ -23,8 +23,9 @@ class AbstractFunctor
   /** Virtual destructor to allow inheriting */
   virtual ~AbstractFunctor();
 
-  /** Memory management, frees resources */
-  std::shared_ptr<AbstractFunctor<T, S>> pCalcClass;
+  virtual void operator()(
+      gsl::span<T> output
+    , const std::vector<S>& rInput) = 0;
 
   /** \return read and write access to mName */
   std::string& rGetName();
@@ -37,10 +38,6 @@ class AbstractFunctor
 
   /** \return target dimension */
   std::size_t GetTargetDimension() const;
-
-  virtual void operator()(
-      gsl::span<T> output
-    , const std::vector<S>& rInput) = 0;
 
   /**
    * Wrapper that call the pure virtual
@@ -67,6 +64,9 @@ class AbstractFunctor
     , S input1
     , S input2
     , S input3);
+
+  /** Memory management, frees resources */
+  std::shared_ptr<AbstractFunctor<T, S>> pCalcClass;
 
  protected:
   /**
