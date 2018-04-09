@@ -35,7 +35,8 @@ namespace iblbm
  * counter 'blockIndex'. 'GetBlock()' returns a '(bool*)' address to the _i-th_
  * data block and fills 'rBlockSize' with the corresponding size. As long as
  * 'GetBlock()' does not return a 'nullptr', 'blockIndex' is increased and
- * 'GetBlock()' is called again by 'Serializer'.
+ * 'GetBlock()' is called again by 'Serializer'. '(bool*)' are used because
+ * their size of 1 byte
  *
  * It is _strongly recommended_ (and __obligatory__ for the correct usage of
  * 'Register' methods) to define 'std::size_t rCurrentBlockIndex = 0;' within
@@ -104,7 +105,7 @@ class Serializable
    *   // ... register methods...
    *   return p_data;
    */
-  virtual bool* GetBlock(
+  virtual bool* pGetBlock(
       const gsl::index blockIndex
     , std::size_t& rBlockSize
     , const bool isLoad = false) = 0;
@@ -148,9 +149,7 @@ class Serializable
     , const TYPE& rData
     , const std::size_t length = 1) const
   {
-//    printf("RegisterVar %d %d\n", blockIndex, rCurrentBlockIndex);
     if (blockIndex == rCurrentBlockIndex) {
-      printf("RegisterVar %d %d\n", blockIndex, rCurrentBlockIndex);
       rBlockSize = sizeof(TYPE) * length;
       // Since we are casting a const of a different type
       rpData = reinterpret_cast<bool*>(const_cast<TYPE*>(&rData));

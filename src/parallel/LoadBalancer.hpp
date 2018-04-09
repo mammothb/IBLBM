@@ -56,8 +56,40 @@ class LoadBalancer : public BufferSerializable
    */
   void swap(LoadBalancer<T>& rLoadBalancer);
 
+  /** \return whether rGlobalIndex is on this process */
+  bool IsLocal(const gsl::index& rGlobalIndex);
+
+  /** \return whether rGlobalIndex is on this process */
+  bool IsLocal(gsl::index globalIndex) const;
+
   /** \return read-only access to mSize */
   std::size_t GetSize() const;
+
+  /** \return local cuboid number of relevant thread */
+  gsl::index GetLocalIndex(const gsl::index& rGlobalIndex);
+
+  /** \return local cuboid number of relevant thread */
+  gsl::index GetLocalIndex(gsl::index globalIndex) const;
+
+  /** \return global cuboid number of given local cuboid */
+  gsl::index GetGlobalIndex(gsl::index localIndex) const;
+
+  /**
+   * \param globalIndex global cuboid number
+   *
+   * \return the rank that owns the given cuboid
+   */
+  std::size_t GetRank(const gsl::index& rGlobalIndex);
+
+  /**
+   * \param globalIndex global cuboid number
+   *
+   * \return the rank that owns the given cuboid
+   */
+  std::size_t GetRank(gsl::index globalIndex) const;
+
+  /** equal operator */
+  bool operator==(const LoadBalancer<T>& rRhs) const;
 
   /**
    * Return a pointer to the memory of the current block and its size for the
@@ -76,7 +108,7 @@ class LoadBalancer : public BufferSerializable
    *
    * \return Pointer to the current block
    */
-  bool* GetBlock(
+  bool* pGetBlock(
       gsl::index blockIndex
     , std::size_t& rBlockSize
     , bool isLoad = false) override;
@@ -113,7 +145,7 @@ class LoadBalancer : public BufferSerializable
   std::vector<gsl::index> mGlobalIndex;
   /** maps global cuboid number to the processing thread. Using the
    * illustration above, mRank will be:
-   *   {{0, 0}, {1, 0}{2, 1}, {3, 1}, {4, 1}, {5, 1}}*/
+   *   {{0, 0}, {1, 0}, {2, 1}, {3, 1}, {4, 1}, {5, 1}}*/
   std::map<gsl::index, std::size_t> mRank;
 };
 }  // namespace iblbm

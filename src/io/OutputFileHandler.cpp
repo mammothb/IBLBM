@@ -1,6 +1,7 @@
 #include "OutputFileHandler.hpp"
 
 #include <cstdlib>
+#include <iomanip>
 
 #include "Exception.hpp"
 #include "FileFinder.hpp"
@@ -156,6 +157,23 @@ std::string OutputFileHandler::GetIblbmTestOutputDirectory()
   auto iblbm_test_output_directory {directory_root.GetAbsolutePath()};
   AddTrailingSlash(iblbm_test_output_directory);
   return iblbm_test_output_directory;
+}
+
+std::string OutputFileHandler::GetParallelOutputFilename(
+    const std::string& rFilename
+  , const std::string& rFileExtension
+  , bool appendSize/*=true*/)
+{
+  std::stringstream filename_stream;
+  auto string_length {filename_stream.str().length()};
+  filename_stream << rFilename << "_rank" << std::setw(string_length) <<
+      std::setfill('0') << MpiManager::Instance().GetRank();
+  if (appendSize) {
+    filename_stream << "_size" << std::setw(string_length) <<
+        std::setfill('0') << MpiManager::Instance().GetSize();
+  }
+  filename_stream << rFileExtension;
+  return filename_stream.str();
 }
 
 void OutputFileHandler::CommonConstructor(

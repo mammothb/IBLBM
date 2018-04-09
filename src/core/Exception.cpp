@@ -68,17 +68,16 @@ void Exception::SetMessage(
 {
   // Strip off source root dir if exists
   std::string filename(rFilename);
-  const size_t root_dir_length = std::char_traits<char>::length(IblbmSourceRootDir());
-  if (filename.compare(0,root_dir_length,IblbmSourceRootDir()) == 0)
-  {
-    filename.replace(0,root_dir_length, "./");
-  }
+  const std::size_t root_dir_length {
+      std::char_traits<char>::length(IblbmSourceRootDir())};
+  if (filename.compare(0, root_dir_length,IblbmSourceRootDir()) == 0)
+      filename.replace(0, root_dir_length, "./");
 
   std::string posix_filename(PosixPathFixer::Fix(fs::path(filename)));
   mShortMessage = rMessage;
   std::stringstream line_number_stream;
   line_number_stream << lineNumber;
-  mMessage = "\nChaste error: " + posix_filename + ":" +
+  mMessage = "\nIBLBM error: " + posix_filename + ":" +
       line_number_stream.str() + ": " + mShortMessage;
 
   std::cerr << mMessage;

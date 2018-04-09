@@ -1,7 +1,10 @@
-//#include "Serializable.hpp"
-//
-//namespace iblbm
-//{
+#include "Serializable.hpp"
+
+namespace iblbm
+{
+Serializable::~Serializable()
+{}
+
 //template<typename TYPE>
 //void Serializable::RegisterVar(
 //    const gsl::index blockIndex
@@ -18,6 +21,4 @@
 //  }
 //  ++rCurrentBlockIndex;
 //}
-//
-//
-//}  // namespace iblbm
+}  // namespace iblbm

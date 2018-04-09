@@ -130,6 +130,24 @@ class OutputFileHandler
    */
   static std::string GetIblbmTestOutputDirectory();
 
+  /**
+   * Static method for getting the parallel output filename for logging.
+   * The filename has the following format:
+   * - <rFilename>_rank<rank>_size<size>.<rFileExtension>
+   * <size> is omitted if appendSize if FALSE
+   *
+   * \param rFilename Base filename without suffixes
+   * \param rFileExtension file format
+   * \param appendSize Flag to determine if we are appending the total number
+   *        of processes to the filename
+   *
+   * \return name of the constructed filename
+   */
+  static std::string GetParallelOutputFilename(
+      const std::string& rFilename
+    , const std::string& rFileExtension
+    , bool appendSize = true);
+
   /** The name of the IBLBM signature file added to folders we create. */
   static const std::string SIG_FILENAME;
 

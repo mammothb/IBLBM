@@ -253,6 +253,8 @@
 		<Unit filename="src/geometry/Cuboid2D.hpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.cpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.hpp" />
+		<Unit filename="src/io/Base64.cpp" />
+		<Unit filename="src/io/Base64.hpp" />
 		<Unit filename="src/io/BoostFilesystem.hpp" />
 		<Unit filename="src/io/FileFinder.cpp" />
 		<Unit filename="src/io/FileFinder.hpp" />
@@ -265,6 +267,8 @@
 		<Unit filename="src/io/OutputFileHandler.cpp" />
 		<Unit filename="src/io/OutputFileHandler.hpp" />
 		<Unit filename="src/io/PosixPathFixer.hpp" />
+		<Unit filename="src/io/SerializerIO.cpp" />
+		<Unit filename="src/io/SerializerIO.hpp" />
 		<Unit filename="src/main-devel.cpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.cpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.hpp" />
@@ -272,6 +276,7 @@
 		<Unit filename="src/parallel/LoadBalancer.hpp" />
 		<Unit filename="src/parallel/MpiManager.cpp" />
 		<Unit filename="src/parallel/MpiManager.hpp" />
+		<Unit filename="unittests/TestBase64.cpp" />
 		<Unit filename="unittests/TestBgkDynamics.cpp" />
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />

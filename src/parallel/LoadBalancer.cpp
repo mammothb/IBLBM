@@ -1,7 +1,10 @@
 #include "LoadBalancer.hpp"
 
 #include <iostream>
+#include <utility>
 
+#include "Exception.hpp"
+#include "MpiManager.hpp"
 #include "OstreamManager.hpp"
 
 namespace iblbm
@@ -37,13 +40,69 @@ void LoadBalancer<T>::swap(LoadBalancer<T>& rLoadBalancer)
 }
 
 template<typename T>
+bool LoadBalancer<T>::IsLocal(const gsl::index& rGlobalIndex)
+{
+  return GetRank(rGlobalIndex) == MpiManager::Instance().GetRank();
+}
+
+template<typename T>
+bool LoadBalancer<T>::IsLocal(gsl::index globalIndex) const
+{
+  return GetRank(globalIndex) == MpiManager::Instance().GetRank();
+}
+
+template<typename T>
 std::size_t LoadBalancer<T>::GetSize() const
 {
   return mSize;
 }
 
 template<typename T>
-bool* LoadBalancer<T>::GetBlock(
+gsl::index LoadBalancer<T>::GetLocalIndex(const gsl::index& rGlobalIndex)
+{
+  IBLBM_PRECONDITION(mLocalIndex.find(rGlobalIndex) != mLocalIndex.end());
+  return mLocalIndex[rGlobalIndex];
+}
+
+template<typename T>
+gsl::index LoadBalancer<T>::GetLocalIndex(gsl::index globalIndex) const
+{
+  auto it_local_index {std::as_const(mLocalIndex).find(globalIndex)};
+  IBLBM_POSTCONDITION(it_local_index != mLocalIndex.end());
+  return it_local_index->second;
+}
+
+template<typename T>
+gsl::index LoadBalancer<T>::GetGlobalIndex(gsl::index localIndex) const
+{
+  IBLBM_PRECONDITION(localIndex < mGlobalIndex.size());
+  return mGlobalIndex[localIndex];
+}
+
+template<typename T>
+std::size_t LoadBalancer<T>::GetRank(const gsl::index& rGlobalIndex)
+{
+  IBLBM_PRECONDITION(mRank.find(rGlobalIndex) != mRank.end());
+  return mRank[rGlobalIndex];
+}
+
+template<typename T>
+std::size_t LoadBalancer<T>::GetRank(gsl::index globalIndex) const
+{
+  auto it_rank {std::as_const(mRank).find(globalIndex)};
+  IBLBM_POSTCONDITION(it_rank != mRank.end());
+  return it_rank->second;
+}
+
+template<typename T>
+bool LoadBalancer<T>::operator==(const LoadBalancer<T>& rRhs) const
+{
+  return mSize == rRhs.mSize && mLocalIndex == rRhs.mLocalIndex &&
+      mGlobalIndex == rRhs.mGlobalIndex && mRank == rRhs.mRank;
+}
+
+template<typename T>
+bool* LoadBalancer<T>::pGetBlock(
     gsl::index blockIndex
   , std::size_t& rBlockSize
   , bool isLoad/*=false*/)

@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <string>
 
 #include "UnitTest++/UnitTest++.h"
@@ -274,6 +275,29 @@ TEST(TestWeCanOnlyDeleteFoldersWeHaveMadeOurselves)
     folder.Remove();
     CHECK(!folder.Exists());
   }
+}
+
+TEST(TestOutputFileHandler_GetParallelOutputFilename)
+{
+  std::string filename {"filename"};
+  std::string file_extension {".extension"};
+  std::stringstream filename_with_size;
+  auto string_length {filename_with_size.str().length()};
+  filename_with_size << filename << "_rank" << std::setw(string_length) <<
+      std::setfill('0') << MpiManager::Instance().GetRank() << "_size" <<
+      std::setw(string_length) << std::setfill('0') <<
+      MpiManager::Instance().GetSize() << file_extension;
+  CHECK_EQUAL(filename_with_size.str(),
+      OutputFileHandler::GetParallelOutputFilename(filename,
+          file_extension));
+
+  std::stringstream filename_without_size;
+  filename_without_size << filename << "_rank" << std::setw(string_length) <<
+      std::setfill('0') << MpiManager::Instance().GetRank() <<
+      file_extension;
+  CHECK_EQUAL(filename_without_size.str(),
+      OutputFileHandler::GetParallelOutputFilename(filename,
+          file_extension, false));
 }
 }
 }  // namespace iblbm
