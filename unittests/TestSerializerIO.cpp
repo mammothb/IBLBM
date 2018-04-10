@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <sstream>
 
@@ -55,6 +56,27 @@ TEST(TestSerializerIO_ConvertSerializerToOstream_Default)
   exp_ostr << "EwAAAAAAAAABAAAAAAAAAA==";
 
   CHECK_EQUAL(exp_ostr.str(), ostr.str());
+}
+
+TEST(TestSerializerIO_ConvertIstreamToSerializer_Default)
+{
+  std::size_t size {1};
+  LoadBalancer<double> balancer;
+  LoadBalancer<double> exp_balancer(size, g_local_index, g_global_index,
+      g_rank_map);
+  CHECK(!(balancer == exp_balancer));
+
+  Serializer serializer {balancer};
+  std::istringstream istr;
+
+  istr.str("cAAAAAAAAAA=AQAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAQAAAAAA"
+      "AAACAAAAAAAAAAMAAAAAAAAAAgAAAAAAAAAMAAAAAAAAAA0AAAAAAAAAAgAAAAAA"
+      "AAASAAAAAAAAAAAAAAAAAAAAEwAAAAAAAAABAAAAAAAAAA==");
+
+  serializer.ComputeSize();
+  ConvertIstreamToSerializer(serializer, istr);
+
+  CHECK(balancer == exp_balancer);
 }
 }
 }  // namespace iblbm

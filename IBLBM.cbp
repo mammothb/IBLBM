@@ -295,6 +295,7 @@
 		<Unit filename="unittests/TestOstreamManager.cpp" />
 		<Unit filename="unittests/TestOutputFileHandler.cpp" />
 		<Unit filename="unittests/TestSerializer.cpp" />
+		<Unit filename="unittests/TestSerializerIO.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
 		<Unit filename="unittests/TestVector.cpp" />
 		<Extensions>

@@ -1,16 +1,22 @@
 #ifndef SRC_IO_BASE64_HPP_
 #define SRC_IO_BASE64_HPP_
 
+#include <array>
 #include <bitset>
 #include <cstddef>
 #include <iostream>
-//#include <iosfwd>
 
 #include "gsl/gsl"
 
 namespace iblbm
 {
 // https://stackoverflow.com/a/41094722/4115600
+/**
+ * Encoding algorithm inspired by
+ * http://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c
+ * Decoding map inspired by
+ * https://stackoverflow.com/a/37109258/4115600
+ */
 template<typename T>
 class Base64Encoder
 {
@@ -27,7 +33,8 @@ class Base64Encoder
     , std::size_t fullLength);
 
   /**
-   * Encodes pData
+   * Encodes pData. Support continuing from previous left over bits, only
+   * adds padding when we have reached mCharFullLength.
    *
    * \param pData pointer to data
    * \param length length (number of bytes) of data
@@ -38,7 +45,7 @@ class Base64Encoder
 
  private:
   /** Base64 alphabets for encoding */
-  static const char msEnc64[65];
+  static const unsigned char msEnc64[65];
 
   /**
    * Read pCharData left to right and concatenate 3 8-bit input groups into
@@ -53,7 +60,7 @@ class Base64Encoder
   void FillOverflow(
       const unsigned char* pCharData
     , std::size_t charLength
-    , std::size_t& rPosition);
+    , gsl::index& rPosition);
 
   /**
    * Top up mOverflow with 0's to form a fully filled 24-bit input group and
@@ -95,9 +102,63 @@ class Base64Encoder
   unsigned char mOverflow[3];
 };
 
+template<typename T>
 class Base64Decoder
 {
+  friend class TestBase64Decoder;
  public:
+  /**
+   * Constructor
+   *
+   * \param rIstream reference to input stream for bas64 encoded data
+   * \param fullLength full length of decoded data
+   */
+  Base64Decoder(
+      std::istream& rIstream
+    , std::size_t fullLength);
+
+  /**
+   *
+   *
+   * \param pData pointer to where the decoded data should be written
+   * \param length length (number of bytes) of data
+   */
+  void Decode(
+      T* pData
+    , std::size_t length);
+
+ private:
+  /** Look up table for Base64 decoding */
+  static const unsigned char msDec64[256];
+
+  /**
+   * Read up to 24-bits from overflow array into pCharData to prepare for
+   * decoding
+   *
+   * \param pCharData pointer to data for decoding
+   * \param charLength length (number of bytes) of data to be decoded
+   * \param rPosition current write position on the output char data
+   */
+  void FlushOverflow(
+      unsigned char* pCharData
+    , std::size_t charLength
+    , gsl::index& rPosition);
+
+  /**
+   * Decode
+   */
+  void DecodeGroup(unsigned char* pData);
+
+  /** Reference to input stream */
+  std::istream& mrIstream;
+  /** Total length of input (after decode) in bytes */
+  std::size_t mCharFullLength;
+  /** Total bytes read */
+  std::size_t mNumRead;
+  /** Position in the overflow array */
+  gsl::index mOverflowIndex;
+  /** Overflow array for preparing 24-bit input groups */
+  unsigned char mOverflow[3];
 };
 
 /***************************************************************************

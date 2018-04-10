@@ -26,42 +26,6 @@ static const std::vector<double> g_cell_velocity = {3.4, 5.6};
 static const auto g_u_sqr = std::inner_product(g_cell_velocity.begin(),
       g_cell_velocity.end(), g_cell_velocity.begin(), 0.0);
 
-//TEST(bench)
-//{
-//  std::array<double, 2> vec_1 = {1, 2};
-//  using namespace std::chrono;
-//  auto t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 10000; ++i)
-//      for (auto it : vec_1) auto tmp = it;
-//  auto t2 = high_resolution_clock::now();
-//  auto duration = duration_cast<microseconds>(t2 - t1).count();
-//  std::cout << duration << std::endl;
-//
-//  std::array<double, 2> vec_2 = {1, 2};
-//  t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 1000000; ++i)
-//      for (auto& rIt : vec_2) rIt += 2.3;
-//  t2 = high_resolution_clock::now();
-//  duration = duration_cast<microseconds>(t2 - t1).count();
-//  std::cout << duration << std::endl;
-//
-//  std::array<double, 2> vec_3 = {1, 2};
-//  t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 1000000; ++i)
-//      for (gsl::index j = 0; j < 2; ++j) vec_3[j] += 2.3;
-//  t2 = high_resolution_clock::now();
-//  duration = duration_cast<microseconds>(t2 - t1).count();
-//  std::cout << duration << std::endl;
-//
-//  std::vector<double> vec_4(10000, 1.2);
-//  t1 = high_resolution_clock::now();
-//  for (auto i = 0; i < 10000; ++i)
-//      for (gsl::index j = 0; j < 10000; ++j) auto tmp = vec_4[j];
-//  t2 = high_resolution_clock::now();
-//  duration = duration_cast<microseconds>(t2 - t1).count();
-//  std::cout << duration << std::endl;
-//}
-
 TEST(TestLbmHelpers_ComputeEquilibrium)
 {
   typedef descriptor::D2Q9DescriptorBase<double> B;

@@ -17,8 +17,10 @@ void ConvertSerializerToOstream(
   // Write binary size into first integer of stream
   auto binary_size {rSerializer.GetSize()};
   if (forceUnsigned) {
+    Base64Encoder<unsigned> size_encoder(rOstream, 1);
     IBLBM_PRECONDITION(binary_size <= std::numeric_limits<unsigned>::max());
     auto unsigned_binary_size {static_cast<unsigned>(binary_size)};
+    size_encoder.Encode(&unsigned_binary_size, 1);
   }
   else {
     Base64Encoder<std::size_t> size_encoder(rOstream, 1);
@@ -30,13 +32,7 @@ void ConvertSerializerToOstream(
   const bool* p_data_buffer {nullptr};
   while (p_data_buffer = rSerializer.pGetNextBlock(block_size,
       /*isLoad=*/false), p_data_buffer != nullptr) {
-//    FormatDataAsBinary(p_data_buffer, block_size);
-//    std::streambuf* backup {rOstream.rdbuf()};
-//    rOstream.rdbuf(std::cout.rdbuf());
     data_encoder.Encode(p_data_buffer, block_size);
-//    rOstream.rdbuf(backup);
-//    std::cout << std::endl;
-
   }
   rSerializer.ResetCounter();
 }
@@ -46,6 +42,27 @@ void ConvertIstreamToSerializer(
   , std::istream& rIstream
   , bool forceUnsigned/*=false*/)
 {
-  ;
+  rSerializer.ResetCounter();
+
+  std::size_t binary_size {};
+  if (forceUnsigned) {
+    unsigned unsigned_binary_size {};
+    Base64Decoder<unsigned> size_decoder(rIstream, 1);
+    size_decoder.Decode(&unsigned_binary_size, 1);
+    binary_size = unsigned_binary_size;
+  }
+  else {
+    Base64Decoder<std::size_t> size_decoder(rIstream, 1);
+    size_decoder.Decode(&binary_size, 1);
+  }
+
+  Base64Decoder<bool> data_decoder(rIstream, binary_size);
+  std::size_t block_size{};
+  bool* p_data_buffer {nullptr};
+  while (p_data_buffer = rSerializer.pGetNextBlock(block_size,
+      /*isLoad=*/true), p_data_buffer != nullptr) {
+    data_decoder.Decode(p_data_buffer, block_size);
+  }
+  rSerializer.ResetCounter();
 }
 }  // namespace iblbm
