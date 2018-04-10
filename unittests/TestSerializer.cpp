@@ -91,6 +91,73 @@ TEST(TestSerializer_ResetCounter)
   CHECK_EQUAL(0, tester.GetBlockIndex(serializer));
 }
 
+TEST(TestSerializer_pGetNextBlock_Save)
+{
+  TestSerializer tester;
+  auto size {1u};
+  std::map<gsl::index, gsl::index> local_index {{0, 1}, {2, 3}, {4, 5},
+      {6, 7}, {8, 9}, {10, 11}};
+  std::vector<gsl::index> global_index {12, 13, 14, 15, 16, 17};
+  std::map<gsl::index, std::size_t> rank_map {{18, 0}, {19, 1}, {20, 2},
+      {21, 0}, {22, 1}, {23, 2}};
+  LoadBalancer<double> balancer(size, local_index, global_index, rank_map);
+
+  bool* p_data {nullptr};
+  std::size_t block_size {};
+  Serializer serializer {balancer};
+
+  serializer.ResetCounter();
+  // mSize
+  p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+  CHECK_EQUAL(sizeof(std::size_t), block_size);
+  CHECK_EQUAL(size, *reinterpret_cast<std::size_t*>(p_data));
+
+  // mLocalIndex.size()
+  p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+  CHECK_EQUAL(sizeof(std::size_t), block_size);
+  CHECK_EQUAL(local_index.size(), *reinterpret_cast<std::size_t*>(p_data));
+
+  // mLocalIndex content
+  for (gsl::index i = 0; i < local_index.size(); ++i) {
+    p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+    CHECK_EQUAL(sizeof(std::pair<gsl::index, gsl::index>), block_size);
+    auto exp_it {local_index.begin()};
+    std::advance(exp_it, i);
+    auto act_it {reinterpret_cast<std::pair<gsl::index, gsl::index>*>(
+        p_data)};
+    CHECK_EQUAL(exp_it->first, act_it->first);
+    CHECK_EQUAL(exp_it->second, act_it->second);
+  }
+
+  // mGlobalIndex.size()
+  p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+  CHECK_EQUAL(sizeof(std::size_t), block_size);
+  CHECK_EQUAL(global_index.size(), *reinterpret_cast<std::size_t*>(p_data));
+
+  // mGlobalIndex content
+  for (gsl::index i = 0; i < global_index.size(); ++i) {
+    p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+    CHECK_EQUAL(sizeof(gsl::index), block_size);
+    CHECK_EQUAL(global_index[i], *reinterpret_cast<gsl::index*>(p_data));
+  }
+
+  // mRank.size()
+  p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+  CHECK_EQUAL(sizeof(std::size_t), block_size);
+  CHECK_EQUAL(rank_map.size(), *reinterpret_cast<std::size_t*>(p_data));
+
+  for (gsl::index i = 0; i < rank_map.size(); ++i) {
+    p_data = serializer.pGetNextBlock(block_size, /*isLoad=*/false);
+    CHECK_EQUAL(sizeof(std::pair<gsl::index, gsl::index>), block_size);
+    auto exp_it {rank_map.begin()};
+    std::advance(exp_it, i);
+    auto act_it {reinterpret_cast<std::pair<gsl::index, std::size_t>*>(
+        p_data)};
+    CHECK_EQUAL(exp_it->first, act_it->first);
+    CHECK_EQUAL(exp_it->second, act_it->second);
+  }
+}
+
 TEST(TestSerializer_ComputeSize_EmptySerializable)
 {
   TestSerializer tester;
@@ -103,7 +170,6 @@ TEST(TestSerializer_ComputeSize_EmptySerializable)
 
 TEST(TestSerializer_ComputeSize)
 {
-  TestSerializer tester;
   std::size_t size {1u};
   std::map<gsl::index, gsl::index> local_index {{24, 25}, {26, 27}};
   std::vector<gsl::index> global_index {28, 29};
@@ -121,7 +187,6 @@ TEST(TestSerializer_ComputeSize)
 
 TEST(TestSerializer_ComputeSize_ForceRecompute)
 {
-  TestSerializer tester;
   std::size_t size {1u};
   std::map<gsl::index, gsl::index> local_index {{24, 25}, {26, 27}};
   std::vector<gsl::index> global_index {28, 29};

@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 //  return iblbm::RunAllTheTests();
 
   /// Run multiple suites
-  return iblbm::RunMultipleSuites(functionality_suites);
+//  return iblbm::RunMultipleSuites(functionality_suites);
 
   /// Run single suite
 //  return iblbm::RunOneSuite("TestBoundary");
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 //  return iblbm::RunOneTest("Simulation_Poiseuille_BodyForceDriven");
 
   /// Individual tests
-//  return iblbm::RunOneTest("TestCuboidGeometry2D_Constructor_Indicator_Default");
+  return iblbm::RunOneTest("TestSerializerIO_ConvertSerializerToOstream_Default");
 
   // to run only one suite, uncomment the following line
   // and specify the name of the suite. Also, comment out the RunAllTheTests()

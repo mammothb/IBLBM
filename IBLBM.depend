@@ -380,7 +380,7 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1522912356 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1523340926 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -7820,7 +7820,7 @@
 	"MpiManager.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1523269146 source:/home/mmb/code/IBLBM/unittests/TestSerializer.cpp
+1523340906 source:/home/mmb/code/IBLBM/unittests/TestSerializer.cpp
 	<iomanip>
 	<iostream>
 	"UnitTest++/UnitTest++.h"
@@ -7841,7 +7841,7 @@
 1522920869 source:/home/mmb/code/IBLBM/src/core/BufferSerializable.cpp
 	"BufferSerializable.hpp"
 
-1523270531 source:/home/mmb/code/IBLBM/src/io/SerializerIO.cpp
+1523342993 source:/home/mmb/code/IBLBM/src/io/SerializerIO.cpp
 	"SerializerIO.hpp"
 	<limits>
 	"Base64.hpp"
@@ -7851,11 +7851,30 @@
 1523270220 /home/mmb/code/IBLBM/src/io/SerializerIO.hpp
 	<iostream>
 
-1523271831 source:/home/mmb/code/IBLBM/src/io/Base64.cpp
+1523345392 source:/home/mmb/code/IBLBM/src/io/Base64.cpp
+	"Base64.hpp"
+	"Exception.hpp"
+
+1523334142 /home/mmb/code/IBLBM/src/io/Base64.hpp
+	<bitset>
+	<cstddef>
+	<iostream>
+	"gsl/gsl"
+
+1523337405 source:/home/mmb/code/IBLBM/unittests/TestBase64.cpp
+	<iostream>
+	<sstream>
+	<vector>
+	"UnitTest++/UnitTest++.h"
 	"Base64.hpp"
 
-1523271760 /home/mmb/code/IBLBM/src/io/Base64.hpp
-	<cstddef>
-	<iosfwd>
-	"gsl/gsl"
+1523345364 source:/home/mmb/code/IBLBM/unittests/TestSerializerIO.cpp
+	<iostream>
+	<sstream>
+	"UnitTest++/UnitTest++.h"
+	"Base64.hpp"
+	"LoadBalancer.hpp"
+	"MpiManager.hpp"
+	"Serializer.hpp"
+	"SerializerIO.hpp"
 
