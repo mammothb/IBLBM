@@ -18,7 +18,7 @@ void ConvertSerializerToOstream(
   auto binary_size {rSerializer.GetSize()};
   if (forceUnsigned) {
     Base64Encoder<unsigned> size_encoder(rOstream, 1);
-    IBLBM_PRECONDITION(binary_size <= std::numeric_limits<unsigned>::max());
+    Expects(binary_size <= std::numeric_limits<unsigned>::max());
     auto unsigned_binary_size {static_cast<unsigned>(binary_size)};
     size_encoder.Encode(&unsigned_binary_size, 1);
   }

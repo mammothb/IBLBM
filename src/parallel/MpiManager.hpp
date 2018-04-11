@@ -24,6 +24,62 @@
 namespace iblbm
 {
 #ifdef IBLBM_PARALLEL_MPI
+/**
+ * Helper class for nonblocking MPI communication
+ */
+class MpiNonblockingHelper
+{
+ public:
+  /**
+   * Constructor
+   */
+  MpiNonblockingHelper();
+
+  /**
+   * Destructor, calls Free() to free memory
+   */
+  ~MpiNonblockingHelper();
+
+  /**
+   * Copy constructor
+   */
+  MpiNonblockingHelper(const MpiNonblockingHelper& rRhs);
+
+  /**
+   * Copy assignment
+   */
+  MpiNonblockingHelper& operator=(const MpiNonblockingHelper& rRhs);
+
+  /**
+   * Allocates memory
+   *
+   * \param size size of memory to allocate
+   */
+  void Allocate(std::size_t size);
+
+  /**
+   * Frees memory
+   */
+  void Free();
+
+  /** \return size of the array mpMpiRequest / mpMpiStatus */
+  const std::size_t& rGetSize() const;
+
+  /** \return Read and write access mpMpiRequest */
+  MPI_Request* pGetMpiRequest() const;
+
+  /** \return Read and write access mpMpiStatus */
+  MPI_Status* pGetMpiStatus() const;
+
+ private:
+  /** Size of the array mpMpiRequest / mpMpiStatus */
+  std::size_t mSize;
+  /** Vector of MPI_Request */
+  MPI_Request* mpMpiRequest;
+  /** Vector of MPI_Status */
+  MPI_Status* mpMpiStatus;
+};
+
 class MpiManager
 {
   friend class TestMpiManager;

@@ -98,7 +98,7 @@ class ExternalFieldVector<T, NoExternalField>
    */
   T& operator[](const gsl::index& /*rIndex*/)
   {
-    IBLBM_PRECONDITION(false);
+    Expects(false);
     static T data {};
     return data;
   }
@@ -110,7 +110,7 @@ class ExternalFieldVector<T, NoExternalField>
    */
   const T& operator[](const gsl::index& /*rIndex*/) const
   {
-    IBLBM_PRECONDITION(false);
+    Expects(false);
     static T data {};
     return data;
   }

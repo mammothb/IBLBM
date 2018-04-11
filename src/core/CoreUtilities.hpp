@@ -23,7 +23,7 @@ T InnerProduct(
     const std::vector<T> &rVec1
   , const std::vector<T> &rVec2)
 {
-  IBLBM_PRECONDITION(rVec1.size() == rVec2.size());
+  Expects(rVec1.size() == rVec2.size());
   return std::inner_product(rVec1.begin(), rVec1.end(), rVec2.begin(), T{});
 }
 

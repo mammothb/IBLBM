@@ -134,6 +134,18 @@ void CuboidGeometry2D<T>::Shrink(
 }
 
 template<typename T>
+Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i)
+{
+  return mCuboids[i];
+}
+
+template<typename T>
+const Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i) const
+{
+  return mCuboids[i];
+}
+
+template<typename T>
 Vector2D<T> CuboidGeometry2D<T>::GetPhysR(
     gsl::index globalCuboidIndex
   , gsl::index xIndex

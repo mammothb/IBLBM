@@ -287,11 +287,13 @@
 		<Unit filename="unittests/TestFileFinder.cpp" />
 		<Unit filename="unittests/TestForcedBgkDynamics.cpp" />
 		<Unit filename="unittests/TestHelpers.cpp" />
+		<Unit filename="unittests/TestHeuristicLoadBalancer.cpp" />
 		<Unit filename="unittests/TestIndicatorCuboid2D.cpp" />
 		<Unit filename="unittests/TestLatticeStatistics.cpp" />
 		<Unit filename="unittests/TestLoadBalancer.cpp" />
 		<Unit filename="unittests/TestMomentumExchangeBounceBackBoundary.cpp" />
 		<Unit filename="unittests/TestMpiManager.cpp" />
+		<Unit filename="unittests/TestMpiNonblockingHelper.cpp" />
 		<Unit filename="unittests/TestOstreamManager.cpp" />
 		<Unit filename="unittests/TestOutputFileHandler.cpp" />
 		<Unit filename="unittests/TestSerializer.cpp" />

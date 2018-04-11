@@ -1,6 +1,6 @@
 #include "OstreamManager.hpp"
 
-#include "Exception.hpp"
+#include "gsl/gsl"
 #include "MpiManager.hpp"
 
 namespace iblbm
@@ -44,7 +44,7 @@ void OstreamManagerBuffer::SetIsMultiOutput(bool isMultiOutput/*=true*/)
 
 int OstreamManagerBuffer::sync()
 {
-  IBLBM_PRECONDITION(mpOutput);
+  Expects(mpOutput);
 #ifdef IBLBM_PARALLEL_MPI
   if (msIsMultiOutput) {
     *mpOutput << "[" << mName << ":" << MpiManager::Instance().GetRank() <<

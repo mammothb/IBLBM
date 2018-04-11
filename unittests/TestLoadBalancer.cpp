@@ -146,7 +146,7 @@ TEST(TestLoadBalancer_Swap)
   auto size_2 {12u};
   LoadBalancer<double> balancer_2(size_2);
 
-  balancer_1.swap(balancer_2);
+  balancer_1.Swap(balancer_2);
 
   CHECK_EQUAL(size_2, balancer_1.GetSize());
   // Default num block with empty maps and vectors

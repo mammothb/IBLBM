@@ -380,7 +380,7 @@
 	"AbstractLatticeModel.hpp"
 	"IblbmEnum.hpp"
 
-1523415716 source:/home/mmb/code/IBLBM/src/main-devel.cpp
+1523419457 source:/home/mmb/code/IBLBM/src/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -736,11 +736,12 @@
 
 1481181937 /usr/include/boost/chrono
 
-1522810154 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
+1523419433 source:/home/mmb/code/IBLBM/examples/Poiseuille.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"CuboidGeometry2D.hpp"
 	"Descriptor.hpp"
+	"HeuristicLoadBalancer.hpp"
 	"IndicatorFunctor2D.hpp"
 	"MpiManager.hpp"
 	"UnitConverter.hpp"
@@ -761,7 +762,7 @@
 1522202357 source:/home/mmb/code/IBLBM/src/dynamics/Descriptor.cpp
 	"Descriptor.hpp"
 
-1522818426 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
+1523417751 /home/mmb/code/IBLBM/src/dynamics/Descriptor.hpp
 	<cstddef>
 	<stdexcept>
 	<vector>
@@ -890,7 +891,7 @@
 	<iostream>
 	"OstreamManager.hpp"
 
-1522302824 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
+1523416247 source:/home/mmb/code/IBLBM/unittests/TestUnitConverter.cpp
 	<cmath>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
@@ -899,7 +900,7 @@
 1523414394 source:/home/mmb/code/IBLBM/src/core/Cell.cpp
 	"Cell.hpp"
 
-1523414379 /home/mmb/code/IBLBM/src/core/Cell.hpp
+1523417751 /home/mmb/code/IBLBM/src/core/Cell.hpp
 	<vector>
 	"gsl/gsl"
 	"AbstractDynamicsInterface.hpp"
@@ -7315,13 +7316,13 @@
 1523414527 source:/home/mmb/code/IBLBM/src/core/LatticeStatistics.cpp
 	"LatticeStatistics.hpp"
 
-1523414481 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
+1523417751 /home/mmb/code/IBLBM/src/core/CoreUtilities.hpp
 	<limits>
 	<numeric>
 	<vector>
 	"Exception.hpp"
 
-1523414827 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
+1523417751 source:/home/mmb/code/IBLBM/src/dynamics/ForcedBgkDynamics.cpp
 	"ForcedBgkDynamics.hpp"
 	"gsl/gsl"
 	"Helpers.hpp"
@@ -7332,7 +7333,7 @@
 	"gsl/gsl"
 	"AbstractDynamics.hpp"
 
-1522203079 source:/home/mmb/code/IBLBM/unittests/TestBgkDynamics.cpp
+1523420766 source:/home/mmb/code/IBLBM/unittests/TestBgkDynamics.cpp
 	<iostream>
 	<numeric>
 	"gsl/gsl"
@@ -7342,7 +7343,7 @@
 	"Cell.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522203004 source:/home/mmb/code/IBLBM/unittests/TestForcedBgkDynamics.cpp
+1523416035 source:/home/mmb/code/IBLBM/unittests/TestForcedBgkDynamics.cpp
 	<iostream>
 	<numeric>
 	"UnitTest++/UnitTest++.h"
@@ -7370,7 +7371,7 @@
 	"UnitTest++/UnitTest++.h"
 	"LatticeStatistics.hpp"
 
-1523414218 source:/home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.cpp
+1523438304 source:/home/mmb/code/IBLBM/src/boundary/MomentumExchangeBounceBackBoundary.cpp
 	"MomentumExchangeBounceBackBoundary.hpp"
 	<utility>
 	"gsl/gsl"
@@ -7389,25 +7390,26 @@
 	"LatticeStatistics.hpp"
 	"MomentumExchangeBounceBackBoundary.hpp"
 
-1522818426 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
+1523417959 source:/home/mmb/code/IBLBM/src/io/OstreamManager.cpp
 	"OstreamManager.hpp"
-	"Exception.hpp"
+	"gsl/gsl"
 	"MpiManager.hpp"
 
 1523415394 /home/mmb/code/IBLBM/src/io/OstreamManager.hpp
 	<sstream>
 	<string>
 
-1522303581 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
+1523416182 source:/home/mmb/code/IBLBM/unittests/TestOstreamManager.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1523415701 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
+1523441497 source:/home/mmb/code/IBLBM/src/parallel/MpiManager.cpp
 	"MpiManager.hpp"
+	"gsl/gsl"
 
-1523415493 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
+1523441407 /home/mmb/code/IBLBM/src/parallel/MpiManager.hpp
 	"mpi.h"
 	<vector>
 	<string>
@@ -7441,7 +7443,7 @@
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1522307591 source:/home/mmb/code/IBLBM/unittests/TestMpiManager.cpp
+1523441361 source:/home/mmb/code/IBLBM/unittests/TestMpiManager.cpp
 	"UnitTest++/UnitTest++.h"
 	"MpiManager.hpp"
 
@@ -7496,14 +7498,14 @@
 	"AbstractIndicatorFunctor2D.hpp"
 	"Vector.hpp"
 
-1522808201 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
+1523418293 source:/home/mmb/code/IBLBM/unittests/TestVector.cpp
 	<iostream>
 	<typeinfo>
 	<vector>
 	"UnitTest++/UnitTest++.h"
 	"Vector.hpp"
 
-1523414600 /home/mmb/code/IBLBM/src/core/Vector.hpp
+1523417885 /home/mmb/code/IBLBM/src/core/Vector.hpp
 	<array>
 	<cstring>
 	<cstddef>
@@ -7513,7 +7515,7 @@
 	"Exception.hpp"
 	"CoreUtilities.hpp"
 
-1523415265 source:/home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.cpp
+1523422634 source:/home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.cpp
 	"CuboidGeometry2D.hpp"
 	<algorithm>
 	<cmath>
@@ -7521,13 +7523,13 @@
 	<limits>
 	"AbstractIndicatorFunctor2D.hpp"
 
-1522804875 /home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.hpp
+1523422568 /home/mmb/code/IBLBM/src/geometry/CuboidGeometry2D.hpp
 	<vector>
 	"gsl/gsl"
 	"Cuboid2D.hpp"
 	"OstreamManager.hpp"
 
-1522818426 source:/home/mmb/code/IBLBM/src/geometry/Cuboid2D.cpp
+1523417751 source:/home/mmb/code/IBLBM/src/geometry/Cuboid2D.cpp
 	"Cuboid2D.hpp"
 	<limits>
 	"Exception.hpp"
@@ -7705,10 +7707,10 @@
 	"Serializable.hpp"
 	"SerializerIO.hpp"
 
-1523411993 source:/home/mmb/code/IBLBM/src/parallel/HeuristicLoadBalancer.cpp
+1523437577 source:/home/mmb/code/IBLBM/src/parallel/HeuristicLoadBalancer.cpp
 	"HeuristicLoadBalancer.hpp"
 
-1523247645 source:/home/mmb/code/IBLBM/src/parallel/LoadBalancer.cpp
+1523438312 source:/home/mmb/code/IBLBM/src/parallel/LoadBalancer.cpp
 	"LoadBalancer.hpp"
 	<iostream>
 	<utility>
@@ -7761,7 +7763,7 @@
 	<boost/filesystem.hpp>
 	<boost/filesystem/fstream.hpp>
 
-1523266558 source:/home/mmb/code/IBLBM/unittests/TestOutputFileHandler.cpp
+1523416211 source:/home/mmb/code/IBLBM/unittests/TestOutputFileHandler.cpp
 	<iomanip>
 	<string>
 	"UnitTest++/UnitTest++.h"
@@ -7772,7 +7774,7 @@
 	"OutputFileHandler.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1522981966 /home/mmb/code/IBLBM/src/core/Exception.hpp
+1523417857 /home/mmb/code/IBLBM/src/core/Exception.hpp
 	<cassert>
 	<cstdlib>
 	<iostream>
@@ -7817,14 +7819,14 @@
 	<unistd.h>
 	<sys/stat.h>
 
-1523415448 /home/mmb/code/IBLBM/src/parallel/LoadBalancer.hpp
+1523438325 /home/mmb/code/IBLBM/src/parallel/LoadBalancer.hpp
 	<map>
 	<utility>
 	<vector>
 	"gsl/gsl"
 	"BufferSerializable.hpp"
 
-1523261156 source:/home/mmb/code/IBLBM/unittests/TestLoadBalancer.cpp
+1523438317 source:/home/mmb/code/IBLBM/unittests/TestLoadBalancer.cpp
 	<cstddef>
 	<iostream>
 	<map>
@@ -7860,7 +7862,7 @@
 1522920869 source:/home/mmb/code/IBLBM/src/core/BufferSerializable.cpp
 	"BufferSerializable.hpp"
 
-1523356771 source:/home/mmb/code/IBLBM/src/io/SerializerIO.cpp
+1523417751 source:/home/mmb/code/IBLBM/src/io/SerializerIO.cpp
 	"SerializerIO.hpp"
 	<limits>
 	"Base64.hpp"
@@ -7870,18 +7872,19 @@
 1523270220 /home/mmb/code/IBLBM/src/io/SerializerIO.hpp
 	<iostream>
 
-1523415285 source:/home/mmb/code/IBLBM/src/io/Base64.cpp
+1523439929 source:/home/mmb/code/IBLBM/src/io/Base64.cpp
 	"Base64.hpp"
 	"Exception.hpp"
 
-1523415275 /home/mmb/code/IBLBM/src/io/Base64.hpp
+1523440576 /home/mmb/code/IBLBM/src/io/Base64.hpp
 	<array>
 	<bitset>
 	<cstddef>
 	<iostream>
 	"gsl/gsl"
 
-1523415798 source:/home/mmb/code/IBLBM/unittests/TestBase64.cpp
+1523440555 source:/home/mmb/code/IBLBM/unittests/TestBase64.cpp
+	<chrono>
 	<iostream>
 	<sstream>
 	<vector>
@@ -7900,6 +7903,19 @@
 	"Serializer.hpp"
 	"SerializerIO.hpp"
 
-1523414290 /home/mmb/code/IBLBM/src/parallel/HeuristicLoadBalancer.hpp
+1523435384 /home/mmb/code/IBLBM/src/parallel/HeuristicLoadBalancer.hpp
+	"CuboidGeometry2D.hpp"
 	"LoadBalancer.hpp"
+	"MpiManager.hpp"
+
+1523432667 source:/home/mmb/code/IBLBM/unittests/TestHeuristicLoadBalancer.cpp
+	"UnitTest++/UnitTest++.h"
+	"CuboidGeometry2D.hpp"
+	"HeuristicLoadBalancer.hpp"
+	"IndicatorFunctor2D.hpp"
+
+1523445071 source:/home/mmb/code/IBLBM/unittests/TestMpiNonblockingHelper.cpp
+	"gsl/gsl"
+	"UnitTest++/UnitTest++.h"
+	"MpiManager.hpp"
 

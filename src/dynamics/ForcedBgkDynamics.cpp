@@ -15,7 +15,7 @@ ForcedBgkDynamics<T, Lattice>::ForcedBgkDynamics(
 {
   // Ensure both that the constant sSizeOfForce is defined in ExternalField
   // and that it has the proper size
-  IBLBM_PRECONDITION(Lattice<T>::sD ==
+  Expects(Lattice<T>::sD ==
       Lattice<T>::ExternalField::sSizeOfForce);
 }
 

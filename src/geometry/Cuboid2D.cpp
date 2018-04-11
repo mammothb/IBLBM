@@ -71,7 +71,7 @@ void Cuboid2D<T>::Divide(
     std::size_t p
   , std::vector<Cuboid2D<T>>& rCuboids) const
 {
-  IBLBM_PRECONDITION(p > 0);
+  Expects(p > 0);
   // Initialize layout values as one column of child cuboids so we can avoid
   // undefined error caused by the default CuboidGeometry2D constructor
   std::size_t num_col {1};
@@ -219,7 +219,7 @@ T Cuboid2D<T>::GetPhysPerimeter() const
 template<typename T>
 std::size_t Cuboid2D<T>::GetLatticePerimeter() const
 {
-  IBLBM_PRECONDITION(2 * mNy + 2 * mNx >= 4);
+  Expects(2 * mNy + 2 * mNx >= 4);
   return 2 * mNy + 2 * mNx - 4;
 }
 

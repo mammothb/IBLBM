@@ -31,7 +31,7 @@ class CellBase
    */
   T& operator[](const gsl::index& rIndex)
   {
-    IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
+    Expects(rIndex < Descriptor::sQ);
     return mDF[rIndex];
   }
 
@@ -42,7 +42,7 @@ class CellBase
    */
   const T& operator[](const gsl::index& rIndex) const
   {
-    IBLBM_PRECONDITION(rIndex < Descriptor::sQ);
+    Expects(rIndex < Descriptor::sQ);
     return mDF[rIndex];
   }
 
@@ -72,14 +72,14 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   /** \return a reference to an external field */
   T& rGetExternal(gsl::index index)
   {
-    IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
+    Expects(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
   /** \return a const reference to an external field */
   const T& rGetExternal(gsl::index index) const
   {
-    IBLBM_PRECONDITION(index < Lattice<T>::ExternalField::sNumScalars);
+    Expects(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
@@ -103,7 +103,7 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
       gsl::index offset
     , const std::vector<T>& rExternalField)
   {
-    IBLBM_PRECONDITION(offset + rExternalField.size() <=
+    Expects(offset + rExternalField.size() <=
         Lattice<T>::ExternalField::sNumScalars);
     for (gsl::index i = 0; i < rExternalField.size(); ++i)
         mExternal[offset + i] = rExternalField[i];

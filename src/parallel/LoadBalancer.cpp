@@ -31,7 +31,14 @@ LoadBalancer<T>::~LoadBalancer()
 {}
 
 template<typename T>
-void LoadBalancer<T>::swap(LoadBalancer<T>& rLoadBalancer)
+void LoadBalancer<T>::Initialize(
+    CuboidGeometry2D<T>& /*rCuboidGeometry2D*/
+  , const double /*ratioFullEmpty = 1*/
+  , const double /*weightEmpty = 0.0*/)
+{}
+
+template<typename T>
+void LoadBalancer<T>::Swap(LoadBalancer<T>& rLoadBalancer)
 {
   std::swap(mSize, rLoadBalancer.mSize);
   mLocalIndex.swap(rLoadBalancer.mLocalIndex);
@@ -60,7 +67,7 @@ std::size_t LoadBalancer<T>::GetSize() const
 template<typename T>
 gsl::index LoadBalancer<T>::GetLocalIndex(const gsl::index& rGlobalIndex)
 {
-  IBLBM_PRECONDITION(mLocalIndex.find(rGlobalIndex) != mLocalIndex.end());
+  Expects(mLocalIndex.find(rGlobalIndex) != mLocalIndex.end());
   return mLocalIndex[rGlobalIndex];
 }
 
@@ -68,21 +75,21 @@ template<typename T>
 gsl::index LoadBalancer<T>::GetLocalIndex(gsl::index globalIndex) const
 {
   auto it_local_index {std::as_const(mLocalIndex).find(globalIndex)};
-  IBLBM_POSTCONDITION(it_local_index != mLocalIndex.end());
+  Ensures(it_local_index != mLocalIndex.end());
   return it_local_index->second;
 }
 
 template<typename T>
 gsl::index LoadBalancer<T>::GetGlobalIndex(gsl::index localIndex) const
 {
-  IBLBM_PRECONDITION(localIndex < mGlobalIndex.size());
+  Expects(localIndex < mGlobalIndex.size());
   return mGlobalIndex[localIndex];
 }
 
 template<typename T>
 std::size_t LoadBalancer<T>::GetRank(const gsl::index& rGlobalIndex)
 {
-  IBLBM_PRECONDITION(mRank.find(rGlobalIndex) != mRank.end());
+  Expects(mRank.find(rGlobalIndex) != mRank.end());
   return mRank[rGlobalIndex];
 }
 
@@ -90,7 +97,7 @@ template<typename T>
 std::size_t LoadBalancer<T>::GetRank(gsl::index globalIndex) const
 {
   auto it_rank {std::as_const(mRank).find(globalIndex)};
-  IBLBM_POSTCONDITION(it_rank != mRank.end());
+  Ensures(it_rank != mRank.end());
   return it_rank->second;
 }
 

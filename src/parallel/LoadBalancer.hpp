@@ -10,6 +10,9 @@
 
 namespace iblbm
 {
+template<typename T> class CuboidGeometry2D;
+template<typename T> class HeuristicLoadBalancer;
+
 /**
  * Base class for all LoadBalancer.
  * Sketch: assume we have 6 cuboids and 2 threads. Thread number 1 owns
@@ -52,10 +55,17 @@ class LoadBalancer : public BufferSerializable
   virtual ~LoadBalancer();
 
   /**
-   * Swap method, not capitalized to keep consistency with standard swap
-   * method
+   * This method is empty and provided for inherited classes to override
    */
-  void swap(LoadBalancer<T>& rLoadBalancer);
+  virtual void Initialize(
+      CuboidGeometry2D<T>& rCuboidGeometry2D
+    , const double ratioFullEmpty = 1
+    , const double weightEmpty = 0.0);
+
+  /**
+   * Swap method
+   */
+  void Swap(LoadBalancer<T>& rLoadBalancer);
 
   /** \return whether rGlobalIndex is on this process */
   bool IsLocal(const gsl::index& rGlobalIndex);
@@ -123,7 +133,7 @@ class LoadBalancer : public BufferSerializable
   /** Print the contents of load balancer for debugging */
   void Print(bool multiOutput = false) const;
 
- private:
+ protected:
   /** Number of cuboids assigned */
   std::size_t mSize;
   /**

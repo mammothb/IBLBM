@@ -81,6 +81,12 @@ class CuboidGeometry2D
    */
   void Shrink(AbstractIndicatorFunctor2D<T>& rIndicatorFunctor);
 
+  /** \return read and write acces to the i-th cuboid */
+  Cuboid2D<T>& rGetCuboid(gsl::index i);
+
+  /** \return read-only acces to the i-th cuboid */
+  const Cuboid2D<T>& rGetCuboid(gsl::index i) const;
+
   /**
    * \return the physical position to the given lattice position respecting
    * periodicity for the overlap nodes which are not in the mother cuboid for

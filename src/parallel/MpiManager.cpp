@@ -1,6 +1,8 @@
 #ifdef IBLBM_PARALLEL_MPI
 #include "MpiManager.hpp"
 
+#include "gsl/gsl"
+
 namespace iblbm
 {
 #ifndef NDEBUG
@@ -9,9 +11,86 @@ namespace iblbm
 #endif
 
 #ifdef DEBUG_BARRIERS
-static unsigned mNumBarriers = 0u;
+static unsigned mNumBarriers {0u};
 #endif
 
+/***************************************************************************
+ * MpiNonblockingHelper
+ ***************************************************************************/
+MpiNonblockingHelper::MpiNonblockingHelper()
+  : mSize{0},
+    mpMpiRequest{nullptr},
+    mpMpiStatus{nullptr}
+{}
+
+MpiNonblockingHelper::~MpiNonblockingHelper()
+{
+  Free();
+}
+
+MpiNonblockingHelper::MpiNonblockingHelper(const MpiNonblockingHelper& rRhs)
+  : mSize{rRhs.mSize}
+{
+  if (mSize != 0) {
+    Allocate(mSize);
+    for (gsl::index i {0}; i < mSize; ++i) {
+      mpMpiRequest[i] = rRhs.mpMpiRequest[i];
+      mpMpiStatus[i]  = rRhs.mpMpiStatus[i];
+    }
+  }
+}
+
+MpiNonblockingHelper& MpiNonblockingHelper::operator=(
+    const MpiNonblockingHelper& rRhs)
+{
+  mSize = rRhs.mSize;
+  if (mSize != 0) {
+    Allocate(mSize);
+    for (gsl::index i {0}; i < mSize; ++i) {
+      mpMpiRequest[i] = rRhs.mpMpiRequest[i];
+      mpMpiStatus[i]  = rRhs.mpMpiStatus[i];
+    }
+  }
+  return *this;
+}
+
+void MpiNonblockingHelper::Allocate(std::size_t size)
+{
+  Free();
+  mSize = size;
+  mpMpiRequest = new MPI_Request[size];
+  mpMpiStatus  = new MPI_Status[size];
+}
+
+void MpiNonblockingHelper::Free()
+{
+  if (mSize != 0) {
+    delete[] mpMpiRequest;
+    delete[] mpMpiStatus;
+    mSize = 0;
+  }
+}
+
+const std::size_t& MpiNonblockingHelper::rGetSize() const
+{
+  return mSize;
+}
+
+/** \return Read and write access mpMpiRequest */
+MPI_Request* MpiNonblockingHelper::pGetMpiRequest() const
+{
+  return mpMpiRequest;
+}
+
+/** \return Read and write access mpMpiStatus */
+MPI_Status* MpiNonblockingHelper::pGetMpiStatus() const
+{
+  return mpMpiStatus;
+}
+
+/***************************************************************************
+ * MpiManager
+ ***************************************************************************/
 MpiManager& MpiManager::Instance()
 {
   static MpiManager instance;

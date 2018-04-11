@@ -30,7 +30,7 @@ class Vector
   /** Constructor from std::vector<T> */
   explicit Vector(const std::vector<T>& rStdVector)
   {
-    IBLBM_PRECONDITION(rStdVector.size() == N);
+    Expects(rStdVector.size() == N);
     std::memcpy(mData.data(), rStdVector.data(), N * sizeof(T));
   }
 
@@ -40,7 +40,7 @@ class Vector
     , const T& rSecondValue)
     : mData{rFirstValue, rSecondValue}
   {
-    IBLBM_POSTCONDITION(N == 2);
+    Ensures(N == 2);
   }
 
   /** Default destructor */
@@ -54,14 +54,14 @@ class Vector
   /** Read and write access to element */
   T& operator[](gsl::index index)
   {
-    IBLBM_PRECONDITION(index < N);
+    Expects(index < N);
     return mData[index];
   }
 
   /** Read-only access to element */
   const T& operator[](gsl::index index) const
   {
-    IBLBM_PRECONDITION(index < N);
+    Expects(index < N);
     return mData[index];
   }
 

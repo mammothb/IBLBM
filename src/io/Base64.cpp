@@ -30,7 +30,7 @@ void Base64Encoder<T>::Encode(
 {
   auto p_char_data {reinterpret_cast<const unsigned char*>(pData)};
   auto char_length {length * sizeof(T)};
-  IBLBM_PRECONDITION(mNumWritten + char_length <= mCharFullLength);
+  Expects(mNumWritten + char_length <= mCharFullLength);
 
   gsl::index position {};
   FillOverflow(p_char_data, char_length, position);
@@ -136,7 +136,7 @@ void Base64Decoder<T>::Decode(
 {
   auto p_char_data {reinterpret_cast<unsigned char*>(pData)};
   auto char_length {length * sizeof(T)};
-  IBLBM_PRECONDITION(mNumRead + char_length <= mCharFullLength);
+  Expects(mNumRead + char_length <= mCharFullLength);
 
   gsl::index position {};
   FlushOverflow(p_char_data, char_length, position);

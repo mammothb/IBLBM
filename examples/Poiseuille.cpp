@@ -2,6 +2,7 @@
 #include "UnitTest++/UnitTest++.h"
 #include "CuboidGeometry2D.hpp"
 #include "Descriptor.hpp"
+#include "HeuristicLoadBalancer.hpp"
 #include "IndicatorFunctor2D.hpp"
 #include "MpiManager.hpp"
 #include "UnitConverter.hpp"
@@ -30,28 +31,30 @@ TEST(Simulation_Poiseuille_BodyForceDriven)
   const auto residual {1e-5};  // residual for convergence check
 
   const UnitConverterFromResolutionAndRelaxationTime<double,
-      descriptor::ForcedD2Q9Descriptor> converter(
+      descriptor::ForcedD2Q9Descriptor> converter {
           unsigned{resolution},
           /*latticeRelaxationTime=*/0.8,
           /*charPhysLength=*/1.0,
           /*charPhysVelocity=*/1.0,
           /*physViscosity=*/1.0 / Re,
           /*physDensity=*/1.0
-      );
+      };
   converter.Print();
 
   // ========== Prepare geometry ==========
-  Vector2D<double> extent(lx, ly);
+  Vector2D<double> extent {lx, ly};
   Vector2D<double> origin;
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
 
   // Instantiation of cuboid geometry with weights
   const auto num_cuboid {MpiManager::Instance().GetSize()};
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid,
-      converter.GetConversionFactorLength(), num_cuboid);
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid,
+      converter.GetConversionFactorLength(), num_cuboid};
 
   // Periodic boundary in x-direction
   cuboid_geometry.SetIsPeriodic(true, false);
+
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
   PoiseuilleBodyForceDriven simulation;
 }
