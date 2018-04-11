@@ -2,6 +2,7 @@
 #define SRC_IO_OSTREAMMANAGER_HPP_
 
 #include <sstream>
+#include <string>
 
 namespace iblbm
 {
@@ -97,6 +98,6 @@ class OstreamManager : public std::ostream
   /** OstreamManager has it's own special overloaded buffer */
   OstreamManagerBuffer mBuffer;
 };
-}
+}  // namespace iblbm
 
-#endif // SRC_IO_OSTREAMMANAGER_HPP_
+#endif  // SRC_IO_OSTREAMMANAGER_HPP_

@@ -18,7 +18,7 @@ namespace util
  *
  * \return dot product of rVec1 and rVec2
  */
-template <typename T>
+template<typename T>
 T InnerProduct(
     const std::vector<T> &rVec1
   , const std::vector<T> &rVec2)
@@ -32,7 +32,7 @@ T InnerProduct(
  *
  * \param rNumber to be tested
  */
-template <class T>
+template<class T>
 inline bool IsNearZero(const T& rNumber)
 {
   auto epsilon {std::numeric_limits<T>::epsilon()};
@@ -44,7 +44,7 @@ inline bool IsNearZero(const T& rNumber)
  *
  * \param rNumber to be tested
  */
-template <class T>
+template<class T>
 inline bool IsNearZero(
     const T& rNumber
   , const T& rEpsilon)

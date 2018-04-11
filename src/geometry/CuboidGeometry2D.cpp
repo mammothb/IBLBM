@@ -1,7 +1,9 @@
 #include "CuboidGeometry2D.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <limits>
 
 #include "AbstractIndicatorFunctor2D.hpp"
 

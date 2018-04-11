@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_HELPERSD2Q9_HPP_
 #define SRC_DYNAMICS_HELPERSD2Q9_HPP_
 
+#include <vector>
+
 namespace iblbm
 {
 /** Efficient specialization for D2Q9 lattice model */

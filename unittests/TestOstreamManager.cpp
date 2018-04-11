@@ -165,4 +165,4 @@ TEST(TestOstreamManager_CopyAssignment)
   CHECK(tester.GetIsMultiOutput() == false);
 }
 }
-}
+}  // namespace iblbm

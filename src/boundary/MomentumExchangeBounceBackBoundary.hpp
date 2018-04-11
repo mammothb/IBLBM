@@ -1,6 +1,8 @@
 #ifndef SRC_BOUNDARY_MOMENTUMEXCHANGEBOUNCEBACKBOUNDARY_HPP_
 #define SRC_BOUNDARY_MOMENTUMEXCHANGEBOUNCEBACKBOUNDARY_HPP_
 
+#include <vector>
+
 #include "AbstractDynamicsInterface.hpp"
 
 namespace iblbm
@@ -13,7 +15,7 @@ class MomentumExchangeBounceBackBoundary
   /**
    * Constructor. Arbitrary density value not set
    */
-  explicit MomentumExchangeBounceBackBoundary();
+  MomentumExchangeBounceBackBoundary();
 
   /**
    * Constructor. Arbitrary density value set for the cell
@@ -57,7 +59,7 @@ class MomentumExchangeBounceBackBoundary
    * \param rRho particle density
    * \param rU fluid velocity
    */
-   void ComputeRhoAndU(
+  void ComputeRhoAndU(
       const Cell<T, Lattice>& rCell
     , T& rRho
     , std::vector<T>& rU) const override;
@@ -71,4 +73,4 @@ class MomentumExchangeBounceBackBoundary
 };
 }  // namespace iblbm
 
-#endif // SRC_BOUNDARY_MOMENTUMEXCHANGEBOUNCEBACKBOUNDARY_HPP_
+#endif  // SRC_BOUNDARY_MOMENTUMEXCHANGEBOUNCEBACKBOUNDARY_HPP_

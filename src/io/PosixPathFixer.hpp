@@ -1,6 +1,8 @@
 #ifndef SRC_IO_POSIXPATHFIXER_HPP_
 #define SRC_IO_POSIXPATHFIXER_HPP_
 
+#include <string>
+
 #include "BoostFilesystem.hpp"
 
 namespace iblbm
@@ -29,4 +31,4 @@ struct PosixPathFixer
 };
 }  // namespace iblbm
 
-#endif // SRC_IO_POSIXPATHFIXER_HPP_
+#endif  // SRC_IO_POSIXPATHFIXER_HPP_

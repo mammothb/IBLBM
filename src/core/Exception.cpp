@@ -70,7 +70,7 @@ void Exception::SetMessage(
   std::string filename(rFilename);
   const std::size_t root_dir_length {
       std::char_traits<char>::length(IblbmSourceRootDir())};
-  if (filename.compare(0, root_dir_length,IblbmSourceRootDir()) == 0)
+  if (filename.compare(0, root_dir_length, IblbmSourceRootDir()) == 0)
       filename.replace(0, root_dir_length, "./");
 
   std::string posix_filename(PosixPathFixer::Fix(fs::path(filename)));

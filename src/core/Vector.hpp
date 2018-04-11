@@ -330,6 +330,6 @@ using Scalar = Vector<T, 1>;
 
 template<typename T>
 using Vector2D = Vector<T, 2>;
-}  // namespace
+}  // namespace iblbm
 
 #endif  // SRC_CORE_VECTOR_HPP_

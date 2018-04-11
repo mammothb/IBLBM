@@ -46,119 +46,120 @@ static const std::vector<double> g_cell_velocity = {3.4, 5.6};
 TEST(TestForcedBgkDynamics_Constructor)
 {
   BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
-  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(g_relaxation_time,
-      bulk_momenta);
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
 
   CHECK_CLOSE(1.0 / g_relaxation_time, dynamics.GetOmega(), g_loose_tol);
 }
 
-//TEST(TestForcedBgkDynamics_Collide)
-//{
-//  typedef descriptor::D2Q9DescriptorBase<double> B;
-//  LatticeStatistics<double> stats;
-//  TestLatticeStatistics tester;
-//  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
-//  ForcedBgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(g_relaxation_time,
-//      bulk_momenta);
-//  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
-//  for (gsl::index q = 0; q < B::sQ; ++q) cell[q] = q + 1;
-//  dynamics.Collide(cell, stats);
-//
-//  // Expected result
-//  auto omega = 1.0 / g_relaxation_time;
-//  std::vector<double> exp_cell(B::sQ);
-//  std::iota(exp_cell.begin(), exp_cell.end(), 1.0);
-//  auto density = 1.0;
-//  std::vector<double> velocity(B::sD, 0.0);
-//  // Compute fluid velocity
-//  for (gsl::index q = 0; q < B::sQ; ++q) {
-//    density += exp_cell[q];
-//    for (gsl::index d = 0; d < B::sD; ++d)
-//        velocity[d] += exp_cell[q] * B::sE[q][d];
-//  }
-//  for (gsl::index d = 0; d < B::sD; ++d) velocity[d] /= density;
-//  // Calculate convenience variable
-//  auto u_sqr = std::inner_product(velocity.begin(), velocity.end(),
-//      velocity.begin(), 0.0);
-//  // Calculate equilibrium
-//  for (gsl::index q = 0; q < B::sQ; ++q) {
-//    exp_cell[q] *= 1.0 - omega;
-//    auto e_dot_u = 0.0;
-//    for (gsl::index d = 0; d < B::sD; ++d) e_dot_u += B::sE[q][d] * velocity[d];
-////    // Original code
-////    exp_cell[q] += omega * (density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
-////        e_dot_u + B::sInvCsSqr * B::sInvCsSqr * 0.5 * e_dot_u * e_dot_u -
-////        B::sInvCsSqr * 0.5 * u_sqr) - B::sWeight[q]);
-//    exp_cell[q] += omega * density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
+TEST(TestForcedBgkDynamics_Collide)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  LatticeStatistics<double> stats;
+  TestLatticeStatistics tester;
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+  for (gsl::index q = 0; q < B::sQ; ++q) cell[q] = q + 1;
+  dynamics.Collide(cell, stats);
+
+  // Expected result
+  auto omega = 1.0 / g_relaxation_time;
+  std::vector<double> exp_cell(B::sQ);
+  std::iota(exp_cell.begin(), exp_cell.end(), 1.0);
+  auto density = 1.0;
+  std::vector<double> velocity(B::sD, 0.0);
+  // Compute fluid velocity
+  for (gsl::index q = 0; q < B::sQ; ++q) {
+    density += exp_cell[q];
+    for (gsl::index d = 0; d < B::sD; ++d)
+        velocity[d] += exp_cell[q] * B::sE[q][d];
+  }
+  for (gsl::index d = 0; d < B::sD; ++d) velocity[d] /= density;
+  // Calculate convenience variable
+  auto u_sqr = std::inner_product(velocity.begin(), velocity.end(),
+      velocity.begin(), 0.0);
+  // Calculate equilibrium
+  for (gsl::index q = 0; q < B::sQ; ++q) {
+    exp_cell[q] *= 1.0 - omega;
+    auto e_dot_u = 0.0;
+    for (gsl::index d = 0; d < B::sD; ++d)
+        e_dot_u += B::sE[q][d] * velocity[d];
+//    // Original code
+//    exp_cell[q] += omega * (density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
 //        e_dot_u + B::sInvCsSqr * B::sInvCsSqr * 0.5 * e_dot_u * e_dot_u -
-//        B::sInvCsSqr * 0.5 * u_sqr);
-//  }
-//
-//  for (gsl::index q = 0; q < B::sQ; ++q)
-//      CHECK_CLOSE(exp_cell[q], cell[q], g_loose_tol);
-//
-//  auto avg_values = tester.GetInternalAverageValues(stats);
-//  CHECK_CLOSE(density, avg_values[stats.AVG_RHO], g_zero_tol);
-//  CHECK_CLOSE(u_sqr, avg_values[stats.AVG_ENERGY], g_zero_tol);
-//
-//  auto max_values = tester.GetInternalMaxValues(stats);
-//  CHECK_CLOSE(u_sqr, max_values[stats.MAX_U], g_zero_tol);
-//
-//  CHECK_EQUAL(1u, tester.GetInternalNumCells(stats));
-//}
-//
-//TEST(TestForcedBgkDynamics_ComputeEquilibrium)
-//{
-//  typedef descriptor::D2Q9DescriptorBase<double> B;
-//  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
-//  ForcedBgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(g_relaxation_time,
-//      bulk_momenta);
-//
-//  auto u_sqr = g_cell_velocity[0] * g_cell_velocity[0] + g_cell_velocity[1] *
-//      g_cell_velocity[1];
-//  for (gsl::index q = 0; q < B::sQ; ++q) {
-//    auto e_dot_u = B::sE[q][0] * g_cell_velocity[0] + B::sE[q][1] *
-//        g_cell_velocity[1];
-////    // Original code
-////    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
-////        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
-////        B::sInvCsSqr / 2.0 * u_sqr) - B::sWeight[q];
+//        B::sInvCsSqr * 0.5 * u_sqr) - B::sWeight[q]);
+    exp_cell[q] += omega * density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
+        e_dot_u + B::sInvCsSqr * B::sInvCsSqr * 0.5 * e_dot_u * e_dot_u -
+        B::sInvCsSqr * 0.5 * u_sqr);
+  }
+
+  for (gsl::index q = 0; q < B::sQ; ++q)
+      CHECK_CLOSE(exp_cell[q], cell[q], g_loose_tol);
+
+  auto avg_values = tester.GetInternalAverageValues(stats);
+  CHECK_CLOSE(density, avg_values[stats.AVG_RHO], g_zero_tol);
+  CHECK_CLOSE(u_sqr, avg_values[stats.AVG_ENERGY], g_zero_tol);
+
+  auto max_values = tester.GetInternalMaxValues(stats);
+  CHECK_CLOSE(u_sqr, max_values[stats.MAX_U], g_zero_tol);
+
+  CHECK_EQUAL(1u, tester.GetInternalNumCells(stats));
+}
+
+TEST(TestForcedBgkDynamics_ComputeEquilibrium)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+
+  auto u_sqr = g_cell_velocity[0] * g_cell_velocity[0] + g_cell_velocity[1] *
+      g_cell_velocity[1];
+  for (gsl::index q = 0; q < B::sQ; ++q) {
+    auto e_dot_u = B::sE[q][0] * g_cell_velocity[0] + B::sE[q][1] *
+        g_cell_velocity[1];
+//    // Original code
 //    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
 //        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
-//        B::sInvCsSqr / 2.0 * u_sqr);
-//    auto actual_feq = dynamics.ComputeEquilibrium(q, g_cell_density,
-//        g_cell_velocity, u_sqr);
-//
-//    CHECK_CLOSE(exp_feq, actual_feq, g_loose_tol);
-//  }
-//}
-//
-//TEST(TestForcedBgkDynamics_InitializeEquilibrium)
-//{
-//  typedef descriptor::D2Q9DescriptorBase<double> B;
-//  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
-//  ForcedBgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(g_relaxation_time,
-//      bulk_momenta);
-//  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
-//
-//  dynamics.InitializeEquilibrium(cell, g_cell_density, g_cell_velocity);
-//
-//  auto u_sqr = g_cell_velocity[0] * g_cell_velocity[0] + g_cell_velocity[1] *
-//      g_cell_velocity[1];
-//  for (gsl::index q = 0; q < B::sQ; ++q) {
-//    auto e_dot_u = B::sE[q][0] * g_cell_velocity[0] + B::sE[q][1] *
-//        g_cell_velocity[1];
-////    // Original code
-////    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
-////        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
-////        B::sInvCsSqr / 2.0 * u_sqr) - B::sWeight[q];
+//        B::sInvCsSqr / 2.0 * u_sqr) - B::sWeight[q];
+    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
+        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
+        B::sInvCsSqr / 2.0 * u_sqr);
+    auto actual_feq = dynamics.ComputeEquilibrium(q, g_cell_density,
+        g_cell_velocity, u_sqr);
+
+    CHECK_CLOSE(exp_feq, actual_feq, g_loose_tol);
+  }
+}
+
+TEST(TestForcedBgkDynamics_InitializeEquilibrium)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+
+  dynamics.InitializeEquilibrium(cell, g_cell_density, g_cell_velocity);
+
+  auto u_sqr = g_cell_velocity[0] * g_cell_velocity[0] + g_cell_velocity[1] *
+      g_cell_velocity[1];
+  for (gsl::index q = 0; q < B::sQ; ++q) {
+    auto e_dot_u = B::sE[q][0] * g_cell_velocity[0] + B::sE[q][1] *
+        g_cell_velocity[1];
+//    // Original code
 //    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
 //        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
-//        B::sInvCsSqr / 2.0 * u_sqr);
-//
-//    CHECK_CLOSE(exp_feq, cell[q], g_loose_tol);
-//  }
-//}
+//        B::sInvCsSqr / 2.0 * u_sqr) - B::sWeight[q];
+    auto exp_feq = g_cell_density * B::sWeight[q] * (1.0 + B::sInvCsSqr *
+        e_dot_u + B::sInvCsSqr * B::sInvCsSqr / 2.0 * e_dot_u * e_dot_u -
+        B::sInvCsSqr / 2.0 * u_sqr);
+
+    CHECK_CLOSE(exp_feq, cell[q], g_loose_tol);
+  }
+}
 
 TEST(TestForcedBgkDynamics_ComputeRho)
 {

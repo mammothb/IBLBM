@@ -5,7 +5,7 @@ namespace iblbm
 {
 #ifndef NDEBUG
 // Uncomment this to trace calls to MpiManager::Instance().Barrier
-//#define DEBUG_BARRIERS
+// #define DEBUG_BARRIERS
 #endif
 
 #ifdef DEBUG_BARRIERS

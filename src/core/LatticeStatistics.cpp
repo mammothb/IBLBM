@@ -26,4 +26,4 @@ void LatticeStatistics<T>::IncrementStats(
 
 // Explicit instantiation
 template class LatticeStatistics<double>;
-}
+}  // namespace iblbm

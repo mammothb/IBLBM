@@ -1,6 +1,10 @@
 #ifndef SRC_CORE_BUFFERSERIALIZABLE_HPP_
 #define SRC_CORE_BUFFERSERIALIZABLE_HPP_
 
+#include <map>
+#include <utility>
+#include <vector>
+
 #include "Serializable.hpp"
 
 namespace iblbm
@@ -146,7 +150,8 @@ class BufferSerializable : public Serializable
 
           // push new pair into buffer and return pointer
           if (blockIndex < rCurrentBlockIndex + map_size) {
-            mDataBuffer.push_back((bool *) new std::pair<KEY_TYPE, VAL_TYPE>);
+            mDataBuffer.push_back(reinterpret_cast<bool*>(
+                new std::pair<KEY_TYPE, VAL_TYPE>));
             rpData = mDataBuffer.back();
           }
         }

@@ -450,4 +450,4 @@ TEST(UnitConverter_Print)
 //  converter.Print();
 }
 }
-}
+}  // namespace iblbm

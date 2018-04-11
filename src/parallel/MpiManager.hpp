@@ -151,4 +151,4 @@ class MpiManager
 #endif  // IBLBM_PARALLEL_MPI
 }  // namespace iblbm
 
-#endif // SRC_PARALLEL_MPIMANAGER_HPP_
+#endif  // SRC_PARALLEL_MPIMANAGER_HPP_

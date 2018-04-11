@@ -216,6 +216,6 @@ class FileFinder
   /** The fake value of the faked path. */
   static std::string msFakePath;
 };
-}
+}  // namespace iblbm
 
 #endif  // SRC_IO_FILEFINDER_HPP_

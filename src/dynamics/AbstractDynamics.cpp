@@ -35,5 +35,5 @@ void AbstractDynamics<T, Lattice>::ComputeRhoAndU(
 // Explicit instantiation
 template class AbstractDynamics<double, descriptor::D2Q9Descriptor>;
 template class AbstractDynamics<double, descriptor::ForcedD2Q9Descriptor>;
-}
+}  // namespace iblbm
 

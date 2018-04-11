@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
 #define SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
 
+#include <vector>
+
 #include "gsl/gsl"
 #include "AbstractDynamics.hpp"
 

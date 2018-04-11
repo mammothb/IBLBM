@@ -2,6 +2,7 @@
 #define SRC_PARALLEL_LOADBALANCER_HPP_
 
 #include <map>
+#include <utility>
 #include <vector>
 
 #include "gsl/gsl"

@@ -18,4 +18,4 @@ const char* IblbmBuildRootDir();
 const char* IblbmSourceRootDir();
 }  // namespace iblbm
 
-#endif // SRC_IO_IBLBMBUILDROOT_HPP_
+#endif  // SRC_IO_IBLBMBUILDROOT_HPP_

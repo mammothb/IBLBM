@@ -2,6 +2,7 @@
 #define SRC_GEOMETRY_CUBOID2D_HPP_
 
 #include <cstddef>
+#include <vector>
 
 #include "OstreamManager.hpp"
 #include "Vector.hpp"
@@ -152,6 +153,6 @@ class Cuboid2D
   /** Special ostream that prepends class name in each line */
   mutable OstreamManager mOstream;
 };
-}
+}  // namespace iblbm
 
 #endif  // SRC_GEOMETRY_CUBOID2D_HPP_

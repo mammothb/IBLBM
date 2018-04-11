@@ -88,4 +88,4 @@ TEST(TestCell_SetExternalfield)
   CHECK(cell.pGetDynamics() == &dynamics);
 }
 }
-}  // namespace
+}  // namespace iblbm

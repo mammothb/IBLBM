@@ -75,7 +75,7 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
   CHECK_THROW_CONTAINS(OutputFileHandler bad_handler(
       "../../../../../../../../../../../../../../../", false),
       "due to it potentially being above, and cleaning, IBLBM_TEST_OUTPUT.");
-  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler( "/", false),
+  CHECK_THROW_CONTAINS(OutputFileHandler bad_handler("/", false),
       "The constructor argument to OutputFileHandler must be a relative "
       "path");
   CHECK_THROW_CONTAINS(OutputFileHandler bad_handler(FileFinder("/"), false),
@@ -167,7 +167,7 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
   setenv("IBLBM_TEST_OUTPUT", iblbm_test_output.c_str(), 1/*Overwrite*/);
 
   // We don't want other people using IBLBM_TEST_OUTPUT while we are messing
-  //with it!
+  // with it!
   MpiManager::Instance().Barrier("TestOutputFileHandler-4");
 
   // Coverage of the case where we can't open a file for writing

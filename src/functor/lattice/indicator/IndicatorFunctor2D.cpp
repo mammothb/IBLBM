@@ -12,7 +12,7 @@ IndicatorCuboid2D<S>::IndicatorCuboid2D(
     const Vector2D<S>& rExtent
   , const Vector2D<S>& rOrigin/*=Vector2D<S>()*/
   , S theta/*=0*/)
-  : mCenter{rOrigin + S{0.5} * rExtent},
+  : mCenter{rOrigin + S {0.5} * rExtent},
     mXLength{rExtent[0]},
     mYLength{rExtent[1]},
     mTheta{theta}

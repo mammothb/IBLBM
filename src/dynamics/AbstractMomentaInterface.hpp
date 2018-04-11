@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_ABSTRACTMOMENTAINTERFACE_HPP_
 #define SRC_DYNAMICS_ABSTRACTMOMENTAINTERFACE_HPP_
 
+#include <vector>
+
 #include "Cell.hpp"
 
 namespace iblbm

@@ -67,7 +67,7 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
    *
    * \param pDynamics dynamics of the cell
    */
-  Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics);
+  explicit Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics);
 
   /** \return a reference to an external field */
   T& rGetExternal(gsl::index index)

@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_BULKMOMENTA_HPP_
 #define SRC_DYNAMICS_BULKMOMENTA_HPP_
 
+#include <vector>
+
 #include "AbstractMomentaInterface.hpp"
 #include "Cell.hpp"
 

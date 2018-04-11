@@ -35,7 +35,7 @@ const AbstractDynamicsInterface<T, Lattice>*
 }
 
 template<typename T, template<typename U> class Lattice>
-void Cell<T,Lattice>::InitializeExternal()
+void Cell<T, Lattice>::InitializeExternal()
 {
   mExternal.SetData(std::vector<T>(Lattice<T>::ExternalField::sNumScalars,
       T{}));
@@ -44,4 +44,4 @@ void Cell<T,Lattice>::InitializeExternal()
 // Explicit instantiation
 template class Cell<double, descriptor::D2Q9Descriptor>;
 template class Cell<double, descriptor::ForcedD2Q9Descriptor>;
-}
+}  // namespace iblbm

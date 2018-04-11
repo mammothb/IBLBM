@@ -143,7 +143,7 @@ void Base64Decoder<T>::Decode(
   while (position + 3 <= char_length) {
     DecodeGroup(p_char_data + position);
     position += 3;
-  };
+  }
   if (position < char_length) {
     DecodeGroup(mOverflow);
     mOverflowIndex = 0;

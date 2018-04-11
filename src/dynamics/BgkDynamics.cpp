@@ -1,5 +1,7 @@
 #include "BgkDynamics.hpp"
 
+#include <vector>
+
 #include "Descriptor.hpp"
 #include "Helpers.hpp"
 
@@ -10,7 +12,7 @@ BgkDynamics<T, Lattice>::BgkDynamics(
     T relaxationTime
   , AbstractMomentaInterface<T, Lattice>& rMomenta)
   : AbstractDynamics<T, Lattice>(rMomenta),
-    mOmega{T{1} / relaxationTime}
+    mOmega{T {1} / relaxationTime}
 {}
 
 template<typename T, template<typename U> class Lattice>

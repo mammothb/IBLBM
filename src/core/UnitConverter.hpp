@@ -362,7 +362,7 @@ class UnitConverterFromResolutionAndRelaxationTime
 
 template <typename T, template <typename U> class Lattice>
 class UnitConverterFromResolutionAndLatticeVelocity
- : public UnitConverter<T, Lattice>
+  : public UnitConverter<T, Lattice>
 {
  public:
   constexpr UnitConverterFromResolutionAndLatticeVelocity(
@@ -388,7 +388,7 @@ class UnitConverterFromResolutionAndLatticeVelocity
 
 template <typename T, template <typename U> class Lattice>
 class UnitConverterFromRelaxationTimeAndLatticeVelocity
- : public UnitConverter<T, Lattice>
+  : public UnitConverter<T, Lattice>
 {
  public:
   constexpr UnitConverterFromRelaxationTimeAndLatticeVelocity(

@@ -11,7 +11,7 @@ ForcedBgkDynamics<T, Lattice>::ForcedBgkDynamics(
     T relaxationTime
   , AbstractMomentaInterface<T, Lattice>& rMomenta)
   : AbstractDynamics<T, Lattice>(rMomenta),
-    mOmega{T{1} / relaxationTime}
+    mOmega{T {1} / relaxationTime}
 {
   // Ensure both that the constant sSizeOfForce is defined in ExternalField
   // and that it has the proper size

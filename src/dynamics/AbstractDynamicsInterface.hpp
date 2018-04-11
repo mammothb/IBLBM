@@ -1,8 +1,9 @@
 #ifndef SRC_DYNAMICS_ABSTRACTDYNAMICSINTERFACE_HPP_
 #define SRC_DYNAMICS_ABSTRACTDYNAMICSINTERFACE_HPP_
 
-#include "gsl/gsl"
+#include <vector>
 
+#include "gsl/gsl"
 #include "Descriptor.hpp"
 #include "LatticeStatistics.hpp"
 
@@ -92,7 +93,5 @@ class AbstractDynamicsInterface
     , const std::vector<T>& rU);
 };
 }  // namespace iblbm
-
-//#include "AbstractDynamicsInterface.ipp"
 
 #endif  // SRC_DYNAMICS_ABSTRACTDYNAMICSINTERFACE_HPP_

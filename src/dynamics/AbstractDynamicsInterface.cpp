@@ -30,4 +30,4 @@ void AbstractDynamicsInterface<T, Lattice>::InitializeEquilibrium(
 template class AbstractDynamicsInterface<double, descriptor::D2Q9Descriptor>;
 template class AbstractDynamicsInterface<double,
     descriptor::ForcedD2Q9Descriptor>;
-}
+}  // namespace iblbm

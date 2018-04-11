@@ -1,6 +1,8 @@
 #ifndef SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
 #define SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
 
+#include <vector>
+
 #include "AbstractDynamicsInterface.hpp"
 #include "AbstractMomentaInterface.hpp"
 
@@ -15,7 +17,7 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
    *
    * \param rMomenta Interface for classes that compute velocity momenta
    */
-  AbstractDynamics(AbstractMomentaInterface<T, Lattice>& rMomenta);
+  explicit AbstractDynamics(AbstractMomentaInterface<T, Lattice>& rMomenta);
 
   /** Virtual destructor to allow inheritance */
   virtual ~AbstractDynamics() = default;
@@ -33,7 +35,7 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
    * \param rCell target cell
    * \param rU fluid velocity
    */
-  void ComputeU (
+  void ComputeU(
       const Cell<T, Lattice>& rCell
     , std::vector<T>& rU) const override;
 
@@ -55,4 +57,4 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
 };
 }  // namespace iblbm
 
-#endif // SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
+#endif  // SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_

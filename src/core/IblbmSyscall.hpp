@@ -46,5 +46,5 @@
  */
 #define IBLBM_READ_WRITE_EXECUTE 0755
 
-#endif // _MSC_VER
-#endif // SRC_CORE_IBLBMSYSCALL_HPP_
+#endif  // _MSC_VER
+#endif  // SRC_CORE_IBLBMSYSCALL_HPP_

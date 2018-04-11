@@ -2,6 +2,7 @@
 #define SRC_DYNAMICS_HELPERS_HPP_
 
 #include <numeric>
+#include <vector>
 
 #include "gsl/gsl"
 #include "Cell.hpp"

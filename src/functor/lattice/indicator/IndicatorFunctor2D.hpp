@@ -1,6 +1,8 @@
 #ifndef SRC_FUNCTOR_LATTICE_INDICATOR_INDICATORFUNCTOR2D_HPP_
 #define SRC_FUNCTOR_LATTICE_INDICATOR_INDICATORFUNCTOR2D_HPP_
 
+#include <vector>
+
 #include "AbstractIndicatorFunctor2D.hpp"
 #include "Vector.hpp"
 

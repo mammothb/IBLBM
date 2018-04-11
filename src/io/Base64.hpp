@@ -10,7 +10,6 @@
 
 namespace iblbm
 {
-// https://stackoverflow.com/a/41094722/4115600
 /**
  * Encoding algorithm inspired by
  * http://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c
@@ -118,7 +117,9 @@ class Base64Decoder
     , std::size_t fullLength);
 
   /**
-   *
+   * Repeatedly decode 24-bit groups to 3 8-bit output groups, if length is
+   * not divisible by 3, left over groups are stored in mOverflow to be
+   * decoded first in the next round
    *
    * \param pData pointer to where the decoded data should be written
    * \param length length (number of bytes) of data
@@ -145,7 +146,9 @@ class Base64Decoder
     , gsl::index& rPosition);
 
   /**
-   * Decode
+   * Decode a 24-bit group into 3 8-bit output groups
+   *
+   * \param pData pointer to output group
    */
   void DecodeGroup(unsigned char* pData);
 
@@ -164,6 +167,16 @@ class Base64Decoder
 /***************************************************************************
  * Helper functions for debugging
  ***************************************************************************/
+/**
+ * Print pData in 8 bit groups based on how the encoder/decoder sees it,
+ * e.g., std::size_t data {12345} is read as
+ * 00111001 00110000 00000000 00000000 00000000 00000000 00000000 00000000
+ * for debugging/testing Base64Encoder against online encoders such as
+ * https://cryptii.com/binary-to-base64
+ *
+ * \param pData pointer to data to be read
+ * \param length length (number of bytes) of data
+ */
 template<typename T>
 void FormatDataAsBinary(
     const T* pData
