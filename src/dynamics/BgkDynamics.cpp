@@ -20,7 +20,7 @@ void BgkDynamics<T, Lattice>::Collide(
     Cell<T, Lattice>& rCell
   , LatticeStatistics<T>& rStatistics)
 {
-  T rho {};
+  T rho {0};
   std::vector<T> u(Lattice<T>::sD, T{});
   this->mrMomenta.ComputeRhoAndU(rCell, rho, u);
   auto u_sqr = LbmHelper<T, Lattice>::BgkCollide(rCell, rho, u, mOmega);

@@ -269,7 +269,7 @@ inline T operator*(
     const Vector<T, N>& rVector1
   , const Vector<T, N>& rVector2)
 {
-  T scalar_product {};
+  T scalar_product {0};
   for (gsl::index d = 0; d < N; ++d)
       scalar_product += rVector1[d] * rVector2[d];
   return scalar_product;

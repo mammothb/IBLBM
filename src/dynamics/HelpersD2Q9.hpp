@@ -165,11 +165,11 @@ struct LbmDynamicsHelper<T, descriptor::D2Q9DescriptorBase<T>>
     , T& rRho
     , std::vector<T>& rU)
   {
-    T x_neg {};
-    T x_zero {};
-    T x_pos {};
-    T y_neg {};
-    T y_pos {};
+    T x_neg {0};
+    T x_zero {0};
+    T x_pos {0};
+    T y_neg {0};
+    T y_pos {0};
     ComputePartialRho(rCell, x_neg, x_zero, x_pos, y_neg, y_pos);
 
     rRho = x_neg + x_zero + x_pos + T{1};

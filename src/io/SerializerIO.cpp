@@ -28,7 +28,7 @@ void ConvertSerializerToOstream(
   }
 
   Base64Encoder<bool> data_encoder(rOstream, binary_size);
-  std::size_t block_size {};
+  std::size_t block_size {0};
   const bool* p_data_buffer {nullptr};
   while (p_data_buffer = rSerializer.pGetNextBlock(block_size,
       /*isLoad=*/false), p_data_buffer != nullptr) {
@@ -44,9 +44,9 @@ void ConvertIstreamToSerializer(
 {
   rSerializer.ResetCounter();
 
-  std::size_t binary_size {};
+  std::size_t binary_size {0};
   if (forceUnsigned) {
-    unsigned unsigned_binary_size {};
+    unsigned unsigned_binary_size {0};
     Base64Decoder<unsigned> size_decoder(rIstream, 1);
     size_decoder.Decode(&unsigned_binary_size, 1);
     binary_size = unsigned_binary_size;
@@ -57,7 +57,7 @@ void ConvertIstreamToSerializer(
   }
 
   Base64Decoder<bool> data_decoder(rIstream, binary_size);
-  std::size_t block_size{};
+  std::size_t block_size{0};
   bool* p_data_buffer {nullptr};
   while (p_data_buffer = rSerializer.pGetNextBlock(block_size,
       /*isLoad=*/true), p_data_buffer != nullptr) {

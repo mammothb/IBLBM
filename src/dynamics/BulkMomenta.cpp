@@ -16,7 +16,7 @@ void BulkMomenta<T, Lattice>::ComputeU(
     const Cell<T, Lattice>& rCell
   , std::vector<T>& rU) const
 {
-  T dummy_rho {};
+  T dummy_rho {0};
   LbmHelper<T, Lattice>::ComputeRhoAndU(rCell, dummy_rho, rU);
 }
 

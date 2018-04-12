@@ -10,7 +10,7 @@ std::size_t BufferSerializable::AddSizeToBuffer(
   , bool*& rpData
   , const std::size_t data) const
 {
-  std::size_t return_size {};
+  std::size_t return_size {0};
 
   // write size into mSizeBuffer vector
   if (blockIndex == rCurrentBlockIndex)

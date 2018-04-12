@@ -51,6 +51,11 @@ class MpiNonblockingHelper
   MpiNonblockingHelper& operator=(const MpiNonblockingHelper& rRhs);
 
   /**
+   * Swap method
+   */
+  void Swap(MpiNonblockingHelper& rNonblockingHelper);
+
+  /**
    * Allocates memory
    *
    * \param size size of memory to allocate
@@ -122,6 +127,51 @@ class MpiManager
   void Barrier(
       const std::string callerId = ""
     , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Sends data at pBuffer, non blocking. Datatype of each send buffer
+   * element will be decided in the specializations of this method
+   *
+   * \param pBuffer Initial address of send buffer (to be casted to void*)
+   * \param count Number of elements in send buffer
+   * \param destination Rank of destination
+   * \param pRequest Communication request
+   * \param tag Message tag
+   * \param comm Communicator
+   */
+  template<typename T>
+  void Isend(
+      T* pBuffer
+    , int count
+    , int destination
+    , MPI_Request* pRequest
+    , int tag = 0
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Receives data at *buf, blocking. Datatype of each receive buffer entry
+   * will be decided in the specializations of this method
+   *
+   * \param pBuffer Initial address of receive buffer
+   * \param count Maximum number of elements to receive
+   * \param  source Rank of source
+   * \param tag Message tag
+   * \param comm Communicator
+   */
+  template <typename T>
+  void Receive(
+      T* pBuffer
+    , int count
+    , int source
+    , int tag = 0
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Complete a series of non-blocking MPI operations
+   *
+   * \param rHelper reference to nonblocking helper
+   */
+  void WaitAll(MpiNonblockingHelper& rHelper);
 
  private:
   /** Constructor */

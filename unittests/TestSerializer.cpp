@@ -103,7 +103,7 @@ TEST(TestSerializer_pGetNextBlock_Save)
   LoadBalancer<double> balancer(size, local_index, global_index, rank_map);
 
   bool* p_data {nullptr};
-  std::size_t block_size {};
+  std::size_t block_size {0};
   Serializer serializer {balancer};
 
   serializer.ResetCounter();
@@ -208,9 +208,9 @@ TEST(TestSerializer_ComputeSize_ForceRecompute)
   std::map<gsl::index, std::size_t> rank_map_2 {{18, 0}, {19, 1}, {20, 2},
       {21, 0}, {22, 1}, {23, 2}};
 
-  gsl::index block_index {};
+  gsl::index block_index {0};
   bool* p_data {nullptr};
-  std::size_t block_size {};
+  std::size_t block_size {0};
 
   // mSize
   p_data = balancer.pGetBlock(block_index, block_size, /*isLoad=*/true);

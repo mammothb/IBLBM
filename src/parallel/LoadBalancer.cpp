@@ -114,8 +114,8 @@ bool* LoadBalancer<T>::pGetBlock(
   , std::size_t& rBlockSize
   , bool isLoad/*=false*/)
 {
-  gsl::index current_block_index {};
-  gsl::index size_buffer_index {};
+  gsl::index current_block_index {0};
+  gsl::index size_buffer_index {0};
   bool* p_data {nullptr};
 
   // Register mSize (number of cuboids) at block 0

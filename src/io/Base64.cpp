@@ -32,7 +32,7 @@ void Base64Encoder<T>::Encode(
   auto char_length {length * sizeof(T)};
   Expects(mNumWritten + char_length <= mCharFullLength);
 
-  gsl::index position {};
+  gsl::index position {0};
   FillOverflow(p_char_data, char_length, position);
   // Keep encoding fully filled 24-bit groups while we can
   while (position + 3 <= char_length) {
@@ -138,7 +138,7 @@ void Base64Decoder<T>::Decode(
   auto char_length {length * sizeof(T)};
   Expects(mNumRead + char_length <= mCharFullLength);
 
-  gsl::index position {};
+  gsl::index position {0};
   FlushOverflow(p_char_data, char_length, position);
   while (position + 3 <= char_length) {
     DecodeGroup(p_char_data + position);

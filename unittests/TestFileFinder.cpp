@@ -2,6 +2,7 @@
 #include "Exception.hpp"
 #include "FileFinder.hpp"
 #include "IblbmBuildRoot.hpp"
+#include "MpiManager.hpp"
 #include "OutputFileHandler.hpp"
 #include "UnitTestCustomUtilities.hpp"
 
@@ -103,6 +104,10 @@ TEST(TestFileFinder_Constructor_RelativeTo)
         "' does not exist.");
     CHECK_THROW_CONTAINS(FileFinder("sibling", file_finder),
         "Reference path '" + abs_path + "' does not exist.");
+
+    // So that we don't create the file before other processes can check that
+    // it doesn't exist
+    MpiManager::Instance().Barrier("TestFileFinder_Constructor_RelativeTo-0");
 
     // Create the file
     auto fp {handler.OpenOutputFile(file_name)};

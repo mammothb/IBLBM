@@ -156,7 +156,8 @@ class LoadBalancer : public BufferSerializable
   std::vector<gsl::index> mGlobalIndex;
   /** maps global cuboid number to the processing thread. Using the
    * illustration above, mRank will be:
-   *   {{0, 0}, {1, 0}, {2, 1}, {3, 1}, {4, 1}, {5, 1}}*/
+   *   {{0, 0}, {1, 0}, {2, 1}, {3, 1}, {4, 1}, {5, 1}}
+   */
   std::map<gsl::index, std::size_t> mRank;
 };
 }  // namespace iblbm

@@ -257,7 +257,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("ewAAAAAAAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {123};
@@ -274,7 +274,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("OTAAAAAAAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {12345};
@@ -291,7 +291,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("TmG8AAAAAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {12345678};
@@ -308,7 +308,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("0gKWSQAAAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {1234567890};
@@ -325,7 +325,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("FBqZvhwAAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {123456789012};
@@ -342,7 +342,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("8i/OczoLAAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {12345678901234};
@@ -359,7 +359,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("wLqKPNViBAA=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {1234567890123456};
@@ -376,7 +376,7 @@ TEST(TestBase64Decoder_Decode_Size)
 
     istr.str("FYHpffQQIhE=");
 
-    std::size_t size_data {};
+    std::size_t size_data {0};
     decoder.Decode(&size_data, length);
 
     std::size_t exp_size {1234567890123456789};

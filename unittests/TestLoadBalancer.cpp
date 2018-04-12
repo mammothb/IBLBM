@@ -241,7 +241,7 @@ TEST(TestLoadBalancer_pGetBlock_Saving_Empty)
   CHECK_EQUAL(4u, balancer.GetNumBlock());
 
   bool* p_data {nullptr};
-  std::size_t block_size {};
+  std::size_t block_size {0};
 
   // mSize
   p_data = balancer.pGetBlock(0, block_size);
@@ -276,8 +276,8 @@ TEST(TestLoadBalancer_pGetBlock_Saving_WithLoad)
 {
   auto size {1u};
 
-  gsl::index block_index {};
-  std::size_t block_size {};
+  gsl::index block_index {0};
+  std::size_t block_size {0};
   bool* p_data {nullptr};
   LoadBalancer<double> balancer(size, g_local_index, g_global_index,
       g_rank_map);
@@ -367,9 +367,9 @@ TEST(TestLoadBalancer_pGetBlock_Loading_Empty)
   CHECK_EQUAL(0, balancer.GetSize());
   CHECK_EQUAL(4u, balancer.GetNumBlock());
 
-  gsl::index block_index {};
+  gsl::index block_index {0};
   bool* p_data {nullptr};
-  std::size_t block_size {};
+  std::size_t block_size {0};
 
   // mSize
   p_data = balancer.pGetBlock(block_index, block_size, /*isLoad=*/true);
@@ -490,9 +490,9 @@ TEST(TestLoadBalancer_pGetBlock_Loading_WithLoad)
   CHECK_EQUAL(0, balancer.GetSize());
   CHECK_EQUAL(num_block, balancer.GetNumBlock());
 
-  gsl::index block_index {};
+  gsl::index block_index {0};
   bool* p_data {nullptr};
-  std::size_t block_size {};
+  std::size_t block_size {0};
 
   // mSize
   p_data = balancer.pGetBlock(block_index, block_size, /*isLoad=*/true);

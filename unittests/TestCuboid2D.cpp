@@ -128,8 +128,8 @@ TEST(TestCuboid2D_Divide_Number_Divisible)
   std::vector<Cuboid2D<double>> cuboid_vec;
   cuboid.Divide(num, cuboid_vec);
 
-  std::size_t num_col {};
-  std::size_t num_row {};
+  std::size_t num_col {0};
+  std::size_t num_row {0};
 
   // Determine the best layout for child cuboids
   const auto best_ratio {static_cast<double>(nx) / static_cast<double>(ny)};
@@ -183,8 +183,8 @@ TEST(TestCuboid2D_Divide_Number_Indivisible_InsertColumn)
   std::vector<Cuboid2D<double>> cuboid_vec;
   cuboid.Divide(num, cuboid_vec);
 
-  std::size_t num_col {};
-  std::size_t num_row {};
+  std::size_t num_col {0};
+  std::size_t num_row {0};
 
   // Determine the best layout for child cuboids
   const auto best_ratio {static_cast<double>(nx) / static_cast<double>(ny)};
@@ -259,8 +259,8 @@ TEST(TestCuboid2D_Divide_Number_Indivisible_InsertRow)
   std::vector<Cuboid2D<double>> cuboid_vec;
   cuboid.Divide(num, cuboid_vec);
 
-  std::size_t num_col {};
-  std::size_t num_row {};
+  std::size_t num_col {0};
+  std::size_t num_row {0};
 
   // Determine the best layout for child cuboids
   const auto best_ratio {static_cast<double>(nx) / static_cast<double>(ny)};

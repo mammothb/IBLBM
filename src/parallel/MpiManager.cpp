@@ -54,6 +54,13 @@ MpiNonblockingHelper& MpiNonblockingHelper::operator=(
   return *this;
 }
 
+void MpiNonblockingHelper::Swap(MpiNonblockingHelper& rNonblockingHelper)
+{
+  std::swap(mSize, rNonblockingHelper.mSize);
+  std::swap(mpMpiRequest, rNonblockingHelper.mpMpiRequest);
+  std::swap(mpMpiStatus, rNonblockingHelper.mpMpiStatus);
+}
+
 void MpiNonblockingHelper::Allocate(std::size_t size)
 {
   Free();
@@ -173,6 +180,100 @@ void MpiManager::Barrier(
         std::flush;
 #endif
   }
+}
+
+template<>
+void MpiManager::Isend<bool>(
+    bool* pBuffer
+  , int count
+  , int destination
+  , MPI_Request* pRequest
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (mIsOk) {
+    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_BYTE, destination,
+        tag, comm, pRequest);
+  }
+}
+
+template<>
+void MpiManager::Isend<double>(
+    double* pBuffer
+  , int count
+  , int destination
+  , MPI_Request* pRequest
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (mIsOk) {
+    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_DOUBLE, destination,
+        tag, comm, pRequest);
+  }
+}
+
+template<>
+void MpiManager::Isend<gsl::index>(
+    gsl::index* pBuffer
+  , int count
+  , int destination
+  , MPI_Request* pRequest
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (mIsOk) {
+    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_LONG, destination,
+        tag, comm, pRequest);
+  }
+}
+
+template <>
+void MpiManager::Receive<bool>(
+    bool* pBuffer
+  , int count
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Recv(static_cast<void*>(pBuffer), count, MPI_BYTE, source, tag, comm,
+      &status);
+}
+
+template <>
+void MpiManager::Receive<double>(
+    double* pBuffer
+  , int count
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Recv(static_cast<void*>(pBuffer), count, MPI_DOUBLE, source, tag, comm,
+      &status);
+}
+
+template <>
+void MpiManager::Receive<gsl::index>(
+    gsl::index* pBuffer
+  , int count
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Recv(static_cast<void*>(pBuffer), count, MPI_LONG, source, tag, comm,
+      &status);
+}
+
+void MpiManager::WaitAll(MpiNonblockingHelper& rHelper)
+{
+  if (!mIsOk) return;
+  MPI_Waitall(rHelper.rGetSize(), rHelper.pGetMpiRequest(),
+      rHelper.pGetMpiStatus());
 }
 }  // namespace iblbm
 

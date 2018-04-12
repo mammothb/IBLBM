@@ -85,7 +85,7 @@ void CuboidGeometry2D<T>::Shrink(
 {
   auto nc {GetNumberOfCuboids()};
   for (gsl::index idx = nc - 1; idx >= 0; --idx) {
-    std::size_t num_full_cell {};
+    std::size_t num_full_cell {0};
     auto nx {mCuboids[idx].GetNx()};
     auto ny {mCuboids[idx].GetNy()};
     auto max_x {std::numeric_limits<gsl::index>::min()};

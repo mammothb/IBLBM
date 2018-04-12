@@ -47,37 +47,39 @@ void HeuristicLoadBalancer<T>::Initialize(
     return;
   }
 
+  // Vector to track the cuboid's assigned thread number
   std::vector<gsl::index> cuboid_to_thread(nc);
-  std::vector<gsl::index> partition_result(nc);
-  std::vector<int> node_weights(nc);
+  std::vector<std::size_t> node_weights(nc);
   if (MpiManager::Instance().AmMaster()) {
     for (gsl::index i {0}; i < nc; ++i) {
       auto num_full_cell {mpCuboidGeometry2D->rGetCuboid(i).GetWeight()};
-      node_weights[i] = static_cast<int>(emptyCellWeight *
+      node_weights[i] = emptyCellWeight *
           (mpCuboidGeometry2D->rGetCuboid(i).GetLatticeVolume() -
-              num_full_cell)) + static_cast<int>(ratioFullEmpty *
-              num_full_cell);
+              num_full_cell) + ratioFullEmpty * num_full_cell;
     }
 
     // Flags to determine if the cuboid has been assigned to a process
     std::vector<bool> is_assigned(nc, false);
     // Sum of weights of cuboids assigned to each process
     std::vector<int> process_load(size, 0);
-    auto max_weight {-1};
-    gsl::index max_weight_idx {-1};
-    // Try to evenly split the load among processes
-    do {
-      max_weight = -1;
-      max_weight_idx = -1;
+
+    std::size_t num_assigned {0};
+    while (num_assigned < nc) {
+      auto is_unset {true};
+      std::size_t max_weight {0};
+      gsl::index max_weight_idx {-1};
+      // Find the max weight among unassigned nodes
       for (gsl::index i {0}; i < nc; ++i) {
-        if (!is_assigned[i] && node_weights[i] > max_weight) {
+        if (!is_assigned[i] && (node_weights[i] > max_weight || is_unset)) {
           max_weight = node_weights[i];
           max_weight_idx = i;
+          is_unset = false;
         }
       }
       if (max_weight_idx != -1) {
         auto min_load {process_load[0]};
         gsl::index min_load_idx {0};
+        // Find the thread with the least load to take in the cuboid
         for (gsl::index p {1}; p < size; ++p) {
           if (process_load[p] < min_load) {
             min_load = process_load[p];
@@ -86,71 +88,61 @@ void HeuristicLoadBalancer<T>::Initialize(
         }
         is_assigned[max_weight_idx] = true;
         process_load[min_load_idx] += max_weight;
-        partition_result[max_weight_idx] = min_load_idx;
+        cuboid_to_thread[max_weight_idx] = min_load_idx;
+        ++num_assigned;
       }
-    } while (max_weight != -1);
-
-//    std::cout << "node_weights" << std::endl;
-//    for (int i = 0; i < nc; i++)  {
-//      std::cout << "[" << i << "]="<< node_weights[i] << std::endl;
-//    }
-//
-//    for (int i = 0; i < size; i++) {
-//      std::cout << "process_load[" << i << "]=" << process_load[i] << std::endl;
-//    }
-//
-//    std::cout << "node_weights" << std::endl;
-//    for (int i = 0; i < nc; i++)  {
-//      std::cout << node_weights[i] << std::endl;
-//    }
-//
-//    std::cout << "nc " << nc << " size " << size << std::endl;
+    };
 
     // Assign cuboid and set up global-to-local index mapping for master
     // process
-    std::size_t num_master_cuboid {0};
+    std::size_t num_assigned_cuboid {0};
     for (gsl::index i {0}; i < nc; ++i) {
-      if (partition_result[i] == 0) {
-        this->mLocalIndex[i] = num_master_cuboid;
+      if (cuboid_to_thread[i] == 0) {
+        this->mLocalIndex[i] = num_assigned_cuboid;
         this->mGlobalIndex.push_back(i);
-        ++num_master_cuboid;
+        ++num_assigned_cuboid;
       }
-      this->mRank[i] = partition_result[i];
-      cuboid_to_thread[i] = partition_result[i];
+      this->mRank[i] = cuboid_to_thread[i];
     }
-    this->mSize = num_master_cuboid;
-    std::cout << "partition_result cuboid_to_thread" << std::endl;
-    for (int i = 0; i < nc; i++)  {
-      std::cout << partition_result[i] << " " << cuboid_to_thread[i] << std::endl;
-    }
+    this->mSize = num_assigned_cuboid;
   }
 #ifdef IBLBM_PARALLEL_MPI
-//  if (MpiManager::Instance().AmMaster()) {
-//    // Send all threads their respective cuboids
-//    mMpiNonBlockingHelper.free();
-//    mMpiNonBlockingHelper.allocate(size-1);
-//    for (gsl::index i {1}; i < size; ++i) {
-//      MpiManager::Instance().iSend(&cuboid_to_thread.front(), nc, i,
-//          &mMpiNonblockingHelper.get_mpiRequest()[i - 1], 0);
-//    }
-//    MpiManager::Instance().WaitAll(mMpiNonBlockingHelper);
-//  }
-//  else {
-//    int *tmpCuboids = new int[nC];
-//    singleton::mpi().receive(tmpCuboids, nC, 0, 0);
-//    int count = 0;
-//    for (int i = 0; i < nC; ++i) {
-//      if (tmpCuboids[i] == rank) {
-//        this->_glob.push_back(i);
-//        this->_loc[i] = count;
-//        count++;
-//      };
-//      this->_rank[i] = tmpCuboids[i];
-//    }
-//    delete[] tmpCuboids;
-//    this->_size = count;
-//  }
+  if (MpiManager::Instance().AmMaster()) {
+    // Send all threads their respective cuboids
+    mNonblockingHelper.Free();
+    mNonblockingHelper.Allocate(size - 1);
+    for (gsl::index i {1}; i < size; ++i) {
+      MpiManager::Instance().Isend(&cuboid_to_thread.front(), nc, i,
+          &mNonblockingHelper.pGetMpiRequest()[i - 1]);
+    }
+    MpiManager::Instance().WaitAll(mNonblockingHelper);
+  }
+  else {
+    auto* p_tmp_cuboids {new gsl::index[nc]};
+    MpiManager::Instance().Receive(p_tmp_cuboids, nc, 0, 0);
+    std::size_t num_assigned_cuboid {0};
+    for (gsl::index i {0}; i < nc; ++i) {
+      if (p_tmp_cuboids[i] == rank) {
+        this->mLocalIndex[i] = num_assigned_cuboid;
+        this->mGlobalIndex.push_back(i);
+        ++num_assigned_cuboid;
+      };
+      this->mRank[i] = p_tmp_cuboids[i];
+    }
+    delete[] p_tmp_cuboids;
+    this->mSize = num_assigned_cuboid;
+  }
 #endif  // IBLBM_PARALLEL_MPI
+}
+
+template<typename T>
+void HeuristicLoadBalancer<T>::Swap(HeuristicLoadBalancer<T>& rLoadBalancer)
+{
+  LoadBalancer<T>::Swap(rLoadBalancer);
+#ifdef IBLBM_PARALLEL_MPI
+  mNonblockingHelper.Swap(rLoadBalancer.mNonblockingHelper);
+#endif  // IBLBM_PARALLEL_MPI
+  std::swap(mpCuboidGeometry2D, rLoadBalancer.mpCuboidGeometry2D);
 }
 
 // explicit instantiation

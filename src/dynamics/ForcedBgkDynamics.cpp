@@ -24,7 +24,7 @@ void ForcedBgkDynamics<T, Lattice>::Collide(
     Cell<T, Lattice>& rCell
   , LatticeStatistics<T>& rStatistics)
 {
-  T rho {};
+  T rho {0};
   std::vector<T> u(Lattice<T>::sD, T{});
   ComputeRhoAndU(rCell, rho, u);
   auto u_sqr = LbmHelper<T, Lattice>::BgkCollide(rCell, rho, u, mOmega);
@@ -37,7 +37,7 @@ void ForcedBgkDynamics<T, Lattice>::ComputeU(
     const Cell<T, Lattice>& rCell
   , std::vector<T>& rU) const
 {
-  T rho {};
+  T rho {0};
   this->mrMomenta.ComputeRhoAndU(rCell, rho, rU);
   for (gsl::index d = 0; d < Lattice<T>::sD; ++d)
       rU[d] += rCell.rGetExternal(msForceOffset + d) / T{2};

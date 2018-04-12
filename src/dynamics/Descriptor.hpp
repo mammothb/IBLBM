@@ -99,7 +99,7 @@ class ExternalFieldVector<T, NoExternalField>
   T& operator[](const gsl::index& /*rIndex*/)
   {
     Expects(false);
-    static T data {};
+    static T data {0};
     return data;
   }
 
@@ -111,7 +111,7 @@ class ExternalFieldVector<T, NoExternalField>
   const T& operator[](const gsl::index& /*rIndex*/) const
   {
     Expects(false);
-    static T data {};
+    static T data {0};
     return data;
   }
 
