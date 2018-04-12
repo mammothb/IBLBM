@@ -7,7 +7,7 @@
 
 namespace iblbm
 {
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class AbstractMomentaInterface
 {
  public:

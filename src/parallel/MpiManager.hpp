@@ -158,7 +158,7 @@ class MpiManager
    * \param tag Message tag
    * \param comm Communicator
    */
-  template <typename T>
+  template<typename T>
   void Receive(
       T* pBuffer
     , int count

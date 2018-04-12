@@ -208,6 +208,10 @@
 		<Unit filename="examples/Poiseuille.cpp" />
 		<Unit filename="src/boundary/MomentumExchangeBounceBackBoundary.cpp" />
 		<Unit filename="src/boundary/MomentumExchangeBounceBackBoundary.hpp" />
+		<Unit filename="src/core/BlockData2D.cpp" />
+		<Unit filename="src/core/BlockData2D.hpp" />
+		<Unit filename="src/core/BlockStructure2D.cpp" />
+		<Unit filename="src/core/BlockStructure2D.hpp" />
 		<Unit filename="src/core/BufferSerializable.cpp" />
 		<Unit filename="src/core/BufferSerializable.hpp" />
 		<Unit filename="src/core/Cell.cpp" />
@@ -249,10 +253,16 @@
 		<Unit filename="src/functor/lattice/indicator/AbstractIndicatorFunctor2D.hpp" />
 		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.cpp" />
 		<Unit filename="src/functor/lattice/indicator/IndicatorFunctor2D.hpp" />
+		<Unit filename="src/geometry/AbstractBlockGeometryInterface2D.cpp" />
+		<Unit filename="src/geometry/AbstractBlockGeometryInterface2D.hpp" />
+		<Unit filename="src/geometry/BlockGeometry2D.cpp" />
+		<Unit filename="src/geometry/BlockGeometry2D.hpp" />
 		<Unit filename="src/geometry/Cuboid2D.cpp" />
 		<Unit filename="src/geometry/Cuboid2D.hpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.cpp" />
 		<Unit filename="src/geometry/CuboidGeometry2D.hpp" />
+		<Unit filename="src/geometry/SuperGeometry2D.cpp" />
+		<Unit filename="src/geometry/SuperGeometry2D.hpp" />
 		<Unit filename="src/io/Base64.cpp" />
 		<Unit filename="src/io/Base64.hpp" />
 		<Unit filename="src/io/BoostFilesystem.hpp" />
@@ -276,8 +286,12 @@
 		<Unit filename="src/parallel/LoadBalancer.hpp" />
 		<Unit filename="src/parallel/MpiManager.cpp" />
 		<Unit filename="src/parallel/MpiManager.hpp" />
+		<Unit filename="src/parallel/SuperStructure2D.cpp" />
+		<Unit filename="src/parallel/SuperStructure2D.hpp" />
 		<Unit filename="unittests/TestBase64.cpp" />
 		<Unit filename="unittests/TestBgkDynamics.cpp" />
+		<Unit filename="unittests/TestBlockData2D.cpp" />
+		<Unit filename="unittests/TestBlockStructure2D.cpp" />
 		<Unit filename="unittests/TestBulkMomenta.cpp" />
 		<Unit filename="unittests/TestCell.cpp" />
 		<Unit filename="unittests/TestCuboid2D.cpp" />
@@ -298,6 +312,7 @@
 		<Unit filename="unittests/TestOutputFileHandler.cpp" />
 		<Unit filename="unittests/TestSerializer.cpp" />
 		<Unit filename="unittests/TestSerializerIO.cpp" />
+		<Unit filename="unittests/TestSuperGeometry2D.cpp" />
 		<Unit filename="unittests/TestUnitConverter.cpp" />
 		<Unit filename="unittests/TestVector.cpp" />
 		<Extensions>

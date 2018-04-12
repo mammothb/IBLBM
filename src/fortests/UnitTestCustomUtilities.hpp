@@ -49,7 +49,7 @@ namespace testutil
  *         FALSE if vectors are of different length or if the elements are
  *         not within delta-% apart
  */
-template <typename VECTOR>
+template<typename VECTOR>
 bool CheckCloseVector(
     const VECTOR& rActualVector
   , const VECTOR& rExpectedVector
@@ -84,7 +84,7 @@ bool CheckCloseVector(
  *         FALSE if vectors are of different length or if the elements are
  *         not within delta-% apart
  */
-template <typename VECTOR>
+template<typename VECTOR>
 bool CheckEqualVector(
     const VECTOR& rActualVector
   , const VECTOR& rExpectedVector)

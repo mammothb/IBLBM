@@ -36,7 +36,7 @@ namespace iblbm
  *  \param mResolution number of grid points per mCharPhysLength
  *  \param mCharLatticeVelocity
  */
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class UnitConverter
 {
  public:
@@ -333,7 +333,7 @@ class UnitConverter
   mutable OstreamManager mOstream;
 };
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class UnitConverterFromResolutionAndRelaxationTime
   : public UnitConverter<T, Lattice>
 {
@@ -360,7 +360,7 @@ class UnitConverterFromResolutionAndRelaxationTime
   {}
 };
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class UnitConverterFromResolutionAndLatticeVelocity
   : public UnitConverter<T, Lattice>
 {
@@ -386,7 +386,7 @@ class UnitConverterFromResolutionAndLatticeVelocity
   {}
 };
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 class UnitConverterFromRelaxationTimeAndLatticeVelocity
   : public UnitConverter<T, Lattice>
 {

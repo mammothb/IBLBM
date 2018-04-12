@@ -5,7 +5,7 @@
 
 namespace iblbm
 {
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 T AbstractDynamicsInterface<T, Lattice>::ComputeEquilibrium(
     gsl::index q
   , T rho
@@ -15,7 +15,7 @@ T AbstractDynamicsInterface<T, Lattice>::ComputeEquilibrium(
   return LbmHelper<T, Lattice>::ComputeEquilibrium(q, rho, rU, uSqr);
 }
 
-template <typename T, template <typename U> class Lattice>
+template<typename T, template<typename U> class Lattice>
 void AbstractDynamicsInterface<T, Lattice>::InitializeEquilibrium(
     Cell<T, Lattice>& rCell
   , T rho

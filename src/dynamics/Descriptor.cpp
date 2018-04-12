@@ -13,34 +13,34 @@ namespace descriptor
  ***************************************************************************/
 // Proper initialization of constexpr member in template
 // https://stackoverflow.com/questions/14395967
-template <typename T>
+template<typename T>
 constexpr std::size_t D2Q9DescriptorBase<T>::sD;
 
-template <typename T>
+template<typename T>
 constexpr std::size_t D2Q9DescriptorBase<T>::sQ;
 
-template <typename T>
+template<typename T>
 const std::size_t D2Q9DescriptorBase<T>::sVicinity {1};
 
-template <typename T>
+template<typename T>
 const std::vector<std::vector<T>> D2Q9DescriptorBase<T>::sE {
     {0, 0},
     {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
 };
 
-template <typename T>
+template<typename T>
 const std::vector<gsl::index> D2Q9DescriptorBase<T>::sOpposite {
     0, 5, 6, 7, 8, 1, 2, 3, 4
 };
 
-template <typename T>
+template<typename T>
 const std::vector<T> D2Q9DescriptorBase<T>::sWeight {
     T{4} / T{9},
     T{1} / T{36}, T{1} / T{9}, T{1} / T{36}, T{1} / T{9},
     T{1} / T{36}, T{1} / T{9}, T{1} / T{36}, T{1} / T{9}
 };
 
-template <typename T>
+template<typename T>
 const T D2Q9DescriptorBase<T>::sInvCsSqr {3};
 
 // Define static const non-integral data members

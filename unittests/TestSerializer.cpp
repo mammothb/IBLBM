@@ -93,7 +93,6 @@ TEST(TestSerializer_ResetCounter)
 
 TEST(TestSerializer_pGetNextBlock_Save)
 {
-  TestSerializer tester;
   auto size {1u};
   std::map<gsl::index, gsl::index> local_index {{0, 1}, {2, 3}, {4, 5},
       {6, 7}, {8, 9}, {10, 11}};
@@ -160,7 +159,6 @@ TEST(TestSerializer_pGetNextBlock_Save)
 
 TEST(TestSerializer_ComputeSize_EmptySerializable)
 {
-  TestSerializer tester;
   LoadBalancer<double> balancer;
   Serializer serializer {balancer};
 
