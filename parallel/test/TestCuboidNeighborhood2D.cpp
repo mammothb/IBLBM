@@ -4,6 +4,7 @@
 #include "HeuristicLoadBalancer.hpp"
 #include "IndicatorFunctor2D.hpp"
 #include "SuperGeometry2D.hpp"
+#include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
 {
@@ -76,8 +77,81 @@ TEST(TestCuboidNeighborhood2D_Constructor)
   CHECK_CLOSE(delta_R, tester.GetDeltaR(neighborhood), g_zero_tol);
   CHECK_EQUAL(1, tester.GetNumData(neighborhood));
   CHECK_EQUAL(sizeof(std::size_t), tester.GetSizeofDataType(neighborhood));
+  CHECK(neighborhood.pGetInData() == nullptr);
+  CHECK(neighborhood.pGetOutData() == nullptr);
   CHECK(tester.GetHasInitializedInNeighbor(neighborhood) == false);
   CHECK(tester.GetHasInitializedOutNeighbor(neighborhood) == false);
 }
+
+TEST(TestCuboidNeighborhood2D_AddInCell_Cell)
+{
+  auto delta_R {0.5};
+  Vector2D<double> origin {1.2, 3.4};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+
+  gsl::index global_cuboid_index {3};
+  CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+
+  std::vector<Cell2D<double>> exp_cell;
+  for (gsl::index i {0}; i < 3; ++i) {
+    Vector2D<double> phys_R {1.2 + i, 3.4 + i};
+    exp_cell.push_back(Cell2D<double>{global_cuboid_index, 2 + i, 4 + i,
+        phys_R});
+    neighborhood.AddInCell(exp_cell.back());
+  }
+  CHECK_EQUAL(exp_cell.size(), neighborhood.GetInCellsSize());
+  for (gsl::index i {0}; i < exp_cell.size(); ++i) {
+    CHECK_EQUAL(exp_cell[i].mGlobalCuboidIndex,
+        neighborhood.rGetInCell(i).mGlobalCuboidIndex);
+    CHECK(testutil::CheckEqualVector(neighborhood.rGetInCell(i).mLatticeR,
+        exp_cell[i].mLatticeR));
+    CHECK(testutil::CheckCloseVector(neighborhood.rGetInCell(i).mPhysR,
+        exp_cell[i].mPhysR, g_zero_tol));
+  }
+}
+
+//TEST(TestCuboidNeighborhood2D_AddInCell_Index)
+//{
+//  auto delta_R {0.5};
+//  Vector2D<double> origin {1.2, 3.4};
+//  Vector2D<double> extent {6, 7};
+//  auto nc {8u};
+//
+//  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+//  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+//  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+//
+//  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+//
+//  gsl::index global_cuboid_index {3};
+//  CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+//
+//  std::vector<Cell2D<double>> exp_cell;
+//  for (gsl::index i {0}; i < 20; ++i) {
+//    auto x {2 + i};
+//    auto y {4 + i};
+//    auto phys_R {cuboid_geometry.GetPhysR(global_cuboid_index, x, y)};
+//    if (cuboid_geometry.HasCuboid(phys_R, global_cuboid_index)) {
+//      exp_cell.push_back(Cell2D<double>{global_cuboid_index, x, y, phys_R});
+//    }
+//    neighborhood.AddInCell(x, y);
+//  }
+////  CHECK_EQUAL(exp_cell.size(), neighborhood.GetInCellsSize());
+////  for (gsl::index i {0}; i < exp_cell.size(); ++i) {
+////    CHECK_EQUAL(exp_cell[i].mGlobalCuboidIndex,
+////        neighborhood.rGetInCell(i).mGlobalCuboidIndex);
+////    CHECK(testutil::CheckEqualVector(neighborhood.rGetInCell(i).mLatticeR,
+////        exp_cell[i].mLatticeR));
+////    CHECK(testutil::CheckCloseVector(neighborhood.rGetInCell(i).mPhysR,
+////        exp_cell[i].mPhysR, g_zero_tol));
+////  }
+//}
 }
 }  // namespace iblbm

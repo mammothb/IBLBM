@@ -12,6 +12,16 @@ template<typename T> class SuperStructure2D;
 template<typename T>
 struct Cell2D
 {
+  Cell2D(
+      gsl::index globalCuboidIndex
+    , gsl::index xIndex
+    , gsl::index yIndex
+    , const Vector2D<T>& rPhysR)
+    : mGlobalCuboidIndex{globalCuboidIndex},
+      mLatticeR{Vector2D<gsl::index>{xIndex, yIndex}},
+      mPhysR{rPhysR}
+  {}
+
   /** Copy constructor */
   Cell2D(const Cell2D& rRhs) = default;
 
@@ -24,16 +34,16 @@ struct Cell2D
    */
   bool operator==(const Cell2D& rRhs) const
   {
-    return mLatticePosition == rRhs.mLatticePosition &&
-        mCuboidIndex == rRhs.mCuboidIndex;
+    return mLatticeR == rRhs.mLatticeR &&
+        mGlobalCuboidIndex == rRhs.mGlobalCuboidIndex;
   }
 
   /** cuboid number */
-  gsl::index mCuboidIndex;
+  gsl::index mGlobalCuboidIndex;
   /** local position */
-  Vector2D<gsl::index> mLatticePosition;
+  Vector2D<gsl::index> mLatticeR;
   /** global position */
-  Vector2D<T> mPhysPosition;
+  Vector2D<T> mPhysR;
 };
 
 template<typename T>
@@ -77,6 +87,35 @@ class CuboidNeighborhood2D
 
   /** \return number of cuboids in mInNeighborCuboids */
   std::size_t GetInNeighborCuboidsSize() const;
+
+  /** \return read and write access to mpInData */
+  bool** pGetInData();
+
+  /** \return read and write access to mpOutData */
+  bool** pGetOutData();
+
+  /** Add a cell to the vector mInCells */
+  void AddInCell(const Cell2D<T>& rCell);
+
+  /** Add a cell to the vector mOutCells */
+  void AddOutCell(const Cell2D<T>& rCell);
+
+  /**
+   * Add a cell to the vector mInCells if the cell is not already there
+   * and if there is a cuboid which can deliver the information
+   *
+   * \param xIndex x index
+   * \param yIndex y index
+   */
+  void AddInCell(
+      gsl::index xIndex
+    , gsl::index yIndex);
+
+  /**
+   * Add all cells with the distance overlap * mDeltaR to the vector
+   * mInCells
+   */
+  void AddInCell(std::size_t overlap);
 
   /**
    * Resets neighborhood after initialization (InitializeInternal and

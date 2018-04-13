@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 //  return iblbm::RunOneTest("Simulation_Poiseuille_BodyForceDriven");
 
   /// Individual tests
-//  return iblbm::RunOneTest("TestLbmHelpers_AddExternalForce");
+//  return iblbm::RunOneTest("TestCuboidGeometry2D_GetGlobalCuboidIndex");
 
   // to run only one suite, uncomment the following line
   // and specify the name of the suite. Also, comment out the RunAllTheTests()

@@ -163,6 +163,18 @@ void Cuboid2D<T>::Resize(
 }
 
 template<typename T>
+bool Cuboid2D<T>::ContainPoint(
+    T globalXpos
+  , T globalYpos
+  , std::size_t overlap/*=0*/) const
+{
+  return mGlobalXPos - T{0.5 + overlap} * mDeltaR <= globalXpos &&
+      mGlobalXPos + T{mNx - 0.5 + overlap} * mDeltaR > globalXpos &&
+      mGlobalYPos - T{0.5 + overlap} * mDeltaR <= globalYpos &&
+      mGlobalYPos + T{mNy - 0.5 + overlap} * mDeltaR > globalYpos;
+}
+
+template<typename T>
 T Cuboid2D<T>::GetGlobalXPosition() const
 {
   return mGlobalXPos;

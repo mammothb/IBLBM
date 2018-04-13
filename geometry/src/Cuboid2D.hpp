@@ -86,6 +86,19 @@ class Cuboid2D
     , std::size_t nx
     , std::size_t ny);
 
+  /**
+   * Checks whether a point (globalXPos, globalYPos) is contained in the
+   * cuboid extended with an layer of size overlap * mDeltaR
+   *
+   * \param globalXPos global x position
+   * \param globalYPos global y position
+   * \param overlap size of overlap layer
+   */
+  bool ContainPoint(
+      T globalXPos
+    , T globalYPos
+    , std::size_t overlap = 0) const;
+
   /** \return Global x-position of lower left corner */
   T GetGlobalXPosition() const;
 

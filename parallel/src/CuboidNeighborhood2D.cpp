@@ -15,6 +15,11 @@ CuboidNeighborhood2D<T>::CuboidNeighborhood2D(
         globalCuboidIndex).GetDeltaR()},
     mNumData{mrSuperStructure.GetDataSize()},
     mSizeofDataType{mrSuperStructure.GetSizeofDataType()},
+    mpInData{nullptr},
+    mpOutData{nullptr},
+    mpInDataCoordinates{nullptr},
+    mpOutDataCoordinates{nullptr},
+    mpTempInNeighbor{nullptr},
     mHasInitializedInNeighbor{false},
     mHasInitializedOutNeighbor{false}
 {}
@@ -89,6 +94,65 @@ template<typename T>
 std::size_t CuboidNeighborhood2D<T>::GetInNeighborCuboidsSize() const
 {
   return mInNeighborCuboids.size();
+}
+
+template<typename T>
+bool** CuboidNeighborhood2D<T>::pGetInData()
+{
+  return mpInData;
+}
+
+template<typename T>
+bool** CuboidNeighborhood2D<T>::pGetOutData()
+{
+  return mpOutData;
+}
+
+template<typename T>
+void CuboidNeighborhood2D<T>::AddInCell(const Cell2D<T>& rCell)
+{
+  mInCells.push_back(rCell);
+}
+
+template<typename T>
+void CuboidNeighborhood2D<T>::AddOutCell(const Cell2D<T>& rCell)
+{
+  mOutCells.push_back(rCell);
+}
+
+template<typename T>
+void CuboidNeighborhood2D<T>::AddInCell(
+    gsl::index xIndex
+  , gsl::index yIndex)
+{
+  Cell2D<T> cell {mGlobalCuboidIndex, xIndex, yIndex,
+      mrSuperStructure.rGetCuboidGeometry().GetPhysR(mGlobalCuboidIndex,
+          xIndex, yIndex)};
+  if (mrSuperStructure.rGetCuboidGeometry().HasCuboid(cell.mPhysR,
+      cell.mGlobalCuboidIndex)) {
+    for (gsl::index i {0}; i < mInCells.size(); ++i) {
+      if (mInCells[i] == cell) return;
+    }
+    mInCells.push_back(cell);
+  }
+}
+
+template<typename T>
+void CuboidNeighborhood2D<T>::AddInCell(std::size_t overlap)
+{
+  auto nx {mrSuperStructure.rGetCuboidGeometry().rGetCuboid(
+      mGlobalCuboidIndex).GetNx()};
+  auto ny {mrSuperStructure.rGetCuboidGeometry().rGetCuboid(
+      mGlobalCuboidIndex).GetNy()};
+
+  for (gsl::index x {0}; x < nx + 2 * overlap; ++x) {
+    for (gsl::index y {0}; y < ny + 2 * overlap; ++y) {
+      if (x < overlap || x > nx + overlap - 1 ||
+          y < overlap || y > ny + overlap - 1) {
+        AddInCell(x - overlap, y - overlap);
+      }
+    }
+  }
 }
 
 template<typename T>

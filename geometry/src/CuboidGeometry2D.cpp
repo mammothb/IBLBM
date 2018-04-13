@@ -134,6 +134,21 @@ void CuboidGeometry2D<T>::Shrink(
 }
 
 template<typename T>
+bool CuboidGeometry2D<T>::HasCuboid(
+    const Vector2D<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex)
+{
+  auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
+  if (tmp_index < GetNumberOfCuboids()) {
+    rGlobalCuboidIndex = tmp_index;
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
 Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i)
 {
   Expects(i < mCuboids.size());
@@ -220,6 +235,18 @@ template<typename T>
 Cuboid2D<T> CuboidGeometry2D<T>::GetMotherCuboid() const
 {
   return mMotherCuboid;
+}
+
+template<typename T>
+gsl::index CuboidGeometry2D<T>::GetGlobalCuboidIndex(
+    T globalXPos
+  , T globalYPos
+  , std::size_t offset/*=0*/) const
+{
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].ContainPoint(globalXPos, globalYPos, offset)) return i;
+  }
+  return -1;
 }
 
 template<typename T>

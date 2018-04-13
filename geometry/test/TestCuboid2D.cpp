@@ -347,6 +347,46 @@ TEST(TestCuboid2D_Resize)
   CHECK_EQUAL(ny, cuboid.GetNy());
 }
 
+TEST(TestCuboid2D_ContainPoint_Default)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
+
+  for (gsl::index x {-1}; x < nx + 1; ++x) {
+    for (gsl::index y {-1}; y < ny + 1; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+      CHECK(cuboid.ContainPoint(phys_x, phys_y) !=
+          (x < 0 || x > nx - 1 || y < 0 || y > ny - 1));
+    }
+  }
+}
+
+TEST(TestCuboid2D_ContainPoint_UserDefined)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
+
+  auto overlap {1};
+  for (gsl::index x {-2}; x < nx + 2; ++x) {
+    for (gsl::index y {-2}; y < ny + 2; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+      CHECK(cuboid.ContainPoint(phys_x, phys_y, overlap) !=
+          (x < 0 - overlap || x > nx - 1 + overlap ||
+           y < 0 - overlap || y > ny - 1 + overlap));
+    }
+  }
+}
+
 TEST(TestCuboid2D_GetPhysR_Index)
 {
   auto x_pos {1.2};

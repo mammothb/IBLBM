@@ -81,6 +81,19 @@ class CuboidGeometry2D
    */
   void Shrink(AbstractIndicatorFunctor2D<T>& rIndicatorFunctor);
 
+  /**
+   * Returns true and the cuboid number of the nearest lattice position to
+   * the given physical position if the physical position is within any of
+   * the cuboids with an overlap of 1/2 * mDeltaR belonging to the cuboid
+   * geometry
+   *
+   * \param rPhysR vector to the physical location
+   * \param rGlobalCuboidIndex
+   */
+  bool HasCuboid(
+      const Vector2D<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex);
+
   /** \return read and write acces to the i-th cuboid */
   Cuboid2D<T>& rGetCuboid(gsl::index i);
 
@@ -115,6 +128,15 @@ class CuboidGeometry2D
    * \return the smallest cuboid that includes all cuboids of the structure
    */
   Cuboid2D<T> GetMotherCuboid() const;
+
+  /**
+   * For a given point (globalXPos, globalYPos), returns the related
+   * mGlobalCuboidIndex or 0 if the point is not in any of the cuboid
+   */
+  gsl::index GetGlobalCuboidIndex(
+      T globalXPos
+    , T globalYPos
+    , std::size_t offset = 0) const;
 
   /** Set flag to enable/disable periodicity */
   void SetIsPeriodic(

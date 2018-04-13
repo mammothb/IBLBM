@@ -494,6 +494,40 @@ TEST(TestCuboidGeometry2D_GetPhysR_Index_Periodic_YOnly)
   }
 }
 
+TEST(TestCuboidGeometry2D_GetGlobalCuboidIndex)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.5};
+
+  Vector2D<double> origin {x_pos, y_pos};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  auto nx {static_cast<std::size_t>(extent[0] / delta_R + 1.5)};
+  auto ny {static_cast<std::size_t>(extent[1] / delta_R + 1.5)};
+
+  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+
+  // Cuboids will be split into 2 x 4 (col x row) with lower left coords
+  // (1.2, 3.4), (1.2, 5.4), (1.2, 7.4), (1.2, 9.4), (4.7, 3.4), (4.7, 5.4),
+  // (4.7, 7.4), (4.7, 9.4)
+  // Create test coordinates that are either inside or outside by an offset
+  // of delta_R
+  std::vector<Vector2D<double>> phys_R {{1.7, 3.9}, {1.7, 5.9}, {1.7, 7.9},
+      {1.7, 9.9}, {5.2, 3.9}, {5.2, 5.9}, {5.2, 7.9}, {5.2, 9.9}, {0.7, 2.9},
+      {0.7, 4.9}, {0.7, 6.9}, {0.7, 8.}, {4.2, 2.9}, {4.2, 4.9}, {4.2, 6.9},
+      {4.2, 8.9}};
+  std::vector<gsl::index> cuboid_index {0, 1, 2, 3, 4, 5, 6, 7, -1, -1, -1,
+      -1, -1, 0, 1, 2};
+
+  for (gsl::index i {0}; i < phys_R.size(); ++i) {
+    CHECK_EQUAL(cuboid_index[i], cuboid_geometry.GetGlobalCuboidIndex(
+        phys_R[i][0], phys_R[i][1]));
+  }
+}
+
 TEST(TestCuboidGeometry2D_SetPeriodic)
 {
   TestCuboidGeometry2D tester;
