@@ -31,7 +31,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DIBLBM_DEBUG" />
+					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 				</Compiler>
 			</Target>
 			<Target title="OptDebug">
@@ -58,7 +58,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DIBLBM_DEBUG" />
+					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 				</Compiler>
 			</Target>
 			<Target title="OptGenericDebug">
@@ -85,7 +85,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-DIBLBM_DEBUG" />
+					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 					<Add option="-DIBLBM_USE_GENERIC" />
 				</Compiler>
 			</Target>
@@ -117,7 +117,7 @@
 					<Add option="-I/usr/lib/openmpi/include" />
 					<Add option="-I/usr/lib/openmpi/include/openmpi" />
 					<Add option="-pthread" />
-					<Add option="-DIBLBM_DEBUG" />
+					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 					<Add option="-DIBLBM_USE_GENERIC" />
 					<Add option="-DIBLBM_PARALLEL_MPI" />
 				</Compiler>
@@ -155,6 +155,7 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-DGSL_UNENFORCED_ON_CONTRACT_VIOLATION" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -280,6 +281,10 @@
 		<Unit filename="src/io/SerializerIO.cpp" />
 		<Unit filename="src/io/SerializerIO.hpp" />
 		<Unit filename="src/main-devel.cpp" />
+		<Unit filename="src/parallel/Communicator2D.cpp" />
+		<Unit filename="src/parallel/Communicator2D.hpp" />
+		<Unit filename="src/parallel/CuboidNeighborhood2D.cpp" />
+		<Unit filename="src/parallel/CuboidNeighborhood2D.hpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.cpp" />
 		<Unit filename="src/parallel/HeuristicLoadBalancer.hpp" />
 		<Unit filename="src/parallel/LoadBalancer.cpp" />
@@ -296,6 +301,7 @@
 		<Unit filename="unittests/TestCell.cpp" />
 		<Unit filename="unittests/TestCuboid2D.cpp" />
 		<Unit filename="unittests/TestCuboidGeometry2D.cpp" />
+		<Unit filename="unittests/TestCuboidNeighborhood2D.cpp" />
 		<Unit filename="unittests/TestDescriptor.cpp" />
 		<Unit filename="unittests/TestException.cpp" />
 		<Unit filename="unittests/TestFileFinder.cpp" />

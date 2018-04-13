@@ -136,12 +136,14 @@ void CuboidGeometry2D<T>::Shrink(
 template<typename T>
 Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i)
 {
+  Expects(i < mCuboids.size());
   return mCuboids[i];
 }
 
 template<typename T>
 const Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i) const
 {
+  Expects(i < mCuboids.size());
   return mCuboids[i];
 }
 

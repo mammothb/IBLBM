@@ -11,7 +11,7 @@ SuperGeometry2D<T>::SuperGeometry2D(
 //    mStatistics(this),
     mOstream{std::cout, "SuperGeometry2D"}
 {
-  ;
+  this->mNeedCommunication = true;
 }
 
 template<typename T>
@@ -24,6 +24,18 @@ bool* SuperGeometry2D<T>::operator()(
   return nullptr;
 //  return (bool*)&getExtendedBlockGeometry(localCuboidIndex).get(xIndex + this->mOverlap,
 //      yIndex + this->mOverlap);
+}
+
+template<typename T>
+std::size_t SuperGeometry2D<T>::GetDataSize() const
+{
+  return 1;
+}
+
+template<typename T>
+std::size_t SuperGeometry2D<T>::GetSizeofDataType() const
+{
+  return sizeof(std::size_t);
 }
 
 template<typename T>

@@ -9,6 +9,10 @@ SuperStructure2D<T>::SuperStructure2D(std::size_t overlap/*=1*/)
 {}
 
 template<typename T>
+SuperStructure2D<T>::~SuperStructure2D()
+{}
+
+template<typename T>
 SuperStructure2D<T>::SuperStructure2D(
     CuboidGeometry2D<T>& rCuboidGeometry
   , LoadBalancer<T>& rLoadBalancer
@@ -16,11 +20,21 @@ SuperStructure2D<T>::SuperStructure2D(
   : mrCuboidGeometry{rCuboidGeometry},
     mrLoadBalancer{rLoadBalancer},
     mOverlap{overlap},
-//    mCommunicator{*this},
-    mNeedCommunication(true),
+    mCommunicator{*this},
+    mNeedCommunication{true},
     mOstream{std::cout, "SuperStructure2D"}
+{}
+
+template<typename T>
+CuboidGeometry2D<T>& SuperStructure2D<T>::rGetCuboidGeometry()
 {
-  ;
+  return mrCuboidGeometry;
+}
+
+template<typename T>
+const CuboidGeometry2D<T>& SuperStructure2D<T>::rGetCuboidGeometry() const
+{
+  return mrCuboidGeometry;
 }
 
 // explicit instantiation

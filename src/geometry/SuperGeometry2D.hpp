@@ -34,6 +34,17 @@ class SuperGeometry2D : public SuperStructure2D<T>
     , gsl::index yIndex
     , gsl::index dataIndex) override;
 
+  /**
+   * \return Read only access to the dim of the data of the super structure
+   */
+  std::size_t GetDataSize() const override;
+
+  /**
+   * \return Read only access to the data type dim of the data of the super
+   * structure
+   */
+  std::size_t GetSizeofDataType() const override;
+
   /** Read and write access to a single extended block geometry */
   BlockGeometry2D<T>& rGetExtendedBlockGeometry(gsl::index localCuboidIndex);
 

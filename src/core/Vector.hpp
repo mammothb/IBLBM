@@ -137,7 +137,7 @@ class Vector
    *
    * \param rVector RHS vector of the same size
    */
-  bool operator==(const Vector<T, N>& rVector)
+  bool operator==(const Vector<T, N>& rVector) const
   {
     auto is_equal = true;
     for (gsl::index d = 0; d < N; ++d)
@@ -151,7 +151,7 @@ class Vector
    *
    * \param rVector RHS vector of the same size
    */
-  bool operator!=(const Vector<T, N>& rVector)
+  bool operator!=(const Vector<T, N>& rVector) const
   {
     return !(*this == rVector);
   }

@@ -7,6 +7,7 @@
 #include "AbstractDynamicsInterface.hpp"
 #include "Descriptor.hpp"
 #include "Exception.hpp"
+#include "Serializable.hpp"
 
 namespace iblbm
 {
@@ -47,12 +48,17 @@ class CellBase
   }
 
  protected:
+  /** Initialize distribution function */
+  void InitializeDistributionFunction();
+
   /** Distribution function */
-  std::vector<T> mDF;
+  T mDF[Descriptor::sQ];
 };
 
 template<typename T, template<typename U> class Lattice>
-class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
+class Cell
+  : public CellBase<T, typename Lattice<T>::BaseDescriptor>
+  , public Serializable
 {
  public:
   /** Additional per-cell scalars for external fields, e.g. forces */
@@ -88,6 +94,27 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 
   /** \return a non-modifiable pointer to the dynamics */
   const AbstractDynamicsInterface<T, Lattice>* pGetDynamics() const;
+
+  /** \return Number of data blocks for the serializable interface */
+  std::size_t GetNumBlock() const override;
+
+  /** \return the binary size of the data to be saved */
+  std::size_t GetSerializableSize() const override;
+
+  /**
+   * \return a pointer to the memory of the current block and its size for
+   * the serializable interface
+   *
+   * \param blockIndex Index of the block to be returned
+   * \param blockSize Reference to the size of the returned block
+   * \param isLoad flag to decide if we are loading or saving
+   *
+   * \return Pointer to the current block
+   */
+  bool* pGetBlock(
+      gsl::index blockIndex
+    , std::size_t& rBlockSize
+    , const bool isLoad);
 
  private:
   /** Initialize data members of external field */

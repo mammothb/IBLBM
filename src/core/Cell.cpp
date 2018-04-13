@@ -4,8 +4,15 @@ namespace iblbm
 {
 template<typename T, class Descriptor>
 CellBase<T, Descriptor>::CellBase()
-  : mDF{std::vector<T>(Descriptor::sQ, T{})}
-{}
+{
+  InitializeDistributionFunction();
+}
+
+template<typename T, class Descriptor>
+void CellBase<T, Descriptor>::InitializeDistributionFunction()
+{
+  for (gsl::index q {0}; q < Descriptor::sQ; ++q) mDF[q] = T{};
+}
 
 template<typename T, template<typename U> class Lattice>
 Cell<T, Lattice>::Cell()
@@ -39,6 +46,36 @@ void Cell<T, Lattice>::InitializeExternal()
 {
   for (gsl::index i; i < Lattice<T>::ExternalField::sNumScalars; ++i)
       *(mExternal[i]) = T{};
+}
+
+template<typename T, template<typename U> class Lattice>
+std::size_t Cell<T, Lattice>::GetNumBlock() const
+{
+  return Lattice<T>::ExternalField::sNumScalars > 0 ? 2 : 1;
+}
+
+template<typename T, template<typename U> class Lattice>
+std::size_t Cell<T, Lattice>::GetSerializableSize() const
+{
+  return Lattice<T>::sQ * sizeof(T) +  // distribution function
+      Lattice<T>::ExternalField::sNumScalars * sizeof(T);  // externals
+}
+
+template<typename T, template<typename U> class Lattice>
+bool* Cell<T, Lattice>::pGetBlock(
+    gsl::index blockIndex
+  , std::size_t& rBlockSize
+  , const bool /*isLoad*/)
+{
+  gsl::index current_block_index {0};
+  bool* p_data {nullptr};
+  this->RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
+      this->mDF[0], Lattice<T>::sQ);
+  if (Lattice<T>::ExternalField::sNumScalars > 0) {
+    this->RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
+        *(mExternal[0]), Lattice<T>::ExternalField::sNumScalars);
+  }
+  return p_data;
 }
 
 // Explicit instantiation

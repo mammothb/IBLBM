@@ -5,6 +5,7 @@
 #include "HeuristicLoadBalancer.hpp"
 #include "IndicatorFunctor2D.hpp"
 #include "MpiManager.hpp"
+#include "SuperGeometry2D.hpp"
 #include "UnitConverter.hpp"
 #include "Vector.hpp"
 
@@ -54,7 +55,11 @@ TEST(Simulation_Poiseuille_BodyForceDriven)
   // Periodic boundary in x-direction
   cuboid_geometry.SetIsPeriodic(true, false);
 
+  // Instantiation of load balancer
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D<double> super_geometry {cuboid_geometry, load_balancer,
+      /*overlap=*/2};
 
   PoiseuilleBodyForceDriven simulation;
 }

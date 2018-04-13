@@ -26,6 +26,12 @@ class BlockData2D
   /**
    * \return a pointer to the memory of the current block and its size for
    * the serializable interface
+   *
+   * \param blockIndex Index of the block to be returned
+   * \param blockSize Reference to the size of the returned block
+   * \param isLoad flag to decide if we are loading or saving
+   *
+   * \return Pointer to the current block
    */
   bool* pGetBlock(
       gsl::index blockIndex
