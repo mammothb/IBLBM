@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_SERIALIZER_HPP_
-#define SRC_CORE_SERIALIZER_HPP_
+#ifndef CORE_SRC_SERIALIZER_HPP_
+#define CORE_SRC_SERIALIZER_HPP_
 
 #include <cstddef>
 #include <string>
@@ -95,4 +95,4 @@ class Serializer
 };
 }  // namespace iblbm
 
-#endif  // SRC_CORE_SERIALIZER_HPP_
+#endif  // CORE_SRC_SERIALIZER_HPP_

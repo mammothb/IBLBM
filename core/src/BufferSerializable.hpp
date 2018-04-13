@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_BUFFERSERIALIZABLE_HPP_
-#define SRC_CORE_BUFFERSERIALIZABLE_HPP_
+#ifndef CORE_SRC_BUFFERSERIALIZABLE_HPP_
+#define CORE_SRC_BUFFERSERIALIZABLE_HPP_
 
 #include <map>
 #include <utility>
@@ -222,4 +222,4 @@ class BufferSerializable : public Serializable
 };
 }  // namespace iblbm
 
-#endif  // SRC_CORE_BUFFERSERIALIZABLE_HPP_
+#endif  // CORE_SRC_BUFFERSERIALIZABLE_HPP_

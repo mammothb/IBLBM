@@ -1,5 +1,5 @@
-#ifndef SRC_PARALLEL_MPIMANAGER_HPP_
-#define SRC_PARALLEL_MPIMANAGER_HPP_
+#ifndef PARALLEL_SRC_MPIMANAGER_HPP_
+#define PARALLEL_SRC_MPIMANAGER_HPP_
 
 #ifdef IBLBM_PARALLEL_MPI
 #include "mpi.h"
@@ -257,4 +257,4 @@ class MpiManager
 #endif  // IBLBM_PARALLEL_MPI
 }  // namespace iblbm
 
-#endif  // SRC_PARALLEL_MPIMANAGER_HPP_
+#endif  // PARALLEL_SRC_MPIMANAGER_HPP_

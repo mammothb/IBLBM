@@ -1,5 +1,5 @@
-#ifndef SRC_GEOMETRY_BLOCKGEOMETRY2D_HPP_
-#define SRC_GEOMETRY_BLOCKGEOMETRY2D_HPP_
+#ifndef GEOMETRY_SRC_BLOCKGEOMETRY2D_HPP_
+#define GEOMETRY_SRC_BLOCKGEOMETRY2D_HPP_
 
 #include "AbstractBlockGeometryInterface2D.hpp"
 #include "BlockData2D.hpp"
@@ -36,4 +36,4 @@ class BlockGeometry2D final
 };
 }  // namespace iblbm
 
-#endif  // SRC_GEOMETRY_BLOCKGEOMETRY2D_HPP_
+#endif  // GEOMETRY_SRC_BLOCKGEOMETRY2D_HPP_

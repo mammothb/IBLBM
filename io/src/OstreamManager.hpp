@@ -1,5 +1,5 @@
-#ifndef SRC_IO_OSTREAMMANAGER_HPP_
-#define SRC_IO_OSTREAMMANAGER_HPP_
+#ifndef IO_SRC_OSTREAMMANAGER_HPP_
+#define IO_SRC_OSTREAMMANAGER_HPP_
 
 #include <sstream>
 #include <string>
@@ -100,4 +100,4 @@ class OstreamManager : public std::ostream
 };
 }  // namespace iblbm
 
-#endif  // SRC_IO_OSTREAMMANAGER_HPP_
+#endif  // IO_SRC_OSTREAMMANAGER_HPP_

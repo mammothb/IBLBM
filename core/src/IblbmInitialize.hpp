@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_IBLBMINITIALIZE_HPP_
-#define SRC_CORE_IBLBMINITIALIZE_HPP_
+#ifndef CORE_SRC_IBLBMINITIALIZE_HPP_
+#define CORE_SRC_IBLBMINITIALIZE_HPP_
 
 #include <iostream>
 
@@ -19,4 +19,4 @@ inline void IblbmInitialize(
 }
 }  // namespace iblbm
 
-#endif  // SRC_CORE_IBLBMINITIALIZE_HPP_
+#endif  // CORE_SRC_IBLBMINITIALIZE_HPP_

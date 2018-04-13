@@ -1,5 +1,5 @@
-#ifndef SRC_PARALLEL_COMMUNICATOR2D_HPP_
-#define SRC_PARALLEL_COMMUNICATOR2D_HPP_
+#ifndef PARALLEL_SRC_COMMUNICATOR2D_HPP_
+#define PARALLEL_SRC_COMMUNICATOR2D_HPP_
 
 #include <cstddef>
 
@@ -31,4 +31,4 @@ class Communicator2D
 };
 }  // namespace iblbm
 
-#endif  // SRC_PARALLEL_COMMUNICATOR2D_HPP_
+#endif  // PARALLEL_SRC_COMMUNICATOR2D_HPP_

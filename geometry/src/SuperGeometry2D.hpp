@@ -1,5 +1,5 @@
-#ifndef SRC_GEOMETRY_SUPERGEOMETRY2D_HPP_
-#define SRC_GEOMETRY_SUPERGEOMETRY2D_HPP_
+#ifndef GEOMETRY_SRC_SUPERGEOMETRY2D_HPP_
+#define GEOMETRY_SRC_SUPERGEOMETRY2D_HPP_
 
 #include "BlockGeometry2D.hpp"
 #include "SuperStructure2D.hpp"
@@ -56,4 +56,4 @@ class SuperGeometry2D : public SuperStructure2D<T>
 };
 }  // namespace iblbm
 
-#endif  // SRC_GEOMETRY_SUPERGEOMETRY2D_HPP_
+#endif  // GEOMETRY_SRC_SUPERGEOMETRY2D_HPP_

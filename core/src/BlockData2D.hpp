@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_BLOCKDATA2D_HPP_
-#define SRC_CORE_BLOCKDATA2D_HPP_
+#ifndef CORE_SRC_BLOCKDATA2D_HPP_
+#define CORE_SRC_BLOCKDATA2D_HPP_
 
 #include "BlockStructure2D.hpp"
 #include "Serializable.hpp"
@@ -55,4 +55,4 @@ class BlockData2D
 };
 }  // namespace iblbm
 
-#endif // SRC_CORE_BLOCKDATA2D_HPP_
+#endif // CORE_SRC_BLOCKDATA2D_HPP_

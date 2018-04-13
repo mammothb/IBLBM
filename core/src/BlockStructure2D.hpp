@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_BLOCKSTRUCTURE2D_HPP_
-#define SRC_CORE_BLOCKSTRUCTURE2D_HPP_
+#ifndef CORE_SRC_BLOCKSTRUCTURE2D_HPP_
+#define CORE_SRC_BLOCKSTRUCTURE2D_HPP_
 
 #include <cstddef>
 
@@ -32,4 +32,4 @@ class BlockStructure2D
 };
 }  // namespace iblbm
 
-#endif // SRC_CORE_BLOCKSTRUCTURE2D_HPP_
+#endif // CORE_SRC_BLOCKSTRUCTURE2D_HPP_

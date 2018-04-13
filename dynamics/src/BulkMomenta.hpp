@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_BULKMOMENTA_HPP_
-#define SRC_DYNAMICS_BULKMOMENTA_HPP_
+#ifndef DYNAMICS_SRC_BULKMOMENTA_HPP_
+#define DYNAMICS_SRC_BULKMOMENTA_HPP_
 
 #include <vector>
 
@@ -32,4 +32,4 @@ class BulkMomenta : public AbstractMomentaInterface<T, Lattice>
 };
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_BULKMOMENTA_HPP_
+#endif  // DYNAMICS_SRC_BULKMOMENTA_HPP_

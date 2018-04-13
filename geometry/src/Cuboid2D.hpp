@@ -1,5 +1,5 @@
-#ifndef SRC_GEOMETRY_CUBOID2D_HPP_
-#define SRC_GEOMETRY_CUBOID2D_HPP_
+#ifndef GEOMETRY_SRC_CUBOID2D_HPP_
+#define GEOMETRY_SRC_CUBOID2D_HPP_
 
 #include <cstddef>
 #include <vector>
@@ -155,4 +155,4 @@ class Cuboid2D
 };
 }  // namespace iblbm
 
-#endif  // SRC_GEOMETRY_CUBOID2D_HPP_
+#endif  // GEOMETRY_SRC_CUBOID2D_HPP_

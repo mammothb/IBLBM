@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_EXCEPTION_HPP_
-#define SRC_CORE_EXCEPTION_HPP_
+#ifndef CORE_SRC_EXCEPTION_HPP_
+#define CORE_SRC_EXCEPTION_HPP_
 
 #include <cassert>
 #include <cstdlib>
@@ -205,4 +205,4 @@ class Exception
 #define IBLBM_UNUSED(x) (void)(x)
 }  // namespace iblbm
 
-#endif  // SRC_CORE_EXCEPTION_HPP_
+#endif  // CORE_SRC_EXCEPTION_HPP_

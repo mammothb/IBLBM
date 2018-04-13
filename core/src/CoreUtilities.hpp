@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_COREUTILITIES_HPP_
-#define SRC_CORE_COREUTILITIES_HPP_
+#ifndef CORE_SRC_COREUTILITIES_HPP_
+#define CORE_SRC_COREUTILITIES_HPP_
 
 #include <limits>
 #include <numeric>
@@ -54,4 +54,4 @@ inline bool IsNearZero(
 }  // namespace util
 }  // namespace iblbm
 
-#endif  // SRC_CORE_COREUTILITIES_HPP_
+#endif  // CORE_SRC_COREUTILITIES_HPP_

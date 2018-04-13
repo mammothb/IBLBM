@@ -1,5 +1,5 @@
-#ifndef SRC_IO_BOOSTFILESYSTEM_HPP_
-#define SRC_IO_BOOSTFILESYSTEM_HPP_
+#ifndef IO_SRC_BOOSTFILESYSTEM_HPP_
+#define IO_SRC_BOOSTFILESYSTEM_HPP_
 
 /**
  * \file
@@ -41,4 +41,4 @@
 
 namespace fs = boost::filesystem;
 
-#endif  // SRC_IO_BOOSTFILESYSTEM_HPP_
+#endif  // IO_SRC_BOOSTFILESYSTEM_HPP_

@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_UNITCONVERTER_HPP_
-#define SRC_CORE_UNITCONVERTER_HPP_
+#ifndef CORE_SRC_UNITCONVERTER_HPP_
+#define CORE_SRC_UNITCONVERTER_HPP_
 
 #include <cmath>
 #include <iostream>
@@ -416,4 +416,4 @@ class UnitConverterFromRelaxationTimeAndLatticeVelocity
 };
 }  // namespace iblbm
 
-#endif  // SRC_CORE_UNITCONVERTER_HPP_
+#endif  // CORE_SRC_UNITCONVERTER_HPP_

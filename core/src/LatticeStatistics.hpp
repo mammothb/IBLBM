@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_LATTICESTATISTICS_HPP_
-#define SRC_CORE_LATTICESTATISTICS_HPP_
+#ifndef CORE_SRC_LATTICESTATISTICS_HPP_
+#define CORE_SRC_LATTICESTATISTICS_HPP_
 
 #include <cstddef>
 #include <vector>
@@ -50,4 +50,4 @@ class LatticeStatistics {
 };
 }  // namespace iblbm
 
-#endif  // SRC_CORE_LATTICESTATISTICS_HPP_
+#endif  // CORE_SRC_LATTICESTATISTICS_HPP_

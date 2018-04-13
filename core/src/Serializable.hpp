@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_SERIALIZABLE_HPP_
-#define SRC_CORE_SERIALIZABLE_HPP_
+#ifndef CORE_SRC_SERIALIZABLE_HPP_
+#define CORE_SRC_SERIALIZABLE_HPP_
 
 #include <map>
 
@@ -159,4 +159,4 @@ class Serializable
 };
 }  // namespace iblbm
 
-#endif  // SRC_CORE_SERIALIZABLE_HPP_
+#endif  // CORE_SRC_SERIALIZABLE_HPP_

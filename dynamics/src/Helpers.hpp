@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_HELPERS_HPP_
-#define SRC_DYNAMICS_HELPERS_HPP_
+#ifndef DYNAMICS_SRC_HELPERS_HPP_
+#define DYNAMICS_SRC_HELPERS_HPP_
 
 #include <numeric>
 #include <vector>
@@ -228,4 +228,4 @@ struct LbmExternalHelper
 #include "HelpersD2Q9.hpp"
 #endif  // IBLBM_USE_GENERIC
 
-#endif  // SRC_DYNAMICS_HELPERS_HPP_
+#endif  // DYNAMICS_SRC_HELPERS_HPP_

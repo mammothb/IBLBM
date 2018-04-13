@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_BGKDYNAMICS_HPP_
-#define SRC_DYNAMICS_BGKDYNAMICS_HPP_
+#ifndef DYNAMICS_SRC_BGKDYNAMICS_HPP_
+#define DYNAMICS_SRC_BGKDYNAMICS_HPP_
 
 #include "AbstractDynamics.hpp"
 
@@ -44,4 +44,4 @@ class BgkDynamics : public AbstractDynamics<T, Lattice>
 };
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_BGKDYNAMICS_HPP_
+#endif  // DYNAMICS_SRC_BGKDYNAMICS_HPP_

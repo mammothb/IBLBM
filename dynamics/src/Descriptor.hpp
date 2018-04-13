@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_DESCRIPTOR_HPP_
-#define SRC_DYNAMICS_DESCRIPTOR_HPP_
+#ifndef DYNAMICS_SRC_DESCRIPTOR_HPP_
+#define DYNAMICS_SRC_DESCRIPTOR_HPP_
 
 #include <cstddef>
 #include <stdexcept>
@@ -158,4 +158,4 @@ struct ForcedD2Q9Descriptor
 }  // namespace descriptor
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_DESCRIPTOR_HPP_
+#endif  // DYNAMICS_SRC_DESCRIPTOR_HPP_

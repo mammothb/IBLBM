@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
-#define SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
+#ifndef DYNAMICS_SRC_FORCEDBGKDYNAMICS_HPP_
+#define DYNAMICS_SRC_FORCEDBGKDYNAMICS_HPP_
 
 #include <vector>
 
@@ -77,4 +77,4 @@ class ForcedBgkDynamics : public AbstractDynamics<T, Lattice>
 };
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_FORCEDBGKDYNAMICS_HPP_
+#endif  // DYNAMICS_SRC_FORCEDBGKDYNAMICS_HPP_

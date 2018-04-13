@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
-#define SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
+#ifndef DYNAMICS_SRC_ABSTRACTDYNAMICS_HPP_
+#define DYNAMICS_SRC_ABSTRACTDYNAMICS_HPP_
 
 #include <vector>
 
@@ -57,4 +57,4 @@ class AbstractDynamics : public AbstractDynamicsInterface<T, Lattice>
 };
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_ABSTRACTDYNAMICS_HPP_
+#endif  // DYNAMICS_SRC_ABSTRACTDYNAMICS_HPP_

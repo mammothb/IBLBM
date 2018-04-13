@@ -1,5 +1,5 @@
-#ifndef SRC_FUNCTOR_ABSTRACTFUNCTOR_HPP_
-#define SRC_FUNCTOR_ABSTRACTFUNCTOR_HPP_
+#ifndef FUNCTOR_SRC_ABSTRACTFUNCTOR_HPP_
+#define FUNCTOR_SRC_ABSTRACTFUNCTOR_HPP_
 
 #include <cstddef>
 #include <memory>
@@ -89,4 +89,4 @@ class AbstractFunctor
 };
 }  // namespace iblbm
 
-#endif  // SRC_FUNCTOR_ABSTRACTFUNCTOR_HPP_
+#endif  // FUNCTOR_SRC_ABSTRACTFUNCTOR_HPP_

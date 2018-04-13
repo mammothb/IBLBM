@@ -1,5 +1,5 @@
-#ifndef SRC_IO_BASE64_HPP_
-#define SRC_IO_BASE64_HPP_
+#ifndef IO_SRC_BASE64_HPP_
+#define IO_SRC_BASE64_HPP_
 
 #include <array>
 #include <bitset>
@@ -190,4 +190,4 @@ void FormatDataAsBinary(
 }
 }  // namespace iblbm
 
-#endif  // SRC_IO_BASE64_HPP_
+#endif  // IO_SRC_BASE64_HPP_

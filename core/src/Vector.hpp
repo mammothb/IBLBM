@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_VECTOR_HPP_
-#define SRC_CORE_VECTOR_HPP_
+#ifndef CORE_SRC_VECTOR_HPP_
+#define CORE_SRC_VECTOR_HPP_
 
 #include <array>
 #include <cstring>
@@ -332,4 +332,4 @@ template<typename T>
 using Vector2D = Vector<T, 2>;
 }  // namespace iblbm
 
-#endif  // SRC_CORE_VECTOR_HPP_
+#endif  // CORE_SRC_VECTOR_HPP_

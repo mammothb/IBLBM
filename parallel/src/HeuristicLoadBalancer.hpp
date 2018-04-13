@@ -1,5 +1,5 @@
-#ifndef SRC_PARALLEL_HEURISTICLOADBALANCER_HPP_
-#define SRC_PARALLEL_HEURISTICLOADBALANCER_HPP_
+#ifndef PARALLEL_SRC_HEURISTICLOADBALANCER_HPP_
+#define PARALLEL_SRC_HEURISTICLOADBALANCER_HPP_
 
 #include "CuboidGeometry2D.hpp"
 #include "LoadBalancer.hpp"
@@ -68,4 +68,4 @@ class HeuristicLoadBalancer final : public LoadBalancer<T>
 };
 }  // namespace iblbm
 
-#endif  // SRC_PARALLEL_HEURISTICLOADBALANCER_HPP_
+#endif  // PARALLEL_SRC_HEURISTICLOADBALANCER_HPP_

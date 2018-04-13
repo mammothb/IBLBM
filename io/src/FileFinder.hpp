@@ -1,5 +1,5 @@
-#ifndef SRC_IO_FILEFINDER_HPP_
-#define SRC_IO_FILEFINDER_HPP_
+#ifndef IO_SRC_FILEFINDER_HPP_
+#define IO_SRC_FILEFINDER_HPP_
 
 #include <string>
 
@@ -218,4 +218,4 @@ class FileFinder
 };
 }  // namespace iblbm
 
-#endif  // SRC_IO_FILEFINDER_HPP_
+#endif  // IO_SRC_FILEFINDER_HPP_

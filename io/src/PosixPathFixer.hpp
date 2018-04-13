@@ -1,5 +1,5 @@
-#ifndef SRC_IO_POSIXPATHFIXER_HPP_
-#define SRC_IO_POSIXPATHFIXER_HPP_
+#ifndef IO_SRC_POSIXPATHFIXER_HPP_
+#define IO_SRC_POSIXPATHFIXER_HPP_
 
 #include <string>
 
@@ -31,4 +31,4 @@ struct PosixPathFixer
 };
 }  // namespace iblbm
 
-#endif  // SRC_IO_POSIXPATHFIXER_HPP_
+#endif  // IO_SRC_POSIXPATHFIXER_HPP_

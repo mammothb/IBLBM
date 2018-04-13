@@ -1,5 +1,5 @@
-#ifndef SRC_DYNAMICS_HELPERSD2Q9_HPP_
-#define SRC_DYNAMICS_HELPERSD2Q9_HPP_
+#ifndef DYNAMICS_SRC_HELPERSD2Q9_HPP_
+#define DYNAMICS_SRC_HELPERSD2Q9_HPP_
 
 #include <vector>
 
@@ -225,4 +225,4 @@ struct LbmExternalHelper<T, descriptor::ForcedD2Q9Descriptor>
 };
 }  // namespace iblbm
 
-#endif  // SRC_DYNAMICS_HELPERSD2Q9_HPP_
+#endif  // DYNAMICS_SRC_HELPERSD2Q9_HPP_

@@ -1,5 +1,5 @@
-#ifndef SRC_PARALLEL_LOADBALANCER_HPP_
-#define SRC_PARALLEL_LOADBALANCER_HPP_
+#ifndef PARALLEL_SRC_LOADBALANCER_HPP_
+#define PARALLEL_SRC_LOADBALANCER_HPP_
 
 #include <map>
 #include <utility>
@@ -162,4 +162,4 @@ class LoadBalancer : public BufferSerializable
 };
 }  // namespace iblbm
 
-#endif  // SRC_PARALLEL_LOADBALANCER_HPP_
+#endif  // PARALLEL_SRC_LOADBALANCER_HPP_

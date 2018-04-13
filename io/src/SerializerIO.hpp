@@ -1,5 +1,5 @@
-#ifndef SRC_IO_SERIALIZERIO_HPP_
-#define SRC_IO_SERIALIZERIO_HPP_
+#ifndef IO_SRC_SERIALIZERIO_HPP_
+#define IO_SRC_SERIALIZERIO_HPP_
 
 #include <iostream>
 
@@ -32,4 +32,4 @@ void ConvertIstreamToSerializer(
   , bool forceUnsigned = false);
 }  // namespace iblbm
 
-#endif  // SRC_IO_SERIALIZERIO_HPP_
+#endif  // IO_SRC_SERIALIZERIO_HPP_

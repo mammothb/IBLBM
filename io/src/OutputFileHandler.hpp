@@ -1,5 +1,5 @@
-#ifndef SRC_IO_OUTPUTFILEHANDLER_HPP_
-#define SRC_IO_OUTPUTFILEHANDLER_HPP_
+#ifndef IO_SRC_OUTPUTFILEHANDLER_HPP_
+#define IO_SRC_OUTPUTFILEHANDLER_HPP_
 
 #include <fstream>
 #include <ios>
@@ -195,4 +195,4 @@ class OutputFileHandler
 };
 }  // namespace iblbm
 
-#endif  // SRC_IO_OUTPUTFILEHANDLER_HPP_
+#endif  // IO_SRC_OUTPUTFILEHANDLER_HPP_

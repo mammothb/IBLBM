@@ -1,5 +1,5 @@
-#ifndef SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
-#define SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
+#ifndef FORTESTS_SRC_UNITTESTCUSTOMUTILITIES_HPP_
+#define FORTESTS_SRC_UNITTESTCUSTOMUTILITIES_HPP_
 
 #include <algorithm>
 #include <iostream>
@@ -260,4 +260,4 @@ inline int RunMultipleSuites(const std::vector<std::string>& rSuiteNames)
 #undef COVERAGE_IGNORE
 }  // namespace iblbm
 
-#endif  // SRC_FORTESTS_UNITTESTCUSTOMUTILITIES_HPP_
+#endif  // FORTESTS_SRC_UNITTESTCUSTOMUTILITIES_HPP_

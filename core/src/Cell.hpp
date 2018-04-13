@@ -1,5 +1,5 @@
-#ifndef SRC_CORE_CELL_HPP_
-#define SRC_CORE_CELL_HPP_
+#ifndef CORE_SRC_CELL_HPP_
+#define CORE_SRC_CELL_HPP_
 
 #include <vector>
 
@@ -128,4 +128,4 @@ class Cell
 
 }  // namespace iblbm
 
-#endif  // SRC_CORE_CELL_HPP_
+#endif  // CORE_SRC_CELL_HPP_

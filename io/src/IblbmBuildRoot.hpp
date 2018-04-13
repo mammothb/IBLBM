@@ -1,5 +1,5 @@
-#ifndef SRC_IO_IBLBMBUILDROOT_HPP_
-#define SRC_IO_IBLBMBUILDROOT_HPP_
+#ifndef IO_SRC_IBLBMBUILDROOT_HPP_
+#define IO_SRC_IBLBMBUILDROOT_HPP_
 
 #include <string>
 
@@ -18,4 +18,4 @@ const char* IblbmBuildRootDir();
 const char* IblbmSourceRootDir();
 }  // namespace iblbm
 
-#endif  // SRC_IO_IBLBMBUILDROOT_HPP_
+#endif  // IO_SRC_IBLBMBUILDROOT_HPP_
