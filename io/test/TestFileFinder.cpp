@@ -22,7 +22,7 @@ TEST(TestFileFinder_Constructor_RelativeTo)
 {
   {
     // Can we find our own source file?
-    std::string filename {"src/io/FileFinder.hpp"};
+    std::string filename {"io/src/FileFinder.hpp"};
     FileFinder file_finder(filename, RelativeTo::IBLBM_SOURCE_ROOT);
     CHECK(file_finder.Exists());
     CHECK(file_finder.IsFile());
@@ -61,11 +61,11 @@ TEST(TestFileFinder_Constructor_RelativeTo)
     CHECK_EQUAL(".hpp", file_finder.GetExtension());
 
     // And the parent folder name
-    FileFinder parent("src/io", RelativeTo::IBLBM_SOURCE_ROOT);
+    FileFinder parent("io/src", RelativeTo::IBLBM_SOURCE_ROOT);
     CHECK_EQUAL(parent.GetAbsolutePath(),
         file_finder.GetParent().GetAbsolutePath());
-    CHECK_EQUAL("io", parent.GetLeafName());
-    CHECK_EQUAL("io", parent.GetLeafNameNoExtension());
+    CHECK_EQUAL("src", parent.GetLeafName());
+    CHECK_EQUAL("src", parent.GetLeafNameNoExtension());
     CHECK_EQUAL("", parent.GetExtension());
 
     // Check we can construct from a Boost path or a string
@@ -79,7 +79,7 @@ TEST(TestFileFinder_Constructor_RelativeTo)
         fs::path(FileFinder(abs_path).GetAbsolutePath()),
         fs::path(abs_path)));
     CHECK(fs::equivalent(
-        fs::path(FileFinder("src/io/FileFinder.hpp").GetAbsolutePath()),
+        fs::path(FileFinder("io/src/FileFinder.hpp").GetAbsolutePath()),
         fs::path(abs_path)));
   }
 

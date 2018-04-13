@@ -16,14 +16,20 @@ def main():
     | |
     | +-IblbmBuildInfo.py (__file__)
     |
+    +-io
+    | |
+    | +-src
+    |   |
+    |   +-<build_info_input>
+    |   +-<build_info_output>
     +...
     """
     src_path = os.path.realpath(
         os.path.join(__file__, *(os.path.pardir,) * 2))
     build_path = os.path.join(src_path, "build")
-    build_info_input = os.path.join(src_path, "src", "io",
+    build_info_input = os.path.join(src_path, "io", "src",
                                     "IblbmBuildInfo.input")
-    build_info_output = os.path.join(src_path, "src", "io",
+    build_info_output = os.path.join(src_path, "io", "src",
                                      "IblbmBuildRoot.cpp")
 
     template_dict = {

@@ -83,13 +83,13 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
       "IBLBM_TEST_OUTPUT");
 
   // Check the CopyFileTo method
-  FileFinder source_file("unittests/TestOutputFileHandler.cpp",
+  FileFinder source_file("io/test/TestOutputFileHandler.cpp",
       RelativeTo::IBLBM_SOURCE_ROOT);
   CHECK(!handler2.FindFile("TestOutputFileHandler.cpp").Exists());
   MpiManager::Instance().Barrier("TestOutputFileHandler-0");
   FileFinder dest_file = handler2.CopyFileTo(source_file);
   CHECK(dest_file.Exists());
-  FileFinder missing_file("unittests/no_file", RelativeTo::IBLBM_SOURCE_ROOT);
+  FileFinder missing_file("io/test/no_file", RelativeTo::IBLBM_SOURCE_ROOT);
   CHECK_THROW_CONTAINS(handler2.CopyFileTo(missing_file),
       "Can only copy single files");
   FileFinder global_dir("core", RelativeTo::IBLBM_SOURCE_ROOT);
