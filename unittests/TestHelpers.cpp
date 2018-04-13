@@ -135,21 +135,21 @@ TEST(TestLbmHelpers_AddExternalForce)
     exp_cell[q] = q;
     rho += static_cast<double>(q);
   }
-  auto offset = 0u;
+  gsl::index offset {0};
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i)
+      cell.pGetExternal(offset)[i] = static_cast<double>(i) + 1.0;
   std::vector<double> force(D::ExternalField::sNumScalars);
   std::iota(force.begin(), force.end(), 1.0);
 
-  cell.SetExternalField(offset, force);
   LbmHelper<double, descriptor::ForcedD2Q9Descriptor>::AddExternalForce(cell,
       g_cell_velocity, omega, rho);
 
   // Calculate expected DF after adding force
-  for (gsl::index q = 0; q < B::sQ; ++q) {
-    auto e_dot_u = std::inner_product(B::sE[q].begin(), B::sE[q].end(),
-        g_cell_velocity.begin(), 0.0);
-    e_dot_u *= B::sInvCsSqr * B::sInvCsSqr;
-    auto force_term = 0.0;
-    for (gsl::index d = 0; d < B::sD; ++d) {
+  for (gsl::index q {0}; q < B::sQ; ++q) {
+    auto e_dot_u {std::inner_product(B::sE[q].begin(), B::sE[q].end(),
+        g_cell_velocity.begin(), 0.0) * B::sInvCsSqr * B::sInvCsSqr};
+    auto force_term {0.0};
+    for (gsl::index d {0}; d < B::sD; ++d) {
       force_term += ((B::sE[q][d] - g_cell_velocity[d]) * B::sInvCsSqr +
           e_dot_u * B::sE[q][d]) * force[d];
     }

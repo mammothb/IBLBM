@@ -191,30 +191,36 @@ struct LbmExternalHelper<T, descriptor::ForcedD2Q9Descriptor>
   {
     static const gsl::index force_offset {
         descriptor::ForcedD2Q9Descriptor<T>::ExternalField::sForceOffset};
+    T* p_force {rCell.pGetExternal(force_offset)};
     auto mu {amplitude * (T{1} - omega / T{2})};
 
-    rCell[0] += mu * T{4} / T{3} * (rCell.rGetExternal(force_offset) *
-        -rU[0] + rCell.rGetExternal(force_offset + 1) * -rU[1]);
-    rCell[1] += mu * T{1} / T{12} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] - 3 * rU[1] - 1) + rCell.rGetExternal(force_offset + 1) *
-        (-3 * rU[0] + 2 * rU[1] + 1));
-    rCell[2] += mu * T{1} / T{3} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] - 1) + rCell.rGetExternal(force_offset + 1) * -rU[1]);
-    rCell[3] += mu * T{1} / T{12} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] + 3 * rU[1] - 1) + rCell.rGetExternal(force_offset + 1) *
-        (3 * rU[0] + 2 * rU[1] - 1));
-    rCell[4] += mu * T{1} / T{3} * (rCell.rGetExternal(force_offset) *
-        -rU[0] + rCell.rGetExternal(force_offset + 1) * (2 * rU[1] - 1));
-    rCell[5] += mu * T{1} / T{12} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] - 3 * rU[1] + 1) + rCell.rGetExternal(force_offset + 1) *
-        (-3 * rU[0] + 2 * rU[1] - 1));
-    rCell[6] += mu * T{1} / T{3} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] + 1) + rCell.rGetExternal(force_offset + 1) * -rU[1]);
-    rCell[7] += mu * T{1} / T{12} * (rCell.rGetExternal(force_offset) *
-        (2 * rU[0] + 3 * rU[1] + 1) + rCell.rGetExternal(force_offset + 1) *
-        (3 * rU[0] + 2 * rU[1] + 1));
-    rCell[8] += mu * T{1} / T{3} * (rCell.rGetExternal(force_offset) *
-        -rU[0] + rCell.rGetExternal(force_offset + 1) * (2 * rU[1] + 1));
+    rCell[0] += mu * T{4} / T{3} * (
+        p_force[0] * -rU[0] +
+        p_force[1] * -rU[1]);
+    rCell[1] += mu * T{1} / T{12} * (
+        p_force[0] * (2 * rU[0] - 3 * rU[1] - 1) +
+        p_force[1] * (-3 * rU[0] + 2 * rU[1] + 1));
+    rCell[2] += mu * T{1} / T{3} * (
+        p_force[0] * (2 * rU[0] - 1) +
+        p_force[1] * -rU[1]);
+    rCell[3] += mu * T{1} / T{12} * (
+        p_force[0] * (2 * rU[0] + 3 * rU[1] - 1) +
+        p_force[1] * (3 * rU[0] + 2 * rU[1] - 1));
+    rCell[4] += mu * T{1} / T{3} * (
+        p_force[0] * -rU[0] +
+        p_force[1] * (2 * rU[1] - 1));
+    rCell[5] += mu * T{1} / T{12} * (
+        p_force[0] * (2 * rU[0] - 3 * rU[1] + 1) +
+        p_force[1] * (-3 * rU[0] + 2 * rU[1] - 1));
+    rCell[6] += mu * T{1} / T{3} * (
+        p_force[0] * (2 * rU[0] + 1) +
+        p_force[1] * -rU[1]);
+    rCell[7] += mu * T{1} / T{12} * (
+        p_force[0] * (2 * rU[0] + 3 * rU[1] + 1) +
+        p_force[1] * (3 * rU[0] + 2 * rU[1] + 1));
+    rCell[8] += mu * T{1} / T{3} * (
+        p_force[0] * -rU[0] +
+        p_force[1] * (2 * rU[1] + 1));
   }
 };
 }  // namespace iblbm

@@ -56,7 +56,7 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 {
  public:
   /** Additional per-cell scalars for external fields, e.g. forces */
-  typedef descriptor::ExternalFieldVector<T,
+  typedef descriptor::ExternalFieldArray<T,
       typename Lattice<T>::ExternalField> External;
 
   /** Default constructor */
@@ -70,14 +70,14 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
   explicit Cell(AbstractDynamicsInterface<T, Lattice>* pDynamics);
 
   /** \return a reference to an external field */
-  T& rGetExternal(gsl::index index)
+  T* pGetExternal(gsl::index index)
   {
     Expects(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
   }
 
   /** \return a const reference to an external field */
-  const T& rGetExternal(gsl::index index) const
+  const T* pGetExternal(gsl::index index) const
   {
     Expects(index < Lattice<T>::ExternalField::sNumScalars);
     return mExternal[index];
@@ -88,26 +88,6 @@ class Cell : public CellBase<T, typename Lattice<T>::BaseDescriptor>
 
   /** \return a non-modifiable pointer to the dynamics */
   const AbstractDynamicsInterface<T, Lattice>* pGetDynamics() const;
-
-  /**
-   * Set the external field data
-   *
-   * \param offset index offset in the data vector
-   * \param rExternalField vector containing data for external field
-   */
-//  void SetExternalField(
-//      std::size_t offset
-//    , std::size_t fieldSize
-//    , const std::vector<T>& rExternalField)
-  void SetExternalField(
-      gsl::index offset
-    , const std::vector<T>& rExternalField)
-  {
-    Expects(offset + rExternalField.size() <=
-        Lattice<T>::ExternalField::sNumScalars);
-    for (gsl::index i = 0; i < rExternalField.size(); ++i)
-        mExternal[offset + i] = rExternalField[i];
-  }
 
  private:
   /** Initialize data members of external field */

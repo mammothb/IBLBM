@@ -37,8 +37,8 @@ const AbstractDynamicsInterface<T, Lattice>*
 template<typename T, template<typename U> class Lattice>
 void Cell<T, Lattice>::InitializeExternal()
 {
-  mExternal.SetData(std::vector<T>(Lattice<T>::ExternalField::sNumScalars,
-      T{}));
+  for (gsl::index i; i < Lattice<T>::ExternalField::sNumScalars; ++i)
+      *(mExternal[i]) = T{};
 }
 
 // Explicit instantiation

@@ -117,9 +117,6 @@ struct LbmDynamicsHelper
     , const std::vector<T>& rU
     , T uSqr)
   {
-//    T e_dot_u {0};
-//    for (gsl::index d = 0; d < Descriptor::sD; ++d)
-//        e_dot_u += Descriptor::sE[q][d] * rU[d];
     auto e_dot_u {util::InnerProduct(Descriptor::sE[q], rU)};
 //    // Original code
 //    return rho * Descriptor::sWeight[q] * (T{1} + Descriptor::sInvCsSqr *
@@ -208,7 +205,7 @@ struct LbmExternalHelper
     , T amplitude)
   {
     static const auto force_offset {Lattice<T>::ExternalField::sForceOffset};
-//    T* force = cell.getExternal(forceBeginsAt);
+    T* p_force {rCell.pGetExternal(force_offset)};
     for (gsl::index q = 0; q < Lattice<T>::sQ; ++q) {
       auto e_dot_u {util::InnerProduct(Lattice<T>::sE[q], rU) *
           Lattice<T>::sInvCsSqr * Lattice<T>::sInvCsSqr};
@@ -216,7 +213,7 @@ struct LbmExternalHelper
       for (gsl::index d = 0; d < Lattice<T>::sD; ++d) {
         force_term += ((Lattice<T>::sE[q][d] - rU[d]) *
             Lattice<T>::sInvCsSqr + e_dot_u * Lattice<T>::sE[q][d]) *
-            rCell.rGetExternal(force_offset + d);
+            p_force[d];
       }
       force_term *= Lattice<T>::sWeight[q];
       force_term *= T{1} - omega / T{2};

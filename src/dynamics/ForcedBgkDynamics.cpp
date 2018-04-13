@@ -40,7 +40,7 @@ void ForcedBgkDynamics<T, Lattice>::ComputeU(
   T rho {0};
   this->mrMomenta.ComputeRhoAndU(rCell, rho, rU);
   for (gsl::index d = 0; d < Lattice<T>::sD; ++d)
-      rU[d] += rCell.rGetExternal(msForceOffset + d) / T{2};
+      rU[d] += rCell.pGetExternal(msForceOffset)[d] / T{2};
 }
 
 template<typename T, template<typename U> class Lattice>
@@ -51,7 +51,7 @@ void ForcedBgkDynamics<T, Lattice>::ComputeRhoAndU(
 {
   this->mrMomenta.ComputeRhoAndU(rCell, rRho, rU);
   for (gsl::index d = 0; d < Lattice<T>::sD; ++d)
-      rU[d] += rCell.rGetExternal(msForceOffset + d) / T{2};
+      rU[d] += rCell.pGetExternal(msForceOffset)[d] / T{2};
 }
 
 template<typename T, template<typename U> class Lattice>

@@ -55,17 +55,17 @@ TEST(TestCell_Constructor_WithForcedDynamics)
 
   for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
   for (auto i = 0u; i < D::ExternalField::sNumScalars; ++i) {
-    const auto external = const_cell.rGetExternal(
-        D::ExternalField::sForceOffset + i);
+    const auto external = const_cell.pGetExternal(
+        D::ExternalField::sForceOffset)[i];
     CHECK_CLOSE(0.0, external, g_zero_tol);
-    CHECK_CLOSE(0.0, cell.rGetExternal(D::ExternalField::sForceOffset + i),
+    CHECK_CLOSE(0.0, cell.pGetExternal(D::ExternalField::sForceOffset)[i],
         g_zero_tol);
   }
 
   CHECK(cell.pGetDynamics() == &dynamics);
 }
 
-TEST(TestCell_SetExternalfield)
+TEST(TestCell_SetExternalField)
 {
   typedef descriptor::ForcedD2Q9Descriptor<double> D;
 
@@ -74,15 +74,15 @@ TEST(TestCell_SetExternalfield)
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
 
-  auto offset = 0u;
+  gsl::index offset {0};
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i)
+      cell.pGetExternal(offset)[i] = static_cast<double>(i) + 1.0;
   std::vector<double> exp_force(D::ExternalField::sNumScalars);
   std::iota(exp_force.begin(), exp_force.end(), 1.0);
 
-  cell.SetExternalField(offset, exp_force);
-
   for (auto i = 0u; i < D::ExternalField::sNumScalars; ++i) {
-    CHECK_CLOSE(exp_force[i], cell.rGetExternal(
-        D::ExternalField::sForceOffset + i), g_zero_tol);
+    CHECK_CLOSE(exp_force[i], cell.pGetExternal(
+        D::ExternalField::sForceOffset)[i], g_zero_tol);
   }
 
   CHECK(cell.pGetDynamics() == &dynamics);

@@ -50,13 +50,14 @@ TEST(TestDescriptor_Force2dDescriptorBase)
   CHECK_EQUAL(2u, Force2dDescriptorBase::ExternalField::sSizeOfForce);
 }
 
-TEST(TestDescriptor_ExternalFieldVector)
+TEST(TestDescriptor_ExternalFieldArray)
 {
-  ExternalFieldVector<double, Force2dDescriptor> field_vec;
-  std::vector<double> exp_data = {1, 2, 3, 4, 5};
-  field_vec.SetData(exp_data);
+  ExternalFieldArray<double, Force2dDescriptor> field_vec;
+  std::vector<double> exp_data = {1, 2};
+  for (gsl::index i {0}; i < exp_data.size(); ++i)
+      field_vec[0][i] = exp_data[i];
   for (auto i = 0u; i < exp_data.size(); ++i)
-      CHECK_CLOSE(exp_data[i], field_vec[i], g_zero_tol);
+      CHECK_CLOSE(exp_data[i], field_vec[0][i], g_zero_tol);
 }
 
 TEST(TestDescriptor_D2Q9DescriptorBase)

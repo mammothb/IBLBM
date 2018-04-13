@@ -54,41 +54,38 @@ struct Force2dDescriptorBase
 };
 
 template<typename T, typename ExternalField>
-class ExternalFieldVector
+class ExternalFieldArray
 {
  public:
   /**
    * Read-write access to stored data.
    *
-   * \param rIndex index of the accessed distribution function
+   * \param index index of the accessed distribution function
    */
-  T& operator[](const gsl::index& rIndex)
+  T* operator[](gsl::index index)
   {
-    return mData[rIndex];
+    Expects(index < ExternalField::sNumScalars);
+    return mData + index;
   }
 
   /**
    * Read-only access to stored data.
    *
-   * \param rIndex index of the accessed distribution function
+   * \param index index of the accessed distribution function
    */
-  const T& operator[](const gsl::index& rIndex) const
+  const T* operator[](gsl::index index) const
   {
-    return mData[rIndex];
-  }
-
-  void SetData(const std::vector<T>& rData)
-  {
-    mData = rData;
+    Expects(index < ExternalField::sNumScalars);
+    return mData + index;
   }
 
  protected:
   /** Distribution function */
-  std::vector<T> mData;
+  T mData[ExternalField::sNumScalars];
 };
 
 template<typename T>
-class ExternalFieldVector<T, NoExternalField>
+class ExternalFieldArray<T, NoExternalField>
 {
  public:
   /**
@@ -96,11 +93,11 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  T& operator[](const gsl::index& /*rIndex*/)
+  T* operator[](const gsl::index& /*rIndex*/)
   {
     Expects(false);
     static T data {0};
-    return data;
+    return &data;
   }
 
   /**
@@ -108,15 +105,12 @@ class ExternalFieldVector<T, NoExternalField>
    *
    * \param rIndex index of the accessed distribution function
    */
-  const T& operator[](const gsl::index& /*rIndex*/) const
+  const T* operator[](const gsl::index& /*rIndex*/) const
   {
     Expects(false);
     static T data {0};
-    return data;
+    return &data;
   }
-
-  /** Does nothing when called */
-  void SetData(const std::vector<T>& /*rData*/) {}
 };
 
 /**

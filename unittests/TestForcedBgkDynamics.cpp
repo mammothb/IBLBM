@@ -194,11 +194,12 @@ TEST(TestForcedBgkDynamics_ComputeU)
     cell[q] = q;
     rho += static_cast<double>(q);
   }
-  auto offset = 0u;
+  gsl::index offset {0};
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i)
+      cell.pGetExternal(offset)[i] = static_cast<double>(i) + 1.0;
   std::vector<double> force(D::ExternalField::sNumScalars);
   std::iota(force.begin(), force.end(), 1.0);
 
-  cell.SetExternalField(offset, force);
   dynamics.ComputeU(cell, actual_u);
 
   exp_u[0] = ((cell[5] + cell[6] + cell[7]) - (cell[1] + cell[2] +
@@ -226,11 +227,12 @@ TEST(TestForcedBgkDynamics_ComputeRhoAndU)
     cell[q] = q;
     exp_rho += static_cast<double>(q);
   }
-  auto offset = 0u;
+  gsl::index offset {0};
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i)
+      cell.pGetExternal(offset)[i] = static_cast<double>(i) + 1.0;
   std::vector<double> force(D::ExternalField::sNumScalars);
   std::iota(force.begin(), force.end(), 1.0);
 
-  cell.SetExternalField(offset, force);
   dynamics.ComputeRhoAndU(cell, actual_rho, actual_u);
 
   exp_u[0] = ((cell[5] + cell[6] + cell[7]) - (cell[1] + cell[2] +
