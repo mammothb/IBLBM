@@ -118,6 +118,14 @@ TEST(TestVector_CheckEqual)
   CHECK(vec_1 == vec_2);
 }
 
+TEST(TestVector_CheckEqual_Index)
+{
+  Vector<gsl::index, 2> vec_1(1, 2);
+  Vector<gsl::index, 2> vec_2(1, 2);
+
+  CHECK(vec_1 == vec_2);
+}
+
 TEST(TestVector_CheckNotEqual)
 {
   Vector<double, 2> vec_1(1, 2);

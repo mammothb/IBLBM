@@ -140,8 +140,9 @@ class Vector
   bool operator==(const Vector<T, N>& rVector) const
   {
     auto is_equal = true;
-    for (gsl::index d = 0; d < N; ++d)
+    for (gsl::index d = 0; d < N; ++d) {
         is_equal &= util::IsNearZero(std::abs(mData[d] - rVector[d]));
+    }
     return is_equal;
   }
 
