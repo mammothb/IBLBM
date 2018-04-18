@@ -19,6 +19,36 @@ class Communicator2D
   /** Initialize neighborhood information */
   void InitializeNeighborhood();
 
+  /**
+   * Added a cell to the cuboid neighborhood localCuboidIndex
+   *
+   * \param localCuboidIndex local index of the cuboid assigned to the
+   *        process
+   * \param xIndex x index
+   * \param yIndex y index
+   */
+  void AddCell(
+      gsl::index localCuboidIndex
+    , gsl::index xIndex
+    , gsl::index yIndex);
+
+  /**
+   * Adds all cells of the overlap to its associated cuboid neigbourhood
+   *
+   * \param overlap
+   */
+  void AddCells(std::size_t overlap);
+
+  /**
+   * Initialize the communicator
+   */
+  void Initialize();
+
+  /**
+   * Reset the communicator
+   */
+  void Reset();
+
  private:
   /** Neighborhood information for a single cuboid */
   std::vector<CuboidNeighborhood2D<T>> mNeighborhood;

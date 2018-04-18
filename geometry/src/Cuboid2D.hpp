@@ -16,16 +16,16 @@ class Cuboid2D
   /**
    * Constructor of a cuboid
    *
-   * \param globalXPos global x-position of lower left corner
-   * \param globalYPos global y-position of lower left corner
+   * \param xPosition global x-position of lower left corner
+   * \param yPosition global y-position of lower left corner
    * \param deltaR node spacing
    * \param nx number of nodes in the x-direction
    * \param ny number of nodes in the y-direction
    * \param refinementLevel coefficient used to reduce deltaR
    */
   Cuboid2D(
-      T globalXPos
-    , T globalYPos
+      T xPosition
+    , T yPosition
     , T deltaR
     , std::size_t nx
     , std::size_t ny
@@ -44,6 +44,36 @@ class Cuboid2D
       const Vector2D<T>& rOrigin
     , T deltaR
     , const Vector2D<std::size_t>& rLatticeExtent
+    , int refinementLevel = 0);
+
+  /**
+   * Copy constructor
+   */
+  Cuboid2D(
+      const Cuboid2D<T>& rRhs
+    , std::size_t overlap = 0);
+
+  /**
+   * Copy assignment
+   */
+  Cuboid2D& operator=(const Cuboid2D& rRhs);
+
+  /**
+   * Initialize the cuboid
+   *
+   * \param xPosition global x-position of lower left corner
+   * \param yPosition global y-position of lower left corner
+   * \param deltaR node spacing
+   * \param nx number of nodes in the x-direction
+   * \param ny number of nodes in the y-direction
+   * \param refinementLevel coefficient used to reduce deltaR
+   */
+  void Initialize(
+      T xPosition
+    , T yPosition
+    , T deltaR
+    , std::size_t nx
+    , std::size_t ny
     , int refinementLevel = 0);
 
   /**
@@ -74,7 +104,7 @@ class Cuboid2D
    * \param rCuboids the vector to insert the split cuboids into
    */
   void Divide(
-      std::size_t p
+      std::size_t numCuboid
     , std::vector<Cuboid2D<T>>& rCuboids) const;
 
   /**
@@ -87,17 +117,113 @@ class Cuboid2D
     , std::size_t ny);
 
   /**
-   * Checks whether a point (globalXPos, globalYPos) is contained in the
+   * Checks whether a point (xPosition, yPosition) is contained in the
    * cuboid extended with an layer of size overlap * mDeltaR
    *
-   * \param globalXPos global x position
-   * \param globalYPos global y position
+   * \param xPosition global x position
+   * \param yPosition global y position
    * \param overlap size of overlap layer
    */
   bool ContainPoint(
-      T globalXPos
-    , T globalYPos
+      T xPosition
+    , T yPosition
     , std::size_t overlap = 0) const;
+
+  /**
+   * Checks whether a point (xPosition, yPosition) is contained and is a
+   * node in the cuboid extended with an layer of size overlap * mDeltaR and
+   * returns the local active node
+   *
+   * \param xPosition global x position
+   * \param yPosition global y position
+   * \param rXIndex x index in the cuboid
+   * \param rYIndex y index in the cuboid
+   * \param overlap size of overlap layer
+   */
+  bool ContainPoint(
+      T xPosition
+    , T yPosition
+    , gsl::index& rXIndex
+    , gsl::index& rYIndex
+    , std::size_t overlap = 0) const;
+
+  /**
+   * Checks whether the cuboid with an overlap layer intersection with another
+   * cuboid volume defined by (xPosition0, yPosition0) and
+   * (xPosition1, yPosition1)
+   *
+   * \param xPosition0 x position of lower left corner target cuboid volume
+   * \param yPosition0 y position of lower left corner target cuboid volume
+   * \param xPosition1 x position of upper right corner target cuboid volume
+   * \param yPosition1 y position of upper right corner target cuboid volume
+   */
+  bool CheckIntersection(
+      T xPosition0
+    , T yPosition0
+    , T xPosition1
+    , T yPosition1
+    , std::size_t overlap = 0) const;
+
+  /**
+   * Checks whether a given point intersects the cuboid extended
+   * by a layer of size overlap * mDeltaR
+   *
+   * \param xPosition x position of given point
+   * \param yPosition y position of given point
+   */
+  bool CheckIntersection(
+      T xPosition
+    , T yPosition
+    , std::size_t overlap = 0) const;
+
+  /**
+   * Checks whether there is an intersection and returns the local
+   * active node range which can be empty by means of rXIndex0 = 1,
+   * rYIndex0 = 1, rXIndex1 = 0, rYIndex1 = 0, i.e., the lower left
+   * coordinates is larger than the upper right coordinates of the cuboid
+   * extended with an layer of size overlap * mDeltaR
+   *
+   * \param xPosition0 x position of lower left corner target cuboid volume
+   * \param yPosition0 y position of lower left corner target cuboid volume
+   * \param xPosition1 x position of upper right corner target cuboid volume
+   * \param yPosition1 y position of upper right corner target cuboid volume
+   * \param rXIndex0 x index in the cuboid of lower left corner of the
+   *        intersection area
+   * \param rYIndex0 y index in the cuboid of lower left corner of the
+   *        intersection area
+   * \param rXIndex1 x index in the cuboid of upper right corner of the
+   *        intersection area
+   * \param rYIndex1 y index in the cuboid of upper right corner of the
+   *        intersection area
+   */
+  bool CheckIntersection(
+      T xPosition0
+    , T yPosition0
+    , T xPosition1
+    , T yPosition1
+    , gsl::index& rXIndex0
+    , gsl::index& rYIndex0
+    , gsl::index& rXIndex1
+    , gsl::index& rYIndex1
+    , std::size_t overlap = 0) const;
+
+  /**
+   * Refines the cuboid with given refinement level. expects refinementLevel
+   * to be larger then mRefinementLevel
+   *
+   * \param refinementLevel target refinement level
+   */
+  void RefineToLevel(int refinementLevel);
+
+  /**
+   * Refines one more level
+   */
+  void RefineIncrease();
+
+  /**
+   * Refines one less level
+   */
+  void RefineDecrease();
 
   /** \return Global x-position of lower left corner */
   T GetGlobalXPosition() const;
@@ -140,6 +266,75 @@ class Cuboid2D
       const gsl::index& rXIndex
     , const gsl::index& rYIndex) const;
 
+  /**
+   * Compute the physical coordinate based on give lattice index
+   *
+   * \param physR output physical coordinate
+   * \param latticeR input lattice index
+   */
+  void GetPhysR(
+      const gsl::index latticeR[2]
+    , T physR[2]) const;
+
+  /**
+   * Compute the physical coordinate based on give lattice index
+   *
+   * \param physR output physical coordinate
+   * \param rXIndex input x lattice index
+   * \param rYIndex input y lattice index
+   */
+  void GetPhysR(
+      const gsl::index& rXIndex
+    , const gsl::index& rYIndex
+    , T physR[2]) const;
+
+  /**
+   * Compute the lattice index closest to the given physical coordinates
+   * uses normal rounding
+   *
+   * \param latticeR output lattice index
+   * \param physR input physical coordinates
+   */
+  void GetLatticeR(
+      const T physR[2]
+    , gsl::index latticeR[2]) const;
+
+  /**
+   * Compute the lattice index closest to the given physical coordinates
+   * uses normal rounding
+   *
+   * \param latticeR output lattice index
+   * \param physR input physical coordinates
+   */
+  void GetLatticeR(
+      const Vector2D<T>& rPhysR
+    , gsl::index latticeR[2]) const;
+
+  /**
+   * Compute the lattice index closest to the given physical coordinates
+   * rounds down
+   *
+   * \param latticeR output lattice index
+   * \param physR input physical coordinates
+   */
+  void GetFloorLatticeR(
+      const std::vector<T>& rPhysR
+    , std::vector<gsl::index>& rLatticeR) const;
+
+  /**
+   * Compute the lattice index closest to the given physical coordinates
+   * rounds down
+   *
+   * \param latticeR output lattice index
+   * \param physR input physical coordinates
+   */
+  void GetFloorLatticeR(
+      const T physR[2]
+    , gsl::index latticeR[2]) const;
+
+  /** \return mRefinementLevel */
+  int GetRefinementLevel() const;
+
   /** set the number of full cells of the cuboid for load balancer */
   void SetWeight(std::size_t weight);
 
@@ -150,9 +345,9 @@ class Cuboid2D
 
  private:
   /** global x-position of lower left corner */
-  T mGlobalXPos;
+  T mXPosition;
   /** global y-position of lower left corner */
-  T mGlobalYPos;
+  T mYPosition;
   /** node spacing */
   T mDeltaR;
   /** number of nodes in the x-direction */

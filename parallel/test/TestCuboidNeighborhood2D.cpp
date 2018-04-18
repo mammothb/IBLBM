@@ -292,7 +292,7 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Overlap)
         }
       }
     }
-    neighborhood.AddInCell(overlap);
+    neighborhood.AddInCells(overlap);
 
     CHECK_EQUAL(exp_cell.size(), neighborhood.GetInCellsSize());
     for (gsl::index i {0}; i < exp_cell.size(); ++i) {
@@ -330,8 +330,8 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Overlap)
         }
       }
     }
-    neighborhood.AddInCell(overlap);
-    neighborhood.AddInCell(overlap);
+    neighborhood.AddInCells(overlap);
+    neighborhood.AddInCells(overlap);
 
     CHECK_EQUAL(exp_cell.size(), neighborhood.GetInCellsSize());
     for (gsl::index i {0}; i < exp_cell.size(); ++i) {
@@ -343,6 +343,11 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Overlap)
           exp_cell[i].mPhysR, g_zero_tol));
     }
   }
+}
+
+TEST(TestCuboidNeighborhood2D_InitializeInNeighbor)
+{
+  ;
 }
 }
 }  // namespace iblbm

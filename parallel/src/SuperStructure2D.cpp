@@ -37,6 +37,18 @@ const CuboidGeometry2D<T>& SuperStructure2D<T>::rGetCuboidGeometry() const
   return mrCuboidGeometry;
 }
 
+template<typename T>
+LoadBalancer<T>& SuperStructure2D<T>::rGetLoadBalancer()
+{
+  return mrLoadBalancer;
+}
+
+template<typename T>
+const LoadBalancer<T>& SuperStructure2D<T>::rGetLoadBalancer() const
+{
+  return mrLoadBalancer;
+}
+
 // explicit instantiation
 template class SuperStructure2D<double>;
 }  // namespace iblbm

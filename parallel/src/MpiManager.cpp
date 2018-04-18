@@ -227,6 +227,21 @@ void MpiManager::Isend<gsl::index>(
   }
 }
 
+template<>
+void MpiManager::Isend<std::size_t>(
+    std::size_t* pBuffer
+  , int count
+  , int destination
+  , MPI_Request* pRequest
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (mIsOk) {
+    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_UNSIGNED_LONG_LONG,
+        destination, tag, comm, pRequest);
+  }
+}
+
 template <>
 void MpiManager::Receive<bool>(
     bool* pBuffer
@@ -253,6 +268,20 @@ void MpiManager::Receive<double>(
   MPI_Status status;
   MPI_Recv(static_cast<void*>(pBuffer), count, MPI_DOUBLE, source, tag, comm,
       &status);
+}
+
+template <>
+void MpiManager::Receive<std::size_t>(
+    std::size_t* pBuffer
+  , int count
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Recv(static_cast<void*>(pBuffer), count, MPI_UNSIGNED_LONG_LONG,
+      source, tag, comm, &status);
 }
 
 template <>

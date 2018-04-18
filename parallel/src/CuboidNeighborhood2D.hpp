@@ -82,10 +82,10 @@ class CuboidNeighborhood2D
   /** \return number of cells in mInCells */
   std::size_t GetInCellsSize() const;
 
-  /** \return read-only access to mInNeighborCuboid */
+  /** \return read-only access to mInNbrCuboid */
   const gsl::index& rGetInNeighborCuboid(gsl::index i) const;
 
-  /** \return number of cuboids in mInNeighborCuboids */
+  /** \return number of cuboids in mInNbrCuboids */
   std::size_t GetInNeighborCuboidsSize() const;
 
   /** \return read and write access to mpInData */
@@ -114,8 +114,20 @@ class CuboidNeighborhood2D
   /**
    * Add all cells with the distance overlap * mDeltaR to the vector
    * mInCells
+   *
+   * \param overlap size of overlap margin
    */
-  void AddInCell(std::size_t overlap);
+  void AddInCells(std::size_t overlap);
+
+  /**
+   * Initializes mInNbrCuboids and mInNbrNumCells
+   */
+  void InitializeInNeighbor();
+
+  /**
+   * Initializes mOutNbrCuboids and mOutNbrNumCells
+   */
+  void InitializeOutNeighbor();
 
   /**
    * Resets neighborhood after initialization (InitializeInternal and
@@ -141,13 +153,13 @@ class CuboidNeighborhood2D
   /** External needed cells */
   std::vector<Cell2D<T>> mOutCells;
   /** Internal needed neighbor cuboid */
-  std::vector<gsl::index> mInNeighborCuboids;
+  std::vector<gsl::index> mInNbrCuboids;
   /** Internal needed neighbor number of cells */
-  std::vector<std::size_t> mInNeighborNumCells;
+  std::vector<std::size_t> mInNbrNumCells;
   /** External needed neighbor cuboid */
-  std::vector<gsl::index> mOutNeighborCuboids;
+  std::vector<gsl::index> mOutNbrCuboids;
   /** External needed neighbor number of cells */
-  std::vector<std::size_t> mOutNeighborNumCells;
+  std::vector<std::size_t> mOutNbrNumCells;
   /** Buffer for internal needed data */
   bool** mpInData;
   /** Buffer for external needed data */
@@ -157,7 +169,7 @@ class CuboidNeighborhood2D
   /** Buffer for external needed data coordinates */
   T** mpOutDataCoordinates;
   /** Temporary buffer to compute neighbor cuboid index and num cells */
-  std::size_t* mpTempInNeighbor;
+  std::size_t* mpTmpInNbrNumCells;
   /**
    * Flag to indicate if internal neighbor cuboid and number of cells is
    * initialized

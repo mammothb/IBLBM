@@ -11,6 +11,7 @@ SuperGeometry2D<T>::SuperGeometry2D(
 //    mStatistics(this),
     mOstream{std::cout, "SuperGeometry2D"}
 {
+  this->mCommunicator.InitializeNeighborhood();
   this->mNeedCommunication = true;
 }
 

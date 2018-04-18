@@ -65,6 +65,12 @@ class SuperStructure2D
   /** \return read-only access to CuboidGeometry */
   const CuboidGeometry2D<T>& rGetCuboidGeometry() const;
 
+  /** \return Read and write access to the load balancer */
+  LoadBalancer<T>& rGetLoadBalancer();
+
+  /** \return Read-only access to the load balancer */
+  const LoadBalancer<T>& rGetLoadBalancer() const;
+
  protected:
   /** Grid structure */
   CuboidGeometry2D<T>& mrCuboidGeometry;
