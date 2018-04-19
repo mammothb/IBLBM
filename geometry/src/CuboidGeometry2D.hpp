@@ -14,6 +14,9 @@ template<typename T> class AbstractIndicatorFunctor2D;
  * Cuboid geometry contains one or multiple cuboid. To represent a connected
  * domain, the distance between two neighboring cuboid must be less than the
  * smallest delta R between them.
+ *
+ * \param mMotherCuboid cuboid which contain all other cuboids
+ * \param mCuboids vector of cuboids
  */
 template<typename T>
 class CuboidGeometry2D
@@ -70,16 +73,32 @@ class CuboidGeometry2D
    * Splits cuboid at index, removes it and add p cuboids
    *
    * \param index the cuboid to be split and removed
-   * \param p the number of cuboid to be split into
+   * \param numCuboid the number of cuboid to be split into
    */
   void Split(
       gsl::index index
-    , std::size_t p);
+    , std::size_t numCuboid);
 
   /**
    * Shrink all cuboids so that no empty planes are left
    */
   void Shrink(AbstractIndicatorFunctor2D<T>& rIndicatorFunctor);
+
+  /**
+   * Refine the target area of refinementLevel to one level higher
+   *
+   * \param xPosition0 x coordinate of lower left corner of target area
+   * \param yPosition0 y coordinate of lower left corner of target area
+   * \param xPosition1 x coordinate of upper right corner of target area
+   * \param yPosition1 y coordinate of upper right corner of target area
+   * \param refinementLevel target refinement level
+   */
+  void RefineArea(
+      T xPosition0
+    , T yPosition0
+    , T xPosition1
+    , T yPosition1
+    , int refinementLevel);
 
   /**
    * Returns true and the cuboid number of the nearest lattice position to
@@ -94,11 +113,60 @@ class CuboidGeometry2D
       const Vector2D<T>& rPhysR
     , gsl::index& rGlobalCuboidIndex);
 
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 mDeltaR
+   * which belongs to the cuboid geometry, return true and write the cuboid
+   * index to rIndex
+   */
+  bool HasCuboid(
+      const std::vector<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex) const;
+
   /** \return read and write acces to the i-th cuboid */
   Cuboid2D<T>& rGetCuboid(gsl::index i);
 
   /** \return read-only acces to the i-th cuboid */
   const Cuboid2D<T>& rGetCuboid(gsl::index i) const;
+
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 * mDeltaR
+   * which belongs to the cuboid geometry, return true and write the nearest
+   * lattice position
+   */
+  bool GetLatticeR(
+      const std::vector<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex
+    , std::vector<gsl::index>& rLatticeR) const;
+
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 * mDeltaR
+   * which belongs to the cuboid geometry, return true and write the nearest
+   * lattice position
+   */
+  bool GetLatticeR(
+      const T physR[]
+    , gsl::index& rGlobalCuboidIndex
+    , gsl::index latticeR[]) const;
+
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 * mDeltaR
+   * which belongs to the cuboid geometry, return true and write the floored
+   * lattice position
+   */
+  bool GetFloorLatticeR(
+      const std::vector<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex
+    , std::vector<gsl::index>& rLatticeR) const;
+
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 * mDeltaR
+   * which belongs to the cuboid geometry, return true and write the floored
+   * lattice position
+   */
+  bool GetFloorLatticeR(
+      const Vector2D<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex
+    , Vector2D<gsl::index>& rLatticeR) const;
 
   /**
    * \return the physical position to the given lattice position respecting
@@ -112,17 +180,49 @@ class CuboidGeometry2D
     , gsl::index xIndex
     , gsl::index yIndex) const;
 
+  /**
+   * \return the physical position to the given lattice position respecting
+   * periodicity for the overlap nodes which are not in the mother cuboid for
+   * the case the flag mIsPeriodic[d] = true if the physical position is
+   * within any of the cuboids with an overlap of 1/2 * deltaR belonging to
+   * the cuboid geometry
+   */
+  Vector2D<T> GetPhysR(
+      gsl::index globalCuboidIndex
+    , const std::vector<gsl::index>& rLatticeR) const;
+
   /** \return the minimum coordinate in the structure */
   Vector2D<T> GetMinPhysR() const;
 
   /** \return the maximum coordinate in the structure */
   Vector2D<T> GetMaxPhysR() const;
 
-  /** \return the maximum/minimum delata in the structure */
-  T GetMinDeltaR() const;
-
   /** \return the number of cuboids in the structure */
   std::size_t GetNumberOfCuboids() const;
+
+  /** \return the minimum of the ratio mNx / mNy in the structure */
+  T GetMinRatio() const;
+
+  /** \return the maximum of the ratio mNx / mNy in the structure */
+  T GetMaxRatio() const;
+
+  /** \return Returns the minimum volume in the structure */
+  T GetMinPhysVolume() const;
+
+  /** \return Returns the maximum volume in the structure */
+  T GetMaxPhysVolume() const;
+
+  /** \return the minimum number of nodes in the structure */
+  std::size_t GetMinLatticeVolume() const;
+
+  /** \return the maximum number of nodes in the structure */
+  std::size_t GetMaxLatticeVolume() const;
+
+  /** \return the minimum delta in the structure */
+  T GetMinDeltaR() const;
+
+  /** \return the maximum delta in the structure */
+  T GetMaxDeltaR() const;
 
   /**
    * \return the smallest cuboid that includes all cuboids of the structure
@@ -130,12 +230,12 @@ class CuboidGeometry2D
   Cuboid2D<T> GetMotherCuboid() const;
 
   /**
-   * For a given point (globalXPos, globalYPos), returns the related
+   * For a given point (xPosition, yPosition), returns the related
    * mGlobalCuboidIndex or 0 if the point is not in any of the cuboid
    */
   gsl::index GetGlobalCuboidIndex(
-      T globalXPos
-    , T globalYPos
+      T xPosition
+    , T yPosition
     , std::size_t offset = 0) const;
 
   /** Set flag to enable/disable periodicity */

@@ -9,6 +9,17 @@
 
 namespace iblbm
 {
+/**
+ * A regular single 2D cuboid. A basic component of a 2D cuboid structure
+ * which defines the grid. It is given by its lower left corner,
+ * number of nodes in the x- and y- direction, and node spacing
+ *
+ * \param mXPosition x-coordinate of the lower left corner
+ * \param mYPosition y-coordinate of the lower left corner
+ * \param mDeltaR node spacing
+ * \param mNx number of nodes in the x-direction
+ * \param mNy number of nodes in the y-direction
+ */
 template<typename T>
 class Cuboid2D
 {

@@ -16,7 +16,7 @@ CuboidGeometry2D<T>::CuboidGeometry2D()
     mIsPeriodic(3, false),
     mOstream{std::cout, "CuboidGeometry2D"}
 {
-  Split(/*index=*/0, /*p=*/1u);
+  Split(/*index=*/0, /*numCuboid=*/1u);
 }
 
 template<typename T>
@@ -71,11 +71,11 @@ void CuboidGeometry2D<T>::Remove(gsl::index index)
 template<typename T>
 void CuboidGeometry2D<T>::Split(
     gsl::index index
-  , std::size_t p)
+  , std::size_t numCuboid)
 {
-  Cuboid2D<T> temp(mCuboids[index].GetOrigin(), mCuboids[index].GetDeltaR(),
-      mCuboids[index].GetLatticeExtent());
-  temp.Divide(p, mCuboids);
+  Cuboid2D<T> tmp {mCuboids[index].GetOrigin(), mCuboids[index].GetDeltaR(),
+      mCuboids[index].GetLatticeExtent()};
+  tmp.Divide(numCuboid, mCuboids);
   Remove(index);
 }
 
@@ -134,12 +134,105 @@ void CuboidGeometry2D<T>::Shrink(
 }
 
 template<typename T>
+void CuboidGeometry2D<T>::RefineArea(
+    T xPosition0
+  , T yPosition0
+  , T xPosition1
+  , T yPosition1
+  , int refinementLevel)
+{
+  for (gsl::index i {0}; i < GetNumberOfCuboids(); ++i) {
+    // Ignore cuboids if they aren't at our target refinementLevel
+    if (rGetCuboid(i).GetRefinementLevel() != refinementLevel) continue;
+
+    // Ignore cuboid if they don't intersect our target area
+    gsl::index x_index_0 {0};
+    gsl::index y_index_0 {0};
+    gsl::index x_index_1 {0};
+    gsl::index y_index_1 {0};
+    if (!rGetCuboid(i).CheckIntersection(xPosition0, yPosition0, xPosition1,
+        yPosition1, x_index_0, y_index_0, x_index_1, y_index_1)) {
+      continue;
+    }
+
+    auto x_position {rGetCuboid(i).GetGlobalXPosition()};
+    auto y_position {rGetCuboid(i).GetGlobalYPosition()};
+    auto delta_R {rGetCuboid(i).GetDeltaR()};
+    auto nx {rGetCuboid(i).GetNx()};
+    auto ny {rGetCuboid(i).GetNy()};
+
+    // Split the non-intersected area into several cuboid to maintain their
+    // refinement level
+    // If the intersection area does not exceed the left edge of the current
+    // cuboid, add the entire non-intersection left area
+    if (x_index_0 != 0) {
+      Cuboid2D<T> left {x_position, y_position, delta_R,
+          static_cast<std::size_t>(x_index_0), ny, refinementLevel};
+      Add(left);
+    }
+
+    // If the intersection area does not exceed the lower edge of the current
+    // cuboid, add the entire non-intersection lower area or to the right of
+    // previously added left area
+    if (y_index_0 != 0) {
+      Cuboid2D<T> lower {x_position + static_cast<T>(x_index_0) *
+          delta_R, y_position, delta_R, nx - x_index_0,
+          static_cast<std::size_t>(y_index_0), refinementLevel};
+      Add(lower);
+    }
+
+    // If the intersection area does not exceed the right edge of the current
+    // cuboid, add the entire non-intersected right area or above previously
+    // added lower area
+    if (x_index_1 != rGetCuboid(i).GetNx() - 1) {
+      Cuboid2D<T> right {x_position + static_cast<T>(x_index_1 + 1) *
+          delta_R, y_position + static_cast<T>(y_index_0) * delta_R, delta_R,
+          nx - x_index_1 - 1, ny - y_index_0, refinementLevel};
+      Add(right);
+    }
+
+    // If the intersection area does not exceed the upper edge of the current
+    // cuboid, add the entire non-intersected top area or to the left of
+    // previously added right area
+    if (y_index_1 != rGetCuboid(i).GetNy() - 1) {
+      Cuboid2D<T> upper {x_position + static_cast<T>(x_index_0) * delta_R,
+          y_position + static_cast<T>(y_index_1 + 1) * delta_R, delta_R,
+          static_cast<std::size_t>(x_index_1 - x_index_0 + 1),
+          ny - y_index_1 - 1, refinementLevel};
+      Add(upper);
+    }
+    // Shrink the current cuboid to the intersected area and increase its
+    // refinement by 1
+    rGetCuboid(i).Initialize(x_position + static_cast<T>(x_index_0) *
+        delta_R, y_position + static_cast<T>(y_index_0) * delta_R, delta_R,
+        x_index_1 - x_index_0 + 1, y_index_1 - y_index_0 + 1,
+        refinementLevel);
+    rGetCuboid(i).RefineIncrease();
+  }
+}
+
+template<typename T>
 bool CuboidGeometry2D<T>::HasCuboid(
     const Vector2D<T>& rPhysR
   , gsl::index& rGlobalCuboidIndex)
 {
   auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
-  if (tmp_index < GetNumberOfCuboids()) {
+  if (tmp_index != -1) {
+    rGlobalCuboidIndex = tmp_index;
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
+bool CuboidGeometry2D<T>::HasCuboid(
+    const std::vector<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex) const
+{
+  auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
+  if (tmp_index != -1) {
     rGlobalCuboidIndex = tmp_index;
     return true;
   }
@@ -163,6 +256,81 @@ const Cuboid2D<T>& CuboidGeometry2D<T>::rGetCuboid(gsl::index i) const
 }
 
 template<typename T>
+bool CuboidGeometry2D<T>::GetLatticeR(
+    const std::vector<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex
+  , std::vector<gsl::index>& rLatticeR) const
+{
+  return GetLatticeR(rPhysR.data(), rGlobalCuboidIndex, rLatticeR.data());
+}
+
+template<typename T>
+bool CuboidGeometry2D<T>::GetLatticeR(
+    const T physR[]
+  , gsl::index& rGlobalCuboidIndex
+  , gsl::index latticeR[]) const
+{
+  auto tmp_index {GetGlobalCuboidIndex(physR[0], physR[1])};
+  if (tmp_index < GetNumberOfCuboids()) {
+    rGlobalCuboidIndex = tmp_index;
+    latticeR[0] = static_cast<gsl::index>((physR[0] -
+        mCuboids[tmp_index].GetOrigin()[0]) /
+        mCuboids[tmp_index].GetDeltaR() + 0.5);
+    latticeR[1] = static_cast<gsl::index>((physR[1] -
+        mCuboids[tmp_index].GetOrigin()[1]) /
+        mCuboids[tmp_index].GetDeltaR() + 0.5);
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
+bool CuboidGeometry2D<T>::GetFloorLatticeR(
+    const std::vector<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex
+  , std::vector<gsl::index>& rLatticeR) const
+{
+  auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
+  if (tmp_index < GetNumberOfCuboids()) {
+    rGlobalCuboidIndex = tmp_index;
+    rLatticeR[0] = static_cast<gsl::index>(floor((rPhysR[0] -
+        mCuboids[tmp_index].GetOrigin()[0]) /
+        mCuboids[tmp_index].GetDeltaR()));
+    rLatticeR[1] = static_cast<gsl::index>(floor((rPhysR[1] -
+        mCuboids[tmp_index].GetOrigin()[1]) /
+        mCuboids[tmp_index].GetDeltaR()));
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
+bool CuboidGeometry2D<T>::GetFloorLatticeR(
+  const Vector2D<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex
+  , Vector2D<gsl::index>& rLatticeR) const
+{
+  auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
+  if (tmp_index < GetNumberOfCuboids()) {
+    rGlobalCuboidIndex = tmp_index;
+    rLatticeR[0] = static_cast<gsl::index>(floor((rPhysR[0] -
+        mCuboids[tmp_index].GetOrigin()[0]) /
+        mCuboids[tmp_index].GetDeltaR()));
+    rLatticeR[1] = static_cast<gsl::index>(floor((rPhysR[1] -
+        mCuboids[tmp_index].GetOrigin()[1]) /
+        mCuboids[tmp_index].GetDeltaR()));
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
 Vector2D<T> CuboidGeometry2D<T>::GetPhysR(
     gsl::index globalCuboidIndex
   , gsl::index xIndex
@@ -182,6 +350,14 @@ Vector2D<T> CuboidGeometry2D<T>::GetPhysR(
     }
   }
   return phys_R;
+}
+
+template<typename T>
+Vector2D<T> CuboidGeometry2D<T>::GetPhysR(
+    gsl::index globalCuboidIndex
+  , const std::vector<gsl::index>& rLatticeR) const
+{
+  return GetPhysR(globalCuboidIndex, rLatticeR[0], rLatticeR[1]);
 }
 
 template<typename T>
@@ -215,20 +391,103 @@ Vector2D<T> CuboidGeometry2D<T>::GetMaxPhysR() const
 }
 
 template<typename T>
-T CuboidGeometry2D<T>::GetMinDeltaR() const
-{
-  auto min_delta_R {mCuboids[0].GetDeltaR()};
-  for (gsl::index i = 0; i < mCuboids.size(); ++i) {
-    if (mCuboids[i].GetDeltaR() < min_delta_R)
-        min_delta_R = mCuboids[i].GetDeltaR();
-  }
-  return min_delta_R;
-}
-
-template<typename T>
 std::size_t CuboidGeometry2D<T>::GetNumberOfCuboids() const
 {
   return mCuboids.size();
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMinRatio() const
+{
+  T min_ratio {1};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (static_cast<T>(mCuboids[i].GetNx()) /
+        static_cast<T>(mCuboids[i].GetNy()) < min_ratio) {
+      min_ratio = static_cast<T>(mCuboids[i].GetNx()) /
+          static_cast<T>(mCuboids[i].GetNy());
+    }
+  }
+  return min_ratio;
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMaxRatio() const
+{
+  T max_ratio {1};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (static_cast<T>(mCuboids[i].GetNx()) /
+        static_cast<T>(mCuboids[i].GetNy()) > max_ratio) {
+      max_ratio = static_cast<T>(mCuboids[i].GetNx()) /
+          static_cast<T>(mCuboids[i].GetNy());
+    }
+  }
+  return max_ratio;
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMinPhysVolume() const
+{
+  T min_volume {mCuboids[0].GetPhysVolume()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetPhysVolume() < min_volume)
+        min_volume = mCuboids[i].GetPhysVolume();
+  }
+  return min_volume;
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMaxPhysVolume() const
+{
+  T max_volume {mCuboids[0].GetPhysVolume()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetPhysVolume() > max_volume)
+        max_volume = mCuboids[i].GetPhysVolume();
+  }
+  return max_volume;
+}
+
+template<typename T>
+std::size_t CuboidGeometry2D<T>::GetMinLatticeVolume() const
+{
+  std::size_t min_nodes {mCuboids[0].GetLatticeVolume()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetLatticeVolume() < min_nodes)
+        min_nodes = mCuboids[i].GetLatticeVolume();
+  }
+  return min_nodes;
+}
+
+template<typename T>
+std::size_t CuboidGeometry2D<T>::GetMaxLatticeVolume() const
+{
+  std::size_t max_nodes {mCuboids[0].GetLatticeVolume()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetLatticeVolume() > max_nodes)
+        max_nodes = mCuboids[i].GetLatticeVolume();
+  }
+  return max_nodes;
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMinDeltaR() const
+{
+  T min_delta {mCuboids[0].GetDeltaR()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetDeltaR() < min_delta)
+        min_delta = mCuboids[i].GetDeltaR();
+  }
+  return min_delta;
+}
+
+template<typename T>
+T CuboidGeometry2D<T>::GetMaxDeltaR() const
+{
+  T max_delta {mCuboids[0].GetDeltaR()};
+  for (gsl::index i {0}; i < mCuboids.size(); ++i) {
+    if (mCuboids[i].GetDeltaR() > max_delta)
+        max_delta = mCuboids[i].GetDeltaR();
+  }
+  return max_delta;
 }
 
 template<typename T>
@@ -239,12 +498,12 @@ Cuboid2D<T> CuboidGeometry2D<T>::GetMotherCuboid() const
 
 template<typename T>
 gsl::index CuboidGeometry2D<T>::GetGlobalCuboidIndex(
-    T globalXPos
-  , T globalYPos
+    T xPosition
+  , T yPosition
   , std::size_t offset/*=0*/) const
 {
   for (gsl::index i {0}; i < mCuboids.size(); ++i) {
-    if (mCuboids[i].ContainPoint(globalXPos, globalYPos, offset)) return i;
+    if (mCuboids[i].ContainPoint(xPosition, yPosition, offset)) return i;
   }
   return -1;
 }

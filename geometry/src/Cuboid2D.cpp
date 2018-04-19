@@ -120,6 +120,7 @@ void Cuboid2D<T>::Divide(
 
   // Ideally divide the cuboid into child cuboids with same number of nodes
   const auto best_ratio {static_cast<T>(mNx) / static_cast<T>(mNy)};
+
   // Difference from the ideal ratio, to track how close we got
   auto best_diff {std::numeric_limits<T>::max()};
   for (gsl::index col = 1; col <= numCuboid; ++col) {
@@ -159,11 +160,11 @@ void Cuboid2D<T>::Divide(
     const auto ny_diff {mNy - ny_same};
     const auto nx_diff {mNx};
     // First child cuboid to be divided into "same" cuboids
-    Cuboid2D<T> child_1(mXPosition, mYPosition, mDeltaR, nx_same, ny_same,
-        mRefinementLevel);
+    Cuboid2D<T> child_1 {mXPosition, mYPosition, mDeltaR, nx_same, ny_same,
+        mRefinementLevel};
     // Second child cuboid to be divided into "diff" cuboids
-    Cuboid2D<T> child_2(mXPosition, mYPosition + mDeltaR * ny_same, mDeltaR,
-        nx_diff, ny_diff, mRefinementLevel);
+    Cuboid2D<T> child_2 {mXPosition, mYPosition + static_cast<T>(ny_same) *
+        mDeltaR, mDeltaR, nx_diff, ny_diff, mRefinementLevel};
     child_1.Divide(num_col, num_row - the_rest, rCuboids);
     // Each row will contain one more cuboid than the "same" child
     child_2.Divide(num_col + 1, the_rest, rCuboids);
@@ -178,12 +179,12 @@ void Cuboid2D<T>::Divide(
     // Add 0.9999 to ensure we round up properly
     const auto nx_same {static_cast<std::size_t>(vol_same /
         static_cast<T>(mNy) + 0.9999)};
-    const auto ny_diff {mNy - ny_same};
-    const auto nx_diff {mNx};
-    Cuboid2D<T> child_1(mXPosition, mYPosition, mDeltaR, nx_same, ny_same,
-        mRefinementLevel);
-    Cuboid2D<T> child_2(mXPosition + mDeltaR * nx_same, mYPosition, mDeltaR,
-        nx_diff, ny_diff, mRefinementLevel);
+    const auto ny_diff {mNy};
+    const auto nx_diff {mNx - nx_same};
+    Cuboid2D<T> child_1 {mXPosition, mYPosition, mDeltaR, nx_same, ny_same,
+        mRefinementLevel};
+    Cuboid2D<T> child_2 {mXPosition + static_cast<T>(nx_same) * mDeltaR,
+        mYPosition, mDeltaR, nx_diff, ny_diff, mRefinementLevel};
     child_1.Divide(num_col - the_rest, num_row, rCuboids);
     // Each column contain one more cuboid than the "same" child
     child_2.Divide(the_rest, num_row + 1, rCuboids);
