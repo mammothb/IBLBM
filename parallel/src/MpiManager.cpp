@@ -183,6 +183,32 @@ void MpiManager::Barrier(
 }
 
 template<>
+void MpiManager::Send<bool>(
+    bool* pBuffer
+  , int count
+  , int destination
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Send(static_cast<void*>(pBuffer), count, MPI_BYTE, destination, tag,
+      comm);
+}
+
+template<>
+void MpiManager::Send<double>(
+    double* pBuffer
+  , int count
+  , int destination
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Send(static_cast<void*>(pBuffer), count, MPI_DOUBLE, destination, tag,
+      comm);
+}
+
+template<>
 void MpiManager::Isend<bool>(
     bool* pBuffer
   , int count
@@ -191,10 +217,9 @@ void MpiManager::Isend<bool>(
   , int tag/*=0*/
   , MPI_Comm comm/*=MPI_COMM_WORLD*/)
 {
-  if (mIsOk) {
-    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_BYTE, destination,
-        tag, comm, pRequest);
-  }
+  if (!mIsOk) return;
+  MPI_Isend(static_cast<void*>(pBuffer), count, MPI_BYTE, destination, tag,
+      comm, pRequest);
 }
 
 template<>
@@ -206,10 +231,9 @@ void MpiManager::Isend<double>(
   , int tag/*=0*/
   , MPI_Comm comm/*=MPI_COMM_WORLD*/)
 {
-  if (mIsOk) {
-    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_DOUBLE, destination,
-        tag, comm, pRequest);
-  }
+  if (!mIsOk) return;
+  MPI_Isend(static_cast<void*>(pBuffer), count, MPI_DOUBLE, destination, tag,
+      comm, pRequest);
 }
 
 template<>
@@ -221,10 +245,9 @@ void MpiManager::Isend<gsl::index>(
   , int tag/*=0*/
   , MPI_Comm comm/*=MPI_COMM_WORLD*/)
 {
-  if (mIsOk) {
-    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_LONG, destination,
-        tag, comm, pRequest);
-  }
+  if (!mIsOk) return;
+  MPI_Isend(static_cast<void*>(pBuffer), count, MPI_LONG, destination, tag,
+      comm, pRequest);
 }
 
 template<>
@@ -236,10 +259,9 @@ void MpiManager::Isend<std::size_t>(
   , int tag/*=0*/
   , MPI_Comm comm/*=MPI_COMM_WORLD*/)
 {
-  if (mIsOk) {
-    MPI_Isend(static_cast<void*>(pBuffer), count, MPI_UNSIGNED_LONG_LONG,
-        destination, tag, comm, pRequest);
-  }
+  if (!mIsOk) return;
+  MPI_Isend(static_cast<void*>(pBuffer), count, MPI_UNSIGNED_LONG_LONG,
+      destination, tag, comm, pRequest);
 }
 
 template <>
@@ -296,6 +318,64 @@ void MpiManager::Receive<gsl::index>(
   MPI_Status status;
   MPI_Recv(static_cast<void*>(pBuffer), count, MPI_LONG, source, tag, comm,
       &status);
+}
+
+template<>
+void MpiManager::SendReceive<int>(
+    int* pSendBuffer
+  , int* pRecvBuffer
+  , int count
+  , int destination
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Sendrecv(static_cast<void*>(pSendBuffer), count, MPI_INT, destination,
+      tag, static_cast<void*>(pRecvBuffer), count, MPI_INT, source, tag,
+      comm, &status);
+}
+
+template<>
+void MpiManager::SendReceive<double>(
+    double* pSendBuffer
+  , double* pRecvBuffer
+  , int count
+  , int destination
+  , int source
+  , int tag/*=0*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Status status;
+  MPI_Sendrecv(static_cast<void*>(pSendBuffer), count, MPI_DOUBLE,
+      destination, tag, static_cast<void*>(pRecvBuffer), count, MPI_DOUBLE,
+      source, tag, comm, &status);
+}
+
+template<>
+void MpiManager::Bcast<int>(
+    int* pBuffer
+  , int count
+  , int root/*=MASTER_RANK*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Bcast(static_cast<void*>(pBuffer), count, MPI_INT, root, comm);
+}
+
+template<>
+void MpiManager::Reduce<int>(
+    int& rSendVal
+  , int& rRecvVal
+  , MPI_Op op
+  , int root/*=MASTER_RANK*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  MPI_Reduce(static_cast<void*>(&rSendVal), static_cast<void*>(&rRecvVal),
+      /*count=*/1, MPI_INT, op, root, comm);
 }
 
 void MpiManager::WaitAll(MpiNonblockingHelper& rHelper)

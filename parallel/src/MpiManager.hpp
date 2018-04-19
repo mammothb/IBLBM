@@ -95,6 +95,10 @@ class MpiManager
   /** \return instance of MpiManager */
   static MpiManager& Instance();
 
+  /** Non copyable */
+  MpiManager(const MpiManager&) = delete;
+  MpiManager& operator=(const MpiManager&) = delete;
+
   /** Initialize MpiManager. Sets mIsOk if initialization is successful */
   void Initialize(
       int* pArgc
@@ -129,6 +133,24 @@ class MpiManager
     , MPI_Comm comm = MPI_COMM_WORLD);
 
   /**
+   * Sends data at pBuffer, blocking. Datatype of each send buffer
+   * element will be decided in the specializations of this method
+   *
+   * \param pBuffer Initial address of send buffer (to be casted to void*)
+   * \param count Number of elements in send buffer
+   * \param destination Rank of destination
+   * \param tag Message tag
+   * \param comm Communicator
+   */
+  template<typename T>
+  void Send(
+      T* pBuffer
+    , int count
+    , int destination
+    , int tag = 0
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
    * Sends data at pBuffer, non blocking. Datatype of each send buffer
    * element will be decided in the specializations of this method
    *
@@ -154,7 +176,7 @@ class MpiManager
    *
    * \param pBuffer Initial address of receive buffer
    * \param count Maximum number of elements to receive
-   * \param  source Rank of source
+   * \param source Rank of source
    * \param tag Message tag
    * \param comm Communicator
    */
@@ -165,6 +187,60 @@ class MpiManager
     , int source
     , int tag = 0
     , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Send and receive a message
+   *
+   * \param pSendBuffer initial address of send buffer
+   * \param pRecvBuffer initial address of receive buffer
+   * \param count number of elements in send/receive buffer
+   * \param destination rank of destination
+   * \param source rank of source
+   * \param tag Message tag
+   * \param comm Communicator
+   */
+  template<typename T>
+  void SendReceive(
+      T* pSendBuffer
+    , T* pRecvBuffer
+    , int count
+    , int destination
+    , int source
+    , int tag = 0
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Broadcasts a message from the process with rank "root" to all other
+   * processes of the communicator
+   *
+   * \param pBuffer starting address of buffer
+   * \param count number of entries in buffer
+   * \param root rank of broadcast root
+   * \param comm Communicator
+   */
+  template<typename T>
+  void Bcast(
+      T* pBuffer
+    , int count
+    , int root = MASTER_RANK
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
+   * Reduces values on all processes to a single value
+   *
+   * \param rSendVal value to be sent
+   * \param rRecvVal value to be received
+   * \param op MPI reduce operation
+   * \param root rank of root process
+   * \param comm Communicator
+   */
+  template<typename T>
+  void Reduce(
+      T& rSendVal
+    , T& rRecvVal
+    , MPI_Op op
+    , int root = MASTER_RANK
+    , MPI_Comm = MPI_COMM_WORLD);
 
   /**
    * Complete a series of non-blocking MPI operations
