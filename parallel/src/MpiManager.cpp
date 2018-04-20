@@ -378,6 +378,20 @@ void MpiManager::Reduce<int>(
       /*count=*/1, MPI_INT, op, root, comm);
 }
 
+template<>
+void MpiManager::ReduceAndBcast<int>(
+    int& rReduceVal
+  , MPI_Op op
+  , int root/*=MASTER_RANK*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  int recv_val;
+  MPI_Reduce(&rReduceVal, &recv_val, /*count=*/1, MPI_INT, op, root, comm);
+  rReduceVal = recv_val;
+  MPI_Bcast(&rReduceVal, /*count=*/1, MPI_INT, root, comm);
+}
+
 void MpiManager::WaitAll(MpiNonblockingHelper& rHelper)
 {
   if (!mIsOk) return;

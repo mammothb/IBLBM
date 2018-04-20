@@ -7,7 +7,6 @@ namespace iblbm
 {
 SUITE(TestParallel)
 {
-#ifdef IBLBM_PARALLEL_MPI
 TEST(TestMpiNonblockingHelper_Constructor_Default)
 {
   MpiNonblockingHelper helper;
@@ -33,7 +32,6 @@ TEST(TestMpiNonblockingHelper_Allocate_Free)
   CHECK(helper.pGetMpiRequest() != nullptr);
   CHECK(helper.pGetMpiStatus() != nullptr);
 }
-#endif  // IBLBM_PARALLEL_MPI
 }
 }  // namespace iblbm
 #endif  // IBLBM_PARALLEL_MPI

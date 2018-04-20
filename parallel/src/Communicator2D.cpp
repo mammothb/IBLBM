@@ -45,11 +45,11 @@ void Communicator2D<T>::AddCells(std::size_t overlap)
 template<typename T>
 void Communicator2D<T>::Initialize()
 {
-//  Reset();
-//  for (gsl::index global_idx {0};
-//      global_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
-//      ++global_idx) {
-//    mNeighborhood[global_idx].InitializeInNeighbor();
+  Reset();
+  for (gsl::index global_idx {0};
+      global_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
+      ++global_idx) {
+    mNeighborhood[global_idx].InitializeInNeighbor();
 //    for (gsl::index i {0}; i < mNeighborhood[global_idx].GetInCellsSize();
 //        ++i) {
 //      auto global_cuboid_idx {
@@ -66,7 +66,7 @@ void Communicator2D<T>::Initialize()
 //        _nh[_superStructure.getLoadBalancer().loc(ID)].add_outCell(tmp_cell);
 //      }
 //    }
-//  }
+  }
 
 //  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
 //    _nh[iC].init_outCN();

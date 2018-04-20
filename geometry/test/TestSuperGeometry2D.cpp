@@ -25,7 +25,7 @@ TEST(TestSuperGeometry2D_Constructor)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
 }
 }
 }  // namespace iblbm

@@ -2,6 +2,7 @@
 #define GEOMETRY_SRC_SUPERGEOMETRY2D_HPP_
 
 #include "BlockGeometry2D.hpp"
+#include "SuperGeometryStatistics2D.hpp"
 #include "SuperStructure2D.hpp"
 
 namespace iblbm
@@ -51,6 +52,7 @@ class SuperGeometry2D : public SuperStructure2D<T>
  private:
   /** Vector of block geometries with overlap */
   std::vector<BlockGeometry2D<T>> mExtendedBlockGeometries;
+  SuperGeometryStatistics2D<T> mStatistics;
   /** class specific output stream */
   mutable OstreamManager mOstream;
 };

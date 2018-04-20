@@ -7,8 +7,8 @@ SuperGeometry2D<T>::SuperGeometry2D(
     CuboidGeometry2D<T>& rCuboidGeometry
   , LoadBalancer<T>& rLoadBalancer
   , std::size_t overlap/*=2*/)
-  :  SuperStructure2D<T>{rCuboidGeometry, rLoadBalancer, overlap},
-//    mStatistics(this),
+  : SuperStructure2D<T>{rCuboidGeometry, rLoadBalancer, overlap},
+    mStatistics{this},
     mOstream{std::cout, "SuperGeometry2D"}
 {
   this->mCommunicator.InitializeNeighborhood();

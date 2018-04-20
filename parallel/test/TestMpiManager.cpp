@@ -23,6 +23,7 @@ static const auto g_zero_tol {1e-20};
 
 TEST(TestMpiManager_Initialize)
 {
+
 #ifdef IBLBM_PARALLEL_MPI
   TestMpiManager tester;
   CHECK_EQUAL(true, tester.GetIsOk());
@@ -265,14 +266,40 @@ TEST(TestMpiManager_Reduce_Int_UserDefined)
   MpiManager::Instance().Reduce(send_val, recv_val, MPI_SUM, root);
   if (MpiManager::Instance().GetRank() == root) {
     int sum {0};
-    for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i) {
+    for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
         sum += i;
-    }
     CHECK_EQUAL(sum, recv_val);
   }
   else {
     CHECK_EQUAL(0, recv_val);
   }
+}
+
+TEST(TestMpiManager_ReduceAndBcast_Int_Default)
+{
+  TestMpiManager tester;
+  CHECK_EQUAL(true, tester.GetIsOk());
+
+  int send_val {MpiManager::Instance().GetRank()};
+  int sum {0};
+  for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
+      sum += i;
+  MpiManager::Instance().ReduceAndBcast(send_val, MPI_SUM);
+  CHECK_EQUAL(sum, send_val);
+}
+
+TEST(TestMpiManager_ReduceAndBcast_Int_UserDefined)
+{
+  TestMpiManager tester;
+  CHECK_EQUAL(true, tester.GetIsOk());
+
+  auto root {2};
+  int send_val {MpiManager::Instance().GetRank()};
+  int sum {0};
+  for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
+      sum += i;
+  MpiManager::Instance().ReduceAndBcast(send_val, MPI_SUM, root);
+  CHECK_EQUAL(sum, send_val);
 }
 #endif  // IBLBM_PARALLEL_MPI
 }

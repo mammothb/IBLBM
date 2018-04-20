@@ -22,13 +22,13 @@ int main(int argc, char** argv)
 //  return iblbm::RunAllTheTests();
 
   /// Run multiple suites
-//  return iblbm::RunMultipleSuites(functionality_suites);
+  return iblbm::RunMultipleSuites(functionality_suites);
 
   /// Run single suite
 //  return iblbm::RunOneSuite("TestBoundary");
 //  return iblbm::RunOneSuite("TestCore");
 //  return iblbm::RunOneSuite("TestDynamics");
-  return iblbm::RunOneSuite("TestParallel");
+//  return iblbm::RunOneSuite("TestParallel");
 
   /// Analytical solutions
 //  return iblbm::RunOneTest("AnalyticalPoiseuille");

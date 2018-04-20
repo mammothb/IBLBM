@@ -243,6 +243,22 @@ class MpiManager
     , MPI_Comm = MPI_COMM_WORLD);
 
   /**
+   * Reduce values on all process to a single value and then broadcast to
+   * all processes
+   *
+   * \param rReduceVal value to be reduced
+   * \param op MPI reduce operation
+   * \param root rank of root process
+   * \param comm Communicator
+   */
+  template<typename T>
+  void ReduceAndBcast(
+      T& rReduceVal
+    , MPI_Op op
+    , int root = MASTER_RANK
+    , MPI_Comm comm = MPI_COMM_WORLD);
+
+  /**
    * Complete a series of non-blocking MPI operations
    *
    * \param rHelper reference to nonblocking helper

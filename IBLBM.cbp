@@ -279,6 +279,8 @@
 		<Unit filename="geometry/src/CuboidGeometry2D.hpp" />
 		<Unit filename="geometry/src/SuperGeometry2D.cpp" />
 		<Unit filename="geometry/src/SuperGeometry2D.hpp" />
+		<Unit filename="geometry/src/SuperGeometryStatistics2D.cpp" />
+		<Unit filename="geometry/src/SuperGeometryStatistics2D.hpp" />
 		<Unit filename="geometry/test/TestCuboid2D.cpp" />
 		<Unit filename="geometry/test/TestCuboidGeometry2D.cpp" />
 		<Unit filename="geometry/test/TestSuperGeometry2D.cpp" />
