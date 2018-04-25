@@ -8050,7 +8050,7 @@
 	<vector>
 	"Exception.hpp"
 
-1523606359 /home/mmb/code/IBLBM/dynamics/src/Descriptor.hpp
+1524637499 /home/mmb/code/IBLBM/dynamics/src/Descriptor.hpp
 	<cstddef>
 	<stdexcept>
 	<vector>
@@ -8113,11 +8113,13 @@
 	"BlockData2D.hpp"
 	"Cuboid2D.hpp"
 
-1523606431 /home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.hpp
+1524646385 /home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.hpp
 	"gsl/gsl"
+	"BlockGeometryStatistics2D.hpp"
 	"OstreamManager.hpp"
+	"Vector.hpp"
 
-1524217064 /home/mmb/code/IBLBM/core/src/BlockData2D.hpp
+1524648429 /home/mmb/code/IBLBM/core/src/BlockData2D.hpp
 	"BlockStructure2D.hpp"
 	"Serializable.hpp"
 
@@ -8164,7 +8166,7 @@
 	<cstddef>
 	<vector>
 
-1523606333 /home/mmb/code/IBLBM/core/src/Cell.hpp
+1524637499 /home/mmb/code/IBLBM/core/src/Cell.hpp
 	<vector>
 	"gsl/gsl"
 	"AbstractDynamicsInterface.hpp"
@@ -8198,7 +8200,7 @@
 	"AbstractMomentaInterface.hpp"
 	"Cell.hpp"
 
-1524219142 source:/home/mmb/code/IBLBM/core/src/BlockData2D.cpp
+1524648615 source:/home/mmb/code/IBLBM/core/src/BlockData2D.cpp
 	"BlockData2D.hpp"
 	"gsl/gsl"
 	"Cuboid2D.hpp"
@@ -8209,7 +8211,7 @@
 1523515781 source:/home/mmb/code/IBLBM/core/src/BufferSerializable.cpp
 	"BufferSerializable.hpp"
 
-1523589159 source:/home/mmb/code/IBLBM/core/src/Cell.cpp
+1524639894 source:/home/mmb/code/IBLBM/core/src/Cell.cpp
 	"Cell.hpp"
 
 1523414496 source:/home/mmb/code/IBLBM/core/src/Exception.cpp
@@ -8262,7 +8264,7 @@
 	"UnitConverter.hpp"
 	"Descriptor.hpp"
 
-1524218537 source:/home/mmb/code/IBLBM/core/test/TestBlockData2D.cpp
+1524640441 source:/home/mmb/code/IBLBM/core/test/TestBlockData2D.cpp
 	"gsl/gsl"
 	"UnitTest++/UnitTest++.h"
 	"BlockData2D.hpp"
@@ -8272,7 +8274,7 @@
 	"UnitTest++/UnitTest++.h"
 	"BlockStructure2D.hpp"
 
-1523586843 source:/home/mmb/code/IBLBM/core/test/TestCell.cpp
+1524639317 source:/home/mmb/code/IBLBM/core/test/TestCell.cpp
 	<cassert>
 	<iostream>
 	<numeric>
@@ -8305,7 +8307,7 @@
 	"MpiManager.hpp"
 	"Serializer.hpp"
 
-1523416247 source:/home/mmb/code/IBLBM/core/test/TestUnitConverter.cpp
+1524637499 source:/home/mmb/code/IBLBM/core/test/TestUnitConverter.cpp
 	<cmath>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
@@ -8326,7 +8328,7 @@
 	"CoreUtilities.hpp"
 	"Helpers.hpp"
 
-1523606359 /home/mmb/code/IBLBM/dynamics/src/Helpers.hpp
+1524637499 /home/mmb/code/IBLBM/dynamics/src/Helpers.hpp
 	<numeric>
 	<vector>
 	"gsl/gsl"
@@ -8356,7 +8358,7 @@
 1523529666 source:/home/mmb/code/IBLBM/dynamics/src/Descriptor.cpp
 	"Descriptor.hpp"
 
-1523584948 source:/home/mmb/code/IBLBM/dynamics/src/ForcedBgkDynamics.cpp
+1524637499 source:/home/mmb/code/IBLBM/dynamics/src/ForcedBgkDynamics.cpp
 	"ForcedBgkDynamics.hpp"
 	"gsl/gsl"
 	"Helpers.hpp"
@@ -8391,13 +8393,13 @@
 	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1523585754 source:/home/mmb/code/IBLBM/dynamics/test/TestDescriptor.cpp
+1524637499 source:/home/mmb/code/IBLBM/dynamics/test/TestDescriptor.cpp
 	<iostream>
 	"UnitTest++/UnitTest++.h"
 	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1523586838 source:/home/mmb/code/IBLBM/dynamics/test/TestForcedBgkDynamics.cpp
+1524637499 source:/home/mmb/code/IBLBM/dynamics/test/TestForcedBgkDynamics.cpp
 	<iostream>
 	<numeric>
 	"UnitTest++/UnitTest++.h"
@@ -8406,7 +8408,7 @@
 	"ForcedBgkDynamics.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1523586774 source:/home/mmb/code/IBLBM/dynamics/test/TestHelpers.cpp
+1524637499 source:/home/mmb/code/IBLBM/dynamics/test/TestHelpers.cpp
 	<array>
 	<chrono>
 	<numeric>
@@ -8441,7 +8443,7 @@
 	"UnitTestCustomUtilities.hpp"
 	"Vector.hpp"
 
-1523529317 source:/home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.cpp
+1524646388 source:/home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.cpp
 	"AbstractBlockGeometryInterface2D.hpp"
 	<iostream>
 
@@ -8465,7 +8467,7 @@
 1524205664 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.cpp
 	"SuperGeometry2D.hpp"
 
-1524120374 source:/home/mmb/code/IBLBM/geometry/test/TestCuboid2D.cpp
+1524560550 source:/home/mmb/code/IBLBM/geometry/test/TestCuboid2D.cpp
 	<cmath>
 	<iostream>
 	<limits>
@@ -8586,7 +8588,7 @@
 	"Serializer.hpp"
 	"SerializerIO.hpp"
 
-1524205432 source:/home/mmb/code/IBLBM/main-devel.cpp
+1524639991 source:/home/mmb/code/IBLBM/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -8603,7 +8605,7 @@
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
-1523961226 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
+1524560550 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
@@ -8625,7 +8627,7 @@
 1523954465 source:/home/mmb/code/IBLBM/parallel/src/SuperStructure2D.cpp
 	"SuperStructure2D.hpp"
 
-1523958388 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
+1524560550 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
 	"UnitTest++/UnitTest++.h"
 	"CuboidGeometry2D.hpp"
 	"CuboidNeighborhood2D.hpp"
@@ -8681,4 +8683,15 @@
 
 1524204990 /home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.hpp
 	"OstreamManager.hpp"
+
+1524650258 /home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.hpp
+	<map>
+	"gsl/gsl"
+	"OstreamManager.hpp"
+
+1524647853 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.cpp
+	"BlockGeometryStatistics2D.hpp"
+	<cmath>
+	<iostream>
+	"AbstractBlockGeometryInterface2D.hpp"
 

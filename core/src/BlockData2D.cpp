@@ -144,28 +144,28 @@ void BlockData2D<T, BaseType>::Reset()
 
 template<typename T, typename BaseType>
 BaseType& BlockData2D<T, BaseType>::rGetData(
-    gsl::index x
-  , gsl::index y
+    gsl::index xIndex
+  , gsl::index yIndex
   , gsl::index d/*=0*/)
 {
-  Expects(x >= 0 && x < this->mNx);
-  Expects(y >= 0 && y < this->mNy);
+  Expects(xIndex >= 0 && xIndex < this->mNx);
+  Expects(yIndex >= 0 && yIndex < this->mNy);
   Expects(d >= 0 && d < this->mDimension);
   Expects(IsConstructed());
-  return mpField[x][y][d];
+  return mpField[xIndex][yIndex][d];
 }
 
 template<typename T, typename BaseType>
 const BaseType& BlockData2D<T, BaseType>::rGetData(
-    gsl::index x
-  , gsl::index y
+    gsl::index xIndex
+  , gsl::index yIndex
   , gsl::index d/*=0*/) const
 {
-  Expects(x >= 0 && x < this->mNx);
-  Expects(y >= 0 && y < this->mNy);
+  Expects(xIndex >= 0 && xIndex < this->mNx);
+  Expects(yIndex >= 0 && yIndex < this->mNy);
   Expects(d >= 0 && d < this->mDimension);
   Expects(IsConstructed());
-  return mpField[x][y][d];
+  return mpField[xIndex][yIndex][d];
 }
 
 template<typename T, typename BaseType>
@@ -185,9 +185,22 @@ const BaseType& BlockData2D<T, BaseType>::operator[](gsl::index i) const
 }
 
 template<typename T, typename BaseType>
+bool* BlockData2D<T, BaseType>::operator()(
+    gsl::index xIndex
+  , gsl::index yIndex
+  , gsl::index d)
+{
+  Expects(xIndex >= 0 && xIndex < this->mNx);
+  Expects(yIndex >= 0 && yIndex < this->mNy);
+  Expects(d >= 0 && d < this->mDimension);
+  Expects(IsConstructed());
+  return (bool*)&mpField[xIndex][yIndex][d];
+}
+
+template<typename T, typename BaseType>
 BaseType BlockData2D<T, BaseType>::GetMax()
 {
-  return ***std::max_element(mpField, mpField + GetDataSize());
+  return *std::max_element(mpRawData, mpRawData + GetDataSize());
 }
 
 template<typename T, typename BaseType>
@@ -231,11 +244,12 @@ template<typename T, typename BaseType>
 bool* BlockData2D<T, BaseType>::pGetBlock(
     gsl::index blockIndex
   , std::size_t& rBlockSize
-  , const bool /*isLoad*/)
+  , const bool /*isLoad=false*/)
 {
   gsl::index current_block_index {0};
   bool* p_data {nullptr};
-  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data, mDimension);
+  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
+      mDimension);
   RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
       this->mNx);
   RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,

@@ -93,27 +93,27 @@ class BlockData2D
   void Reset();
 
   /**
-   * read and write access to data at mpField[x][y][d]
+   * read and write access to data at mpField[xIndex][yIndex][d]
    *
-   * \param x x-th column
-   * \param y y-th row
+   * \param xIndex x-th column
+   * \param yIndex y-th row
    * \param d d-th dimension
    */
   BaseType& rGetData(
-      gsl::index x
-    , gsl::index y
+      gsl::index xIndex
+    , gsl::index yIndex
     , gsl::index d = 0);
 
   /**
-   * read-only access to data at mpField[x][y][d]
+   * read-only access to data at mpField[xIndex][yIndex][d]
    *
-   * \param x x-th column
-   * \param y y-th row
+   * \param xIndex x-th column
+   * \param yIndex y-th row
    * \param d d-th dimension
    */
   const BaseType& rGetData(
-      gsl::index x
-    , gsl::index y
+      gsl::index xIndex
+    , gsl::index yIndex
     , gsl::index d = 0) const;
 
   /**
@@ -129,6 +129,19 @@ class BlockData2D
    * \param i index
    */
   const BaseType& operator[](gsl::index i) const;
+
+  /**
+   * Write access to the memory of the data of the block data where
+   * (xIndex, yIndex) is the point providing the data d
+   *
+   * \param xIndex x-th column
+   * \param yIndex y-th row
+   * \param d d-th dimension
+   */
+  bool* operator()(
+      gsl::index xIndex
+    , gsl::index yIndex
+    , gsl::index d);
 
   /**
    * \return max of data, for vector valued data it determines the max
@@ -170,7 +183,7 @@ class BlockData2D
   bool* pGetBlock(
       gsl::index blockIndex
     , std::size_t& rBlockSize
-    , const bool isLoad);
+    , const bool isLoad = false);
 
  protected:
   /**

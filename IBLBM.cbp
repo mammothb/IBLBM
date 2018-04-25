@@ -273,6 +273,8 @@
 		<Unit filename="geometry/src/AbstractBlockGeometryInterface2D.hpp" />
 		<Unit filename="geometry/src/BlockGeometry2D.cpp" />
 		<Unit filename="geometry/src/BlockGeometry2D.hpp" />
+		<Unit filename="geometry/src/BlockGeometryStatistics2D.cpp" />
+		<Unit filename="geometry/src/BlockGeometryStatistics2D.hpp" />
 		<Unit filename="geometry/src/Cuboid2D.cpp" />
 		<Unit filename="geometry/src/Cuboid2D.hpp" />
 		<Unit filename="geometry/src/CuboidGeometry2D.cpp" />

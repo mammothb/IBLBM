@@ -18,6 +18,12 @@ int main(int argc, char** argv)
       "TestIo",
       "TestParallel"
   };
+  std::vector<std::string> tests = {
+      "TestCell_Constructor_WithForcedDynamics",
+      "TestBlockData2D_pGetBlock"
+  };
+
+
 
 //  return iblbm::RunAllTheTests();
 
@@ -38,6 +44,8 @@ int main(int argc, char** argv)
 
   /// Individual tests
 //  return iblbm::RunOneTest("TestCuboidGeometry2D_GetMinRatio");
+
+//  return iblbm::RunMultipleTests(tests);
 
   // to run only one suite, uncomment the following line
   // and specify the name of the suite. Also, comment out the RunAllTheTests()

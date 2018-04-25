@@ -75,8 +75,10 @@ TEST(TestCell_SetExternalField)
   Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
 
   gsl::index offset {0};
-  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i)
-      cell.pGetExternal(offset)[i] = static_cast<double>(i) + 1.0;
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i) {
+    cell.pGetExternal(D::ExternalField::sForceOffset)[i] =
+        static_cast<double>(i) + 1.0;
+  }
   std::vector<double> exp_force(D::ExternalField::sNumScalars);
   std::iota(exp_force.begin(), exp_force.end(), 1.0);
 
