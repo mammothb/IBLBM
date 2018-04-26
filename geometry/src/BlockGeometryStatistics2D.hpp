@@ -15,6 +15,11 @@ template<typename T>
 class BlockGeometryStatistics2D
 {
  public:
+  /** As a convention, material 0 is Do Nothing */
+  static const int mDoNothing = 0;
+  /** As a convention, material 1 is fluid */
+  static const int mFluid = 1;
+
   /**
    * Constructor
    */
@@ -22,7 +27,7 @@ class BlockGeometryStatistics2D
       AbstractBlockGeometryInterface2D<T>* pBlockGeometry);
 
   /** Updates the statistics if it is really needed */
-  void Update(bool isVerbose = true);
+  void Update(bool isVerbose = false);
 
   /**
    * Read and write access to a flag, which indicates if an update is needed
@@ -34,7 +39,7 @@ class BlockGeometryStatistics2D
   const bool& rGetStatus() const;
 
   /** \return the map with the numbers of voxels for each material */
-  std::map<int, std::size_t> GetMaterialToNum();
+  std::map<int, std::size_t> GetMaterialToNum(bool isVerbose = false);
 
   /** \return mNumMaterial */
   std::size_t GetNumMaterial();
@@ -70,7 +75,12 @@ class BlockGeometryStatistics2D
   std::vector<T> GetCenterPhysR(int material);
 
   /**
-   * \return the boundary type which is characterized by a discrete normal
+   * \return the boundary type which is characterized by a discrete normal.
+   *         the discrete normal contains 3 element:
+   *         0: boundary type (0 = straight, 1 = external corner,
+   *                           2 = internal corner)
+   *         1: unit normal in x-axis
+   *         2: unit normal in y-axis
    */
   std::vector<int> GetType(
       gsl::index xIndex
@@ -81,7 +91,11 @@ class BlockGeometryStatistics2D
       gsl::index xIndex
     , gsl::index yIndex);
 
-  /** Returns normal that points into the fluid for paraxial surfaces */
+  /**
+   * Returns normal that points into the fluid for paraxial surfaces
+   * Sums all normal from nodes of target material and divides by the
+   * magnitude
+   */
   std::vector<T> ComputeNormal(int material);
 
   /**
@@ -122,10 +136,6 @@ class BlockGeometryStatistics2D
   void Print();
 
  private:
-  /** As a convention, material 0 is Do Nothing */
-  const int mDoNothing = 0;
-  /** As a convention, material 1 is fluid */
-  const int mFluid = 1;
   /**
    * Helper function to simplify the implementation
    */

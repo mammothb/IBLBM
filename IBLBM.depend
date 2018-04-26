@@ -8108,12 +8108,13 @@
 	"SuperGeometryStatistics2D.hpp"
 	"SuperStructure2D.hpp"
 
-1523606431 /home/mmb/code/IBLBM/geometry/src/BlockGeometry2D.hpp
+1524718826 /home/mmb/code/IBLBM/geometry/src/BlockGeometry2D.hpp
+	<list>
 	"AbstractBlockGeometryInterface2D.hpp"
 	"BlockData2D.hpp"
 	"Cuboid2D.hpp"
 
-1524646385 /home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.hpp
+1524707871 /home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.hpp
 	"gsl/gsl"
 	"BlockGeometryStatistics2D.hpp"
 	"OstreamManager.hpp"
@@ -8443,12 +8444,14 @@
 	"UnitTestCustomUtilities.hpp"
 	"Vector.hpp"
 
-1524646388 source:/home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.cpp
+1524707222 source:/home/mmb/code/IBLBM/geometry/src/AbstractBlockGeometryInterface2D.cpp
 	"AbstractBlockGeometryInterface2D.hpp"
 	<iostream>
 
-1523530156 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometry2D.cpp
+1524719917 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometry2D.cpp
 	"BlockGeometry2D.hpp"
+	"gsl/gsl"
+	"Exception.hpp"
 
 1524121195 source:/home/mmb/code/IBLBM/geometry/src/Cuboid2D.cpp
 	"Cuboid2D.hpp"
@@ -8588,7 +8591,7 @@
 	"Serializer.hpp"
 	"SerializerIO.hpp"
 
-1524639991 source:/home/mmb/code/IBLBM/main-devel.cpp
+1524728422 source:/home/mmb/code/IBLBM/main-devel.cpp
 	<string>
 	<vector>
 	"UnitTest++/UnitTest++.h"
@@ -8684,14 +8687,26 @@
 1524204990 /home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.hpp
 	"OstreamManager.hpp"
 
-1524650258 /home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.hpp
+1524738017 /home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.hpp
 	<map>
 	"gsl/gsl"
 	"OstreamManager.hpp"
 
-1524647853 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.cpp
+1524739785 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.cpp
 	"BlockGeometryStatistics2D.hpp"
 	<cmath>
 	<iostream>
 	"AbstractBlockGeometryInterface2D.hpp"
+
+1524719659 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometry2D.cpp
+	<iostream>
+	"UnitTest++/UnitTest++.h"
+	"BlockGeometry2D.hpp"
+
+1524739882 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometryStatistics2D.cpp
+	<iostream>
+	"UnitTest++/UnitTest++.h"
+	"BlockGeometry2D.hpp"
+	"BlockGeometryStatistics2D.hpp"
+	"UnitTestCustomUtilities.hpp"
 

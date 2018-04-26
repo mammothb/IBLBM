@@ -24,13 +24,20 @@ const gsl::index& AbstractBlockGeometryInterface2D<T>::
 }
 
 template<typename T>
-void AbstractBlockGeometryInterface2D<T>::GetPhysR(
-    T physR[2]
-  , const gsl::index latticeR[2]) const
+const Vector2D<gsl::index> AbstractBlockGeometryInterface2D<T>::
+    GetLatticeExtent() const
 {
-  GetPhysR(physR, latticeR[0], latticeR[1]);
+  return Vector2D<gsl::index>{static_cast<gsl::index>(GetNx()),
+      static_cast<gsl::index>(GetNy())};
 }
 
+template<typename T>
+void AbstractBlockGeometryInterface2D<T>::GetPhysR(
+    const gsl::index latticeR[2]
+  , T physR[2]) const
+{
+  GetPhysR(latticeR[0], latticeR[1], physR);
+}
 
 // explicit instantiation
 template class AbstractBlockGeometryInterface2D<double>;

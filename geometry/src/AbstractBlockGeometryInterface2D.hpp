@@ -23,12 +23,6 @@ class AbstractBlockGeometryInterface2D
    */
   virtual ~AbstractBlockGeometryInterface2D();
 
-  /**
-   * \return Read-only access to the global cuboid number which is given
-   * not -1 if the block geometries are part of a super geometry
-   */
-  virtual const gsl::index& rGetGlobalCuboidIndex() const;
-
   /** \return Read and write access to the statistic object */
   virtual BlockGeometryStatistics2D<T>& rGetStatistics(
       bool isVerbose = true) = 0;
@@ -57,22 +51,43 @@ class AbstractBlockGeometryInterface2D
    * geometry)
    */
   virtual void GetPhysR(
-      T physR[2]
-    , const gsl::index& rXIndex
-    , const gsl::index& rYIndex) const = 0;
+      const gsl::index& rXIndex
+    , const gsl::index& rYIndex
+    , T physR[2]) const = 0;
+
+  /** returns the (xIndex, yIndex) entry in the 2D scalar field */
+  virtual int GetMaterial(
+      gsl::index xIndex
+    , gsl::index yIndex) const = 0;
+
+  /**
+   * Adds a pointer to the flag statistic status which is depended on the
+   * data of an block geometry
+   */
+  virtual void AddToStatisticsList(bool* pStatisticStatus) = 0;
+
+  /**
+   * Removes a pointer if it exists from the flag statistic status which is
+   * depended on the data of an block geometry
+   */
+  virtual void RemoveFromStatisticsList(bool* pStatisticStatus) = 0;
+
+  /**
+   * \return Read-only access to the global cuboid number which is given
+   * not -1 if the block geometries are part of a super geometry
+   */
+  virtual const gsl::index& rGetGlobalCuboidIndex() const;
+
+  /** \return the extent of the block in lattice units */
+  virtual const Vector2D<gsl::index> GetLatticeExtent() const;
 
   /**
    * Transforms lattice to physical coordinates (wrapped from cuboid
    * geometry)
    */
   virtual void GetPhysR(
-      T physR[2]
-    , const gsl::index latticeR[2]) const;
-
-  /** returns the (x, y) entry in the 2D scalar field */
-  virtual gsl::index GetMaterial(
-      gsl::index x
-    , gsl::index y) const = 0;
+      const gsl::index latticeR[2]
+    , T physR[2]) const;
 
  protected:
   /** global cuboid number, default = -1 */
