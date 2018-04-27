@@ -13,8 +13,7 @@ std::size_t BufferSerializable::AddSizeToBuffer(
   std::size_t return_size {0};
 
   // write size into mSizeBuffer vector
-  if (blockIndex == rCurrentBlockIndex)
-      mSizeBuffer.push_back(*new std::size_t{data});
+  if (blockIndex == rCurrentBlockIndex) mSizeBuffer.push_back(data);
 
   if (blockIndex >= rCurrentBlockIndex)
       return_size = mSizeBuffer[rSizeBufferIndex];

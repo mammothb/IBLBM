@@ -119,16 +119,15 @@ bool* LoadBalancer<T>::pGetBlock(
   bool* p_data {nullptr};
 
   // Register mSize (number of cuboids) at block 0
-  this->RegisterVar<std::size_t>(blockIndex, rBlockSize, current_block_index,
+  RegisterVar<std::size_t>(blockIndex, rBlockSize, current_block_index,
       p_data, mSize);
-  this->RegisterMap<gsl::index, gsl::index>(blockIndex, rBlockSize,
-      current_block_index, size_buffer_index, p_data, mLocalIndex,
-      isLoad);
+  RegisterMap<gsl::index, gsl::index>(blockIndex, rBlockSize,
+      current_block_index, size_buffer_index, p_data, mLocalIndex, isLoad);
   // Register mGlobalIndex (global index of cuboids owned by this
   // LoadBalancer) at block 1
-  this->RegisterVarVector<gsl::index>(blockIndex, rBlockSize,
+  RegisterVarVector<gsl::index>(blockIndex, rBlockSize,
       current_block_index, size_buffer_index, p_data, mGlobalIndex, isLoad);
-  this->RegisterMap<gsl::index, std::size_t>(blockIndex, rBlockSize,
+  RegisterMap<gsl::index, std::size_t>(blockIndex, rBlockSize,
       current_block_index, size_buffer_index, p_data, mRank, isLoad);
 
   return p_data;
@@ -158,19 +157,15 @@ void LoadBalancer<T>::Print(bool isMultiOutput/*=false*/) const
 {
   OstreamManager ostream(std::cout, "LoadBalancer");
   ostream.SetIsMultiOutput(isMultiOutput);
-  ostream << "mSize = " << this->mSize << std::endl;
-  for (gsl::index i = 0; i < this->mGlobalIndex.size(); ++i) {
-    ostream << "mGlobalIndex[" << i << "] = " << this->mGlobalIndex[i] <<
+  ostream << "mSize = " << mSize << std::endl;
+  for (gsl::index i = 0; i < mGlobalIndex.size(); ++i) {
+    ostream << "mGlobalIndex[" << i << "] = " << mGlobalIndex[i] <<
         std::endl;
   }
-  for (auto it = this->mLocalIndex.cbegin(); it != this->mLocalIndex.cend();
-       it++) {
-    ostream << "loc[" << (*it).first << "]=" << (*it).second << std::endl;
-  }
-  for (auto it = this->mRank.cbegin(); it != this->mRank.cend();
-       it++) {
-    ostream << "rank[" << (*it).first << "]=" << (*it).second << std::endl;
-  }
+  for (const auto& r_it : mLocalIndex)
+      ostream << "loc[" << r_it.first << "]=" << r_it.second << std::endl;
+  for (const auto& r_it : mRank)
+      ostream << "rank[" << r_it.first << "]=" << r_it.second << std::endl;
   ostream.SetIsMultiOutput(false);
 }
 

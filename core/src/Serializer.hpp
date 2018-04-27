@@ -18,7 +18,6 @@ class Serializable;
 class Serializer
 {
   friend class TestSerializer;
-
  public:
   /**
    * Constructor.
@@ -27,7 +26,7 @@ class Serializer
    */
   Serializer(
       Serializable& rSerializable
-    , const std::string& rFilename = "Serializable");
+    , std::string filename = "Serializable");
 
   /** Resets mBlockIndex */
   void ResetCounter();
@@ -51,24 +50,16 @@ class Serializer
    * file per rank.
    *
    * \param rFilename filename of file to be loaded
-   * \param forceUnsigned flag to determine if we are forcing it to write
-   *        to unsigned instead of std::size_t
    */
-  bool Load(
-      std::string filename = "Serializable"
-    , const bool forceUnsigned = false);
+  bool Load(std::string filename = "Serializable");
 
   /**
    * Save mrSerializable into file mFilename. Always in parallel, i.e., one
    * file per rank.
    *
    * \param rFilename filename of file to be saved
-   * \param forceUnsigned flag to determine if we are forcing it to write
-   *        to unsigned instead of std::size_t
    */
-  bool Save(
-      std::string filename = "Serializable"
-    , const bool forceUnsigned = false);
+  bool Save(std::string filename = "Serializable");
 
   /**
    * Compute mSize based on the individual definition of GetBlock()
@@ -81,8 +72,9 @@ class Serializer
    * empty
    */
   void ValidateFilename(std::string& rFilename);
-  /** \return full file name for rFilename */
-  const std::string GetFullFilename(const std::string& rFilename);
+
+  /** \return full file name for filename */
+  const std::string GetFullFilename(std::string filename);
 
   /** Object to be (de-)serialized */
   Serializable& mrSerializable;

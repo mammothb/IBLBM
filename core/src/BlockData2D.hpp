@@ -201,9 +201,9 @@ class BlockData2D
   /** Holds data as a 1D array */
   BaseType* mpRawData;
   /**
-   * Pointer structure to a 3D data field. It can be interpreted as a 2D
-   * matrix[xIndex, yIndex] with elements of dimension mDimension.
-   * Those elements may be
+   * Pointer structure to map mpRawData to a 3D data field. It can be
+   * interpreted as a 2D matrix[xIndex, yIndex] with elements of dimension
+   * mDimension. Those elements may be
    *   1. vector valued like velocity, distribution function
    *   2. scalar valued like density, pressure
    */

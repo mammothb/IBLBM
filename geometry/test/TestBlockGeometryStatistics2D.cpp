@@ -473,5 +473,109 @@ TEST(TestBlockGeometryStatistics2D_ComputeDiscreteNormal)
   CHECK(testutil::CheckCloseVector(std::vector<int>{0, -1},
       statistics.ComputeDiscreteNormal(2), g_loose_tol));
 }
+
+TEST(TestBlockGeometryStatistics2D_Check)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  BlockGeometry2D<double> block_geometry {x_pos, y_pos, delta_R, nx, ny};
+  BlockGeometryStatistics2D<double> statistics {&block_geometry};
+
+  // +-------+  + -> y
+  // |   0   |  | +
+  // +---+---+  v
+  // | 1 | 2 |  x
+  // +---+---+
+  for (gsl::index x {0}; x < nx / 2; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      block_geometry.rGetData(x, y) = 0;
+    }
+  }
+  for (gsl::index x {nx / 2}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny / 2; ++y) {
+      block_geometry.rGetData(x, y) = 1;
+      block_geometry.rGetData(x, y + ny / 2) = 2;
+    }
+  }
+  CHECK(statistics.Check(/*material=*/0, /*xIndex=*/1, /*yIndex=*/2,
+      /*xOffset=*/1, /*yOffset=*/2));
+  // Since material default to 0 when out of bounds
+  CHECK(statistics.Check(/*material=*/0, /*xIndex=*/0, /*yIndex=*/0,
+      /*xOffset=*/2, /*yOffset=*/3));
+  CHECK(!statistics.Check(/*material=*/0, /*xIndex=*/1, /*yIndex=*/2,
+      /*xOffset=*/2, /*yOffset=*/3));
+  CHECK(statistics.Check(/*material=*/1, /*xIndex=*/4, /*yIndex=*/2,
+      /*xOffset=*/1, /*yOffset=*/1));
+  CHECK(!statistics.Check(/*material=*/1, /*xIndex=*/4, /*yIndex=*/2,
+      /*xOffset=*/2, /*yOffset=*/2));
+  CHECK(statistics.Check(/*material=*/2, /*xIndex=*/4, /*yIndex=*/5,
+      /*xOffset=*/1, /*yOffset=*/1));
+  CHECK(!statistics.Check(/*material=*/2, /*xIndex=*/4, /*yIndex=*/5,
+      /*xOffset=*/2, /*yOffset=*/2));
+}
+
+TEST(TestBlockGeometryStatistics2D_Find)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  BlockGeometry2D<double> block_geometry {x_pos, y_pos, delta_R, nx, ny};
+  BlockGeometryStatistics2D<double> statistics {&block_geometry};
+
+  // +-------+  + -> y
+  // |   0   |  | +
+  // +---+---+  v
+  // | 1 | 2 |  x
+  // +---+---+
+  for (gsl::index x {0}; x < nx / 2; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      block_geometry.rGetData(x, y) = 0;
+    }
+  }
+  for (gsl::index x {nx / 2}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny / 2; ++y) {
+      block_geometry.rGetData(x, y) = 1;
+      block_geometry.rGetData(x, y + ny / 2) = 2;
+    }
+  }
+  gsl::index x_index {0};
+  gsl::index y_index {0};
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/1, /*yOffset=*/2,
+      x_index, y_index));
+  // Since material default to 0 when out of bounds
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/2, /*yOffset=*/3,
+      x_index, y_index));
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/2, /*yOffset=*/3,
+      x_index, y_index));
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/1, /*xOffset=*/1, /*yOffset=*/1,
+      x_index, y_index));
+  CHECK_EQUAL(4, x_index);
+  CHECK_EQUAL(1, y_index);
+  CHECK(!statistics.Find(/*material=*/1, /*xOffset=*/2, /*yOffset=*/2,
+      x_index, y_index));
+  CHECK_EQUAL(nx, x_index);
+  CHECK_EQUAL(ny, y_index);
+  CHECK(statistics.Find(/*material=*/2, /*xOffset=*/1, /*yOffset=*/1,
+      x_index, y_index));
+  CHECK_EQUAL(4, x_index);
+  CHECK_EQUAL(5, y_index);
+  CHECK(!statistics.Find(/*material=*/2, /*xOffset=*/2, /*yOffset=*/2,
+      x_index, y_index));
+  CHECK_EQUAL(nx, x_index);
+  CHECK_EQUAL(ny, y_index);
+}
 }
 }  // namespace iblbm

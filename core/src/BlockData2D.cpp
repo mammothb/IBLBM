@@ -288,6 +288,6 @@ void BlockData2D<T,BaseType>::ReleaseMemory()
 }
 
 // explicit instantiation
-template class BlockData2D<double, std::size_t>;
+template class BlockData2D<double, int>;
 template class BlockData2D<double, double>;
 }  // namespace iblbm

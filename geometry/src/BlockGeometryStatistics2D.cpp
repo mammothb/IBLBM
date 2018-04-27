@@ -343,12 +343,14 @@ bool BlockGeometryStatistics2D<T>::Check(
   , unsigned xOffset
   , unsigned yOffset)
 {
-  const auto int_x_offset {static_cast<int>(xOffset)};
-  const auto int_y_offset {static_cast<int>(yOffset)};
+  auto int_x_offset {static_cast<int>(xOffset)};
+  auto int_y_offset {static_cast<int>(yOffset)};
   Update();
   bool found {true};
-  for (int x_offset {-int_x_offset}; x_offset <= int_x_offset; ++x_offset) {
-    for (int y_offset {-int_y_offset}; y_offset <= int_y_offset; ++y_offset) {
+  for (gsl::index x_offset {-int_x_offset}; x_offset <= int_x_offset;
+      ++x_offset) {
+    for (gsl::index y_offset {-int_y_offset}; y_offset <= int_y_offset;
+        ++y_offset) {
       if (mpBlockGeometry->GetMaterial(xIndex + x_offset,
           yIndex + y_offset) != material) {
         found = false;
@@ -382,14 +384,12 @@ template<typename T>
 void BlockGeometryStatistics2D<T>::Print()
 {
   Update();
-  for (std::map<int, std::size_t>::iterator iter = mMaterialToNum.begin();
-      iter != mMaterialToNum.end(); iter++) {
-    mOstream << "materialNumber=" << iter->first <<
-        "; count=" << iter->second <<
-        "; minLatticeR=(" << mMaterialToMin[iter->first][0] << "," <<
-        mMaterialToMin[iter->first][1] << ")" <<
-        "; maxLatticeR=(" << mMaterialToMax[iter->first][0] << "," <<
-        mMaterialToMax[iter->first][1] <<")" << std::endl;
+  for (const auto& r_it : mMaterialToNum) {
+    mOstream << "MaterialNumber=" << r_it.first << " count=" << r_it.second <<
+        " MinLatticeR=(" << mMaterialToMin[r_it.first][0] << ", " <<
+        mMaterialToMin[r_it.first][1] << ")" <<
+        " MaxLatticeR=(" << mMaterialToMax[r_it.first][0] << ", " <<
+        mMaterialToMax[r_it.first][1] << ")" << std::endl;
   }
 }
 

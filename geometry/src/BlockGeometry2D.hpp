@@ -18,7 +18,7 @@ namespace iblbm
  */
 template<typename T>
 class BlockGeometry2D final
-  : public BlockData2D<T, std::size_t>
+  : public BlockData2D<T, int>
   , public AbstractBlockGeometryInterface2D<T>
 {
   friend class TestBlockGeometry2D;
@@ -120,6 +120,16 @@ class BlockGeometry2D final
   int GetMaterial(
       gsl::index xIndex
     , gsl::index yIndex) const override;
+
+  /** \return Write access to a material number */
+  int& rGetMaterial(
+      gsl::index xIndex
+    , gsl::index yIndex) override;
+
+  /** \return Read-only access to a material number */
+  const int& rGetMaterial(
+      gsl::index xIndex
+    , gsl::index yIndex) const;
 
   /**
    * Adds a pointer to the list of dependent statistic classes

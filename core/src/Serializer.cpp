@@ -10,11 +10,11 @@ namespace iblbm
 {
 Serializer::Serializer(
     Serializable& rSerializable
-  , const std::string& rFilename/*="Serializable"*/)
+  , std::string filename/*="Serializable"*/)
   : mrSerializable{rSerializable},
     mBlockIndex{0},
     mSize{0},
-    mFilename{rFilename == "" ? "Serializable" : rFilename}
+    mFilename{filename == "" ? "Serializable" : filename}
 {}
 
 void Serializer::ResetCounter()
@@ -34,9 +34,7 @@ bool* Serializer::pGetNextBlock(
   return mrSerializable.pGetBlock(mBlockIndex++, rBlockSize, isLoad);
 }
 
-bool Serializer::Load(
-    std::string filename/*="Serializable"*/
-  , bool forceUnsigned/*=false*/)
+bool Serializer::Load(std::string filename/*="Serializable"*/)
 {
   ValidateFilename(filename);
 
@@ -45,7 +43,7 @@ bool Serializer::Load(
 
   std::ifstream in_fstream(GetFullFilename(filename).c_str());
   if (in_fstream) {
-    ConvertIstreamToSerializer(*this, in_fstream, forceUnsigned);
+    ConvertIstreamToSerializer(*this, in_fstream);
     in_fstream.close();
     return true;
   }
@@ -54,9 +52,7 @@ bool Serializer::Load(
   }
 }
 
-bool Serializer::Save(
-    std::string filename/*="Serializable"*/
-  , bool forceUnsigned/*=false*/)
+bool Serializer::Save(std::string filename/*="Serializable"*/)
 {
   ValidateFilename(filename);
 
@@ -65,7 +61,7 @@ bool Serializer::Save(
 
   std::ofstream out_fstream(GetFullFilename(filename).c_str());
   if (out_fstream) {
-    ConvertSerializerToOstream(*this, out_fstream, forceUnsigned);
+    ConvertSerializerToOstream(*this, out_fstream);
     out_fstream.close();
     return true;
   }
@@ -85,8 +81,8 @@ void Serializer::ValidateFilename(std::string& rFilename)
   if (rFilename == "") rFilename = mFilename;
 }
 
-const std::string Serializer::GetFullFilename(const std::string& rFilename)
+const std::string Serializer::GetFullFilename(std::string filename)
 {
-  return OutputFileHandler::GetParallelOutputFilename(rFilename, ".dat");
+  return OutputFileHandler::GetParallelOutputFilename(filename, ".dat");
 }
 }  // namespace iblbm

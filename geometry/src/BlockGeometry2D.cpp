@@ -14,7 +14,7 @@ BlockGeometry2D<T>::BlockGeometry2D(
   , std::size_t nx
   , std::size_t ny
   , gsl::index globalCuboidIndex/*=-1*/)
-  : BlockData2D<T, std::size_t>{nx, ny},
+  : BlockData2D<T, int>{nx, ny},
     AbstractBlockGeometryInterface2D<T>{globalCuboidIndex},
     mCuboid{xPosition, yPosition, deltaR, nx, ny}
 {
@@ -26,7 +26,7 @@ template<typename T>
 BlockGeometry2D<T>::BlockGeometry2D(
     const Cuboid2D<T>& rCuboid
   , gsl::index globalCuboidIndex/*=-1*/)
-  : BlockData2D<T, std::size_t>{rCuboid.GetNx(), rCuboid.GetNy()},
+  : BlockData2D<T, int>{rCuboid.GetNx(), rCuboid.GetNy()},
     AbstractBlockGeometryInterface2D<T>{globalCuboidIndex},
     mCuboid{rCuboid}
 {
@@ -86,15 +86,30 @@ int BlockGeometry2D<T>::GetMaterial(
     gsl::index xIndex
   , gsl::index yIndex) const
 {
-  int material;
   if (xIndex < 0 || xIndex > GetNx() - 1 || yIndex < 0 ||
       yIndex > GetNy() - 1) {
-    material = BlockGeometryStatistics2D<T>::mDoNothing;
+    return BlockGeometryStatistics2D<T>::mDoNothing;
   }
   else {
-    material = BlockData2D<T, std::size_t>::rGetData(xIndex, yIndex);
+    return BlockData2D<T, int>::rGetData(xIndex, yIndex);
   }
-  return material;
+}
+
+template<typename T>
+int& BlockGeometry2D<T>::rGetMaterial(
+    gsl::index xIndex
+  , gsl::index yIndex)
+{
+  ResetStatistics();
+  return BlockData2D<T, int>::rGetData(xIndex, yIndex);
+}
+
+template<typename T>
+const int& BlockGeometry2D<T>::rGetMaterial(
+    gsl::index xIndex
+  , gsl::index yIndex) const
+{
+  return BlockData2D<T, int>::rGetData(xIndex, yIndex);
 }
 
 template<typename T>

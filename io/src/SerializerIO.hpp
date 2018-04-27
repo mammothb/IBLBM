@@ -12,24 +12,20 @@ class Serializer;
  *
  * \param rSerializer a serializer
  * \param rOstream output stream
- * \param forceUnsigned flag to indicate usage of unsigned int
  */
 void ConvertSerializerToOstream(
     Serializer& rSerializer
-  , std::ostream& rOstream
-  , bool forceUnsigned = false);
+  , std::ostream& rOstream);
 
 /**
  * Processes an rIstream to a serializer, always in parallel
  *
  * \param rSerializer a serializer
  * \param rIstream input stream
- * \param forceUnsigned flag to indicate usage of unsigned int
  */
 void ConvertIstreamToSerializer(
     Serializer& rSerializer
-  , std::istream& rIstream
-  , bool forceUnsigned = false);
+  , std::istream& rIstream);
 }  // namespace iblbm
 
 #endif  // IO_SRC_SERIALIZERIO_HPP_
