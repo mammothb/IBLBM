@@ -26,6 +26,26 @@ SuperStructure2D<T>::SuperStructure2D(
 {}
 
 template<typename T>
+void SuperStructure2D<T>::Communicate(bool isVerbose/*=true*/)
+{
+  if (mNeedCommunication) {
+    if (isVerbose) std::cout << "Communicate ..." << std::endl;
+//    mCommunicator.send();
+//    mCommunicator.receive();
+//    mCommunicator.write();
+    mNeedCommunication = false;
+    if (isVerbose) std::cout << "Communicate ... ok" << std::endl;
+  }
+}
+
+template<typename T>
+void SuperStructure2D<T>::InitializeCommunication()
+{
+//  mCommunicator.init_nh();
+//  mCommunicator.init();
+}
+
+template<typename T>
 CuboidGeometry2D<T>& SuperStructure2D<T>::rGetCuboidGeometry()
 {
   return mrCuboidGeometry;
@@ -47,6 +67,12 @@ template<typename T>
 const LoadBalancer<T>& SuperStructure2D<T>::rGetLoadBalancer() const
 {
   return mrLoadBalancer;
+}
+
+template<typename T>
+std::size_t SuperStructure2D<T>::GetOverlap() const
+{
+  return mOverlap;
 }
 
 // explicit instantiation

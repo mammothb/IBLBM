@@ -7,9 +7,9 @@
 		<Option default_target="ParallelOptGenericDebug" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="build/Debug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="build/Debug/obj/" />
+			<Target title="Coverage">
+				<Option output="build/Coverage/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/Coverage/obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -31,8 +31,13 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
 					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 				</Compiler>
+				<Linker>
+					<Add option="--coverage" />
+				</Linker>
 			</Target>
 			<Target title="OptDebug">
 				<Option output="build/OptDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />

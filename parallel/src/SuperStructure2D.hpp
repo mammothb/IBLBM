@@ -35,6 +35,9 @@ class SuperStructure2D
     , LoadBalancer<T>& rLoadBalancer
     , std::size_t overlap = 1);
 
+  /**
+   * Virtual destructor
+   */
   virtual ~SuperStructure2D();
 
   /**
@@ -59,6 +62,12 @@ class SuperStructure2D
    */
   virtual std::size_t GetSizeofDataType() const = 0;
 
+  /** Communicates the data in the overlap */
+  virtual void Communicate(bool isVerbose = false);
+
+  /** Initialize communicator */
+  void InitializeCommunication();
+
   /** \return read and write access to CuboidGeometry */
   CuboidGeometry2D<T>& rGetCuboidGeometry();
 
@@ -70,6 +79,9 @@ class SuperStructure2D
 
   /** \return Read-only access to the load balancer */
   const LoadBalancer<T>& rGetLoadBalancer() const;
+
+  /** \return  Read only access to the overlap */
+  std::size_t GetOverlap() const;
 
  protected:
   /** Grid structure */

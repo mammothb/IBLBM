@@ -49,6 +49,15 @@ class Communicator2D
    */
   void Reset();
 
+  /** Send data */
+  void Send();
+
+  /** Receive data */
+  void Receive();
+
+  /** Write data to the block lattices of the super structure */
+  void Write();
+
  private:
   /** Neighborhood information for a single cuboid */
   std::vector<CuboidNeighborhood2D<T>> mNeighborhood;

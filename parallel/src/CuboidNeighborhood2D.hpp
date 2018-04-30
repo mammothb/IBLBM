@@ -12,6 +12,9 @@ template<typename T> class SuperStructure2D;
 template<typename T>
 struct Cell2D
 {
+  Cell2D()
+  {}
+
   Cell2D(
       gsl::index globalCuboidIndex
     , gsl::index xIndex
