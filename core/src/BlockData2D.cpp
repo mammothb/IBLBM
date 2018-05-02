@@ -85,14 +85,14 @@ BlockData2D<T, BaseType>& BlockData2D<T, BaseType>::operator=(
 {
   if (this != &rRhs) {
     // Free the existing resource.
-    this->ReleaseMemory();
+    if (IsConstructed()) ReleaseMemory();
 
     // Copy the data pointer and its length from the source object.
     mDimension = rRhs.mDimension;
     mpRawData = rRhs.mpRawData;
     mpField = rRhs.mpField;
-    this->mNx = rRhs.mNx;
-    this->mNy = rRhs.mNy;
+    mNx = rRhs.mNx;
+    mNy = rRhs.mNy;
 
     // Release the data pointer from the source object so that the
     // destructor does not free the memory multiple times
@@ -109,8 +109,8 @@ template<typename T, typename BaseType>
 void BlockData2D<T, BaseType>::Swap(BlockData2D<T, BaseType>& rRhs)
 {
   // Block2D
-  std::swap(this->mNx, rRhs.mNx);
-  std::swap(this->mNy, rRhs.mNy);
+  std::swap(mNx, rRhs.mNx);
+  std::swap(mNy, rRhs.mNy);
   // BlockData2D
   std::swap(mDimension, rRhs.mDimension);
   std::swap(mpRawData, rRhs.mpRawData);
@@ -148,9 +148,9 @@ BaseType& BlockData2D<T, BaseType>::rGetData(
   , gsl::index yIndex
   , gsl::index d/*=0*/)
 {
-  Expects(xIndex >= 0 && xIndex < this->mNx);
-  Expects(yIndex >= 0 && yIndex < this->mNy);
-  Expects(d >= 0 && d < this->mDimension);
+  Expects(xIndex >= 0 && xIndex < mNx);
+  Expects(yIndex >= 0 && yIndex < mNy);
+  Expects(d >= 0 && d < mDimension);
   Expects(IsConstructed());
   return mpField[xIndex][yIndex][d];
 }
@@ -161,9 +161,9 @@ const BaseType& BlockData2D<T, BaseType>::rGetData(
   , gsl::index yIndex
   , gsl::index d/*=0*/) const
 {
-  Expects(xIndex >= 0 && xIndex < this->mNx);
-  Expects(yIndex >= 0 && yIndex < this->mNy);
-  Expects(d >= 0 && d < this->mDimension);
+  Expects(xIndex >= 0 && xIndex < mNx);
+  Expects(yIndex >= 0 && yIndex < mNy);
+  Expects(d >= 0 && d < mDimension);
   Expects(IsConstructed());
   return mpField[xIndex][yIndex][d];
 }
@@ -171,7 +171,7 @@ const BaseType& BlockData2D<T, BaseType>::rGetData(
 template<typename T, typename BaseType>
 BaseType& BlockData2D<T, BaseType>::operator[](gsl::index i)
 {
-  Expects(i >= 0 && i < this->mNx * this->mNy * this->mDimension);
+  Expects(i >= 0 && i < mNx * mNy * mDimension);
   Expects(IsConstructed());
   return mpRawData[i];
 }
@@ -179,7 +179,7 @@ BaseType& BlockData2D<T, BaseType>::operator[](gsl::index i)
 template<typename T, typename BaseType>
 const BaseType& BlockData2D<T, BaseType>::operator[](gsl::index i) const
 {
-  Expects(i >= 0 && i < this->mNx * this->mNy * this->mDimension);
+  Expects(i >= 0 && i < mNx * mNy * mDimension);
   Expects(IsConstructed());
   return mpRawData[i];
 }
@@ -190,11 +190,11 @@ bool* BlockData2D<T, BaseType>::operator()(
   , gsl::index yIndex
   , gsl::index d)
 {
-  Expects(xIndex >= 0 && xIndex < this->mNx);
-  Expects(yIndex >= 0 && yIndex < this->mNy);
-  Expects(d >= 0 && d < this->mDimension);
+  Expects(xIndex >= 0 && xIndex < mNx);
+  Expects(yIndex >= 0 && yIndex < mNy);
+  Expects(d >= 0 && d < mDimension);
   Expects(IsConstructed());
-  return (bool*)&mpField[xIndex][yIndex][d];
+  return reinterpret_cast<bool*>(&mpField[xIndex][yIndex][d]);
 }
 
 template<typename T, typename BaseType>
@@ -218,7 +218,7 @@ BaseType* BlockData2D<T, BaseType>::pGetRawData() const
 template<typename T, typename BaseType>
 std::size_t BlockData2D<T, BaseType>::GetDataSize() const
 {
-  return this->mNx * this->mNy * mDimension;
+  return mNx * mNy * mDimension;
 }
 
 template<typename T, typename BaseType>
@@ -250,10 +250,8 @@ bool* BlockData2D<T, BaseType>::pGetBlock(
   bool* p_data {nullptr};
   RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
       mDimension);
-  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
-      this->mNx);
-  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
-      this->mNy);
+  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data, mNx);
+  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data, mNy);
   RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
       *mpRawData, GetDataSize());
 
@@ -264,13 +262,13 @@ template<typename T, typename BaseType>
 void BlockData2D<T, BaseType>::AllocateMemory()
 {
   mpRawData = new BaseType[GetDataSize()];
-  mpField = new BaseType**[this->mNx];
-  for (gsl::index x {0}; x < this->mNx; ++x) {
-    mpField[x] = new BaseType*[this->mNy];
-    for (gsl::index y {0}; y < this->mNy; ++y) {
+  mpField = new BaseType**[mNx];
+  for (gsl::index x {0}; x < mNx; ++x) {
+    mpField[x] = new BaseType*[mNy];
+    for (gsl::index y {0}; y < mNy; ++y) {
       // connect matrix element to the corresponding array entry of mpRawData
       mpField[x][y] = mpRawData + mDimension * (static_cast<std::size_t>(x) *
-          this->mNy + static_cast<std::size_t>(y));
+          mNy + static_cast<std::size_t>(y));
       // initialize data with zero
       for (gsl::index d {0}; d < mDimension; ++d)
           mpField[x][y][d] = BaseType{};
@@ -283,7 +281,7 @@ void BlockData2D<T,BaseType>::ReleaseMemory()
 {
   delete[] mpRawData;
   mpRawData = nullptr;
-  for (gsl::index x {0}; x < this->mNx; ++x) delete[] mpField[x];
+  for (gsl::index x {0}; x < mNx; ++x) delete[] mpField[x];
   delete[] mpField;
 }
 

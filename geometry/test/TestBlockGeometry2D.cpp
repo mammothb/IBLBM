@@ -5,6 +5,7 @@
 #include "UnitTest++/UnitTest++.h"
 #include "BlockGeometry2D.hpp"
 #include "Descriptor.hpp"
+#include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
 {
@@ -38,6 +39,8 @@ TEST(TestBlockGeometry2D_Constructor_Index_Default)
   auto ny {8u};
 
   BlockGeometry2D<double> block_geometry {x_pos, y_pos, delta_R, nx, ny};
+  auto statistics {block_geometry.rGetStatistics()};
+  const auto const_stats {std::as_const(block_geometry).rGetStatistics()};
 
   CHECK_EQUAL(-1, block_geometry.rGetGlobalCuboidIndex());
   CHECK_EQUAL(nx, block_geometry.GetLatticeExtent()[0]);
@@ -47,6 +50,51 @@ TEST(TestBlockGeometry2D_Constructor_Index_Default)
   CHECK_EQUAL(nx, block_geometry.GetNx());
   CHECK_EQUAL(ny, block_geometry.GetNy());
   CHECK_CLOSE(delta_R, block_geometry.GetDeltaR(), g_zero_tol);
+
+  for (gsl::index x {0}; x < nx / 2; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      block_geometry.rGetData(x, y) = 0;
+    }
+  }
+  for (gsl::index x {nx / 2}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny / 2; ++y) {
+      block_geometry.rGetData(x, y) = 1;
+      block_geometry.rGetData(x, y + ny / 2) = 2;
+    }
+  }
+  gsl::index x_index {0};
+  gsl::index y_index {0};
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/1, /*yOffset=*/2,
+      x_index, y_index));
+  // Since material default to 0 when out of bounds
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/2, /*yOffset=*/3,
+      x_index, y_index));
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/0, /*xOffset=*/2, /*yOffset=*/3,
+      x_index, y_index));
+  CHECK_EQUAL(0, x_index);
+  CHECK_EQUAL(0, y_index);
+  CHECK(statistics.Find(/*material=*/1, /*xOffset=*/1, /*yOffset=*/1,
+      x_index, y_index));
+  CHECK_EQUAL(4, x_index);
+  CHECK_EQUAL(1, y_index);
+  CHECK(!statistics.Find(/*material=*/1, /*xOffset=*/2, /*yOffset=*/2,
+      x_index, y_index));
+  CHECK_EQUAL(nx, x_index);
+  CHECK_EQUAL(ny, y_index);
+  CHECK(statistics.Find(/*material=*/2, /*xOffset=*/1, /*yOffset=*/1,
+      x_index, y_index));
+  CHECK_EQUAL(4, x_index);
+  CHECK_EQUAL(5, y_index);
+  CHECK(!statistics.Find(/*material=*/2, /*xOffset=*/2, /*yOffset=*/2,
+      x_index, y_index));
+  CHECK_EQUAL(nx, x_index);
+  CHECK_EQUAL(ny, y_index);
+
+  CHECK(const_stats.rGetStatus());
 }
 
 TEST(TestBlockGeometry2D_Constructor_Index_UserDefined)
@@ -201,7 +249,13 @@ TEST(TestBlockGeometry2D_rGetMaterial)
   // make sure material number are defaulted to zero
   for (gsl::index x {0}; x < nx; ++x) {
     for (gsl::index y {0}; y < ny; ++y) {
+      std::vector<gsl::index> lattice_R {x, y};
       CHECK_EQUAL(0, block_geometry.rGetMaterial(x, y));
+      CHECK_EQUAL(0, dynamic_cast<AbstractBlockGeometryInterface2D<double>&>(
+          block_geometry).rGetMaterial(lattice_R));
+      CHECK_EQUAL(0, std::as_const(dynamic_cast<
+          AbstractBlockGeometryInterface2D<double>&>(block_geometry))
+              .rGetMaterial(lattice_R));
     }
   }
   // set material numbers
@@ -213,7 +267,14 @@ TEST(TestBlockGeometry2D_rGetMaterial)
   // Check we have set the material numbers
   for (gsl::index x {0}; x < nx; ++x) {
     for (gsl::index y {0}; y < ny; ++y) {
+      std::vector<gsl::index> lattice_R {x, y};
       CHECK_EQUAL(x + y, block_geometry.rGetMaterial(x, y));
+      CHECK_EQUAL(x + y,
+          dynamic_cast<AbstractBlockGeometryInterface2D<double>&>(
+              block_geometry).rGetMaterial(lattice_R));
+      CHECK_EQUAL(x + y, std::as_const(dynamic_cast<
+          AbstractBlockGeometryInterface2D<double>&>(block_geometry))
+              .rGetMaterial(lattice_R));
     }
   }
 }
@@ -372,7 +433,7 @@ TEST(TestBlockGeometry2D_Clean)
       block_geometry.rGetMaterial(x, y + ny / 2) = 2;
     }
   }
-  block_geometry.Clean(false);
+  CHECK_EQUAL(12, block_geometry.Clean(false));
   for (gsl::index x {0}; x < nx / 2; ++x) {
     for (gsl::index y {0}; y < ny; ++y) {
       CHECK_EQUAL(0, block_geometry.rGetMaterial(x, y));
@@ -417,7 +478,7 @@ TEST(TestBlockGeometry2D_OuterClean)
       block_geometry.rGetMaterial(x, y + ny / 2) = 2;
     }
   }
-  block_geometry.OuterClean(false);
+  CHECK_EQUAL(16, block_geometry.OuterClean(false));
   for (gsl::index x {0}; x < nx / 2; ++x) {
     for (gsl::index y {0}; y < ny; ++y) {
       CHECK_EQUAL(0, block_geometry.rGetMaterial(x, y));

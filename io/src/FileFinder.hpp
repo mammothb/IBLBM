@@ -42,8 +42,8 @@ class FileFinder
   /**
    * Main constructor.
    *
-   * \param rPath  the path to the file/dir to find
-   * \param relativeTo  how to interpret this path
+   * \param rPath the path to the file/dir to find
+   * \param relativeTo how to interpret this path
    */
   FileFinder(
       const std::string& rPath
@@ -209,12 +209,6 @@ class FileFinder
   void PrivateRemove(bool isDangerous = false) const;
   /** The absolute path to our file. */
   std::string mAbsPath;
-  /** Whether to fake one of the fixed paths, e.g. IblbmSourceRoot. */
-  static bool msIsFaking;
-  /** Which path to fake. */
-  static RelativeTo msFakeWhat;
-  /** The fake value of the faked path. */
-  static std::string msFakePath;
 };
 }  // namespace iblbm
 

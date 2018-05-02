@@ -380,6 +380,7 @@ bool BlockGeometryStatistics2D<T>::Find(
   return found;
 }
 
+// LCOV_EXCL_START
 template<typename T>
 void BlockGeometryStatistics2D<T>::Print()
 {
@@ -392,6 +393,7 @@ void BlockGeometryStatistics2D<T>::Print()
         mMaterialToMax[r_it.first][1] << ")" << std::endl;
   }
 }
+// LCOV_EXCL_STOP
 
 template<typename T>
 void BlockGeometryStatistics2D<T>::TakeStatistics(

@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "FileFinder.hpp"
+#include "MpiManager.hpp"
 #include "OutputFileHandler.hpp"
 #include "Serializable.hpp"
 #include "SerializerIO.hpp"
@@ -34,40 +36,45 @@ bool* Serializer::pGetNextBlock(
   return mrSerializable.pGetBlock(mBlockIndex++, rBlockSize, isLoad);
 }
 
-bool Serializer::Load(std::string filename/*="Serializable"*/)
+void Serializer::Load(
+    const std::string& rDirectory
+  , std::string filename/*=""*/)
 {
   ValidateFilename(filename);
+  FileFinder file {rDirectory + "/" + GetFullFilename(filename),
+      RelativeTo::IBLBM_TEST_OUTPUT};
 
   // Determine binary size through `getSerializableSize()` method
   ComputeSize();
 
-  std::ifstream in_fstream(GetFullFilename(filename).c_str());
+  std::ifstream in_fstream(file.GetAbsolutePath().c_str());
   if (in_fstream) {
     ConvertIstreamToSerializer(*this, in_fstream);
     in_fstream.close();
-    return true;
-  }
-  else {
-    return false;
   }
 }
 
-bool Serializer::Save(std::string filename/*="Serializable"*/)
+void Serializer::Save(
+    const std::string& rDirectory
+  , std::string filename/*=""*/
+  , bool cleanOutputDirectory/*=true*/)
 {
   ValidateFilename(filename);
+  // Clear directory if requested (and make sure it exists)
+  OutputFileHandler handler {rDirectory, cleanOutputDirectory};
+  auto file_path {handler.GetOutputDirectoryFullPath() +
+      GetFullFilename(filename)};
 
-  // Determine binary size through `getSerializableSize()` method
+  // Determine binary size through 'GetSerializableSize()' method
   ComputeSize();
 
-  std::ofstream out_fstream(GetFullFilename(filename).c_str());
+  std::ofstream out_fstream(file_path.c_str());
   if (out_fstream) {
     ConvertSerializerToOstream(*this, out_fstream);
     out_fstream.close();
-    return true;
   }
-  else {
-    return false;
-  }
+  // Make sure everything is written before any process continues.
+  MpiManager::Instance().Barrier("Serializer::Save");
 }
 
 void Serializer::ComputeSize(const bool forceRecompute/*=false*/)

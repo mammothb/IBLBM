@@ -36,6 +36,7 @@ std::string Exception::CheckShortMessageContains(std::string expected) const
   return error;
 }
 
+// LCOV_EXCL_START
 void Exception::Terminate(
     const std::string& rMessage
   , const std::string& rFilename
@@ -55,6 +56,7 @@ void Exception::Terminate(
     exit(EXIT_FAILURE);
   }
 }
+// LCOV_EXCL_STOP
 
 std::string Exception::GetMessage() const
 {

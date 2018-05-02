@@ -1195,6 +1195,30 @@ TEST(TestCuboid2D_RefineDecrease)
   CHECK_EQUAL(0, cuboid.GetRefinementLevel());
 }
 
+TEST(TestCuboid2D_GetPhysR_Array)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid {x_pos, y_pos, delta_R, nx, ny};
+
+  for (gsl::index x {0}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+
+      gsl::index lattice_R[2] {x, y};
+      double phys_R[2];
+      cuboid.GetPhysR(lattice_R, phys_R);
+
+      CHECK_CLOSE(phys_x, phys_R[0], g_loose_tol);
+      CHECK_CLOSE(phys_y, phys_R[1], g_loose_tol);
+    }
+  }
+}
+
 TEST(TestCuboid2D_GetPhysR_Index)
 {
   auto x_pos {1.2};
@@ -1210,6 +1234,110 @@ TEST(TestCuboid2D_GetPhysR_Index)
       auto phys_y {y_pos + delta_R * y};
       CHECK_CLOSE(phys_x, cuboid.GetPhysR(x, y)[0], g_loose_tol);
       CHECK_CLOSE(phys_y, cuboid.GetPhysR(x, y)[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboid2D_GetLatticeR_Array)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid {x_pos, y_pos, delta_R, nx, ny};
+
+  for (gsl::index x {0}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+
+      gsl::index lattice_R[2];
+      double phys_R[2] {phys_x, phys_y};
+      cuboid.GetLatticeR(phys_R, lattice_R);
+
+      CHECK_CLOSE(x, lattice_R[0], g_loose_tol);
+      CHECK_CLOSE(y, lattice_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboid2D_GetLatticeR_Vector)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid {x_pos, y_pos, delta_R, nx, ny};
+
+  for (gsl::index x {0}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+
+      gsl::index lattice_R[2];
+      Vector2D<double> phys_R {phys_x, phys_y};
+      cuboid.GetLatticeR(phys_R, lattice_R);
+
+      CHECK_CLOSE(x, lattice_R[0], g_loose_tol);
+      CHECK_CLOSE(y, lattice_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboid2D_GetFloorLatticeR_Array)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid {x_pos, y_pos, delta_R, nx, ny};
+
+  for (gsl::index x {0}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+
+      gsl::index lattice_R[2];
+      double phys_R[2] {phys_x, phys_y};
+      cuboid.GetFloorLatticeR(phys_R, lattice_R);
+      auto lattice_x {static_cast<gsl::index>(floor((phys_x - x_pos) /
+          delta_R))};
+      auto lattice_y {static_cast<gsl::index>(floor((phys_y - y_pos) /
+          delta_R))};
+
+      CHECK_CLOSE(lattice_x, lattice_R[0], g_loose_tol);
+      CHECK_CLOSE(lattice_y, lattice_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboid2D_GetFloorLatticeR_StdVector)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {20u};
+  auto ny {60u};
+  Cuboid2D<double> cuboid {x_pos, y_pos, delta_R, nx, ny};
+
+  for (gsl::index x {0}; x < nx; ++x) {
+    for (gsl::index y {0}; y < ny; ++y) {
+      auto phys_x {x_pos + delta_R * x};
+      auto phys_y {y_pos + delta_R * y};
+
+      std::vector<gsl::index> lattice_R(2);
+      std::vector<double> phys_R {phys_x, phys_y};
+      cuboid.GetFloorLatticeR(phys_R, lattice_R);
+      auto lattice_x {static_cast<gsl::index>(floor((phys_x - x_pos) /
+          delta_R))};
+      auto lattice_y {static_cast<gsl::index>(floor((phys_y - y_pos) /
+          delta_R))};
+
+      CHECK_CLOSE(lattice_x, lattice_R[0], g_loose_tol);
+      CHECK_CLOSE(lattice_y, lattice_R[1], g_loose_tol);
     }
   }
 }

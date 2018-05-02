@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 //  return iblbm::RunOneTest("Simulation_Poiseuille_BodyForceDriven");
 
   /// Individual tests
-//  return iblbm::RunOneTest("TestBlockGeometryStatistics2D_GetMinLatticeR");
+//  return iblbm::RunOneTest("TestBlockData2D_Constructor_Move");
 
 //  return iblbm::RunMultipleTests(tests);
 

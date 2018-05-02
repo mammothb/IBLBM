@@ -124,6 +124,7 @@ void BlockGeometry2D<T>::RemoveFromStatisticsList(bool* pStatisticStatus)
   mNeedStatisticsUpdate.remove(pStatisticStatus);
 }
 
+// LCOV_EXCL_START
 template<typename T>
 void BlockGeometry2D<T>::PrintLayer(
     gsl::index xIndex0
@@ -173,6 +174,7 @@ void BlockGeometry2D<T>::PrintNode(
   }
   this->mOstream << std::endl;
 }
+// LCOV_EXCL_STOP
 
 template<typename T>
 void BlockGeometry2D<T>::ResetStatistics()

@@ -26,6 +26,7 @@ TEST(TestCell_Constructor_Default)
   for (gsl::index q = 0; q < B::sQ; ++q) CHECK_CLOSE(0.0, cell[q], g_zero_tol);
 
   CHECK(cell.pGetDynamics() == nullptr);
+  CHECK(std::as_const(cell).pGetDynamics() == nullptr);
 }
 
 TEST(TestCell_Constructor_WithDynamics)
@@ -40,6 +41,7 @@ TEST(TestCell_Constructor_WithDynamics)
       CHECK_CLOSE(0.0, cell[q], g_zero_tol);
 
   CHECK(cell.pGetDynamics() == &dynamics);
+  CHECK(std::as_const(cell).pGetDynamics() == &dynamics);
 }
 
 TEST(TestCell_Constructor_WithForcedDynamics)
@@ -63,6 +65,7 @@ TEST(TestCell_Constructor_WithForcedDynamics)
   }
 
   CHECK(cell.pGetDynamics() == &dynamics);
+  CHECK(std::as_const(cell).pGetDynamics() == &dynamics);
 }
 
 TEST(TestCell_SetExternalField)
@@ -74,7 +77,6 @@ TEST(TestCell_SetExternalField)
       g_relaxation_time, bulk_momenta);
   Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
 
-  gsl::index offset {0};
   for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i) {
     cell.pGetExternal(D::ExternalField::sForceOffset)[i] =
         static_cast<double>(i) + 1.0;
@@ -88,6 +90,101 @@ TEST(TestCell_SetExternalField)
   }
 
   CHECK(cell.pGetDynamics() == &dynamics);
+}
+
+TEST(TestCell_GetNumBlock)
+{
+  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
+  BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
+
+  CHECK_EQUAL(1, cell.GetNumBlock());
+}
+
+TEST(TestCell_GetNumBlock_WithForcedDynamics)
+{
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+
+  CHECK_EQUAL(2, cell.GetNumBlock());
+}
+
+TEST(TestCell_GetSerializableSize)
+{
+  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
+  BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
+
+  auto serializable_size {9 * sizeof(double)};
+  CHECK_EQUAL(serializable_size, cell.GetSerializableSize());
+}
+
+TEST(TestCell_GetSerializableSize_WithForcedDynamics)
+{
+  typedef descriptor::ForcedD2Q9Descriptor<double> D;
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+
+  auto serializable_size {9 * sizeof(double) +
+      D::ExternalField::sNumScalars * sizeof(double)};
+  CHECK_EQUAL(serializable_size, cell.GetSerializableSize());
+}
+
+TEST(TestCell_pGetBlock)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
+  BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
+
+  for (gsl::index q {0}; q < B::sQ; ++q) cell[q] = static_cast<double>(q);
+  gsl::index block_index {0};
+  bool* p_data {nullptr};
+  std::size_t block_size {0};
+  p_data = cell.pGetBlock(block_index, block_size);
+  for (gsl::index q {0}; q < B::sQ; ++q) {
+    CHECK_CLOSE(static_cast<double>(q), reinterpret_cast<double*>(p_data)[q],
+        g_zero_tol);
+  }
+}
+
+TEST(TestCell_pGetBlock_WithForcedDynamics)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  typedef descriptor::ForcedD2Q9Descriptor<double> D;
+  BulkMomenta<double, descriptor::ForcedD2Q9Descriptor> bulk_momenta;
+  ForcedBgkDynamics<double, descriptor::ForcedD2Q9Descriptor> dynamics(
+      g_relaxation_time, bulk_momenta);
+  Cell<double, descriptor::ForcedD2Q9Descriptor> cell(&dynamics);
+
+  for (gsl::index q {0}; q < B::sQ; ++q) cell[q] = static_cast<double>(q);
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i) {
+    cell.pGetExternal(D::ExternalField::sForceOffset)[i] =
+        static_cast<double>(i) + 1.0;
+  }
+  gsl::index block_index {0};
+  bool* p_data {nullptr};
+  std::size_t block_size {0};
+  p_data = cell.pGetBlock(block_index, block_size);
+  for (gsl::index q {0}; q < B::sQ; ++q) {
+    CHECK_CLOSE(static_cast<double>(q), reinterpret_cast<double*>(p_data)[q],
+        g_zero_tol);
+  }
+  CHECK_EQUAL(B::sQ * sizeof(double), block_size);
+  ++block_index;
+  p_data = cell.pGetBlock(block_index, block_size);
+  for (gsl::index i {0}; i < D::ExternalField::sNumScalars; ++i) {
+    CHECK_CLOSE(static_cast<double>(i) + 1.0,
+        reinterpret_cast<double*>(p_data)[i], g_zero_tol);
+  }
+  CHECK_EQUAL(D::ExternalField::sNumScalars * sizeof(double), block_size);
 }
 }
 }  // namespace iblbm

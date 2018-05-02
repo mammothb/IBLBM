@@ -13,6 +13,7 @@ template<typename T>
 struct Cell2D
 {
   Cell2D()
+    : mGlobalCuboidIndex{-1}
   {}
 
   Cell2D(
@@ -74,11 +75,6 @@ class CuboidNeighborhood2D
    */
   CuboidNeighborhood2D(const CuboidNeighborhood2D<T>& rRhs);
 
-//  /**
-//   * Copy assignment
-//   */
-//  CuboidNeighborhood2D& operator=(const CuboidNeighborhood2D<T>& rRhs);
-
   /** \return read-only access to mInCells */
   const Cell2D<T>& rGetInCell(gsl::index i) const;
 
@@ -94,14 +90,14 @@ class CuboidNeighborhood2D
   /** \return read and write access to mpInData */
   bool** pGetInData();
 
-  /** \return read and write access to mpOutData */
-  bool** pGetOutData();
+  /** \return read and write access to mpExData */
+  bool** pGetExData();
 
   /** Add a cell to the vector mInCells */
   void AddInCell(const Cell2D<T>& rCell);
 
   /** Add a cell to the vector mOutCells */
-  void AddOutCell(const Cell2D<T>& rCell);
+  void AddExCell(const Cell2D<T>& rCell);
 
   /**
    * Add a cell to the vector mInCells if the cell is not already there
@@ -130,7 +126,7 @@ class CuboidNeighborhood2D
   /**
    * Initializes mOutNbrCuboids and mOutNbrNumCells
    */
-  void InitializeOutNeighbor();
+  void InitializeExNeighbor();
 
   /**
    * Resets neighborhood after initialization (InitializeInternal and
@@ -154,23 +150,23 @@ class CuboidNeighborhood2D
   /** Internal needed cells */
   std::vector<Cell2D<T>> mInCells;
   /** External needed cells */
-  std::vector<Cell2D<T>> mOutCells;
+  std::vector<Cell2D<T>> mExCells;
   /** Internal needed neighbor cuboid */
   std::vector<gsl::index> mInNbrCuboids;
   /** Internal needed neighbor number of cells */
   std::vector<std::size_t> mInNbrNumCells;
   /** External needed neighbor cuboid */
-  std::vector<gsl::index> mOutNbrCuboids;
+  std::vector<gsl::index> mExNbrCuboids;
   /** External needed neighbor number of cells */
-  std::vector<std::size_t> mOutNbrNumCells;
+  std::vector<std::size_t> mExNbrNumCells;
   /** Buffer for internal needed data */
   bool** mpInData;
   /** Buffer for external needed data */
-  bool** mpOutData;
+  bool** mpExData;
   /** Buffer for internal needed data coordinates */
   T** mpInDataCoordinates;
   /** Buffer for external needed data coordinates */
-  T** mpOutDataCoordinates;
+  T** mpExDataCoordinates;
   /** Temporary buffer to compute neighbor cuboid index and num cells */
   std::size_t* mpTmpInNbrNumCells;
   /**
@@ -182,7 +178,7 @@ class CuboidNeighborhood2D
    * Flag to indicate if external neighbor cuboid and number of cells is
    * initialized
    */
-  bool mHasInitializedOutNeighbor;
+  bool mHasInitializedExNeighbor;
 #ifdef IBLBM_PARALLEL_MPI
   MpiNonblockingHelper mNonblockingHelper;
 #endif  // IBLBM_PARALLEL_MPI

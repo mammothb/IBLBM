@@ -24,7 +24,7 @@ void CleanFolder(
 
 void CleanFolder(
     const fs::path& rPath
-  , bool isTop)
+  , bool isTop/*=true*/)
 {
   assert(fs::is_directory(rPath));
   fs::directory_iterator it_end;

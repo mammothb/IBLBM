@@ -78,7 +78,25 @@ TEST(TestMomentumExchangeBounceBackBoundary_ComputeU)
 
   bounce_back.ComputeU(cell, u);
 
-  for (const auto& rIt : u) CHECK_CLOSE(0.0, rIt, g_zero_tol);
+  for (const auto& r_it : u) CHECK_CLOSE(0.0, r_it, g_zero_tol);
+}
+
+TEST(TestMomentumExchangeBounceBackBoundary_ComputeRhoAndU)
+{
+  typedef descriptor::D2Q9DescriptorBase<double> B;
+  BulkMomenta<double, descriptor::D2Q9Descriptor> bulk_momenta;
+  BgkDynamics<double, descriptor::D2Q9Descriptor> dynamics(g_relaxation_time,
+      bulk_momenta);
+  Cell<double, descriptor::D2Q9Descriptor> cell(&dynamics);
+  MomentumExchangeBounceBackBoundary<double, descriptor::D2Q9Descriptor>
+      bounce_back(g_cell_density);
+  std::vector<double> u(B::sQ);
+
+  double density {0};
+  bounce_back.ComputeRhoAndU(cell, density, u);
+
+  CHECK_CLOSE(g_cell_density, density, g_zero_tol);
+  for (const auto& r_it : u) CHECK_CLOSE(0.0, r_it, g_zero_tol);
 }
 }
 }  // namespace iblbm

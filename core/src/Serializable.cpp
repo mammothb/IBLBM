@@ -7,15 +7,20 @@ namespace iblbm
 Serializable::~Serializable()
 {}
 
-bool Serializable::Save(std::string filename)
+void Serializable::Save(
+    const std::string& rDirectory
+  , std::string filename/*=""*/
+  , bool cleanOutputDirectory/*=true*/)
 {
-  Serializer tmp {*this, filename};
-  return tmp.Save();
+  Serializer tmp {*this};
+  tmp.Save(rDirectory, filename, cleanOutputDirectory);
 }
 
-bool Serializable::Load(std::string filename)
+void Serializable::Load(
+    const std::string& rDirectory
+  , std::string filename/*=""*/)
 {
-  Serializer tmp {*this, filename};
-  return tmp.Load();
+  Serializer tmp {*this};
+  tmp.Load(rDirectory, filename);
 }
 }  // namespace iblbm

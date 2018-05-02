@@ -60,6 +60,8 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCorner_Default)
   CHECK(testutil::CheckCloseVector(cuboid.rGetMax(), exp_origin + extent,
       g_loose_tol));
   CHECK(testutil::CheckCloseVector(cuboid.GetRange(), extent, g_loose_tol));
+  CHECK_EQUAL(2, cuboid.GetSourceDimension());
+  CHECK_EQUAL(1, cuboid.GetTargetDimension());
 }
 
 TEST(TestIndicatorCuboid2D_Constructor_OriginCorner_UserDefined)
@@ -132,6 +134,19 @@ TEST(TestIndicatorCuboid2D_Constructor_OriginCenter_UserDefined)
       g_loose_tol));
   CHECK_CLOSE(x_length, cuboid.GetRange()[0], g_loose_tol);
   CHECK_CLOSE(y_length, cuboid.GetRange()[1], g_loose_tol);
+}
+
+TEST(TestIndicatorCuboid2D_rGetName)
+{
+  auto x_length {1.2};
+  auto y_length {3.4};
+  Vector2D<double> center {5, 6};
+  auto theta {7.8};
+  IndicatorCuboid2D<double> cuboid(x_length, y_length, center, theta);
+
+  CHECK_EQUAL("", std::as_const(cuboid).rGetName());
+  cuboid.rGetName() = "functor name";
+  CHECK_EQUAL("functor name", std::as_const(cuboid).rGetName());
 }
 
 TEST(TestIndicatorCuboid2D_CheckBounds_ZeroOrigin)

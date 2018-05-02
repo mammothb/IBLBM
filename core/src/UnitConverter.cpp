@@ -4,6 +4,7 @@
 
 namespace iblbm
 {
+// LCOV_EXCL_START
 template<typename T, template<typename U> class Lattice>
 void UnitConverter<T, Lattice>::Print() const
 {
@@ -31,6 +32,9 @@ void UnitConverter<T, Lattice>::Print() const
       "Pressure factor (N/m^2)  | Phys. P         | " << GetConversionFactorPressure() << std::endl <<
       "--------------------------------------------" << std::endl;
 }
+// LCOV_EXCL_STOP
+
+// explicit instantiation
 template class UnitConverter<double, descriptor::D2Q9Descriptor>;
 template class UnitConverter<double, descriptor::ForcedD2Q9Descriptor>;
 }  // namespace iblbm

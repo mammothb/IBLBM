@@ -114,7 +114,7 @@ class Cell
   bool* pGetBlock(
       gsl::index blockIndex
     , std::size_t& rBlockSize
-    , const bool isLoad);
+    , const bool isLoad = false);
 
  private:
   /** Initialize data members of external field */

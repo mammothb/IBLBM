@@ -36,7 +36,7 @@
 					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
 				</Compiler>
 				<Linker>
-					<Add option="--coverage" />
+					<Add option="-lgcov" />
 				</Linker>
 			</Target>
 			<Target title="OptDebug">

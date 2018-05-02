@@ -8,10 +8,6 @@
 
 namespace iblbm
 {
-bool FileFinder::msIsFaking = false;
-RelativeTo FileFinder::msFakeWhat = RelativeTo::ABSOLUTE;
-std::string FileFinder::msFakePath = "";
-
 constexpr auto UNSET_PATH = "UNSET!";
 
 /**
@@ -86,13 +82,11 @@ void FileFinder::SetPath(
       mAbsPath = GetCurrentWorkingDirectory() + "/" + rRelativePath;
     }
     break;
+  // LCOV_EXCL_START
   default:
     NEVER_REACHED;
+  // LCOV_EXCL_STOP
   }
-
-  // Fake the resulting path
-  if (msIsFaking && msFakeWhat == relativeTo)
-      mAbsPath = msFakePath + "/" + rRelativePath;
 
   // Remove any trailing /
   auto it {mAbsPath.end()};

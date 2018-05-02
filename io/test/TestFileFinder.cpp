@@ -36,7 +36,6 @@ TEST(TestFileFinder_Constructor_RelativeTo)
 
     // CWD should be the Chaste source root
     FileFinder file_finder2(filename, RelativeTo::CWD);
-//    std::cout << file_finder2.GetAbsolutePath() << std::endl;
     CHECK(file_finder2.Exists());
     CHECK(file_finder2.IsFile());
     CHECK(!file_finder2.IsDir());
@@ -130,6 +129,72 @@ TEST(TestFileFinder_Constructor_RelativeTo)
     CHECK(file_finder3.Exists());
     CHECK_EQUAL(file_finder3.GetAbsolutePath(), abs_path);
   }
+
+  {
+    // Can we find our build directory?
+    std::string filename {""};
+    FileFinder file_finder(filename, RelativeTo::IBLBM_BUILD_ROOT);
+    CHECK(file_finder.Exists());
+    CHECK(!file_finder.IsFile());
+    CHECK(file_finder.IsDir());
+    CHECK(!file_finder.IsEmpty());
+    CHECK(file_finder.IsPathSet());
+  }
+}
+
+TEST(TestFileFinder_Remove)
+{
+  // We shouldn't be able to remove unsafe files, if possible
+  FileFinder bad1a("core/src", RelativeTo::IBLBM_SOURCE_ROOT);
+  CHECK_THROW_CONTAINS(bad1a.Remove(), "is not located within the IBLBM "
+      "test output folder");
+  FileFinder bad1b("/", RelativeTo::ABSOLUTE);
+  CHECK_THROW_CONTAINS(bad1b.Remove(), "is not located within the IBLBM "
+      "test output folder");
+  FileFinder bad2("../..", RelativeTo::IBLBM_TEST_OUTPUT);
+  CHECK_THROW_CONTAINS(bad2.Remove(), "contains a dangerous path "
+      "component.");
+
+  // We can delete individual files
+  OutputFileHandler handler("TestFileFinder/TestRemove");
+  handler.OpenOutputFile("delete_me");
+  FileFinder file {handler.FindFile("delete_me")};
+  CHECK(file.Exists());
+  file.Remove();
+  CHECK(!file.Exists());
+
+  // We can recursively delete folders
+  FileFinder dir("TestFileFinder", RelativeTo::IBLBM_TEST_OUTPUT);
+  FileFinder subdir("TestFileFinder/TestRemove",
+      RelativeTo::IBLBM_TEST_OUTPUT);
+  CHECK(subdir.Exists());
+  dir.Remove();
+  CHECK(!subdir.Exists());
+  CHECK(!dir.Exists());
+
+  // We can only delete (content in) folders created by an OutputFileHandler
+  // unless we force it
+  fs::create_directory(dir.GetAbsolutePath());
+  CHECK(dir.IsDir());
+  CHECK_THROW_CONTAINS(dir.Remove(), "because the signature file "
+      "'.iblbm_deletable_folder' is not present.");
+  CHECK(dir.IsDir());
+  file.SetPath("file", dir);
+  { std::ofstream(file.GetAbsolutePath().c_str()); }
+  CHECK(file.IsFile());
+  CHECK_THROW_CONTAINS(file.Remove(), "because the signature file "
+      "'.iblbm_deletable_folder' is not present.");
+  CHECK(file.IsFile());
+  file.DangerousRemove();
+  CHECK(!file.Exists());
+  dir.DangerousRemove();
+  CHECK(!dir.Exists());
+
+  FileFinder obscure_file("/SomeObscureFile.obscure", RelativeTo::ABSOLUTE);
+  CHECK_THROW_CONTAINS(obscure_file.Remove(), "as it is not located "
+      "within the IBLBM test output folder");
+  CHECK_THROW_CONTAINS(obscure_file.DangerousRemove(), ", the IBLBM source "
+      "folder");
 }
 }
 }  // namespace iblbm

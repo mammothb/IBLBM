@@ -460,6 +460,124 @@ TEST(TestCuboidGeometry2D_Remove)
       tester.GetCuboids(cuboid_geometry)[5].GetNy());
 }
 
+TEST(TestCuboidGeometry2D_Shrink)
+{
+  TestCuboidGeometry2D tester;
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.5};
+
+  Vector2D<double> origin {x_pos, y_pos};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  auto nx {static_cast<std::size_t>(extent[0] / delta_R + 1.5)};
+  auto ny {static_cast<std::size_t>(extent[1] / delta_R + 1.5)};
+
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
+  auto mother_cuboid {cuboid_geometry.GetMotherCuboid()};
+
+  Vector2D<double> extent_2 {2, 3};
+  IndicatorCuboid2D<double> indicator_cuboid_2 {extent_2, origin};
+  cuboid_geometry.Shrink(indicator_cuboid_2);
+
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(0).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(3.4, cuboid_geometry.rGetCuboid(0).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(0).GetRefinementLevel());
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(1).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(5.4, cuboid_geometry.rGetCuboid(1).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(1).GetRefinementLevel());
+}
+
+TEST(TestCuboidGeometry2D_RefineArea)
+{
+  TestCuboidGeometry2D tester;
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.5};
+
+  Vector2D<double> origin {x_pos, y_pos};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
+
+  CHECK_EQUAL(nc, cuboid_geometry.GetNumberOfCuboids());
+
+  cuboid_geometry.RefineArea(3.2, 4.4, 5.7, 6.4, 0);
+
+  CHECK_EQUAL(16, cuboid_geometry.GetNumberOfCuboids());
+
+  CHECK_CLOSE(3.2, cuboid_geometry.rGetCuboid(0).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(4.4, cuboid_geometry.rGetCuboid(0).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(1, cuboid_geometry.rGetCuboid(0).GetRefinementLevel());
+
+  CHECK_CLOSE(3.2, cuboid_geometry.rGetCuboid(1).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(5.4, cuboid_geometry.rGetCuboid(1).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(1, cuboid_geometry.rGetCuboid(1).GetRefinementLevel());
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(2).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(7.4, cuboid_geometry.rGetCuboid(2).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(2).GetRefinementLevel());
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(3).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(9.4, cuboid_geometry.rGetCuboid(3).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(3).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(4).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(4.4, cuboid_geometry.rGetCuboid(4).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(1, cuboid_geometry.rGetCuboid(4).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(5).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(5.4, cuboid_geometry.rGetCuboid(5).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(1, cuboid_geometry.rGetCuboid(5).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(6).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(7.4, cuboid_geometry.rGetCuboid(6).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(6).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(7).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(9.4, cuboid_geometry.rGetCuboid(7).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(7).GetRefinementLevel());
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(8).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(3.4, cuboid_geometry.rGetCuboid(8).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(8).GetRefinementLevel());
+
+  CHECK_CLOSE(3.2, cuboid_geometry.rGetCuboid(9).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(3.4, cuboid_geometry.rGetCuboid(9).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(9).GetRefinementLevel());
+
+  CHECK_CLOSE(1.2, cuboid_geometry.rGetCuboid(10).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(5.4, cuboid_geometry.rGetCuboid(10).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(10).GetRefinementLevel());
+
+  CHECK_CLOSE(3.2, cuboid_geometry.rGetCuboid(11).GetOrigin()[0], g_zero_tol);
+  // One delta_R up
+  CHECK_CLOSE(6.9, cuboid_geometry.rGetCuboid(11).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(11).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(12).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(3.4, cuboid_geometry.rGetCuboid(12).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(12).GetRefinementLevel());
+
+  CHECK_CLOSE(6.2, cuboid_geometry.rGetCuboid(13).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(4.4, cuboid_geometry.rGetCuboid(13).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(13).GetRefinementLevel());
+
+  CHECK_CLOSE(6.2, cuboid_geometry.rGetCuboid(14).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(5.4, cuboid_geometry.rGetCuboid(14).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(14).GetRefinementLevel());
+
+  CHECK_CLOSE(4.7, cuboid_geometry.rGetCuboid(15).GetOrigin()[0], g_zero_tol);
+  CHECK_CLOSE(6.9, cuboid_geometry.rGetCuboid(15).GetOrigin()[1], g_zero_tol);
+  CHECK_EQUAL(0, cuboid_geometry.rGetCuboid(15).GetRefinementLevel());
+}
+
 TEST(TestCuboidGeometry2D_HasCuboid_Vector)
 {
   auto x_pos {1.2};
@@ -505,6 +623,9 @@ TEST(TestCuboidGeometry2D_HasCuboid_Vector)
   Vector2D<double> phys_R_7 {4.4, 8.9};
   CHECK(cuboid_geometry.HasCuboid(phys_R_7, global_cuboid_index));
   CHECK_EQUAL(7, global_cuboid_index);
+
+  Vector2D<double> phys_R_8 {44.4, 88.9};
+  CHECK(!cuboid_geometry.HasCuboid(phys_R_8, global_cuboid_index));
 }
 
 TEST(TestCuboidGeometry2D_HasCuboid_StdVector)
@@ -552,6 +673,9 @@ TEST(TestCuboidGeometry2D_HasCuboid_StdVector)
   std::vector<double> phys_R_7 {4.4, 8.9};
   CHECK(cuboid_geometry.HasCuboid(phys_R_7, global_cuboid_index));
   CHECK_EQUAL(7, global_cuboid_index);
+
+  std::vector<double> phys_R_8 {44.4, 88.9};
+  CHECK(!cuboid_geometry.HasCuboid(phys_R_8, global_cuboid_index));
 }
 
 TEST(TestCuboidGeometry2D_GetCuboid)
@@ -751,6 +875,10 @@ TEST(TestCuboidGeometry2D_GetLatticeR)
     CHECK_EQUAL(7, global_cuboid_index);
     CHECK_ARRAY_EQUAL(exp_lattice_R, lattice_R, 2);
   }
+
+  double phys_R[] {44.56, 99.16};
+  CHECK(!cuboid_geometry.GetLatticeR(phys_R, global_cuboid_index,
+      lattice_R));
 }
 
 TEST(TestCuboidGeometry2D_GetLatticeR_StdVector)
@@ -1041,6 +1169,11 @@ TEST(TestCuboidGeometry2D_GetFloorLatticeR)
     CHECK_EQUAL(7, global_cuboid_index);
     CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
   }
+
+
+    Vector2D<double> phys_R {11.44, 33.74};
+    CHECK(!cuboid_geometry.GetFloorLatticeR(phys_R, global_cuboid_index,
+        lattice_R));
 }
 
 TEST(TestCuboidGeometry2D_GetFloorLatticeR_StdVector)
@@ -1194,6 +1327,10 @@ TEST(TestCuboidGeometry2D_GetFloorLatticeR_StdVector)
     CHECK_EQUAL(7, global_cuboid_index);
     CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
   }
+
+  std::vector<double> phys_R {44.54, 99.14};
+  CHECK(!cuboid_geometry.GetFloorLatticeR(phys_R, global_cuboid_index,
+      lattice_R));
 }
 
 TEST(TestCuboidGeometry2D_GetPhysR_Index)
@@ -1434,11 +1571,13 @@ TEST(TestCuboidGeometry2D_GetMinPhysR)
 
   CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny, 8);
 
-  auto exp_min_x = x_pos;
-  auto exp_min_y = y_pos;
+  CHECK_CLOSE(x_pos, cuboid_geometry.GetMinPhysR()[0], g_loose_tol);
+  CHECK_CLOSE(y_pos, cuboid_geometry.GetMinPhysR()[1], g_loose_tol);
 
-  CHECK_CLOSE(exp_min_x, cuboid_geometry.GetMinPhysR()[0], g_loose_tol);
-  CHECK_CLOSE(exp_min_y, cuboid_geometry.GetMinPhysR()[1], g_loose_tol);
+  cuboid_geometry.rGetCuboid(1).Initialize(x_pos - 0.1, y_pos - 0.1, delta_R,
+      nx, ny);
+  CHECK_CLOSE(x_pos - 0.1, cuboid_geometry.GetMinPhysR()[0], g_loose_tol);
+  CHECK_CLOSE(y_pos - 0.1, cuboid_geometry.GetMinPhysR()[1], g_loose_tol);
 }
 
 TEST(TestCuboidGeometry2D_GetMaxPhysR)
@@ -1520,6 +1659,10 @@ TEST(TestCuboidGeometry2D_GetMaxPhysVolume)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
 
   CHECK_CLOSE(4.08, cuboid_geometry.GetMaxPhysVolume(), g_loose_tol);
+
+  cuboid_geometry.rGetCuboid(1).Initialize(x_pos, y_pos, delta_R,
+      100, 100);
+  CHECK_CLOSE(100.0, cuboid_geometry.GetMaxPhysVolume(), g_loose_tol);
 }
 
 TEST(TestCuboidGeometry2D_GetMinLatticeVolume)
@@ -1552,6 +1695,10 @@ TEST(TestCuboidGeometry2D_GetMaxLatticeVolume)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
 
   CHECK_CLOSE(408, cuboid_geometry.GetMaxLatticeVolume(), g_loose_tol);
+
+  cuboid_geometry.rGetCuboid(1).Initialize(x_pos, y_pos, delta_R,
+      100, 100);
+  CHECK_EQUAL(10000, cuboid_geometry.GetMaxLatticeVolume());
 }
 
 TEST(TestCuboidGeometry2D_GetMinDeltaR)
@@ -1565,6 +1712,25 @@ TEST(TestCuboidGeometry2D_GetMinDeltaR)
   CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny, 8);
 
   CHECK_CLOSE(delta_R, cuboid_geometry.GetMinDeltaR(), g_loose_tol);
+  cuboid_geometry.rGetCuboid(1).Initialize(x_pos, y_pos, 0.5 * delta_R,
+      100, 100);
+  CHECK_CLOSE(0.5 * delta_R, cuboid_geometry.GetMinDeltaR(), g_loose_tol);
+}
+
+TEST(TestCuboidGeometry2D_GetMaxDeltaR)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.5};
+  auto nx {6u};
+  auto ny {7u};
+
+  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny, 8);
+
+  CHECK_CLOSE(delta_R, cuboid_geometry.GetMaxDeltaR(), g_loose_tol);
+  cuboid_geometry.rGetCuboid(1).Initialize(x_pos, y_pos, 2.0 * delta_R,
+      100, 100);
+  CHECK_CLOSE(2.0 * delta_R, cuboid_geometry.GetMaxDeltaR(), g_loose_tol);
 }
 
 TEST(TestCuboidGeometry2D_GetGlobalCuboidIndex)

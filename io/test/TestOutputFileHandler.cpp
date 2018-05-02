@@ -19,7 +19,7 @@ TEST(TestOutputFileHandler_GetIblbmTestOutputDirectory)
   // a class object is instantiated
   const auto iblbm_test_output {
       OutputFileHandler::GetIblbmTestOutputDirectory()};
-  CHECK_EQUAL('/',  *iblbm_test_output.rbegin());
+  CHECK_EQUAL('/', *iblbm_test_output.rbegin());
 
   // Make a handler that points straight to the IBLBM_TEST_OUTPUT directory.
   OutputFileHandler handler {""};

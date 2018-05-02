@@ -8,6 +8,7 @@
 #include "UnitTest++/UnitTest++.h"
 #include "LoadBalancer.hpp"
 #include "MpiManager.hpp"
+#include "OutputFileHandler.hpp"
 #include "UnitTestCustomUtilities.hpp"
 
 namespace iblbm
@@ -607,6 +608,50 @@ TEST(TestLoadBalancer_pGetBlock_Loading_WithLoad)
   num_block = 4 + local_index.size() + rank_map.size() +
       g_global_index.size() + g_local_index.size() + g_rank_map.size();
   CHECK_EQUAL(num_block, balancer.GetNumBlock());
+}
+
+TEST(TestLoadBalancer_pGetBlock_SaveAndLoad_WithLoad)
+{
+  auto size {1u};
+
+  gsl::index block_index {0};
+  std::size_t block_size {0};
+  bool* p_data {nullptr};
+  LoadBalancer<double> balancer(size, g_local_index, g_global_index,
+      g_rank_map);
+  // Now create a folder the proper way
+  std::string test_folder {"TestLoadBalancer"};
+  std::string test_file {"TestLoadBalancerFile"};
+  balancer.Save(test_folder, test_file);
+
+  LoadBalancer<double> balancer_2;
+  balancer_2.Load(test_folder, test_file);
+
+  CHECK_EQUAL(size, balancer_2.GetSize());
+  CHECK_EQUAL(1, balancer_2.GetLocalIndex(0));
+  CHECK_EQUAL(3, balancer_2.GetLocalIndex(2));
+  CHECK_EQUAL(5, balancer_2.GetLocalIndex(4));
+  CHECK_EQUAL(7, balancer_2.GetLocalIndex(6));
+  CHECK_EQUAL(9, balancer_2.GetLocalIndex(8));
+  CHECK_EQUAL(11, balancer_2.GetLocalIndex(10));
+
+  CHECK_EQUAL(12, balancer_2.GetGlobalIndex(0));
+  CHECK_EQUAL(13, balancer_2.GetGlobalIndex(1));
+  CHECK_EQUAL(14, balancer_2.GetGlobalIndex(2));
+  CHECK_EQUAL(15, balancer_2.GetGlobalIndex(3));
+  CHECK_EQUAL(16, balancer_2.GetGlobalIndex(4));
+  CHECK_EQUAL(17, balancer_2.GetGlobalIndex(5));
+
+  CHECK_EQUAL(0, balancer_2.GetRank(18));
+  CHECK_EQUAL(1, balancer_2.GetRank(19));
+  CHECK_EQUAL(2, balancer_2.GetRank(20));
+  CHECK_EQUAL(0, balancer_2.GetRank(21));
+  CHECK_EQUAL(1, balancer_2.GetRank(22));
+  CHECK_EQUAL(2, balancer_2.GetRank(23));
+
+  auto num_block {4 + g_global_index.size() + g_local_index.size() +
+      g_rank_map.size()};
+  CHECK_EQUAL(num_block, balancer_2.GetNumBlock());
 }
 }
 }  // namespace iblbm

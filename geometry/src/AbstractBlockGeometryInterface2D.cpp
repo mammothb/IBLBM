@@ -72,10 +72,12 @@ std::size_t AbstractBlockGeometryInterface2D<T>::Clean(
       }
     }
   }
+  // LCOV_EXCL_START
   if (isVerbose) {
     mOstream << "cleaned "<< counter << " outer boundary voxel(s)" <<
         std::endl;
   }
+  // LCOV_EXCL_STOP
   return counter;
 }
 
@@ -96,9 +98,11 @@ std::size_t AbstractBlockGeometryInterface2D<T>::OuterClean(
       }
     }
   }
+  // LCOV_EXCL_START
   if (isVerbose) {
     mOstream << "cleaned "<< counter << " outer fluid voxel(s)" << std::endl;
   }
+  // LCOV_EXCL_STOP
   return counter;
 }
 
@@ -175,10 +179,12 @@ std::size_t AbstractBlockGeometryInterface2D<T>::InnerClean(
       }
     }
   }
+  // LCOV_EXCL_START
   if (isVerbose) {
     mOstream << "cleaned "<< counter <<
         " inner boundary voxel(s) of Type " << fromMaterial << std::endl;
   }
+  // LCOV_EXCL_STOP
   return counter;
 }
 
@@ -199,6 +205,7 @@ bool AbstractBlockGeometryInterface2D<T>::CheckForErrors(
       }
     }
   }
+  // LCOV_EXCL_START
   if (isVerbose) {
     if (error) {
       mOstream << "error!" << std::endl;
@@ -207,6 +214,7 @@ bool AbstractBlockGeometryInterface2D<T>::CheckForErrors(
       mOstream << "the model is correct!" << std::endl;
     }
   }
+  // LCOV_EXCL_STOP
   return error;
 }
 

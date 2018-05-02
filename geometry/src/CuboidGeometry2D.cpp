@@ -310,7 +310,7 @@ bool CuboidGeometry2D<T>::GetFloorLatticeR(
 
 template<typename T>
 bool CuboidGeometry2D<T>::GetFloorLatticeR(
-  const Vector2D<T>& rPhysR
+    const Vector2D<T>& rPhysR
   , gsl::index& rGlobalCuboidIndex
   , Vector2D<gsl::index>& rLatticeR) const
 {

@@ -13,6 +13,7 @@ def main():
     test_bin = os.path.join(src_path, "build", "Coverage", "bin", "IBLBM")
 
     lcov = "/usr/bin/lcov"
+    gcov = "/usr/bin/gcov-7"
     genhtml = "/usr/bin/genhtml"
 
     # Clean up lcov
@@ -24,13 +25,14 @@ def main():
     subprocess.call(run_test_cmd, cwd=src_path)
 
     # Capture lcov counters and generate report
-    capture_cmd = [lcov, "--config-file", rc_path, "--directory", src_path,
-                   "--capture", "--output-file", output_file_path]
+    capture_cmd = [lcov, "--config-file", rc_path, "--gcov-tool", gcov,
+                   "--directory", src_path, "--capture", "--output-file",
+                   output_file_path]
     subprocess.call(capture_cmd, cwd=src_path)
     ignore_path = ["usr/*", "*/examples/*", "*/fortests/*", "*/test/*",
                    "*/thirdparty/*"]
-    clean_capture_cmd = [lcov, "--config-file", rc_path, "--remove",
-                         output_file_path]
+    clean_capture_cmd = [lcov, "--config-file", rc_path, "--gcov-tool", gcov,
+                         "--remove", output_file_path]
     clean_capture_cmd += ignore_path
     clean_capture_cmd += ["--output-file", clean_output_file_path]
     subprocess.call(clean_capture_cmd, cwd=src_path)

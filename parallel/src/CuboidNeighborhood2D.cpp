@@ -16,12 +16,12 @@ CuboidNeighborhood2D<T>::CuboidNeighborhood2D(
     mNumData{mrSuperStructure.GetDataSize()},
     mSizeofDataType{mrSuperStructure.GetSizeofDataType()},
     mpInData{nullptr},
-    mpOutData{nullptr},
+    mpExData{nullptr},
     mpInDataCoordinates{nullptr},
-    mpOutDataCoordinates{nullptr},
+    mpExDataCoordinates{nullptr},
     mpTmpInNbrNumCells{nullptr},
     mHasInitializedInNeighbor{false},
-    mHasInitializedOutNeighbor{false}
+    mHasInitializedExNeighbor{false}
 {}
 
 template<typename T>
@@ -40,36 +40,14 @@ CuboidNeighborhood2D<T>::CuboidNeighborhood2D(
     mNumData{rRhs.mNumData},
     mSizeofDataType{rRhs.mSizeofDataType},
     mInCells{rRhs.mInCells},
-    mOutCells{rRhs.mOutCells},
+    mExCells{rRhs.mExCells},
     mInNbrCuboids{rRhs.mInNbrCuboids},
     mInNbrNumCells{rRhs.mInNbrNumCells},
-    mOutNbrCuboids{rRhs.mOutNbrCuboids},
-    mOutNbrNumCells{rRhs.mOutNbrNumCells},
+    mExNbrCuboids{rRhs.mExNbrCuboids},
+    mExNbrNumCells{rRhs.mExNbrNumCells},
     mHasInitializedInNeighbor{false},
-    mHasInitializedOutNeighbor{false}
+    mHasInitializedExNeighbor{false}
 {}
-
-//template<typename T>
-//CuboidNeighborhood2D<T>& CuboidNeighborhood2D<T>::operator=(
-//    const CuboidNeighborhood2D<T>& rRhs)
-//{
-//  mrSuperStructure = rRhs.mrSuperStructure;
-//  mGlobalCuboidIndex = rRhs.mGlobalCuboidIndex;
-//  mNumCuboid = rRhs.mNumCuboid;
-//  mDeltaR = rRhs.mDeltaR;
-//  mNumData = rRhs.mNumData;
-//  mSizeofDataType = rRhs.mSizeofDataType;
-//  mInCells = rRhs.mInCells;
-//  mOutCells = rRhs.mOutCells;
-//  mInNbrCuboids = rRhs.mInNbrCuboids;
-//  mInNbrNumCells = rRhs.mInNbrNumCells;
-//  mOutNbrCuboids = rRhs.mOutNbrCuboids;
-//  mOutNbrNumCells = rRhs.mOutNbrNumCells;
-//  mHasInitializedInNeighbor = false;
-//  mHasInitializedOutNeighbor = false;
-//
-//  return *this;
-//}
 
 template<typename T>
 const Cell2D<T>& CuboidNeighborhood2D<T>::rGetInCell(gsl::index i) const
@@ -103,9 +81,9 @@ bool** CuboidNeighborhood2D<T>::pGetInData()
 }
 
 template<typename T>
-bool** CuboidNeighborhood2D<T>::pGetOutData()
+bool** CuboidNeighborhood2D<T>::pGetExData()
 {
-  return mpOutData;
+  return mpExData;
 }
 
 template<typename T>
@@ -115,9 +93,9 @@ void CuboidNeighborhood2D<T>::AddInCell(const Cell2D<T>& rCell)
 }
 
 template<typename T>
-void CuboidNeighborhood2D<T>::AddOutCell(const Cell2D<T>& rCell)
+void CuboidNeighborhood2D<T>::AddExCell(const Cell2D<T>& rCell)
 {
-  mOutCells.push_back(rCell);
+  mExCells.push_back(rCell);
 }
 
 template<typename T>
@@ -213,18 +191,18 @@ void CuboidNeighborhood2D<T>::InitializeInNeighbor()
 }
 
 template<typename T>
-void CuboidNeighborhood2D<T>::InitializeOutNeighbor()
+void CuboidNeighborhood2D<T>::InitializeExNeighbor()
 {
-  mOutNbrCuboids.clear();
-  mOutNbrNumCells.clear();
-  mpOutData = new bool* [mNumCuboid];
-  mpOutDataCoordinates = new T* [mNumCuboid];
+  mExNbrCuboids.clear();
+  mExNbrNumCells.clear();
+  mpExData = new bool* [mNumCuboid];
+  mpExDataCoordinates = new T* [mNumCuboid];
 
   std::vector<std::size_t> tmp_out_nbr_num_cells(mNumCuboid, 0);
 
-  // Calculate the distribution of mOutCells across global cuboids
-  for (gsl::index i {0}; i < mOutCells.size(); ++i)
-      ++tmp_out_nbr_num_cells[mOutCells[i].mGlobalCuboidIndex];
+  // Calculate the distribution of mExCells across global cuboids
+  for (gsl::index i {0}; i < mExCells.size(); ++i)
+      ++tmp_out_nbr_num_cells[mExCells[i].mGlobalCuboidIndex];
 
   for (gsl::index global_idx {0}; global_idx < mNumCuboid; ++global_idx) {
 #ifdef IBLBM_PARALLEL_MPI
@@ -238,16 +216,16 @@ void CuboidNeighborhood2D<T>::InitializeOutNeighbor()
 #endif  // IBLBM_PARALLEL_MPI
     // If other cuboid request a cell from us, add them to out neighbors
     if (tmp_out_nbr_num_cells[global_idx] != 0) {
-      mOutNbrCuboids.push_back(global_idx);
-      mOutNbrNumCells.push_back(tmp_out_nbr_num_cells[global_idx]);
+      mExNbrCuboids.push_back(global_idx);
+      mExNbrNumCells.push_back(tmp_out_nbr_num_cells[global_idx]);
     }
-    mpOutData[global_idx] = new bool [tmp_out_nbr_num_cells[global_idx] *
+    mpExData[global_idx] = new bool [tmp_out_nbr_num_cells[global_idx] *
         mNumData * mSizeofDataType];
-    mpOutDataCoordinates[global_idx] = new T [
+    mpExDataCoordinates[global_idx] = new T [
         tmp_out_nbr_num_cells[global_idx] * 2];
   }
 
-  mHasInitializedOutNeighbor = true;
+  mHasInitializedExNeighbor = true;
 }
 
 template<typename T>
@@ -265,24 +243,24 @@ void CuboidNeighborhood2D<T>::Reset()
     delete[] mpTmpInNbrNumCells;
     mHasInitializedInNeighbor = false;
   }
-  if (mHasInitializedOutNeighbor) {
+  if (mHasInitializedExNeighbor) {
     for (gsl::index global_idx {0}; global_idx < mNumCuboid; ++global_idx) {
-      delete[] mpOutData[global_idx];
-      delete[] mpOutDataCoordinates[global_idx];
+      delete[] mpExData[global_idx];
+      delete[] mpExDataCoordinates[global_idx];
     }
-    delete[] mpOutData;
-    delete[] mpOutDataCoordinates;
+    delete[] mpExData;
+    delete[] mpExDataCoordinates;
 #ifdef IBLBM_PARALLEL_MPI
     mNonblockingHelper.Free();
 #endif  // IBLBM_PARALLEL_MPI
-    mHasInitializedOutNeighbor = false;
+    mHasInitializedExNeighbor = false;
   }
   mInCells.clear();
-  mOutCells.clear();
+  mExCells.clear();
   mInNbrCuboids.clear();
   mInNbrNumCells.clear();
-  mOutNbrCuboids.clear();
-  mOutNbrNumCells.clear();
+  mExNbrCuboids.clear();
+  mExNbrNumCells.clear();
 }
 
 // Explicit instantiation

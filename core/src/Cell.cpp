@@ -65,14 +65,14 @@ template<typename T, template<typename U> class Lattice>
 bool* Cell<T, Lattice>::pGetBlock(
     gsl::index blockIndex
   , std::size_t& rBlockSize
-  , const bool /*isLoad*/)
+  , const bool /*isLoad=false*/)
 {
   gsl::index current_block_index {0};
   bool* p_data {nullptr};
-  this->RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
+  RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
       this->mDF[0], Lattice<T>::sQ);
   if (Lattice<T>::ExternalField::sNumScalars > 0) {
-    this->RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
+    RegisterVar(blockIndex, rBlockSize, current_block_index, p_data,
         *(mExternal[0]), Lattice<T>::ExternalField::sNumScalars);
   }
   return p_data;

@@ -435,10 +435,10 @@ void Cuboid2D<T>::GetLatticeR(
     const T physR[2]
   , gsl::index latticeR[2]) const
 {
-  latticeR[0] = static_cast<gsl::index>(floor((physR[0] - mXPosition) /
-      mDeltaR + 0.5));
-  latticeR[1] = static_cast<gsl::index>(floor((physR[1] - mYPosition) /
-      mDeltaR + 0.5));
+  latticeR[0] = static_cast<gsl::index>((physR[0] - mXPosition) / mDeltaR +
+      0.5);
+  latticeR[1] = static_cast<gsl::index>((physR[1] - mYPosition) / mDeltaR +
+      0.5);
 }
 
 template<typename T>
@@ -446,10 +446,10 @@ void Cuboid2D<T>::GetLatticeR(
     const Vector2D<T>& rPhysR
   , gsl::index latticeR[2]) const
 {
-  latticeR[0] = static_cast<gsl::index>(floor((rPhysR[0] - mXPosition) /
-      mDeltaR + 0.5));
-  latticeR[1] = static_cast<gsl::index>(floor((rPhysR[1] - mYPosition) /
-      mDeltaR + 0.5));
+  latticeR[0] = static_cast<gsl::index>((rPhysR[0] - mXPosition) / mDeltaR +
+      0.5);
+  latticeR[1] = static_cast<gsl::index>((rPhysR[1] - mYPosition) / mDeltaR +
+      0.5);
 }
 
 template<typename T>
@@ -483,6 +483,7 @@ void Cuboid2D<T>::SetWeight(std::size_t weight)
   mWeight = weight;
 }
 
+// LCOV_EXCL_START
 template<typename T>
 void Cuboid2D<T>::Print() const
 {
@@ -498,6 +499,7 @@ void Cuboid2D<T>::Print() const
       "Nodes in volume    |          | " << GetLatticeVolume() << std::endl <<
       "-------------------------------" << std::endl;
 }
+// LCOV_EXCL_STOP
 
 // Explicit instantiation
 template class Cuboid2D<double>;

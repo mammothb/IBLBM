@@ -120,10 +120,15 @@ class Serializable
   virtual std::size_t GetSerializableSize() const = 0;
 
   /** Save 'Serializable' into file 'filename' */
-  bool Save(std::string filename = "");
+  void Save(
+      const std::string& rDirectory
+    , std::string filename = ""
+    , bool cleanOutputDirectory = true);
 
   /** Load 'Serializable' from file 'filename' */
-  bool Load(std::string filename = "");
+  void Load(
+      const std::string& rDirectory
+    , std::string filename = "");
 
   /**
    * Sum functor for 'GetNumBlock()' of 'std::vector<Serializable>' (for

@@ -51,7 +51,9 @@ class Serializer
    *
    * \param rFilename filename of file to be loaded
    */
-  bool Load(std::string filename = "Serializable");
+  void Load(
+      const std::string& rDirectory
+    , std::string filename = "");
 
   /**
    * Save mrSerializable into file mFilename. Always in parallel, i.e., one
@@ -59,7 +61,10 @@ class Serializer
    *
    * \param rFilename filename of file to be saved
    */
-  bool Save(std::string filename = "Serializable");
+  void Save(
+      const std::string& rDirectory
+    , std::string filename = ""
+    , bool cleanOutputDirectory = true);
 
   /**
    * Compute mSize based on the individual definition of GetBlock()
