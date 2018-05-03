@@ -129,6 +129,42 @@ class CuboidNeighborhood2D
   void InitializeExNeighbor();
 
   /**
+   * Sends data coordinates (pure MPI method)
+   */
+  void SendInDataCoordinates();
+
+  /**
+   * Receive data coordinates (pure MPI method)
+   */
+  void ReceiveExDataCoordinates();
+
+  /**
+   * Finishes a communication step
+   */
+  void FinishComm();
+
+  /**
+   * Buffers data to be sent. Interpolation is required if globalXPosition and
+   * globalYPosition are not integers
+   */
+  void BufferExData();
+
+  /**
+   * Sends data (pure MPI method)
+   */
+  void SendExData();
+
+  /**
+   * Receives data (pure MPI method)
+   */
+  void ReceiveInData();
+
+  /**
+   * Write all data to the corresponding lattice cells
+   */
+  void WriteInData();
+
+  /**
    * Resets neighborhood after initialization (InitializeInternal and
    * InitializeExternal)
    */
@@ -164,9 +200,9 @@ class CuboidNeighborhood2D
   /** Buffer for external needed data */
   bool** mpExData;
   /** Buffer for internal needed data coordinates */
-  T** mpInDataCoordinates;
+  T** mpInDataCoords;
   /** Buffer for external needed data coordinates */
-  T** mpExDataCoordinates;
+  T** mpExDataCoords;
   /** Temporary buffer to compute neighbor cuboid index and num cells */
   std::size_t* mpTmpInNbrNumCells;
   /**

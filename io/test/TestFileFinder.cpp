@@ -160,7 +160,9 @@ TEST(TestFileFinder_Remove)
   handler.OpenOutputFile("delete_me");
   FileFinder file {handler.FindFile("delete_me")};
   CHECK(file.Exists());
-  file.Remove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-0");
+  if (MpiManager::Instance().AmMaster()) file.Remove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-1");
   CHECK(!file.Exists());
 
   // We can recursively delete folders
@@ -168,7 +170,9 @@ TEST(TestFileFinder_Remove)
   FileFinder subdir("TestFileFinder/TestRemove",
       RelativeTo::IBLBM_TEST_OUTPUT);
   CHECK(subdir.Exists());
-  dir.Remove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-2");
+  if (MpiManager::Instance().AmMaster()) dir.Remove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-3");
   CHECK(!subdir.Exists());
   CHECK(!dir.Exists());
 
@@ -185,9 +189,13 @@ TEST(TestFileFinder_Remove)
   CHECK_THROW_CONTAINS(file.Remove(), "because the signature file "
       "'.iblbm_deletable_folder' is not present.");
   CHECK(file.IsFile());
-  file.DangerousRemove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-4");
+  if (MpiManager::Instance().AmMaster()) file.DangerousRemove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-5");
   CHECK(!file.Exists());
-  dir.DangerousRemove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-6");
+  if (MpiManager::Instance().AmMaster()) dir.DangerousRemove();
+  MpiManager::Instance().Barrier("TestFileFinder_Remove-7");
   CHECK(!dir.Exists());
 
   FileFinder obscure_file("/SomeObscureFile.obscure", RelativeTo::ABSOLUTE);

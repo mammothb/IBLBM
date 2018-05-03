@@ -144,6 +144,16 @@ class CuboidGeometry2D
    * lattice position
    */
   bool GetLatticeR(
+      const Vector2D<T>& rPhysR
+    , gsl::index& rGlobalCuboidIndex
+    , Vector2D<gsl::index>& rLatticeR) const;
+
+  /**
+   * If rPhysR is contained within any cuboid with an overlap of 0.5 * mDeltaR
+   * which belongs to the cuboid geometry, return true and write the nearest
+   * lattice position
+   */
+  bool GetLatticeR(
       const T physR[]
     , gsl::index& rGlobalCuboidIndex
     , gsl::index latticeR[]) const;

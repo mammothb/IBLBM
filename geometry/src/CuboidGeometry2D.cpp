@@ -266,6 +266,28 @@ bool CuboidGeometry2D<T>::GetLatticeR(
 
 template<typename T>
 bool CuboidGeometry2D<T>::GetLatticeR(
+    const Vector2D<T>& rPhysR
+  , gsl::index& rGlobalCuboidIndex
+  , Vector2D<gsl::index>& rLatticeR) const
+{
+  auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
+  if (tmp_index < GetNumberOfCuboids()) {
+    rGlobalCuboidIndex = tmp_index;
+    rLatticeR[0] = static_cast<gsl::index>((rPhysR[0] -
+        mCuboids[tmp_index].GetOrigin()[0]) /
+        mCuboids[tmp_index].GetDeltaR() + 0.5);
+    rLatticeR[1] = static_cast<gsl::index>((rPhysR[1] -
+        mCuboids[tmp_index].GetOrigin()[1]) /
+        mCuboids[tmp_index].GetDeltaR() + 0.5);
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+template<typename T>
+bool CuboidGeometry2D<T>::GetLatticeR(
     const T physR[]
   , gsl::index& rGlobalCuboidIndex
   , gsl::index latticeR[]) const

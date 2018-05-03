@@ -66,7 +66,7 @@ void MpiNonblockingHelper::Allocate(std::size_t size)
   Free();
   mSize = size;
   mpMpiRequest = new MPI_Request[size];
-  mpMpiStatus  = new MPI_Status[size];
+  mpMpiStatus = new MPI_Status[size];
 }
 
 void MpiNonblockingHelper::Free()

@@ -3,6 +3,7 @@
 #include "CuboidNeighborhood2D.hpp"
 #include "HeuristicLoadBalancer.hpp"
 #include "IndicatorFunctor2D.hpp"
+#include "MpiManager.hpp"
 #include "SuperGeometry2D.hpp"
 #include "UnitTestCustomUtilities.hpp"
 
@@ -37,16 +38,38 @@ class TestCuboidNeighborhood2D
     return rNeighborhood.mSizeofDataType;
   }
 
-  std::vector<gsl::index> GetInNbrCuboids(
+  std::vector<Cell2D<double>> GetExCells(
       CuboidNeighborhood2D<double>& rNeighborhood)
   {
-    return rNeighborhood.mInNbrCuboids;
+    return rNeighborhood.mExCells;
+  }
+
+  std::vector<gsl::index> GetExNbrCuboids(
+      CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mExNbrCuboids;
+  }
+
+  std::vector<std::size_t> GetExNbrNumCells(
+      CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mExNbrNumCells;
   }
 
   std::vector<std::size_t> GetInNbrNumCells(
       CuboidNeighborhood2D<double>& rNeighborhood)
   {
     return rNeighborhood.mInNbrNumCells;
+  }
+
+  bool** pGetInData(CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mpInData;
+  }
+
+  double** pGetInDataCoords(CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mpInDataCoords;
   }
 
   std::size_t* pGetTmpInNbrNumCells(
@@ -115,7 +138,7 @@ TEST(TestCuboidNeighborhood2D_Constructor)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
   CuboidNeighborhood2D neighborhood(super_geometry, 3);
 
   CHECK_EQUAL(3, tester.GetGlobalCuboidIndex(neighborhood));
@@ -142,7 +165,7 @@ TEST(TestCuboidNeighborhood2D_CopyConstructor)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry {cuboid_geometry, load_balancer};
+  SuperGeometry2D<double> super_geometry {cuboid_geometry, load_balancer};
   CuboidNeighborhood2D neighborhood {super_geometry, 3};
   CuboidNeighborhood2D neighborhood_2 {neighborhood};
 
@@ -168,7 +191,7 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Cell)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
 
   gsl::index global_cuboid_index {3};
   CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
@@ -191,6 +214,45 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Cell)
   }
 }
 
+TEST(TestCuboidNeighborhood2D_AddExCell_Cell)
+{
+  TestCuboidNeighborhood2D tester;
+
+  auto delta_R {0.5};
+  Vector2D<double> origin {1.2, 3.4};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
+
+  gsl::index global_cuboid_index {3};
+  CuboidNeighborhood2D<double> neighborhood(super_geometry,
+      global_cuboid_index);
+
+  std::vector<Cell2D<double>> exp_cell;
+  for (gsl::index i {0}; i < 3; ++i) {
+    Vector2D<double> phys_R {1.2 + i, 3.4 + i};
+    exp_cell.push_back(Cell2D<double>{global_cuboid_index, 2 + i, 4 + i,
+        phys_R});
+    neighborhood.AddExCell(exp_cell.back());
+  }
+  CHECK_EQUAL(exp_cell.size(), tester.GetExCells(neighborhood).size());
+  for (gsl::index i {0}; i < exp_cell.size(); ++i) {
+    CHECK_EQUAL(exp_cell[i].mGlobalCuboidIndex,
+        tester.GetExCells(neighborhood)[i].mGlobalCuboidIndex);
+    CHECK(testutil::CheckEqualVector(
+        tester.GetExCells(neighborhood)[i].mLatticeR,
+        exp_cell[i].mLatticeR));
+    CHECK(testutil::CheckCloseVector(
+        tester.GetExCells(neighborhood)[i].mPhysR,
+        exp_cell[i].mPhysR, g_zero_tol));
+  }
+}
+
 TEST(TestCuboidNeighborhood2D_AddInCell_Index)
 {
   auto delta_R {0.5};
@@ -202,12 +264,13 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Index)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
 
   // No repeat and within bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     for (gsl::index i {0}; i < 6; ++i) {
@@ -235,7 +298,8 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Index)
   // With repeat and within bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     for (gsl::index i {0}; i < 6; ++i) {
@@ -269,7 +333,8 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Index)
   // No repeat and with out of bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     for (gsl::index i {0}; i < 20; ++i) {
@@ -296,7 +361,8 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Index)
   // No repeats and with out of bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     for (gsl::index i {0}; i < 20; ++i) {
@@ -339,12 +405,13 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Overlap)
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
 
   // No repeat and within bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     auto nx {cuboid_geometry.rGetCuboid(global_cuboid_index).GetNx()};
@@ -382,7 +449,8 @@ TEST(TestCuboidNeighborhood2D_AddInCell_Overlap)
   // With repeat and within bounds
   {
     gsl::index global_cuboid_index {2};
-    CuboidNeighborhood2D neighborhood(super_geometry, global_cuboid_index);
+    CuboidNeighborhood2D<double> neighborhood(super_geometry,
+        global_cuboid_index);
 
     std::vector<Cell2D<double>> exp_cell;
     auto nx {cuboid_geometry.rGetCuboid(global_cuboid_index).GetNx()};
@@ -432,36 +500,207 @@ TEST(TestCuboidNeighborhood2D_InitializeInNeighbor)
   CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
   HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
 
-  SuperGeometry2D super_geometry(cuboid_geometry, load_balancer);
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
 
-  gsl::index global_cuboid_index {3};
-  CuboidNeighborhood2D neighborhood {super_geometry, global_cuboid_index};
+  // Trying to mimic the call order within SuperGeometry2D, other ways have
+  // resulted in deadlock
+  std::vector<CuboidNeighborhood2D<double>> neighborhoods;
+  std::vector<std::vector<Cell2D<double>>> exp_cell;
+  std::vector<std::vector<gsl::index>> exp_nbr_cuboid;
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    CuboidNeighborhood2D<double> neighborhood {super_geometry, global_idx};
+    neighborhoods.push_back(neighborhood);
+    exp_cell.push_back(std::vector<Cell2D<double>>());
+    exp_nbr_cuboid.push_back(std::vector<gsl::index>());
 
-  std::vector<Cell2D<double>> exp_cell;
-  for (gsl::index i {0}; i < 3; ++i) {
-    auto x {i % 6};
-    auto y {i % 4};
-
-    for (gsl::index global_idx {0}; global_idx < nc; ++global_idx) {
-      auto phys_R {cuboid_geometry.GetPhysR(global_idx, x, y)};
-      if (cuboid_geometry.HasCuboid(phys_R, global_idx)) {
-        Cell2D<double> cell {global_idx, x, y, phys_R};
-        exp_cell.push_back(cell);
-        neighborhood.AddInCell(cell);
+    if (global_idx < 4) {
+      Cell2D<double> cell {global_idx, 0, 0,
+          cuboid_geometry.GetPhysR(global_idx, 0, 0)};
+      if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+        neighborhoods[local_idx].AddInCell(cell);
+        exp_cell[local_idx].push_back(cell);
+        exp_nbr_cuboid[local_idx].push_back(global_idx);
+      }
+    }
+    // Skip global_idx == 4
+    if (global_idx > 4) {
+      for (gsl::index i {0}; i < 2; ++i) {
+        Cell2D<double> cell {global_idx, i, i,
+            cuboid_geometry.GetPhysR(global_idx, i, i)};
+        if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+          neighborhoods[local_idx].AddInCell(cell);
+          exp_cell[local_idx].push_back(cell);
+          exp_nbr_cuboid[local_idx].push_back(global_idx);
+        }
       }
     }
   }
-  CHECK_EQUAL(exp_cell.size(), neighborhood.GetInCellsSize());
-
-  neighborhood.InitializeInNeighbor();
-  for (gsl::index global_idx {0}; global_idx < nc; ++global_idx) {
-    CHECK_EQUAL(3, tester.pGetTmpInNbrNumCells(neighborhood)[global_idx]);
-    CHECK_EQUAL(global_idx,
-        tester.GetInNbrCuboids(neighborhood)[global_idx]);
-    CHECK_EQUAL(3,
-        tester.GetInNbrNumCells(neighborhood)[global_idx]);
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    neighborhoods[local_idx].InitializeInNeighbor();
+    for (gsl::index i {0}; i < neighborhoods[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {neighborhoods[local_idx].rGetInCell(i)
+          .mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() ==
+          load_balancer.GetRank(global_idx)) {
+        Cell2D<double> tmp_cell;
+        tmp_cell.mPhysR = neighborhoods[local_idx].rGetInCell(i).mPhysR;
+        cuboid_geometry.GetLatticeR(tmp_cell.mPhysR,
+            tmp_cell.mGlobalCuboidIndex, tmp_cell.mLatticeR);
+        tmp_cell.mGlobalCuboidIndex = load_balancer.GetGlobalIndex(local_idx);
+        neighborhoods[load_balancer.GetLocalIndex(global_idx)].AddExCell(
+            tmp_cell);
+      }
+    }
   }
-  CHECK(tester.GetHasInitializedInNeighbor(neighborhood));
+  for (auto& r_it : neighborhoods) r_it.InitializeExNeighbor();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    CHECK_EQUAL(exp_cell[local_idx].size(),
+        neighborhoods[local_idx].GetInCellsSize());
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    if (global_idx < 4) {
+      CHECK_EQUAL(1, tester.pGetTmpInNbrNumCells(
+          neighborhoods[local_idx])[global_idx]);
+    }
+    else if (global_idx > 4) {
+      CHECK_EQUAL(2, tester.pGetTmpInNbrNumCells(
+          neighborhoods[local_idx])[global_idx]);
+    }
+    else {
+      CHECK_EQUAL(0, tester.pGetTmpInNbrNumCells(
+          neighborhoods[local_idx])[global_idx]);
+    }
+    // In parallel, the InCells sent to each neighborhood are split
+    for (gsl::index i {0};
+        i < tester.GetInNbrNumCells(neighborhoods[local_idx]).size(); ++i) {
+      CHECK_EQUAL(exp_nbr_cuboid[local_idx][i],
+          neighborhoods[local_idx].rGetInNeighborCuboid(i));
+      if (global_idx < 4) {
+        CHECK_EQUAL(1, tester.GetInNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+      else if (global_idx > 4) {
+        CHECK_EQUAL(2, tester.GetInNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+      else {
+        CHECK_EQUAL(0, tester.GetInNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+    }
+#ifdef IBLBM_PARALLEL_MPI
+    if (global_idx == 4) {
+      CHECK(tester.pGetInData(neighborhoods[local_idx])[global_idx] ==
+          nullptr);
+      CHECK(tester.pGetInDataCoords(neighborhoods[local_idx])[global_idx] ==
+          nullptr);
+    }
+    else {
+      CHECK(tester.pGetInData(neighborhoods[local_idx])[global_idx] !=
+          nullptr);
+      CHECK(tester.pGetInDataCoords(neighborhoods[local_idx])[global_idx] !=
+          nullptr);
+    }
+#endif  // IBLBM_PARALLEL_MPI
+  }
+}
+
+TEST(TestCuboidNeighborhood2D_InitializeExNeighbor)
+{
+  TestCuboidNeighborhood2D tester;
+
+  auto delta_R {0.5};
+  Vector2D<double> origin {1.2, 3.4};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
+
+  // Trying to mimic the call order within SuperGeometry2D, other ways have
+  // resulted in deadlock
+  std::vector<CuboidNeighborhood2D<double>> neighborhoods;
+  std::vector<std::vector<Cell2D<double>>> exp_cell;
+  std::vector<std::vector<gsl::index>> exp_nbr_cuboid;
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    CuboidNeighborhood2D<double> neighborhood {super_geometry, global_idx};
+    neighborhoods.push_back(neighborhood);
+    exp_cell.push_back(std::vector<Cell2D<double>>());
+    exp_nbr_cuboid.push_back(std::vector<gsl::index>());
+
+    if (global_idx < 4) {
+      Cell2D<double> cell {global_idx, 0, 0,
+          cuboid_geometry.GetPhysR(global_idx, 0, 0)};
+      if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+        neighborhoods[local_idx].AddInCell(cell);
+        exp_cell[local_idx].push_back(cell);
+        exp_nbr_cuboid[local_idx].push_back(global_idx);
+      }
+    }
+    // Skip global_idx == 4
+    if (global_idx > 4) {
+      for (gsl::index i {0}; i < 2; ++i) {
+        Cell2D<double> cell {global_idx, i, i,
+            cuboid_geometry.GetPhysR(global_idx, i, i)};
+        if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+          neighborhoods[local_idx].AddInCell(cell);
+          exp_cell[local_idx].push_back(cell);
+          exp_nbr_cuboid[local_idx].push_back(global_idx);
+        }
+      }
+    }
+  }
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    neighborhoods[local_idx].InitializeInNeighbor();
+    for (gsl::index i {0}; i < neighborhoods[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {neighborhoods[local_idx].rGetInCell(i)
+          .mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() ==
+          load_balancer.GetRank(global_idx)) {
+        Cell2D<double> tmp_cell;
+        tmp_cell.mPhysR = neighborhoods[local_idx].rGetInCell(i).mPhysR;
+        cuboid_geometry.GetLatticeR(tmp_cell.mPhysR,
+            tmp_cell.mGlobalCuboidIndex, tmp_cell.mLatticeR);
+        tmp_cell.mGlobalCuboidIndex = load_balancer.GetGlobalIndex(local_idx);
+        neighborhoods[load_balancer.GetLocalIndex(global_idx)].AddExCell(
+            tmp_cell);
+      }
+    }
+  }
+  for (auto& r_it : neighborhoods) r_it.InitializeExNeighbor();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    CHECK_EQUAL(exp_cell[local_idx].size(), tester.GetExCells(
+        neighborhoods[local_idx]).size());
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    for (gsl::index i {0};
+        i < tester.GetExNbrCuboids(neighborhoods[local_idx]).size(); ++i) {
+      CHECK_EQUAL(exp_nbr_cuboid[local_idx][i],
+          tester.GetExNbrCuboids(neighborhoods[local_idx])[i]);
+      if (global_idx < 4) {
+        CHECK_EQUAL(1, tester.GetExNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+      else if (global_idx > 4) {
+        CHECK_EQUAL(2, tester.GetExNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+      else {
+        CHECK_EQUAL(0, tester.GetExNbrNumCells(neighborhoods[local_idx])[i]);
+      }
+    }
+    CHECK(tester.GetHasInitializedExNeighbor(neighborhoods[local_idx]));
+  }
 }
 }
 }  // namespace iblbm

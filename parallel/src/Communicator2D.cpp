@@ -16,10 +16,11 @@ template<typename T>
 void Communicator2D<T>::InitializeNeighborhood()
 {
   mNumCuboid = mrSuperStructure.rGetCuboidGeometry().GetNumberOfCuboids();
-  for (gsl::index i {0}; i < mrSuperStructure.rGetLoadBalancer().GetSize();
-      ++i) {
+  for (gsl::index local_idx {0};
+      local_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
+      ++local_idx) {
     CuboidNeighborhood2D<T> neighborhood {mrSuperStructure,
-        mrSuperStructure.rGetLoadBalancer().GetGlobalIndex(i)};
+        mrSuperStructure.rGetLoadBalancer().GetGlobalIndex(local_idx)};
     mNeighborhood.push_back(neighborhood);
   }
 }
@@ -46,46 +47,42 @@ template<typename T>
 void Communicator2D<T>::Initialize()
 {
   Reset();
-  for (gsl::index global_idx {0};
-      global_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
-      ++global_idx) {
-    mNeighborhood[global_idx].InitializeInNeighbor();
-//    for (gsl::index i {0}; i < mNeighborhood[global_idx].GetInCellsSize();
-//        ++i) {
-//      auto global_cuboid_idx {
-//          mNeighborhood[global_idx].rGetInCell(i).mGlobalCuboidIndex};
-//#ifdef IBLBM_PARALLEL_MPI
-//      if (MpiManager::Instance().GetRank() ==
-//          mrSuperStructure.rGetLoadBalancer().GetRank(global_cuboid_idx))
-//#endif  // IBLBM_PARALLEL_MPI
-//      {
-//        Cell2D<T> tmp_cell;
-//        tmp_cell.mPhysR = _mNeighborhood[global_idx].rGetInCell(i).mPhysR;
-//        mrSuperStructure.rGetCuboidGeometry().getLatticeR(tmp_cell.mPhysR, tmp_cell.latticeR);
-//        tmp_cell.latticeR[0]    = _superStructure.getLoadBalancer().glob(iC);
-//        _nh[_superStructure.getLoadBalancer().loc(ID)].add_outCell(tmp_cell);
-//      }
-//    }
+  for (gsl::index local_idx {0};
+      local_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
+      ++local_idx) {
+    mNeighborhood[local_idx].InitializeInNeighbor();
+    for (gsl::index i {0}; i < mNeighborhood[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {mNeighborhood[local_idx].rGetInCell(i)
+          .mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() ==
+          mrSuperStructure.rGetLoadBalancer().GetRank(global_idx)) {
+        Cell2D<T> tmp_cell;
+        tmp_cell.mPhysR = mNeighborhood[local_idx].rGetInCell(i).mPhysR;
+        mrSuperStructure.rGetCuboidGeometry().GetLatticeR(tmp_cell.mPhysR,
+            tmp_cell.mGlobalCuboidIndex, tmp_cell.mLatticeR);
+        tmp_cell.mGlobalCuboidIndex = mrSuperStructure.rGetLoadBalancer()
+            .GetGlobalIndex(local_idx);
+        mNeighborhood[mrSuperStructure.rGetLoadBalancer().GetLocalIndex(
+            global_idx)].AddExCell(tmp_cell);
+      }
+    }
   }
 
-//  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
-//    _nh[iC].init_outCN();
-//  }
-//
-//#ifdef PARALLEL_MODE_MPI
-//  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
-//    _nh[iC].finish_comm();
-//  }
+  for (auto& r_it : mNeighborhood) r_it.InitializeExNeighbor();
+
+#ifdef IBLBM_PARALLEL_MPI
+  for (auto& r_it : mNeighborhood) r_it.FinishComm();
+  for (auto& r_it : mNeighborhood) r_it.SendInDataCoordinates();
+  for (auto& r_it : mNeighborhood) r_it.ReceiveExDataCoordinates();
 //  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
 //    _nh[iC].bufSend_inCells();
 //  }
 //  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
 //    _nh[iC].recWrite_outCells();
 //  }
-//  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
-//    _nh[iC].finish_comm();
-//  }
-//#endif
+  for (auto& r_it : mNeighborhood) r_it.FinishComm();
+#endif
 }
 
 template<typename T>

@@ -12,6 +12,8 @@ SuperGeometry2D<T>::SuperGeometry2D(
     mOstream{std::cout, "SuperGeometry2D"}
 {
   this->mCommunicator.InitializeNeighborhood();
+  this->mCommunicator.AddCells(this->mOverlap);
+  this->mCommunicator.Initialize();
   this->mNeedCommunication = true;
 }
 
