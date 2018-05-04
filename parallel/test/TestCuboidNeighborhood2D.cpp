@@ -4,6 +4,7 @@
 #include "HeuristicLoadBalancer.hpp"
 #include "IndicatorFunctor2D.hpp"
 #include "MpiManager.hpp"
+#include "OstreamManager.hpp"
 #include "SuperGeometry2D.hpp"
 #include "UnitTestCustomUtilities.hpp"
 
@@ -38,6 +39,12 @@ class TestCuboidNeighborhood2D
     return rNeighborhood.mSizeofDataType;
   }
 
+  std::vector<Cell2D<double>> GetInCells(
+      CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mInCells;
+  }
+
   std::vector<Cell2D<double>> GetExCells(
       CuboidNeighborhood2D<double>& rNeighborhood)
   {
@@ -70,6 +77,11 @@ class TestCuboidNeighborhood2D
   double** pGetInDataCoords(CuboidNeighborhood2D<double>& rNeighborhood)
   {
     return rNeighborhood.mpInDataCoords;
+  }
+
+  double** pGetExDataCoords(CuboidNeighborhood2D<double>& rNeighborhood)
+  {
+    return rNeighborhood.mpExDataCoords;
   }
 
   std::size_t* pGetTmpInNbrNumCells(
@@ -701,6 +713,241 @@ TEST(TestCuboidNeighborhood2D_InitializeExNeighbor)
     }
     CHECK(tester.GetHasInitializedExNeighbor(neighborhoods[local_idx]));
   }
+}
+
+TEST(TestCuboidNeighborhood2D_SendDataCoordinates)
+{
+#ifdef IBLBM_PARALLEL_MPI
+  TestCuboidNeighborhood2D tester;
+
+  auto delta_R {0.5};
+  Vector2D<double> origin {1.2, 3.4};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
+
+  // Trying to mimic the call order within SuperGeometry2D, other ways have
+  // resulted in deadlock
+  std::vector<CuboidNeighborhood2D<double>> neighborhoods;
+  std::vector<std::vector<Vector2D<double>>> exp_in_data_coords;
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    CuboidNeighborhood2D<double> neighborhood {super_geometry, global_idx};
+    neighborhoods.push_back(neighborhood);
+    exp_in_data_coords.push_back(std::vector<Vector2D<double>>());
+
+    if (global_idx < 4) {
+      // Set xIndex such that the cell will be found on another cuboid
+      auto x {static_cast<gsl::index>(extent[0] / delta_R / 2.0 + 0.5) + 1};
+      Cell2D<double> cell {global_idx, x, 0, cuboid_geometry.GetPhysR(
+          global_idx, x, 0)};
+      if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+        neighborhoods[local_idx].AddInCell(cell);
+        exp_in_data_coords[local_idx].push_back(cell.mPhysR);
+      }
+    }
+    // Skip global_idx == 4
+    if (global_idx > 4) {
+      for (gsl::index i {0}; i < 2; ++i) {
+        // Set negative latticeR such that the cell will be found on another
+        //cuboid
+        Cell2D<double> cell {global_idx, -i - 1, -i - 1,
+            cuboid_geometry.GetPhysR(global_idx, -i - 1, -i - 1)};
+        if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+          neighborhoods[local_idx].AddInCell(cell);
+          exp_in_data_coords[local_idx].push_back(cell.mPhysR);
+        }
+      }
+    }
+  }
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    neighborhoods[local_idx].InitializeInNeighbor();
+    for (gsl::index i {0}; i < neighborhoods[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {neighborhoods[local_idx].rGetInCell(i)
+          .mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() ==
+          load_balancer.GetRank(global_idx)) {
+        Cell2D<double> tmp_cell;
+        tmp_cell.mPhysR = neighborhoods[local_idx].rGetInCell(i).mPhysR;
+        cuboid_geometry.GetLatticeR(tmp_cell.mPhysR,
+            tmp_cell.mGlobalCuboidIndex, tmp_cell.mLatticeR);
+        tmp_cell.mGlobalCuboidIndex = load_balancer.GetGlobalIndex(local_idx);
+        neighborhoods[load_balancer.GetLocalIndex(global_idx)].AddExCell(
+            tmp_cell);
+      }
+    }
+  }
+  for (auto& r_it : neighborhoods) r_it.InitializeExNeighbor();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+  for (auto& r_it : neighborhoods) r_it.SendInDataCoordinates();
+  for (auto& r_it : neighborhoods) r_it.ReceiveExDataCoordinates();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    CHECK_EQUAL(exp_in_data_coords[local_idx].size(),
+        neighborhoods[local_idx].GetInCellsSize());
+    std::vector<gsl::index> offset(nc, 0);
+    // In parallel, the InCells sent to each neighborhood are split
+    for (gsl::index i {0}; i < neighborhoods[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {tester.GetInCells(
+          neighborhoods[local_idx])[i].mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() !=
+          load_balancer.GetRank(global_idx)) {
+        auto in_data_coords {tester.pGetInDataCoords(
+            neighborhoods[local_idx])[global_idx]};
+
+        CHECK_CLOSE(exp_in_data_coords[local_idx][i][0],
+            in_data_coords[2 * offset[global_idx]], g_zero_tol);
+        CHECK_CLOSE(exp_in_data_coords[local_idx][i][1],
+            in_data_coords[2 * offset[global_idx] + 1], g_zero_tol);
+        ++offset[global_idx];
+      }
+    }
+  }
+#endif  // IBLBM_PARALLEL_MPI
+}
+
+TEST(TestCuboidNeighborhood2D_ReceiveDataCoordinates)
+{
+#ifdef IBLBM_PARALLEL_MPI
+  TestCuboidNeighborhood2D tester;
+
+  auto delta_R {0.5};
+  Vector2D<double> origin {1.2, 3.4};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
+  HeuristicLoadBalancer<double> load_balancer {cuboid_geometry};
+
+  SuperGeometry2D<double> super_geometry(cuboid_geometry, load_balancer);
+
+  // Trying to mimic the call order within SuperGeometry2D, other ways have
+  // resulted in deadlock
+  std::vector<CuboidNeighborhood2D<double>> neighborhoods;
+  std::vector<std::vector<Vector2D<double>>> exp_ex_data_coords(nc,
+      std::vector<Vector2D<double>>());
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    auto global_idx {load_balancer.GetGlobalIndex(local_idx)};
+    CuboidNeighborhood2D<double> neighborhood {super_geometry, global_idx};
+    neighborhoods.push_back(neighborhood);
+
+    if (global_idx < 4) {
+      // Set xIndex such that the cell will be found on another cuboid
+      auto x {static_cast<gsl::index>(extent[0] / delta_R / 2.0 + 0.5) + 1};
+      Cell2D<double> cell {global_idx, x, 0, cuboid_geometry.GetPhysR(
+          global_idx, x, 0)};
+      if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex))
+          neighborhoods[local_idx].AddInCell(cell);
+    }
+    // Skip global_idx == 4
+    if (global_idx > 4) {
+      for (gsl::index i {0}; i < 2; ++i) {
+        // Set negative latticeR such that the cell will be found on another
+        //cuboid
+        Cell2D<double> cell {global_idx, -i - 1, -i - 1,
+            cuboid_geometry.GetPhysR(global_idx, -i - 1, -i - 1)};
+        if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex))
+            neighborhoods[local_idx].AddInCell(cell);
+      }
+    }
+  }
+
+  for (gsl::index global_idx {0}; global_idx < nc; ++global_idx) {
+    if (global_idx < 4) {
+      // Set xIndex such that the cell will be found on another cuboid
+      auto x {static_cast<gsl::index>(extent[0] / delta_R / 2.0 + 0.5) + 1};
+      Cell2D<double> cell {global_idx, x, 0, cuboid_geometry.GetPhysR(
+          global_idx, x, 0)};
+      if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+        if (MpiManager::Instance().GetRank() ==
+            load_balancer.GetRank(cell.mGlobalCuboidIndex)) {
+          exp_ex_data_coords[cell.mGlobalCuboidIndex].push_back(cell.mPhysR);
+        }
+      }
+    }
+    // Skip global_idx == 4
+    if (global_idx > 4) {
+      for (gsl::index i {0}; i < 2; ++i) {
+        // Set negative latticeR such that the cell will be found on another
+        //cuboid
+        Cell2D<double> cell {global_idx, -i - 1, -i - 1,
+            cuboid_geometry.GetPhysR(global_idx, -i - 1, -i - 1)};
+        if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
+          if (MpiManager::Instance().GetRank() ==
+              load_balancer.GetRank(cell.mGlobalCuboidIndex)) {
+            exp_ex_data_coords[cell.mGlobalCuboidIndex].push_back(cell.mPhysR);
+          }
+        }
+      }
+    }
+  }
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    neighborhoods[local_idx].InitializeInNeighbor();
+    for (gsl::index i {0}; i < neighborhoods[local_idx].GetInCellsSize();
+        ++i) {
+      auto global_idx {neighborhoods[local_idx].rGetInCell(i)
+          .mGlobalCuboidIndex};
+      if (MpiManager::Instance().GetRank() ==
+          load_balancer.GetRank(global_idx)) {
+        Cell2D<double> tmp_cell;
+        tmp_cell.mPhysR = neighborhoods[local_idx].rGetInCell(i).mPhysR;
+        cuboid_geometry.GetLatticeR(tmp_cell.mPhysR,
+            tmp_cell.mGlobalCuboidIndex, tmp_cell.mLatticeR);
+        tmp_cell.mGlobalCuboidIndex = load_balancer.GetGlobalIndex(local_idx);
+        neighborhoods[load_balancer.GetLocalIndex(global_idx)].AddExCell(
+            tmp_cell);
+      }
+    }
+  }
+  for (auto& r_it : neighborhoods) r_it.InitializeExNeighbor();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+  for (auto& r_it : neighborhoods) r_it.SendInDataCoordinates();
+  for (auto& r_it : neighborhoods) r_it.ReceiveExDataCoordinates();
+  for (auto& r_it : neighborhoods) r_it.FinishComm();
+
+  for (gsl::index local_idx {0}; local_idx < load_balancer.GetSize();
+      ++local_idx) {
+    // follows the call order in ReceiveExDataCoordinates
+    for (gsl::index i {0};
+        i < tester.GetExNbrCuboids(neighborhoods[local_idx]).size(); ++i) {
+      if (MpiManager::Instance().GetRank() !=
+          load_balancer.GetRank(tester.GetExNbrCuboids(
+              neighborhoods[local_idx])[i])) {
+        for (gsl::index j {0};
+            j < tester.GetExNbrNumCells(neighborhoods[local_idx])[i]; ++j) {
+          auto ex_data_coords {tester.pGetExDataCoords(
+              neighborhoods[local_idx])[tester.GetExNbrCuboids(
+                  neighborhoods[local_idx])[i]]};
+          auto ex_cell {tester.GetExCells(neighborhoods[local_idx])[j]};
+          CHECK_CLOSE(exp_ex_data_coords[load_balancer.GetGlobalIndex(
+              local_idx)][j][0], ex_data_coords[2 * j], g_zero_tol);
+          CHECK_CLOSE(exp_ex_data_coords[load_balancer.GetGlobalIndex(
+              local_idx)][j][1], ex_data_coords[2 * j + 1], g_zero_tol);
+          // Not sure how to test cell.mGlobalCuboidIndex
+          CHECK(testutil::CheckCloseVector(ex_cell.mPhysR,
+              exp_ex_data_coords[load_balancer.GetGlobalIndex(local_idx)][j],
+              g_zero_tol));
+        }
+      }
+    }
+  }
+#endif  // IBLBM_PARALLEL_MPI
 }
 }
 }  // namespace iblbm

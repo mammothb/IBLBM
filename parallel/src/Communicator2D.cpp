@@ -75,12 +75,6 @@ void Communicator2D<T>::Initialize()
   for (auto& r_it : mNeighborhood) r_it.FinishComm();
   for (auto& r_it : mNeighborhood) r_it.SendInDataCoordinates();
   for (auto& r_it : mNeighborhood) r_it.ReceiveExDataCoordinates();
-//  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
-//    _nh[iC].bufSend_inCells();
-//  }
-//  for (int iC=0; iC<_superStructure.getLoadBalancer().size(); iC++) {
-//    _nh[iC].recWrite_outCells();
-//  }
   for (auto& r_it : mNeighborhood) r_it.FinishComm();
 #endif
 }
@@ -89,10 +83,7 @@ template<typename T>
 void Communicator2D<T>::Reset()
 {
   if (mIsInitialized) {
-    for (gsl::index i {0}; i < mrSuperStructure.rGetLoadBalancer().GetSize();
-        ++i) {
-      mNeighborhood[i].Reset();
-    }
+    for (auto& r_it : mNeighborhood) r_it.Reset();
     mIsInitialized = false;
   }
 }

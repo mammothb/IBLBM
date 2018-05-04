@@ -8016,7 +8016,7 @@
 	"Cuboid2D.hpp"
 	"OstreamManager.hpp"
 
-1524104755 /home/mmb/code/IBLBM/geometry/src/Cuboid2D.hpp
+1525428079 /home/mmb/code/IBLBM/geometry/src/Cuboid2D.hpp
 	<cstddef>
 	<vector>
 	"OstreamManager.hpp"
@@ -8103,7 +8103,7 @@
 	<vector>
 	"gsl/gsl"
 
-1524205588 /home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.hpp
+1525421131 /home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.hpp
 	"BlockGeometry2D.hpp"
 	"SuperGeometryStatistics2D.hpp"
 	"SuperStructure2D.hpp"
@@ -8474,7 +8474,7 @@
 	<limits>
 	"AbstractIndicatorFunctor2D.hpp"
 
-1525342211 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.cpp
+1525420291 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.cpp
 	"SuperGeometry2D.hpp"
 
 1525242833 source:/home/mmb/code/IBLBM/geometry/test/TestCuboid2D.cpp
@@ -8485,7 +8485,7 @@
 	"Cuboid2D.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1525249198 source:/home/mmb/code/IBLBM/geometry/test/TestCuboidGeometry2D.cpp
+1525420844 source:/home/mmb/code/IBLBM/geometry/test/TestCuboidGeometry2D.cpp
 	<cmath>
 	<iostream>
 	<limits>
@@ -8610,12 +8610,12 @@
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1525345381 source:/home/mmb/code/IBLBM/parallel/src/Communicator2D.cpp
+1525420201 source:/home/mmb/code/IBLBM/parallel/src/Communicator2D.cpp
 	"Communicator2D.hpp"
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
-1525345336 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
+1525420256 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
@@ -8637,13 +8637,14 @@
 1525077964 source:/home/mmb/code/IBLBM/parallel/src/SuperStructure2D.cpp
 	"SuperStructure2D.hpp"
 
-1525342186 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
+1525419947 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
 	"UnitTest++/UnitTest++.h"
 	"CuboidGeometry2D.hpp"
 	"CuboidNeighborhood2D.hpp"
 	"HeuristicLoadBalancer.hpp"
 	"IndicatorFunctor2D.hpp"
 	"MpiManager.hpp"
+	"OstreamManager.hpp"
 	"SuperGeometry2D.hpp"
 	"UnitTestCustomUtilities.hpp"
 
@@ -8721,5 +8722,24 @@
 	"UnitTest++/UnitTest++.h"
 	"BlockGeometry2D.hpp"
 	"BlockGeometryStatistics2D.hpp"
+	"UnitTestCustomUtilities.hpp"
+
+1525429825 source:/home/mmb/code/IBLBM/geometry/src/BlockGeometryView2D.cpp
+	"BlockGeometryView2D.hpp"
+	"AbstractBlockGeometryInterface2D.hpp"
+
+1525428743 /home/mmb/code/IBLBM/geometry/src/BlockGeometryView2D.hpp
+	"gsl/gsl"
+	"BlockStructure2D.hpp"
+	"Vector.hpp"
+
+1525423297 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometryView2D.cpp
+	<array>
+	<iostream>
+	<list>
+	"UnitTest++/UnitTest++.h"
+	"BlockGeometry2D.hpp"
+	"BlockGeometryView2D.hpp"
+	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
 

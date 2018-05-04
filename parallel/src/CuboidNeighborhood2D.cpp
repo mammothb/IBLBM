@@ -235,15 +235,18 @@ void CuboidNeighborhood2D<T>::SendInDataCoordinates()
 {
 #ifdef IBLBM_PARALLEL_MPI
   mNonblockingHelper.Free();
-  std::vector<int> tmp(mNumCuboid, 0);
+  std::vector<gsl::index> offset(mNumCuboid, 0);
   for (gsl::index i {0}; i < mInCells.size(); ++i) {
     auto global_idx {mInCells[i].mGlobalCuboidIndex};
+    // If the internally required cells belong to a cuboid on another process
+    // fill up its coordinates to prepare for send request
     if (MpiManager::Instance().GetRank() !=
         mrSuperStructure.rGetLoadBalancer().GetRank(global_idx)) {
-      mpInDataCoords[global_idx][2 * tmp[global_idx]] = mInCells[i].mPhysR[0];
-      mpInDataCoords[global_idx][2 * tmp[global_idx] + 1] =
+      mpInDataCoords[global_idx][2 * offset[global_idx]] =
           mInCells[i].mPhysR[0];
-      ++tmp[global_idx];
+      mpInDataCoords[global_idx][2 * offset[global_idx] + 1] =
+          mInCells[i].mPhysR[1];
+      ++offset[global_idx];
     }
   }
   mNonblockingHelper.Allocate(mInNbrCuboids.size());

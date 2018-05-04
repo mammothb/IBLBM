@@ -67,7 +67,7 @@ class Cuboid2D
   /**
    * Copy assignment
    */
-  Cuboid2D& operator=(const Cuboid2D& rRhs);
+  Cuboid2D<T>& operator=(const Cuboid2D<T>& rRhs);
 
   /**
    * Initialize the cuboid

@@ -52,6 +52,8 @@ class SuperGeometry2D : public SuperStructure2D<T>
  private:
   /** Vector of block geometries with overlap */
   std::vector<BlockGeometry2D<T>> mExtendedBlockGeometries;
+//  std::vector<BlockGeometryView2D<T>> mBlockGeometries;
+  /** Statistics class */
   SuperGeometryStatistics2D<T> mStatistics;
   /** class specific output stream */
   mutable OstreamManager mOstream;

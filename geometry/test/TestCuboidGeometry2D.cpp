@@ -429,7 +429,7 @@ TEST(TestCuboidGeometry2D_Remove)
   CHECK_EQUAL(cuboid_2.GetNy(),
       tester.GetCuboids(cuboid_geometry)[2].GetNy());
 
-  // Check that cuboid at old index 4 got shited up by 1 since we removed
+  // Check that cuboid at old index 4 got shifted up by 1 since we removed
   // cuboid at index 3
   CHECK_CLOSE(cuboid_4.GetGlobalXPosition(),
       tester.GetCuboids(cuboid_geometry)[3].GetGlobalXPosition(),
@@ -444,7 +444,7 @@ TEST(TestCuboidGeometry2D_Remove)
   CHECK_EQUAL(cuboid_4.GetNy(),
       tester.GetCuboids(cuboid_geometry)[3].GetNy());
 
-  // Check that cuboid at old index 7 got shited up by 2 since we removed
+  // Check that cuboid at old index 7 got shifted up by 2 since we removed
   // cuboid at index 3 and old index 6
   CHECK_CLOSE(cuboid_7.GetGlobalXPosition(),
       tester.GetCuboids(cuboid_geometry)[5].GetGlobalXPosition(),
@@ -462,7 +462,6 @@ TEST(TestCuboidGeometry2D_Remove)
 
 TEST(TestCuboidGeometry2D_Shrink)
 {
-  TestCuboidGeometry2D tester;
   auto x_pos {1.2};
   auto y_pos {3.4};
   auto delta_R {0.5};
@@ -470,9 +469,6 @@ TEST(TestCuboidGeometry2D_Shrink)
   Vector2D<double> origin {x_pos, y_pos};
   Vector2D<double> extent {6, 7};
   auto nc {8u};
-
-  auto nx {static_cast<std::size_t>(extent[0] / delta_R + 1.5)};
-  auto ny {static_cast<std::size_t>(extent[1] / delta_R + 1.5)};
 
   IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
   CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
@@ -1018,6 +1014,147 @@ TEST(TestCuboidGeometry2D_GetLatticeR_StdVector)
   }
 }
 
+TEST(TestCuboidGeometry2D_GetLatticeR_Vector2D)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+
+  Vector2D<double> origin {x_pos, y_pos};
+  Vector2D<double> extent {6, 7};
+  auto nc {8u};
+
+  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+
+  gsl::index global_cuboid_index {-1};
+  Vector2D<gsl::index> lattice_R(2);
+
+  // Rounds down
+  {
+    Vector2D<gsl::index> exp_lattice_R {2, 3};
+    Vector2D<double> phys_R_0 {1.44, 3.74};
+    cuboid_geometry.GetLatticeR(phys_R_0, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_0, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(0, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_1 {1.44, 5.54};
+    cuboid_geometry.GetLatticeR(phys_R_1, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_1, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(1, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_2 {1.44, 7.34};
+    cuboid_geometry.GetLatticeR(phys_R_2, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_2, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(2, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_3 {1.44, 9.14};
+    cuboid_geometry.GetLatticeR(phys_R_3, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_3, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(3, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_4 {4.54, 3.74};
+    cuboid_geometry.GetLatticeR(phys_R_4, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_4, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(4, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_5 {4.54, 5.54};
+    cuboid_geometry.GetLatticeR(phys_R_5, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_5, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(5, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_6 {4.54, 7.34};
+    cuboid_geometry.GetLatticeR(phys_R_6, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_6, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(6, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_7 {4.54, 9.14};
+    cuboid_geometry.GetLatticeR(phys_R_7, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_7, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(7, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+  }
+
+  // Rounds up
+  {
+    Vector2D<gsl::index> exp_lattice_R {3, 4};
+    Vector2D<double> phys_R_0 {1.46, 3.76};
+    cuboid_geometry.GetLatticeR(phys_R_0, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_0, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(0, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_1 {1.46, 5.56};
+    cuboid_geometry.GetLatticeR(phys_R_1, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_1, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(1, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_2 {1.46, 7.36};
+    cuboid_geometry.GetLatticeR(phys_R_2, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_2, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(2, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_3 {1.46, 9.16};
+    cuboid_geometry.GetLatticeR(phys_R_3, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_3, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(3, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_4 {4.56, 3.76};
+    cuboid_geometry.GetLatticeR(phys_R_4, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_4, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(4, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_5 {4.56, 5.56};
+    cuboid_geometry.GetLatticeR(phys_R_5, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_5, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(5, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_6 {4.56, 7.36};
+    cuboid_geometry.GetLatticeR(phys_R_6, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_6, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(6, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+
+    Vector2D<double> phys_R_7 {4.56, 9.16};
+    cuboid_geometry.GetLatticeR(phys_R_7, global_cuboid_index, lattice_R);
+    CHECK(cuboid_geometry.GetLatticeR(phys_R_7, global_cuboid_index,
+        lattice_R));
+    CHECK_EQUAL(7, global_cuboid_index);
+    CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
+  }
+
+  Vector2D<double> phys_R {11.44, 33.74};
+    CHECK(!cuboid_geometry.GetLatticeR(phys_R, global_cuboid_index,
+        lattice_R));
+}
+
 TEST(TestCuboidGeometry2D_GetFloorLatticeR)
 {
   auto x_pos {1.2};
@@ -1169,7 +1306,6 @@ TEST(TestCuboidGeometry2D_GetFloorLatticeR)
     CHECK_EQUAL(7, global_cuboid_index);
     CHECK(testutil::CheckEqualVector(lattice_R, exp_lattice_R));
   }
-
 
     Vector2D<double> phys_R {11.44, 33.74};
     CHECK(!cuboid_geometry.GetFloorLatticeR(phys_R, global_cuboid_index,
