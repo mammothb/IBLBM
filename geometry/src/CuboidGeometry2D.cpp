@@ -83,7 +83,7 @@ template<typename T>
 void CuboidGeometry2D<T>::Shrink(
     AbstractIndicatorFunctor2D<T>& rIndicatorFunctor)
 {
-  auto nc {GetNumberOfCuboids()};
+  auto nc {GetNumCuboid()};
   for (gsl::index idx = nc - 1; idx >= 0; --idx) {
     std::size_t num_full_cell {0};
     auto nx {mCuboids[idx].GetNx()};
@@ -141,7 +141,7 @@ void CuboidGeometry2D<T>::RefineArea(
   , T yPosition1
   , int refinementLevel)
 {
-  for (gsl::index i {0}; i < GetNumberOfCuboids(); ++i) {
+  for (gsl::index i {0}; i < GetNumCuboid(); ++i) {
     // Ignore cuboids if they aren't at our target refinementLevel
     if (rGetCuboid(i).GetRefinementLevel() != refinementLevel) continue;
 
@@ -271,7 +271,7 @@ bool CuboidGeometry2D<T>::GetLatticeR(
   , Vector2D<gsl::index>& rLatticeR) const
 {
   auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
-  if (tmp_index < GetNumberOfCuboids()) {
+  if (tmp_index < GetNumCuboid()) {
     rGlobalCuboidIndex = tmp_index;
     rLatticeR[0] = static_cast<gsl::index>((rPhysR[0] -
         mCuboids[tmp_index].GetOrigin()[0]) /
@@ -293,7 +293,7 @@ bool CuboidGeometry2D<T>::GetLatticeR(
   , gsl::index latticeR[]) const
 {
   auto tmp_index {GetGlobalCuboidIndex(physR[0], physR[1])};
-  if (tmp_index < GetNumberOfCuboids()) {
+  if (tmp_index < GetNumCuboid()) {
     rGlobalCuboidIndex = tmp_index;
     latticeR[0] = static_cast<gsl::index>((physR[0] -
         mCuboids[tmp_index].GetOrigin()[0]) /
@@ -315,7 +315,7 @@ bool CuboidGeometry2D<T>::GetFloorLatticeR(
   , std::vector<gsl::index>& rLatticeR) const
 {
   auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
-  if (tmp_index < GetNumberOfCuboids()) {
+  if (tmp_index < GetNumCuboid()) {
     rGlobalCuboidIndex = tmp_index;
     rLatticeR[0] = static_cast<gsl::index>(floor((rPhysR[0] -
         mCuboids[tmp_index].GetOrigin()[0]) /
@@ -337,7 +337,7 @@ bool CuboidGeometry2D<T>::GetFloorLatticeR(
   , Vector2D<gsl::index>& rLatticeR) const
 {
   auto tmp_index {GetGlobalCuboidIndex(rPhysR[0], rPhysR[1])};
-  if (tmp_index < GetNumberOfCuboids()) {
+  if (tmp_index < GetNumCuboid()) {
     rGlobalCuboidIndex = tmp_index;
     rLatticeR[0] = static_cast<gsl::index>(floor((rPhysR[0] -
         mCuboids[tmp_index].GetOrigin()[0]) /
@@ -383,6 +383,37 @@ Vector2D<T> CuboidGeometry2D<T>::GetPhysR(
 }
 
 template<typename T>
+void CuboidGeometry2D<T>::GetPhysR(
+    gsl::index globalCuboidIndex
+  , const gsl::index latticeR[2]
+  , T physR[2]) const
+{
+  GetPhysR(globalCuboidIndex, latticeR[0], latticeR[1], physR);
+}
+
+template<typename T>
+void CuboidGeometry2D<T>::GetPhysR(
+    const gsl::index globalCuboidIndex
+  , const gsl::index xIndex
+  , const gsl::index yIndex
+  , T physR[2]) const
+{
+  mCuboids[globalCuboidIndex].GetPhysR(xIndex, yIndex, physR);
+  const auto delta_R {mMotherCuboid.GetDeltaR()};
+  const auto lattice_extent {mMotherCuboid.GetLatticeExtent()};
+  for (gsl::index d = 0; d < 2; ++d) {
+    if (mIsPeriodic[d]) {
+      physR[d] = fmod(physR[d] - mMotherCuboid.GetOrigin()[d] +
+          delta_R * lattice_extent[d], delta_R * lattice_extent[d]);
+      // solving the rounding error problem for double
+      if (physR[d] * physR[d] < 1e-3 * delta_R * delta_R) physR[d] = T{};
+      // add origin
+      physR[d] += mMotherCuboid.GetOrigin()[d];
+    }
+  }
+}
+
+template<typename T>
 Vector2D<T> CuboidGeometry2D<T>::GetMinPhysR() const
 {
   auto output {mCuboids[0].GetOrigin()};
@@ -413,7 +444,7 @@ Vector2D<T> CuboidGeometry2D<T>::GetMaxPhysR() const
 }
 
 template<typename T>
-std::size_t CuboidGeometry2D<T>::GetNumberOfCuboids() const
+std::size_t CuboidGeometry2D<T>::GetNumCuboid() const
 {
   return mCuboids.size();
 }
@@ -537,6 +568,33 @@ void CuboidGeometry2D<T>::SetIsPeriodic(
 {
   mIsPeriodic[0] = isPeriodicX;
   mIsPeriodic[1] = isPeriodicY;
+}
+
+template<typename T>
+void CuboidGeometry2D<T>::Print() const
+{
+  mOstream << "===== Cuboid Structure Statistics =====" << std::endl <<
+      " Parameter         | Value" << std::endl <<
+      " Number of Cuboids | " << GetNumCuboid() << std::endl <<
+      " Delta (min)       | " << GetMinDeltaR() << std::endl <<
+      " Delta (max)       | " << GetMaxDeltaR() << std::endl <<
+      " Ratio (min)       | " << GetMinRatio() << std::endl <<
+      " Ratio (max)       | " << GetMaxRatio() << std::endl <<
+      " Nodes (min)       | " << GetMinLatticeVolume() << std::endl <<
+      " Nodes (max)       | " << GetMaxLatticeVolume() << std::endl <<
+      "--------------------" << std::endl;
+}
+
+template<typename T>
+void CuboidGeometry2D<T>::PrintExtended()
+{
+  mOstream << "Mothercuboid :" << std::endl;
+  GetMotherCuboid().Print();
+
+  for (gsl::index i {0}; i < GetNumCuboid(); ++i) {
+    mOstream << "Cuboid #" << i << ":" << std::endl;
+    rGetCuboid(i).Print();
+  }
 }
 
 // Explicit instantiation

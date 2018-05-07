@@ -100,7 +100,7 @@ TEST(TestCuboidGeometry2D_Constructor_Coordinates_Default)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   auto mother_cuboid = cuboid_geometry.GetMotherCuboid();
 
   auto exp_phys_perimeter {2.0 * delta_R * nx + 2.0 * delta_R * ny};
@@ -223,7 +223,7 @@ TEST(TestCuboidGeometry2D_Constructor_Indicator_Default)
   auto nx {static_cast<std::size_t>(extent[0] / delta_R + 1.5)};
   auto ny {static_cast<std::size_t>(extent[1] / delta_R + 1.5)};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
   CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R);
   auto mother_cuboid {cuboid_geometry.GetMotherCuboid()};
 
@@ -282,8 +282,8 @@ TEST(TestCuboidGeometry2D_Constructor_Indicator_UserDefined)
   auto nx {static_cast<std::size_t>(extent[0] / delta_R + 1.5)};
   auto ny {static_cast<std::size_t>(extent[1] / delta_R + 1.5)};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
   auto mother_cuboid {cuboid_geometry.GetMotherCuboid()};
 
   auto exp_phys_perimeter {2.0 * delta_R * nx + 2.0 * delta_R * ny};
@@ -348,10 +348,10 @@ TEST(TestCuboidGeometry2D_Add)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
-  CHECK_EQUAL(nc, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(nc, cuboid_geometry.GetNumCuboid());
 
   auto cuboid_x_pos {9.0};
   auto cuboid_y_pos {11.12};
@@ -363,7 +363,7 @@ TEST(TestCuboidGeometry2D_Add)
 
   cuboid_geometry.Add(cuboid);
 
-  CHECK_EQUAL(nc + 1, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(nc + 1, cuboid_geometry.GetNumCuboid());
   CHECK_CLOSE(cuboid_x_pos,
       tester.GetCuboids(cuboid_geometry).back().GetGlobalXPosition(),
       g_zero_tol);
@@ -387,10 +387,10 @@ TEST(TestCuboidGeometry2D_Remove)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
-  CHECK_EQUAL(nc, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(nc, cuboid_geometry.GetNumCuboid());
 
   // We remove the cuboids at index 3 and 6, and check cuboids at (old) index
   // 2, 4, 7
@@ -413,7 +413,7 @@ TEST(TestCuboidGeometry2D_Remove)
   // old index 6 got shifted up by 1
   cuboid_geometry.Remove(5);
 
-  CHECK_EQUAL(nc - 2, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(nc - 2, cuboid_geometry.GetNumCuboid());
 
   // Check that cuboid_2 remains unchanged since we removed cuboids behind it
   CHECK_CLOSE(cuboid_2.GetGlobalXPosition(),
@@ -502,11 +502,11 @@ TEST(TestCuboidGeometry2D_RefineArea)
   IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
   CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
-  CHECK_EQUAL(nc, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(nc, cuboid_geometry.GetNumCuboid());
 
   cuboid_geometry.RefineArea(3.2, 4.4, 5.7, 6.4, 0);
 
-  CHECK_EQUAL(16, cuboid_geometry.GetNumberOfCuboids());
+  CHECK_EQUAL(16, cuboid_geometry.GetNumCuboid());
 
   CHECK_CLOSE(3.2, cuboid_geometry.rGetCuboid(0).GetOrigin()[0], g_zero_tol);
   CHECK_CLOSE(4.4, cuboid_geometry.rGetCuboid(0).GetOrigin()[1], g_zero_tol);
@@ -584,8 +584,8 @@ TEST(TestCuboidGeometry2D_HasCuboid_Vector)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   Vector2D<double> phys_R_0 {1.3, 3.5};
@@ -634,8 +634,8 @@ TEST(TestCuboidGeometry2D_HasCuboid_StdVector)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   std::vector<double> phys_R_0 {1.3, 3.5};
@@ -685,8 +685,8 @@ TEST(TestCuboidGeometry2D_GetCuboid)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   for (gsl::index i {0}; i < nc; ++i) {
     CHECK_CLOSE(cuboid_geometry.rGetCuboid(i).GetGlobalXPosition(),
@@ -715,8 +715,8 @@ TEST(TestCuboidGeometry2D_GetCuboid_Const)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   for (gsl::index i {0}; i < nc; ++i) {
     CHECK_CLOSE(
@@ -746,8 +746,8 @@ TEST(TestCuboidGeometry2D_GetLatticeR)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   gsl::index lattice_R[2];
@@ -887,8 +887,8 @@ TEST(TestCuboidGeometry2D_GetLatticeR_StdVector)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   std::vector<gsl::index> lattice_R(2);
@@ -1024,8 +1024,8 @@ TEST(TestCuboidGeometry2D_GetLatticeR_Vector2D)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   Vector2D<gsl::index> lattice_R(2);
@@ -1165,8 +1165,8 @@ TEST(TestCuboidGeometry2D_GetFloorLatticeR)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   Vector2D<gsl::index> lattice_R;
@@ -1322,8 +1322,8 @@ TEST(TestCuboidGeometry2D_GetFloorLatticeR_StdVector)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   gsl::index global_cuboid_index {-1};
   std::vector<gsl::index> lattice_R(2);
@@ -1477,7 +1477,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_Index)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
 
   // Another cuboid with the same position and size as cuboid_geometry
   Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
@@ -1497,7 +1497,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_Index_Periodic)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1529,7 +1529,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_Index_Periodic_XOnly)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1558,7 +1558,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_Index_Periodic_YOnly)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1587,7 +1587,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_StdVector)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
 
   // Another cuboid with the same position and size as cuboid_geometry
   Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
@@ -1608,7 +1608,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_StdVector_Periodic)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1643,7 +1643,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_StdVector_Periodic_XOnly)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1674,7 +1674,7 @@ TEST(TestCuboidGeometry2D_GetPhysR_StdVector_Periodic_YOnly)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   // Another cuboid 2 * delta_R away from mother_cuboid
   Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
       nx, ny);
@@ -1743,8 +1743,8 @@ TEST(TestCuboidGeometry2D_GetMinRatio)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(17.0 / 24.0, cuboid_geometry.GetMinRatio(), g_loose_tol);
 }
@@ -1759,8 +1759,8 @@ TEST(TestCuboidGeometry2D_GetMaxRatio)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(22.0 / 17.0, cuboid_geometry.GetMaxRatio(), g_loose_tol);
 }
@@ -1775,8 +1775,8 @@ TEST(TestCuboidGeometry2D_GetMinPhysVolume)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(3.74, cuboid_geometry.GetMinPhysVolume(), g_loose_tol);
 }
@@ -1791,8 +1791,8 @@ TEST(TestCuboidGeometry2D_GetMaxPhysVolume)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(4.08, cuboid_geometry.GetMaxPhysVolume(), g_loose_tol);
 
@@ -1811,8 +1811,8 @@ TEST(TestCuboidGeometry2D_GetMinLatticeVolume)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(374, cuboid_geometry.GetMinLatticeVolume(), g_loose_tol);
 }
@@ -1827,8 +1827,8 @@ TEST(TestCuboidGeometry2D_GetMaxLatticeVolume)
   Vector2D<double> extent {6, 7};
   auto nc {11u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   CHECK_CLOSE(408, cuboid_geometry.GetMaxLatticeVolume(), g_loose_tol);
 
@@ -1879,8 +1879,8 @@ TEST(TestCuboidGeometry2D_GetGlobalCuboidIndex)
   Vector2D<double> extent {6, 7};
   auto nc {8u};
 
-  IndicatorCuboid2D<double> indicator_cuboid(extent, origin);
-  CuboidGeometry2D<double> cuboid_geometry(indicator_cuboid, delta_R, nc);
+  IndicatorCuboid2D<double> indicator_cuboid {extent, origin};
+  CuboidGeometry2D<double> cuboid_geometry {indicator_cuboid, delta_R, nc};
 
   // Cuboids will be split into 2 x 4 (col x row) with lower left coords
   // (1.2, 3.4), (1.2, 5.4), (1.2, 7.4), (1.2, 9.4), (4.7, 3.4), (4.7, 5.4),
@@ -1909,7 +1909,7 @@ TEST(TestCuboidGeometry2D_SetPeriodic)
   auto nx {7u};
   auto ny {8u};
 
-  CuboidGeometry2D<double> cuboid_geometry(x_pos, y_pos, delta_R, nx, ny);
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
   auto is_periodic {tester.GetIsPeriodic(cuboid_geometry)};
   CHECK_EQUAL(2u, is_periodic.size());
   CHECK(is_periodic[0] == false);

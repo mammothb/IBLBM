@@ -10,7 +10,7 @@ CuboidNeighborhood2D<T>::CuboidNeighborhood2D(
   , gsl::index globalCuboidIndex)
   : mrSuperStructure{rSuperStructure},
     mGlobalCuboidIndex{globalCuboidIndex},
-    mNumCuboid{mrSuperStructure.rGetCuboidGeometry().GetNumberOfCuboids()},
+    mNumCuboid{mrSuperStructure.rGetCuboidGeometry().GetNumCuboid()},
     mDeltaR{mrSuperStructure.rGetCuboidGeometry().rGetCuboid(
         globalCuboidIndex).GetDeltaR()},
     mNumData{mrSuperStructure.GetDataSize()},

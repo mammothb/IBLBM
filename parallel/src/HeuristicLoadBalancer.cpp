@@ -33,7 +33,7 @@ void HeuristicLoadBalancer<T>::Initialize(
   mpCuboidGeometry2D = &rCuboidGeometry2D;
   auto rank {MpiManager::Instance().GetRank()};
   auto size {MpiManager::Instance().GetSize()};
-  auto nc {mpCuboidGeometry2D->GetNumberOfCuboids()};
+  auto nc {mpCuboidGeometry2D->GetNumCuboid()};
 
   // If we're running on a single process, assignment all cuboids to this
   // load balancer

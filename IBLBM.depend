@@ -8010,7 +8010,7 @@
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
-1525322491 /home/mmb/code/IBLBM/geometry/src/CuboidGeometry2D.hpp
+1525688589 /home/mmb/code/IBLBM/geometry/src/CuboidGeometry2D.hpp
 	<vector>
 	"gsl/gsl"
 	"Cuboid2D.hpp"
@@ -8103,8 +8103,9 @@
 	<vector>
 	"gsl/gsl"
 
-1525421131 /home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.hpp
+1525686895 /home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.hpp
 	"BlockGeometry2D.hpp"
+	"BlockGeometryView2D.hpp"
 	"SuperGeometryStatistics2D.hpp"
 	"SuperStructure2D.hpp"
 
@@ -8466,7 +8467,7 @@
 	<limits>
 	"Exception.hpp"
 
-1525322600 source:/home/mmb/code/IBLBM/geometry/src/CuboidGeometry2D.cpp
+1525688589 source:/home/mmb/code/IBLBM/geometry/src/CuboidGeometry2D.cpp
 	"CuboidGeometry2D.hpp"
 	<algorithm>
 	<cmath>
@@ -8474,7 +8475,7 @@
 	<limits>
 	"AbstractIndicatorFunctor2D.hpp"
 
-1525420291 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.cpp
+1525687945 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometry2D.cpp
 	"SuperGeometry2D.hpp"
 
 1525242833 source:/home/mmb/code/IBLBM/geometry/test/TestCuboid2D.cpp
@@ -8485,7 +8486,7 @@
 	"Cuboid2D.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1525420844 source:/home/mmb/code/IBLBM/geometry/test/TestCuboidGeometry2D.cpp
+1525688589 source:/home/mmb/code/IBLBM/geometry/test/TestCuboidGeometry2D.cpp
 	<cmath>
 	<iostream>
 	<limits>
@@ -8610,16 +8611,16 @@
 	"MpiManager.hpp"
 	"OstreamManager.hpp"
 
-1525420201 source:/home/mmb/code/IBLBM/parallel/src/Communicator2D.cpp
+1525688589 source:/home/mmb/code/IBLBM/parallel/src/Communicator2D.cpp
 	"Communicator2D.hpp"
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
-1525420256 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
+1525688589 source:/home/mmb/code/IBLBM/parallel/src/CuboidNeighborhood2D.cpp
 	"CuboidNeighborhood2D.hpp"
 	"SuperStructure2D.hpp"
 
-1525322083 source:/home/mmb/code/IBLBM/parallel/src/HeuristicLoadBalancer.cpp
+1525688590 source:/home/mmb/code/IBLBM/parallel/src/HeuristicLoadBalancer.cpp
 	"HeuristicLoadBalancer.hpp"
 
 1524821878 source:/home/mmb/code/IBLBM/parallel/src/LoadBalancer.cpp
@@ -8637,7 +8638,7 @@
 1525077964 source:/home/mmb/code/IBLBM/parallel/src/SuperStructure2D.cpp
 	"SuperStructure2D.hpp"
 
-1525419947 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
+1525682604 source:/home/mmb/code/IBLBM/parallel/test/TestCuboidNeighborhood2D.cpp
 	"UnitTest++/UnitTest++.h"
 	"CuboidGeometry2D.hpp"
 	"CuboidNeighborhood2D.hpp"
@@ -8689,15 +8690,19 @@
 	"OutputFileHandler.hpp"
 	"UnitTestCustomUtilities.hpp"
 
-1524206166 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.cpp
+1525690508 source:/home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.cpp
 	"SuperGeometryStatistics2D.hpp"
+	<cmath>
 	<iostream>
 	"SuperGeometry2D.hpp"
 
-1524204990 /home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.hpp
+1525689603 /home/mmb/code/IBLBM/geometry/src/SuperGeometryStatistics2D.hpp
+	<map>
+	<vector>
+	"gsl/gsl"
 	"OstreamManager.hpp"
 
-1524738017 /home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.hpp
+1525689031 /home/mmb/code/IBLBM/geometry/src/BlockGeometryStatistics2D.hpp
 	<map>
 	"gsl/gsl"
 	"OstreamManager.hpp"
@@ -8708,7 +8713,7 @@
 	<iostream>
 	"AbstractBlockGeometryInterface2D.hpp"
 
-1525241668 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometry2D.cpp
+1525670879 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometry2D.cpp
 	<array>
 	<iostream>
 	<list>
@@ -8728,18 +8733,17 @@
 	"BlockGeometryView2D.hpp"
 	"AbstractBlockGeometryInterface2D.hpp"
 
-1525428743 /home/mmb/code/IBLBM/geometry/src/BlockGeometryView2D.hpp
+1525670960 /home/mmb/code/IBLBM/geometry/src/BlockGeometryView2D.hpp
 	"gsl/gsl"
 	"BlockStructure2D.hpp"
 	"Vector.hpp"
 
-1525423297 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometryView2D.cpp
+1525670917 source:/home/mmb/code/IBLBM/geometry/test/TestBlockGeometryView2D.cpp
 	<array>
 	<iostream>
 	<list>
 	"UnitTest++/UnitTest++.h"
 	"BlockGeometry2D.hpp"
 	"BlockGeometryView2D.hpp"
-	"Descriptor.hpp"
 	"UnitTestCustomUtilities.hpp"
 

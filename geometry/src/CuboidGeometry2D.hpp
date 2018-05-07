@@ -201,6 +201,31 @@ class CuboidGeometry2D
       gsl::index globalCuboidIndex
     , const std::vector<gsl::index>& rLatticeR) const;
 
+  /**
+   * Transforms a lattice to physical position (SI units)
+   *
+   * \param latticeR array containing lattice position
+   * \param physR array for physical position output
+   */
+  void GetPhysR(
+      gsl::index globalCuboidIndex
+    , const gsl::index latticeR[2]
+    , T physR[2]) const;
+
+  /**
+   * Transforms a lattice to physical position (SI units)
+   *
+   * \param globalCuboidIndex global cuboid index
+   * \param xIndex lattice position in x direction
+   * \param yIndex lattice position in y direction
+   * \param physR array for physical position output
+   */
+  void GetPhysR(
+      const gsl::index globalCuboidIndex
+    , const gsl::index xIndex
+    , const gsl::index yIndex
+    , T physR[2]) const;
+
   /** \return the minimum coordinate in the structure */
   Vector2D<T> GetMinPhysR() const;
 
@@ -208,7 +233,7 @@ class CuboidGeometry2D
   Vector2D<T> GetMaxPhysR() const;
 
   /** \return the number of cuboids in the structure */
-  std::size_t GetNumberOfCuboids() const;
+  std::size_t GetNumCuboid() const;
 
   /** \return the minimum of the ratio mNx / mNy in the structure */
   T GetMinRatio() const;
@@ -252,6 +277,12 @@ class CuboidGeometry2D
   void SetIsPeriodic(
       bool isPeriodicX
     , bool isPeriodicY);
+
+  /** Prints cuboid geometry details */
+  void Print() const;
+
+  /** Prints cuboid geometry details plus details of all cuboids */
+  void PrintExtended();
 
  private:
   /** Cuboid which contains all other cuboids */

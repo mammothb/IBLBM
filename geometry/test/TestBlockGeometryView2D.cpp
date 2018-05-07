@@ -59,6 +59,8 @@ TEST(TestBlockGeometryView2D_Constructor)
   Vector2D<double> exp_origin {x_pos + static_cast<double>(x_0) * delta_R,
       y_pos + static_cast<double>(y_0) * delta_R};
 
+  CHECK(block_geometry_view.rGetStatistics().rGetStatus());
+  CHECK(std::as_const(block_geometry_view).rGetStatistics().rGetStatus());
   CHECK(tester.pGetBlockGeometry(block_geometry_view) == &block_geometry);
   CHECK_EQUAL(x_0, tester.GetXIndex0(block_geometry_view));
   CHECK_EQUAL(y_0, tester.GetYIndex0(block_geometry_view));
@@ -151,6 +153,75 @@ TEST(TestBlockGeometryView2D_CopyAssignment)
   CHECK_EQUAL(nx_view, block_geometry_view_2.GetNx());
   CHECK_EQUAL(ny_view, block_geometry_view_2.GetNy());
   CHECK_CLOSE(delta_R, block_geometry_view_2.GetDeltaR(), g_zero_tol);
+}
+
+TEST(TestBlockGeometryView2D_GetPhysR)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  gsl::index x_0 {1};
+  gsl::index y_0 {2};
+  gsl::index x_1 {3};
+  gsl::index y_1 {4};
+
+  BlockGeometry2D<double> block_geometry {x_pos, y_pos, delta_R, nx, ny};
+  BlockGeometryView2D<double> block_geometry_view {block_geometry, x_0, y_0,
+      x_1, y_1};
+
+  gsl::index x_idx {1};
+  gsl::index y_idx {2};
+  double exp_phys_R[2] {x_pos + static_cast<double>(x_0 + x_idx) * delta_R,
+      y_pos + static_cast<double>(y_0 + y_idx) * delta_R};
+
+  double phys_R[2];
+  block_geometry_view.GetPhysR(x_idx, y_idx, phys_R);
+  CHECK_ARRAY_CLOSE(exp_phys_R, phys_R, 2, g_zero_tol);
+}
+
+TEST(TestBlockGeometryView2D_GetMaterial)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  gsl::index x_0 {1};
+  gsl::index y_0 {2};
+  gsl::index x_1 {3};
+  gsl::index y_1 {4};
+
+  BlockGeometry2D<double> block_geometry {x_pos, y_pos, delta_R, nx, ny};
+  BlockGeometryView2D<double> block_geometry_view {block_geometry, x_0, y_0,
+      x_1, y_1};
+
+  gsl::index x_idx {1};
+  gsl::index y_idx {2};
+  double exp_phys_R[2] {x_pos + static_cast<double>(x_0 + x_idx) * delta_R,
+      y_pos + static_cast<double>(y_0 + y_idx) * delta_R};
+
+  // make sure material number are defaulted to zero
+  for (gsl::index x {0}; x < block_geometry_view.GetNx(); ++x) {
+    for (gsl::index y {0}; y < block_geometry_view.GetNy(); ++y) {
+      CHECK_EQUAL(0, block_geometry_view.GetMaterial(x, y));
+    }
+  }
+  for (gsl::index x {0}; x < block_geometry_view.GetNx(); ++x) {
+    for (gsl::index y {0}; y < block_geometry_view.GetNy(); ++y) {
+      block_geometry_view.rGetMaterial(x, y) = x + y;
+    }
+  }
+  for (gsl::index x {0}; x < block_geometry_view.GetNx(); ++x) {
+    for (gsl::index y {0}; y < block_geometry_view.GetNy(); ++y) {
+      CHECK_EQUAL(x + y, block_geometry_view.GetMaterial(x, y));
+      CHECK_EQUAL(x + y, std::as_const(block_geometry_view).rGetMaterial(x,
+          y));
+    }
+  }
 }
 }
 }  // namespace iblbm

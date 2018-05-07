@@ -103,7 +103,7 @@ class BlockGeometryStatistics2D
    * paraxial surfaces maxNorm = 1.1 implies only normals parallel to the
    * axises
    */
-  std::vector<int> ComputeDiscreteNormal (
+  std::vector<int> ComputeDiscreteNormal(
       int material
     , T maxNorm = 1.1);
 

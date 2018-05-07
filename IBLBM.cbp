@@ -38,6 +38,9 @@
 				<Linker>
 					<Add option="-lgcov" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="python scripts/RunCoverage.py" />
+				</ExtraCommands>
 			</Target>
 			<Target title="OptDebug">
 				<Option output="build/OptDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />

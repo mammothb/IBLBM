@@ -3,7 +3,6 @@
 
 #include "gsl/gsl"
 
-//#include "AbstractBlockGeometryInterface2D.hpp"
 #include "BlockStructure2D.hpp"
 #include "Vector.hpp"
 

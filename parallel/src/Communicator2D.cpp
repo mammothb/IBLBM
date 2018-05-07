@@ -15,7 +15,7 @@ Communicator2D<T>::Communicator2D(SuperStructure2D<T>& rSuperStructure)
 template<typename T>
 void Communicator2D<T>::InitializeNeighborhood()
 {
-  mNumCuboid = mrSuperStructure.rGetCuboidGeometry().GetNumberOfCuboids();
+  mNumCuboid = mrSuperStructure.rGetCuboidGeometry().GetNumCuboid();
   for (gsl::index local_idx {0};
       local_idx < mrSuperStructure.rGetLoadBalancer().GetSize();
       ++local_idx) {

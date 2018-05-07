@@ -529,7 +529,7 @@ TEST(TestCuboidNeighborhood2D_InitializeInNeighbor)
 
     if (global_idx < 4) {
       Cell2D<double> cell {global_idx, 0, 0,
-          cuboid_geometry.GetPhysR(global_idx, 0, 0)};
+          cuboid_geometry.GetPhysR(global_idx, gsl::index{0}, gsl::index{0})};
       if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
         neighborhoods[local_idx].AddInCell(cell);
         exp_cell[local_idx].push_back(cell);
@@ -650,7 +650,7 @@ TEST(TestCuboidNeighborhood2D_InitializeExNeighbor)
 
     if (global_idx < 4) {
       Cell2D<double> cell {global_idx, 0, 0,
-          cuboid_geometry.GetPhysR(global_idx, 0, 0)};
+          cuboid_geometry.GetPhysR(global_idx, gsl::index{0}, gsl::index{0})};
       if (cuboid_geometry.HasCuboid(cell.mPhysR, cell.mGlobalCuboidIndex)) {
         neighborhoods[local_idx].AddInCell(cell);
         exp_cell[local_idx].push_back(cell);
