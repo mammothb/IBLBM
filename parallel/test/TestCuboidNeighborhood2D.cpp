@@ -579,14 +579,18 @@ TEST(TestCuboidNeighborhood2D_InitializeInNeighbor)
     if (global_idx < 4) {
       CHECK_EQUAL(1, tester.pGetTmpInNbrNumCells(
           neighborhoods[local_idx])[global_idx]);
+      CHECK_EQUAL(1, neighborhoods[local_idx].GetInNeighborCuboidsSize());
     }
     else if (global_idx > 4) {
       CHECK_EQUAL(2, tester.pGetTmpInNbrNumCells(
           neighborhoods[local_idx])[global_idx]);
+      // Neighbor cuboid number only gets pushed back once
+      CHECK_EQUAL(1, neighborhoods[local_idx].GetInNeighborCuboidsSize());
     }
     else {
       CHECK_EQUAL(0, tester.pGetTmpInNbrNumCells(
           neighborhoods[local_idx])[global_idx]);
+      CHECK_EQUAL(0, neighborhoods[local_idx].GetInNeighborCuboidsSize());
     }
     // In parallel, the InCells sent to each neighborhood are split
     for (gsl::index i {0};
@@ -603,6 +607,7 @@ TEST(TestCuboidNeighborhood2D_InitializeInNeighbor)
         CHECK_EQUAL(0, tester.GetInNbrNumCells(neighborhoods[local_idx])[i]);
       }
     }
+    CHECK(tester.GetHasInitializedInNeighbor(neighborhoods[local_idx]));
 #ifdef IBLBM_PARALLEL_MPI
     if (global_idx == 4) {
       CHECK(tester.pGetInData(neighborhoods[local_idx])[global_idx] ==

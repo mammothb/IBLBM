@@ -46,6 +46,23 @@ class AbstractIndicatorFunctor2D : public AbstractFunctor<bool, S>
   /** Maximum vector of the domain */
   Vector2D<S> mMax;
 };
+
+template<typename S>
+class IndicatorIdentity2D : public AbstractIndicatorFunctor2D<S>
+{
+ public:
+  /**
+   * Constructor
+   */
+  explicit IndicatorIdentity2D(AbstractIndicatorFunctor2D<S>& rFunctor);
+
+  void operator()(
+      gsl::span<bool> output
+    , const std::vector<S>& rInput) override;
+
+ protected:
+  AbstractIndicatorFunctor2D<S>& mrFunctor;
+};
 }  // namespace iblbm
 
 #endif  // FUNCTOR_SRC_LATTICE_INDICATOR_ABSTRACTINDICATORFUNCTOR2D_HPP_

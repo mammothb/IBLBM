@@ -156,10 +156,12 @@ bool MpiManager::AmMaster() const
   return mRank == MASTER_RANK;
 }
 
+// LCOV_EXCL_START
 double MpiManager::GetTime() const
 {
   return mIsOk ? MPI_Wtime() : 0;
 }
+// LCOV_EXCL_STOP
 
 void MpiManager::Barrier(
     const std::string callerId/*=""*/
@@ -264,7 +266,7 @@ void MpiManager::Isend<std::size_t>(
       destination, tag, comm, pRequest);
 }
 
-template <>
+template<>
 void MpiManager::Receive<bool>(
     bool* pBuffer
   , int count
@@ -278,7 +280,7 @@ void MpiManager::Receive<bool>(
       &status);
 }
 
-template <>
+template<>
 void MpiManager::Receive<double>(
     double* pBuffer
   , int count
@@ -292,7 +294,7 @@ void MpiManager::Receive<double>(
       &status);
 }
 
-template <>
+template<>
 void MpiManager::Receive<std::size_t>(
     std::size_t* pBuffer
   , int count
@@ -306,7 +308,7 @@ void MpiManager::Receive<std::size_t>(
       source, tag, comm, &status);
 }
 
-template <>
+template<>
 void MpiManager::Receive<gsl::index>(
     gsl::index* pBuffer
   , int count
@@ -390,6 +392,20 @@ void MpiManager::ReduceAndBcast<int>(
   MPI_Reduce(&rReduceVal, &recv_val, /*count=*/1, MPI_INT, op, root, comm);
   rReduceVal = recv_val;
   MPI_Bcast(&rReduceVal, /*count=*/1, MPI_INT, root, comm);
+}
+
+template<>
+void MpiManager::ReduceAndBcast<double>(
+    double& rReduceVal
+  , MPI_Op op
+  , int root/*=MASTER_RANK*/
+  , MPI_Comm comm/*=MPI_COMM_WORLD*/)
+{
+  if (!mIsOk) return;
+  double recv_val;
+  MPI_Reduce(&rReduceVal, &recv_val, /*count=*/1, MPI_DOUBLE, op, root, comm);
+  rReduceVal = recv_val;
+  MPI_Bcast(&rReduceVal, /*count=*/1, MPI_DOUBLE, root, comm);
 }
 
 void MpiManager::WaitAll(MpiNonblockingHelper& rHelper)

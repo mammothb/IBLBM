@@ -152,6 +152,7 @@ std::size_t LoadBalancer<T>::GetSerializableSize() const
       mRank.size() * sizeof(std::pair<gsl::index, std::size_t>);
 }
 
+// LCOV_EXCL_START
 template<typename T>
 void LoadBalancer<T>::Print(bool isMultiOutput/*=false*/) const
 {
@@ -168,6 +169,7 @@ void LoadBalancer<T>::Print(bool isMultiOutput/*=false*/) const
       ostream << "rank[" << r_it.first << "]=" << r_it.second << std::endl;
   ostream.SetIsMultiOutput(false);
 }
+// LCOV_EXCL_STOP
 
 // explicit instantiation
 template class LoadBalancer<double>;

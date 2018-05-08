@@ -211,6 +211,33 @@ TEST(TestMpiManager_SendReceive_Int)
   }
 }
 
+TEST(TestMpiManager_SendReceive_Double)
+{
+  TestMpiManager tester;
+  CHECK_EQUAL(true, tester.GetIsOk());
+
+  auto my_rank {MpiManager::Instance().GetRank()};
+  std::size_t num_material {2};
+  double materials[num_material];
+  double materials_in_buffer[num_material];
+  // Set material array value to process rank, so we can check source and
+  // destination
+  for (gsl::index i {0}; i < num_material; ++i)
+      materials[i] = MpiManager::Instance().GetRank();
+
+  for (gsl::index i {1}; i < MpiManager::Instance().GetSize(); ++i) {
+    MpiManager::Instance().SendReceive(materials, materials_in_buffer,
+        num_material, (my_rank + i) % MpiManager::Instance().GetSize(),
+        (my_rank - i) % MpiManager::Instance().GetSize());
+    for (gsl::index j {0}; j < num_material; ++j) {
+      CHECK_CLOSE((my_rank - i) % MpiManager::Instance().GetSize(),
+          materials_in_buffer[j], g_zero_tol);
+      // Make sure we have not sent to ourselves
+      CHECK(materials_in_buffer[j] != my_rank);
+    }
+  }
+}
+
 TEST(TestMpiManager_BCast_Int_Default)
 {
   TestMpiManager tester;
@@ -240,7 +267,7 @@ TEST(TestMpiManager_Reduce_Int_Default)
   TestMpiManager tester;
   CHECK_EQUAL(true, tester.GetIsOk());
 
-  int send_val {MpiManager::Instance().GetRank()};
+  int send_val {static_cast<int>(MpiManager::Instance().GetRank())};
   int recv_val {0};
   MpiManager::Instance().Reduce(send_val, recv_val, MPI_SUM);
   if (MpiManager::Instance().AmMaster()) {
@@ -261,7 +288,7 @@ TEST(TestMpiManager_Reduce_Int_UserDefined)
   CHECK_EQUAL(true, tester.GetIsOk());
 
   auto root {2};
-  int send_val {MpiManager::Instance().GetRank()};
+  int send_val {static_cast<int>(MpiManager::Instance().GetRank())};
   int recv_val {0};
   MpiManager::Instance().Reduce(send_val, recv_val, MPI_SUM, root);
   if (MpiManager::Instance().GetRank() == root) {
@@ -280,7 +307,7 @@ TEST(TestMpiManager_ReduceAndBcast_Int_Default)
   TestMpiManager tester;
   CHECK_EQUAL(true, tester.GetIsOk());
 
-  int send_val {MpiManager::Instance().GetRank()};
+  int send_val {static_cast<int>(MpiManager::Instance().GetRank())};
   int sum {0};
   for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
       sum += i;
@@ -294,12 +321,39 @@ TEST(TestMpiManager_ReduceAndBcast_Int_UserDefined)
   CHECK_EQUAL(true, tester.GetIsOk());
 
   auto root {2};
-  int send_val {MpiManager::Instance().GetRank()};
+  int send_val {static_cast<int>(MpiManager::Instance().GetRank())};
   int sum {0};
   for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
       sum += i;
   MpiManager::Instance().ReduceAndBcast(send_val, MPI_SUM, root);
   CHECK_EQUAL(sum, send_val);
+}
+
+TEST(TestMpiManager_ReduceAndBcast_Double_Default)
+{
+  TestMpiManager tester;
+  CHECK_EQUAL(true, tester.GetIsOk());
+
+  double send_val {static_cast<double>(MpiManager::Instance().GetRank())};
+  double sum {0};
+  for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
+      sum += i;
+  MpiManager::Instance().ReduceAndBcast(send_val, MPI_SUM);
+  CHECK_CLOSE(sum, send_val, g_zero_tol);
+}
+
+TEST(TestMpiManager_ReduceAndBcast_Double_UserDefined)
+{
+  TestMpiManager tester;
+  CHECK_EQUAL(true, tester.GetIsOk());
+
+  auto root {2};
+  double send_val {static_cast<double>(MpiManager::Instance().GetRank())};
+  double sum {0};
+  for (gsl::index i {0}; i < MpiManager::Instance().GetSize(); ++i)
+      sum += i;
+  MpiManager::Instance().ReduceAndBcast(send_val, MPI_SUM, root);
+  CHECK_CLOSE(sum, send_val, g_zero_tol);
 }
 #endif  // IBLBM_PARALLEL_MPI
 }

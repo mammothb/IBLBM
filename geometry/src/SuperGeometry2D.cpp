@@ -16,13 +16,17 @@ SuperGeometry2D<T>::SuperGeometry2D(
   this->mCommunicator.Initialize();
   this->mNeedCommunication = true;
 
-  for (gsl::index local_idx; local_idx < this->rGetLoadBalancer().GetSize();
-      ++local_idx) {
+  for (gsl::index local_idx {0};
+      local_idx < this->rGetLoadBalancer().GetSize(); ++local_idx) {
     auto global_idx {this->rGetLoadBalancer().GetGlobalIndex(local_idx)};
     Cuboid2D<T> cuboid {rCuboidGeometry.rGetCuboid(global_idx), overlap};
     BlockGeometry2D<T> block_geometry {cuboid, global_idx};
     mExtendedBlockGeometries.push_back(block_geometry);
+  }
 
+  for (gsl::index local_idx {0};
+      local_idx < this->rGetLoadBalancer().GetSize(); ++local_idx) {
+    auto global_idx {this->rGetLoadBalancer().GetGlobalIndex(local_idx)};
     auto nx {rCuboidGeometry.rGetCuboid(global_idx).GetNx()};
     auto ny {rCuboidGeometry.rGetCuboid(global_idx).GetNy()};
     BlockGeometryView2D<T> block_geometry_view {
@@ -229,7 +233,7 @@ void SuperGeometry2D<T>::Rename(
 {
   this->Communicate();
   // call Identity to prevent deleting
-//  IndicatorIdentity2D<T> tmp {condition};
+  IndicatorIdentity2D<T> tmp {rCondition};
 
   for (gsl::index i {0}; i < mExtendedBlockGeometries.size(); ++i) {
     mExtendedBlockGeometries[i].Rename(fromMaterial, toMaterial, rCondition);
@@ -294,7 +298,7 @@ void SuperGeometry2D<T>::Rename(
   if (this->mOverlap >= 2) {
     this->Communicate();
     // call Identity to prevent deleting
-//    IndicatorIdentity2D<T> tmp {condition};
+    IndicatorIdentity2D<T> tmp {rCondition};
     Rename(fromBoundaryMaterial, toBoundaryMaterial, rCondition);
     auto test_direction {this->rGetStatistics().ComputeDiscreteNormal(
         toBoundaryMaterial)};

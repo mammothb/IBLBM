@@ -35,6 +35,25 @@ void AbstractIndicatorFunctor2D<S>::operator()(
   this->operator()(output, rInput.ConvertToStdVector());
 }
 
+template <typename S>
+IndicatorIdentity2D<S>::IndicatorIdentity2D(
+    AbstractIndicatorFunctor2D<S>& rFunctor)
+  : mrFunctor{rFunctor}
+{
+  this->mMin = rFunctor.rGetMin();
+  this->mMax = rFunctor.rGetMax();
+  std::swap(rFunctor.pCalcClass, this->pCalcClass);
+}
+
+template <typename S>
+void IndicatorIdentity2D<S>::operator()(
+    gsl::span<bool> output
+  , const std::vector<S>& rInput)
+{
+  mrFunctor(output, rInput);
+}
+
 // Explicit instantiation
 template class AbstractIndicatorFunctor2D<double>;
+template class IndicatorIdentity2D<double>;
 }  // namespace iblbm

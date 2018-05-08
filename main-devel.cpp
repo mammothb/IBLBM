@@ -23,8 +23,6 @@ int main(int argc, char** argv)
       "TestBlockData2D_pGetBlock"
   };
 
-
-
 //  return iblbm::RunAllTheTests();
 
   /// Run multiple suites

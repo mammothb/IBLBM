@@ -3,6 +3,7 @@
 
 #include "BlockGeometry2D.hpp"
 #include "BlockGeometryView2D.hpp"
+#include "IndicatorFunctor2D.hpp"
 #include "SuperGeometryStatistics2D.hpp"
 #include "SuperStructure2D.hpp"
 
@@ -11,6 +12,7 @@ namespace iblbm
 template<typename T>
 class SuperGeometry2D : public SuperStructure2D<T>
 {
+  friend class TestSuperGeometry2D;
  public:
   /**
    * Constructor

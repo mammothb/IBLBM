@@ -570,6 +570,7 @@ void CuboidGeometry2D<T>::SetIsPeriodic(
   mIsPeriodic[1] = isPeriodicY;
 }
 
+// LCOV_EXCL_START
 template<typename T>
 void CuboidGeometry2D<T>::Print() const
 {
@@ -596,6 +597,7 @@ void CuboidGeometry2D<T>::PrintExtended()
     rGetCuboid(i).Print();
   }
 }
+// LCOV_EXCL_STOP
 
 // Explicit instantiation
 template class CuboidGeometry2D<double>;

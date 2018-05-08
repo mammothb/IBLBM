@@ -24,7 +24,7 @@ std::map<gsl::index, std::size_t> g_rank_map {{18, 0}, {19, 1}, {20, 2},
 TEST(TestLoadBalancer_Constructor_Empty)
 {
   auto size {12u};
-  LoadBalancer<double> balancer(size);
+  LoadBalancer<double> balancer {size};
 
   // Using const methods for all calls first which uses find() and guarantee
   // to not modify map
@@ -37,8 +37,8 @@ TEST(TestLoadBalancer_Constructor_Empty)
 TEST(TestLoadBalancer_Constructor_Load)
 {
   auto size {1u};
-  LoadBalancer<double> balancer(size, g_local_index, g_global_index,
-      g_rank_map);
+  LoadBalancer<double> balancer {size, g_local_index, g_global_index,
+      g_rank_map};
 
   CHECK(std::as_const(balancer).IsLocal(18) ==
         (MpiManager::Instance().GetRank() == g_rank_map[18]));
@@ -122,11 +122,11 @@ TEST(TestLoadBalancer_Constructor_Load)
 TEST(TestLoadBalancer_EqualOperator)
 {
   auto size {1u};
-  LoadBalancer<double> balancer_1(size, g_local_index, g_global_index,
-      g_rank_map);
-  LoadBalancer<double> balancer_2(size, g_local_index, g_global_index,
-      g_rank_map);
-  LoadBalancer<double> balancer_3(size);
+  LoadBalancer<double> balancer_1 {size, g_local_index, g_global_index,
+      g_rank_map};
+  LoadBalancer<double> balancer_2 {size, g_local_index, g_global_index,
+      g_rank_map};
+  LoadBalancer<double> balancer_3 {size};
 
   CHECK(balancer_1 == balancer_2);
   CHECK(!(balancer_1 == balancer_3));

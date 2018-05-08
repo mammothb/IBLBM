@@ -77,6 +77,7 @@ void Communicator2D<T>::Initialize()
   for (auto& r_it : mNeighborhood) r_it.ReceiveExDataCoordinates();
   for (auto& r_it : mNeighborhood) r_it.FinishComm();
 #endif
+  mIsInitialized = true;
 }
 
 template<typename T>

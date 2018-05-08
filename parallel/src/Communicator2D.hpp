@@ -13,6 +13,7 @@ template<typename T> class SuperStructure2D;
 template<typename T>
 class Communicator2D
 {
+  friend class TestCommunicator2D;
  public:
   explicit Communicator2D(SuperStructure2D<T>& rSuperStructure);
 

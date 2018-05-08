@@ -42,6 +42,54 @@
 					<Add after="python scripts/RunCoverage.py" />
 				</ExtraCommands>
 			</Target>
+			<Target title="ParallelCoverage">
+				<Option output="build/ParallelCoverage/bin/IBLBM" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/ParallelCoverage/obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters=" -mpi mpiexec.openmpi -n 4" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wzero-as-null-pointer-constant" />
+					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+					<Add option="-I/usr/lib/openmpi/include" />
+					<Add option="-I/usr/lib/openmpi/include/openmpi" />
+					<Add option="-pthread" />
+					<Add option="-DGSL_THROW_ON_CONTRACT_VIOLATION" />
+					<Add option="-DIBLBM_USE_GENERIC" />
+					<Add option="-DIBLBM_PARALLEL_MPI" />
+				</Compiler>
+				<Linker>
+					<Add option="-lgcov" />
+					<Add option="-pthread" />
+					<Add option="-L/usr//lib" />
+					<Add option="-L/usr/lib/openmpi/lib" />
+					<Add option="-lmpi_cxx" />
+					<Add option="-lmpi" />
+					<Add option="-ldl" />
+					<Add option="-lhwloc" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="python scripts/RunCoverage.py parallel" />
+				</ExtraCommands>
+			</Target>
 			<Target title="OptDebug">
 				<Option output="build/OptDebug/bin/IBLBM" prefix_auto="1" extension_auto="1" />
 				<Option object_output="build/OptDebug/obj/" />
@@ -333,6 +381,7 @@
 		<Unit filename="parallel/src/MpiManager.hpp" />
 		<Unit filename="parallel/src/SuperStructure2D.cpp" />
 		<Unit filename="parallel/src/SuperStructure2D.hpp" />
+		<Unit filename="parallel/test/TestCommunicator2D.cpp" />
 		<Unit filename="parallel/test/TestCuboidNeighborhood2D.cpp" />
 		<Unit filename="parallel/test/TestHeuristicLoadBalancer.cpp" />
 		<Unit filename="parallel/test/TestLoadBalancer.cpp" />

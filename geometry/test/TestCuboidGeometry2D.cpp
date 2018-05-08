@@ -1697,6 +1697,252 @@ TEST(TestCuboidGeometry2D_GetPhysR_StdVector_Periodic_YOnly)
   }
 }
 
+TEST(TestCuboidGeometry2D_GetPhysROutput_Index)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {5.6};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+
+  // Another cuboid with the same position and size as cuboid_geometry
+  Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      double phys_R[2];
+      auto exp_phys_R {cuboid.GetPhysR(x, y)};
+      cuboid_geometry.GetPhysR(0, x, y, phys_R);
+
+      CHECK_CLOSE(exp_phys_R[0], phys_R[0], g_loose_tol);
+      CHECK_CLOSE(exp_phys_R[1], phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Index_Periodic)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(true, true);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_x {fmod(cuboid.GetPhysR(x, y)[0] - x_pos + delta_R *
+          nx, delta_R * nx)};
+      auto phys_y {fmod(cuboid.GetPhysR(x, y)[1] - y_pos + delta_R *
+          ny, delta_R * ny)};
+      if (phys_x * phys_x < 1e-3 * delta_R * delta_R) phys_x = 0;
+      if (phys_y * phys_y < 1e-3 * delta_R * delta_R) phys_y = 0;
+      phys_x += x_pos;
+      phys_y += y_pos;
+
+      double phys_R[2];
+      cuboid_geometry.GetPhysR(1, x, y, phys_R);
+
+      CHECK_CLOSE(phys_x, phys_R[0], g_loose_tol);
+      CHECK_CLOSE(phys_y, phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Index_Periodic_XOnly)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(true, false);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_x {fmod(cuboid.GetPhysR(x, y)[0] - x_pos + delta_R *
+          nx, delta_R * nx)};
+      if (phys_x * phys_x < 1e-3 * delta_R * delta_R) phys_x = 0;
+      phys_x += x_pos;
+
+      double phys_R[2];
+      cuboid_geometry.GetPhysR(1, x, y, phys_R);
+
+      CHECK_CLOSE(phys_x, phys_R[0], g_loose_tol);
+      CHECK_CLOSE(cuboid.GetPhysR(x, y)[1], phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Index_Periodic_YOnly)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(false, true);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_y {fmod(cuboid.GetPhysR(x, y)[1] - y_pos + delta_R *
+          ny, delta_R * ny)};
+      if (phys_y * phys_y < 1e-3 * delta_R * delta_R) phys_y = 0;
+      phys_y += y_pos;
+
+      double phys_R[2];
+      cuboid_geometry.GetPhysR(1, x, y, phys_R);
+
+      CHECK_CLOSE(cuboid.GetPhysR(x, y)[0], phys_R[0], g_loose_tol);
+      CHECK_CLOSE(phys_y, phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Array)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {5.6};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+
+  // Another cuboid with the same position and size as cuboid_geometry
+  Cuboid2D<double> cuboid(x_pos, y_pos, delta_R, nx, ny);
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      double phys_R[2];
+      gsl::index lattice_R[2] {x, y};
+      auto exp_phys_R {cuboid.GetPhysR(x, y)};
+      cuboid_geometry.GetPhysR(0, lattice_R, phys_R);
+
+      CHECK_CLOSE(exp_phys_R[0], phys_R[0], g_loose_tol);
+      CHECK_CLOSE(exp_phys_R[1], phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Array_Periodic)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(true, true);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_x {fmod(cuboid.GetPhysR(x, y)[0] - x_pos + delta_R *
+          nx, delta_R * nx)};
+      auto phys_y {fmod(cuboid.GetPhysR(x, y)[1] - y_pos + delta_R *
+          ny, delta_R * ny)};
+      if (phys_x * phys_x < 1e-3 * delta_R * delta_R) phys_x = 0;
+      if (phys_y * phys_y < 1e-3 * delta_R * delta_R) phys_y = 0;
+      phys_x += x_pos;
+      phys_y += y_pos;
+
+      double phys_R[2];
+      gsl::index lattice_R[2] {x, y};
+      cuboid_geometry.GetPhysR(1, lattice_R, phys_R);
+
+      CHECK_CLOSE(phys_x, phys_R[0], g_loose_tol);
+      CHECK_CLOSE(phys_y, phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Array_Periodic_XOnly)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(true, false);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_x {fmod(cuboid.GetPhysR(x, y)[0] - x_pos + delta_R *
+          nx, delta_R * nx)};
+      if (phys_x * phys_x < 1e-3 * delta_R * delta_R) phys_x = 0;
+      phys_x += x_pos;
+
+      double phys_R[2];
+      gsl::index lattice_R[2] {x, y};
+      cuboid_geometry.GetPhysR(1, lattice_R, phys_R);
+
+      CHECK_CLOSE(phys_x, phys_R[0], g_loose_tol);
+      CHECK_CLOSE(cuboid.GetPhysR(x, y)[1], phys_R[1], g_loose_tol);
+    }
+  }
+}
+
+TEST(TestCuboidGeometry2D_GetPhysROutput_Array_Periodic_YOnly)
+{
+  auto x_pos {1.2};
+  auto y_pos {3.4};
+  auto delta_R {0.1};
+  auto nx {7u};
+  auto ny {8u};
+
+  CuboidGeometry2D<double> cuboid_geometry {x_pos, y_pos, delta_R, nx, ny};
+  // Another cuboid 2 * delta_R away from mother_cuboid
+  Cuboid2D<double> cuboid(x_pos + delta_R * 2, y_pos + delta_R * 2, delta_R,
+      nx, ny);
+  cuboid_geometry.Add(cuboid);
+  cuboid_geometry.SetIsPeriodic(false, true);
+
+  for (gsl::index x = 0; x < nx; ++x) {
+    for (gsl::index y = 0; y < ny; ++y) {
+      auto phys_y {fmod(cuboid.GetPhysR(x, y)[1] - y_pos + delta_R *
+          ny, delta_R * ny)};
+      if (phys_y * phys_y < 1e-3 * delta_R * delta_R) phys_y = 0;
+      phys_y += y_pos;
+
+      double phys_R[2];
+      gsl::index lattice_R[2] {x, y};
+      cuboid_geometry.GetPhysR(1, lattice_R, phys_R);
+
+      CHECK_CLOSE(cuboid.GetPhysR(x, y)[0], phys_R[0], g_loose_tol);
+      CHECK_CLOSE(phys_y, phys_R[1], g_loose_tol);
+    }
+  }
+}
+
 TEST(TestCuboidGeometry2D_GetMinPhysR)
 {
   auto x_pos {1.2};
